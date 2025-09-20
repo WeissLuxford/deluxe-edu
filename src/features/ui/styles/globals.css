@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --bg: #0e0f10; --fg: #ece7dd; --muted: #b6b3aa; --gold: #c7a45a }
+html,body { background: var(--bg); color: var(--fg) }
