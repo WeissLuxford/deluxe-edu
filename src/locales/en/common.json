@@ -1,0 +1,43 @@
+{
+  "hero": { "title": "Welcome to Deluxe Platform" },
+  "nav": { "dashboard": "Dashboard", "courses": "Courses", "signin": "Sign In" },
+  "buttons": {
+    "start": "Start",
+    "goToDashboard": "Dashboard",
+    "backToLessons": "Back to lessons",
+    "next": "Next",
+    "back": "Back",
+    "summary": "Summary",
+    "assignment": "Assignment",
+    "send": "Send",
+    "signIn": "Sign In",
+    "buyNow": "Buy access",
+    "buyViaPayme": "Pay with Payme",
+    "buyViaClick": "Pay with CLICK"
+  },
+  "courses": { "title": "Courses", "empty": "No courses yet" },
+  "course": { "lessons": "Lessons", "price": "Price", "startCourse": "Start course" },
+  "lesson": {
+    "videoPlaceholder": "The lesson video will be here",
+    "nextLesson": "Next lesson",
+    "lastLesson": "This is the last lesson",
+    "locked": "Lesson is locked",
+    "completePrev": "Please complete the previous lesson first",
+    "backToCourseLessons": "Back to lessons list",
+    "backToVideo": "Back to video"
+  },
+  "assignment": {
+    "title": "Assignment",
+    "prompt": "Answer 42",
+    "wrong": "Incorrect, try again",
+    "answerPlaceholder": "Your answer"
+  },
+  "summary": { "title": "Summary", "desc": "Short lesson summary. Text, formulas and links will be here." },
+  "dashboard": { "hello": "Hello" },
+   "signin": { "title": "Sign In", "email": "Email", "name": "Name" },
+  "payments": {
+    "successTitle": "Payment successful",
+    "successText": "Access to the course is activated",
+    "goToCourse": "Go to course"
+  }
+}

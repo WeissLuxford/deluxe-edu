@@ -1,4 +1,43 @@
 {
-  "hero.title": "Deluxe обучение",
-  "cta.start": "Начать"
+  "hero": { "title": "Добро пожаловать на платформу Deluxe" },
+  "nav": { "dashboard": "Кабинет", "courses": "Курсы", "signin": "Войти" },
+  "buttons": {
+    "start": "Начать",
+    "goToDashboard": "Кабинет",
+    "backToLessons": "Назад к урокам",
+    "next": "Дальше",
+    "back": "Назад",
+    "summary": "Конспект",
+    "assignment": "Задание",
+    "send": "Отправить",
+    "signIn": "Войти",
+    "buyNow": "Купить доступ",
+    "buyViaPayme": "Оплатить через Payme",
+    "buyViaClick": "Оплатить через CLICK"
+  },
+  "courses": { "title": "Курсы", "empty": "Пока нет курсов" },
+  "course": { "lessons": "Уроки", "price": "Цена", "startCourse": "Начать курс" },
+  "lesson": {
+    "videoPlaceholder": "Видео этого урока будет здесь",
+    "nextLesson": "Следующий урок",
+    "lastLesson": "Это последний урок",
+    "locked": "Урок заблокирован",
+    "completePrev": "Сначала завершите предыдущий урок",
+    "backToCourseLessons": "К списку уроков",
+    "backToVideo": "Назад к видео"
+  },
+  "assignment": {
+    "title": "Задание",
+    "prompt": "Ответьте 42",
+    "wrong": "Неверно, попробуйте снова",
+    "answerPlaceholder": "Ваш ответ"
+  },
+  "summary": { "title": "Конспект", "desc": "Краткий конспект урока. Здесь будет текст, формулы и ссылки." },
+  "dashboard": { "hello": "Привет" },
+  "signin": { "title": "Вход", "email": "Email", "name": "Имя" },
+  "payments": {
+    "successTitle": "Оплата прошла",
+    "successText": "Доступ к курсу активирован",
+    "goToCourse": "Перейти к курсу"
+  }
 }

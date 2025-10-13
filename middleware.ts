@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 const locales = ['ru','uz','en']
+
 function getLocale(pathname: string) {
   const seg = pathname.split('/')[1]
   return locales.includes(seg) ? seg : null

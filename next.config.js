@@ -1,7 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const withNextIntl = require('next-intl/plugin')('./src/i18n/request.ts')
+
+module.exports = withNextIntl({
   experimental: { serverActions: { allowedOrigins: ['*'] } },
-  images: { remotePatterns: [{ protocol: 'https', hostname: '**' }] },
-  i18n: { locales: ['ru', 'uz', 'en'], defaultLocale: 'ru' }
-}
-module.exports = nextConfig
+  images: { remotePatterns: [{ protocol: 'https', hostname: '**' }] }
+})

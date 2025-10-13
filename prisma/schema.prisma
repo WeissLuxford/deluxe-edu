@@ -1,85 +1,120 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name         String?
-  image        String?
-  role         Role     @default(STUDENT)
-  locale       String   @default("ru")
-  enrollments  Enrollment[]
-  submissions  Submission[]
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id             String           @id @default(cuid())
+  email          String           @unique
+  name           String?
+  image          String?
+  role           Role             @default(STUDENT)
+  locale         String           @default("ru")
+  enrollments    Enrollment[]
+  submissions    Submission[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  Payment        Payment[]
+  LessonProgress LessonProgress[]
 }
 
 model Course {
-  id           String   @id @default(cuid())
-  slug         String   @unique
-  title        Json
-  description  Json
-  priceCents   Int
-  lessons      Lesson[]
-  published    Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  title       Json
+  description Json
+  priceCents  Int
+  lessons     Lesson[]
+  published   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Enrollment  Enrollment[]
+  Payment     Payment[]
 }
 
 model Lesson {
-  id           String   @id @default(cuid())
-  courseId     String
-  slug         String
-  title        Json
-  content      Json
-  zoomMeetingId String?
-  order        Int       @default(0)
-  course       Course    @relation(fields: [courseId], references: [id])
+  id             String           @id @default(cuid())
+  courseId       String
+  slug           String
+  title          Json
+  content        Json
+  zoomMeetingId  String?
+  order          Int              @default(0)
+  course         Course           @relation(fields: [courseId], references: [id])
+  Assignment     Assignment[]
+  LessonProgress LessonProgress[]
 }
 
 model Enrollment {
-  id        String   @id @default(cuid())
+  id        String           @id @default(cuid())
   userId    String
   courseId  String
   status    EnrollmentStatus @default(ACTIVE)
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  course    Course   @relation(fields: [courseId], references: [id])
+  createdAt DateTime         @default(now())
+  user      User             @relation(fields: [userId], references: [id])
+  course    Course           @relation(fields: [courseId], references: [id])
 }
 
 model Assignment {
-  id        String   @id @default(cuid())
-  lessonId  String
-  title     Json
-  prompt    Json
-  lesson    Lesson   @relation(fields: [lessonId], references: [id])
+  id          String       @id @default(cuid())
+  lessonId    String
+  title       Json
+  prompt      Json
+  answerKey   Json?
+  lesson      Lesson       @relation(fields: [lessonId], references: [id])
   submissions Submission[]
 }
 
 model Submission {
-  id           String   @id @default(cuid())
+  id           String     @id @default(cuid())
   assignmentId String
   userId       String
   answer       Json
   grade        Int?
-  createdAt    DateTime @default(now())
+  createdAt    DateTime   @default(now())
   assignment   Assignment @relation(fields: [assignmentId], references: [id])
   user         User       @relation(fields: [userId], references: [id])
 }
 
 model Payment {
-  id        String   @id @default(cuid())
-  userId    String
-  courseId  String
-  provider  String
+  id          String   @id @default(cuid())
+  userId      String
+  courseId    String
+  provider    String
   providerRef String
   amountCents Int
-  currency  String
-  status    String
-  createdAt DateTime @default(now())
-  user      User   @relation(fields: [userId], references: [id])
-  course    Course @relation(fields: [courseId], references: [id])
+  currency    String
+  status      String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+  course      Course   @relation(fields: [courseId], references: [id])
 }
 
-enum Role { ADMIN MENTOR STUDENT }
-enum EnrollmentStatus { ACTIVE CANCELED }
+model LessonProgress {
+  id        String   @id @default(cuid())
+  userId    String
+  lessonId  String
+  watched   Boolean  @default(false)
+  passed    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  lesson    Lesson   @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId])
+}
+
+enum Role {
+  ADMIN
+  MENTOR
+  STUDENT
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  CANCELED
+}
