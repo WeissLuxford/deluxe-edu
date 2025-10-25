@@ -1,13 +1,24 @@
 'use client'
+
 import { signOut } from 'next-auth/react'
+import { useLocale, useTranslations } from 'next-intl'
 
 export default function SignOutButton() {
+  const locale = useLocale()
+  const t = useTranslations('common')
+  
+  const handleSignOut = () => {
+    signOut({ callbackUrl: `/${locale}` })
+  }
+
   return (
     <button
-      onClick={() => signOut({ callbackUrl: '/ru/signin' })}
-      className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+      onClick={handleSignOut}
+      className="iridescent vx"
+      aria-label={t('nav.signout')}
     >
-      Выйти
+      {t('nav.signout')}
+      <span className="drop-shadow" />
     </button>
   )
 }

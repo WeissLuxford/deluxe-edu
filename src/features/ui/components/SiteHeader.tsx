@@ -1,38 +1,84 @@
-import Link from 'next/link'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
-import { getTranslations } from 'next-intl/server'
-import LangSwitcher from '@/features/ui/components/LangSwitcher'
-import type { ReactNode } from 'react'
+'use client'
 
-export default async function SiteHeader({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'common' })
-  const session = await getServerSession(authOptions)
+import Link from 'next/link'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useLocale, useTranslations } from 'next-intl'
+import { useSession } from 'next-auth/react'
+import ThemeToggle from './ThemeToggle'
+import LangSwitcher from './LangDropdown'
+import VerifyBanner from './VerifyBanner'
+import { VertexLogo } from './VertexLogo'
+import UserMenu from './UserMenu'
+import { useEffect, useState } from 'react'
+
+export default function SiteHeader() {
+  const locale = useLocale()
+  const t = useTranslations('common')
+  const pathname = usePathname()
+  const search = useSearchParams()
+  const { data: session, status } = useSession()
+  const base = `/${locale}`
+  const [bannerVisible, setBannerVisible] = useState(false)
+
+  const navItems = [
+    { href: `${base}/courses`, label: t('nav.courses') },
+    { href: `${base}/streams`, label: t('nav.streams') },
+    { href: `${base}/about`, label: t('nav.about') },
+    { href: `${base}/contacts`, label: t('nav.contacts') }
+  ]
+
+  useEffect(() => {
+    const isAuthenticated = status === 'authenticated'
+    
+    // Если не залогинен - баннер НЕ показываем
+    if (!isAuthenticated) {
+      setBannerVisible(false)
+      return
+    }
+    
+    // Проверяем только для залогиненных пользователей
+    const emailNotVerified = session?.user && !session.user.emailVerified
+    
+    setBannerVisible(!!emailNotVerified)
+    
+    if (emailNotVerified) {
+      const timer = setTimeout(() => setBannerVisible(false), 7000)
+      return () => clearTimeout(timer)
+    }
+  }, [search, session, status])
+
+  // 👈 КЛЮЧЕВОЕ: НЕ рендерим баннер вообще, если он не нужен
+  const shouldRenderBanner = status === 'authenticated' && session?.user && !session.user.emailVerified
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur">
-      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href={`/${locale}`} className="text-lg font-semibold tracking-tight">
-          <span className="bg-gradient-to-r from-yellow-300 via-yellow-500 to-amber-400 bg-clip-text text-transparent">
-            Deluxe
-          </span>
+    <header className="site-header relative">
+
+      <nav className="site-nav container flex items-center justify-between py-3">
+        <Link href={base} className="logo-link">
+          <VertexLogo className="h-7 w-auto" />
         </Link>
-        <nav className="flex items-center gap-4">
-          <Link href={`/${locale}/courses`} className="opacity-90 hover:opacity-100">
-            {t('nav.courses')}
-          </Link>
-          {session ? (
-            <Link href={`/${locale}/dashboard`} className="opacity-90 hover:opacity-100">
-              {t('nav.dashboard')}
-            </Link>
-          ) : (
-            <Link href={`/${locale}/signin`} className="opacity-90 hover:opacity-100">
-              {t('nav.signin')}
-            </Link>
-          )}
+
+        <ul className="nav-list flex gap-6">
+          {navItems.map(item => {
+            const active = pathname === item.href
+            return (
+              <li key={item.href}>
+                <Link href={item.href} className={`nav-link${active ? ' active' : ''}`}>
+                  {item.label}
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+
+        <div className="header-actions flex items-center gap-4">
+          <ThemeToggle />
           <LangSwitcher />
-        </nav>
-      </div>
+          <UserMenu />
+        </div>
+      </nav>
+          <VerifyBanner />
     </header>
+    
   )
 }

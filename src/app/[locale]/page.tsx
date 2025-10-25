@@ -1,65 +1,101 @@
-import Link from 'next/link'
-import { getTranslations } from 'next-intl/server'
+import Link from "next/link"
+import { getTranslations } from "next-intl/server"
+import TilesCarousel from "@/features/home/TilesCarousel"
+import StructurePreview from '@/features/home/StructurePreview'
+import HeroVertex from '@/features/home/HeroVertex'     
 
-export default async function LocaleHome({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'common' })
+export default async function LocaleHome({ params }: { params: { locale: string } }) {
+  const locale = params.locale
+  const t = await getTranslations({ locale, namespace: "common" })
+  const base = `/${locale}`
 
   return (
-    <main className="relative min-h-[80vh] overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-40 -left-40 h-[480px] w-[480px] rounded-full blur-3xl opacity-20"
-             style={{background: 'radial-gradient(closest-side, #facc15, transparent)'}} />
-        <div className="absolute -bottom-40 -right-40 h-[520px] w-[520px] rounded-full blur-3xl opacity-20"
-             style={{background: 'radial-gradient(closest-side, #fde68a, transparent)'}} />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:22px_22px]" />
-      </div>
+    <main className="relative">
+      
 
-      <section className="max-w-6xl mx-auto px-4 py-24">
-        <div className="grid md:grid-cols-2 gap-10 items-center">
-          <div className="space-y-6">
-            <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight">
-              {t('hero.title')}
-            </h1>
-            <p className="max-w-xl text-lg opacity-80">
-              Deluxe обучение с живыми уроками, понятными объяснениями и заданиями для закрепления.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link href={`/${locale}/courses`} className="px-6 py-3 rounded bg-yellow-400 text-black font-medium">
-                {t('nav.courses')}
-              </Link>
-              <Link href={`/${locale}/signin`} className="px-6 py-3 rounded border font-medium">
-                {t('buttons.signIn')}
-              </Link>
+
+      <HeroVertex />
+
+      <TilesCarousel />
+
+      <section id="block-access" data-section="access-tiers">
+        <div className="container py-16">
+          <div className="access-head">
+            <h2 className="text-2xl font-semibold">Access tiers</h2>
+            <p className="text-sm text-muted">One course, different access levels</p>
+          </div>
+          <div className="access-grid">
+            <div className="card card-interactive">
+              <div className="flex items-center justify-between mb-2"><div className="font-medium">Basic</div><span className="badge badge-primary">RU UZ EN</span></div>
+              <p className="text-sm text-muted">Recordings, summaries, assignments</p>
+              <div className="divider" />
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted">{t("course.price")}: Free</span>
+                <Link href={`${base}/signin`} className="btn btn-secondary btn-auto-right">{t("buttons.signIn")}</Link>
+              </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8">
-              <div className="rounded border p-4 text-center">
-                <div className="text-2xl font-bold">UX</div>
-                <div className="text-xs opacity-70">минимализм</div>
+            <div className="card card-interactive card-shadow-gold">
+              <div className="flex items-center justify-between mb-2"><div className="font-medium">Pro</div><span className="badge badge-primary">Priority</span></div>
+              <p className="text-sm text-muted">Everything in Basic plus quizzes and feedback</p>
+              <div className="divider" />
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted">{t("course.price")}: 99</span>
+                <Link href={`${base}/signin`} className="btn btn-primary btn-auto-right">{t("buttons.buyNow")}</Link>
               </div>
-              <div className="rounded border p-4 text-center">
-                <div className="text-2xl font-bold">Live</div>
-                <div className="text-xs opacity-70">уроки</div>
-              </div>
-              <div className="rounded border p-4 text-center">
-                <div className="text-2xl font-bold">Tasks</div>
-                <div className="text-xs opacity-70">проверка</div>
-              </div>
-              <div className="rounded border p-4 text-center">
-                <div className="text-2xl font-bold">Multi</div>
-                <div className="text-xs opacity-70">языки</div>
+            </div>
+            <div className="card card-interactive">
+              <div className="flex items-center justify-between mb-2"><div className="font-medium">Deluxe</div><span className="badge badge-primary">Live</span></div>
+              <p className="text-sm text-muted">Live streams, Q and A, mentor sessions</p>
+              <div className="divider" />
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted">{t("course.price")}: 199</span>
+                <Link href={`${base}/signin`} className="btn btn-primary btn-auto-right">{t("buttons.buyNow")}</Link>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+      <StructurePreview />
 
-          <div className="relative">
-            <div className="aspect-video w-full rounded-xl border bg-black/60 backdrop-blur flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-3xl font-semibold">Deluxe</div>
-                <div className="opacity-80">видео и векторы скоро тут</div>
-              </div>
+      <section id="block-marquee" data-section="marquee" className="marquee-wrap">
+        <div className="marquee">
+          <div className="marquee-row">
+            <div className="marquee-track">
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
             </div>
-            <div className="absolute -inset-x-6 -inset-y-6 -z-10 bg-gradient-to-tr from-yellow-300/10 via-amber-200/10 to-transparent blur-2xl" />
+          </div>
+          <div className="marquee-row">
+            <div className="marquee-track reverse">
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+              <span className="text-6xl md:text-8xl font-black">VERTEX</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="events">
+        <div className="container py-20">
+          <div className="events-grid">
+            <div className="card"><div className="text-sm text-muted">Streams</div><div className="font-medium">Live and Q and A</div></div>
+            <div className="card"><div className="text-sm text-muted">Recordings</div><div className="font-medium">Watch anytime</div></div>
+            <div className="card"><div className="text-sm text-muted">Lessons</div><div className="font-medium">Summaries and tasks</div></div>
           </div>
         </div>
       </section>

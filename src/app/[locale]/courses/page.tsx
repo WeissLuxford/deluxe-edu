@@ -2,6 +2,7 @@ import { prisma } from '@/lib/db'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 
+
 export default async function CoursesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'common' })

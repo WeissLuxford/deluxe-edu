@@ -1,6 +1,6 @@
 {
-  "hero": { "title": "Welcome to Deluxe Platform" },
-  "nav": { "dashboard": "Dashboard", "courses": "Courses", "signin": "Sign In" },
+  "hero": { "title": "Vertex Education" },
+  "nav": { "dashboard": "Dashboard", "courses": "Courses", "signin": "Sign in", "streams": "Streams", "about": "About", "contacts": "Contacts", "signout": "Sign out" },
   "buttons": {
     "start": "Start",
     "goToDashboard": "Dashboard",
@@ -10,19 +10,43 @@
     "summary": "Summary",
     "assignment": "Assignment",
     "send": "Send",
-    "signIn": "Sign In",
+    "signIn": "Sign in",
     "buyNow": "Buy access",
-    "buyViaPayme": "Pay with Payme",
-    "buyViaClick": "Pay with CLICK"
+    "buyViaPayme": "Pay via Payme",
+    "buyViaClick": "Pay via CLICK",    
+    "signUp": "Sign up",
+    "loading": "Loading"
+  },
+    "signup": {
+    "title": "Sign up",
+    "email": "Email",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "displayName": "Display name",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "haveAccount": "Already have an account?"
+  },
+  "auth": {
+    "passwordHint": "Password must contain letters and numbers",
+    "mismatch": "Passwords do not match",
+    "error": "Sign in failed. Check your email and password.",
+    "verified": "Email verified. You can now sign in.",
+    "expired": "Verification link expired. Request a new one.",
+    "invalid": "Invalid verification link.",
+    "used": "This link has already been used.",
+    "resend": "Resend verification email",
+    "resent": "A new email has been sent. Check your inbox.",
+    "verifyBanner": "Please verify your email to activate your account"
   },
   "courses": { "title": "Courses", "empty": "No courses yet" },
-  "course": { "lessons": "Lessons", "price": "Price", "startCourse": "Start course" },
+  "course": { "lessons": "Lessons", "price": "Price", "startCourse": "Start the course" },
   "lesson": {
-    "videoPlaceholder": "The lesson video will be here",
+    "videoPlaceholder": "The video of this lesson will be here",
     "nextLesson": "Next lesson",
     "lastLesson": "This is the last lesson",
     "locked": "Lesson is locked",
-    "completePrev": "Please complete the previous lesson first",
+    "completePrev": "Complete the previous lesson first",
     "backToCourseLessons": "Back to lessons list",
     "backToVideo": "Back to video"
   },
@@ -32,12 +56,75 @@
     "wrong": "Incorrect, try again",
     "answerPlaceholder": "Your answer"
   },
-  "summary": { "title": "Summary", "desc": "Short lesson summary. Text, formulas and links will be here." },
-  "dashboard": { "hello": "Hello" },
-   "signin": { "title": "Sign In", "email": "Email", "name": "Name" },
+  "summary": { "title": "Summary", "desc": "Short summary of the lesson. Text, formulas, and links will be here." },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Hello, {name}",
+    "myCourses": "My courses",
+    "noEnrollments": "No courses yet",
+    "payments": "Payments",
+    "noPayments": "No payments",
+    "status": "Status",
+    "paid": "Paid",
+    "pending": "Pending",
+    "amount": "Amount",
+    "date": "Date",
+    "goToCourse": "Go to course",
+    "roleLabel": "Role",
+    "localeLabel": "Language",
+    "joinedAt": "Joined",
+    "courseColumn": "Course",
+    "provider": "Provider",
+    "statusActive": "Active",
+    "statusCancelled": "Cancelled",
+    "tabProfile": "Profile",
+    "tabCourses": "Courses",
+    "tabPayments": "Payments"
+  },
+  "signin": { 
+    "title": "Sign in",
+    "email": "Email",
+    "name": "Name",
+    "password": "Password",
+    "noAccount": "No account?",
+    "emailOrName": "Email or username"
+  },
   "payments": {
     "successTitle": "Payment successful",
-    "successText": "Access to the course is activated",
+    "successText": "Access to the course has been activated",
     "goToCourse": "Go to course"
+  },
+  "home": {
+    "liveTitle": "Upcoming streams",
+    "recordingsTitle": "Recordings",
+    "howTitle": "How it works",
+    "how": {
+      "step1": { "title": "Choose a course", "desc": "Start with the catalog and syllabus" },
+      "step2": { "title": "Watch lessons", "desc": "Videos and summaries in three languages" },
+      "step3": { "title": "Do assignments", "desc": "Checking and progress in the dashboard" }
+    },
+    "tiles": {
+      "live": { "title": "Live streams", "desc": "Interactive sessions" },
+      "assignments": { "title": "Assignments", "desc": "Practice and review" },
+      "recordings": { "title": "Recordings and notes", "desc": "Watch and read" },
+      "preview": { "title": "Lesson preview", "desc": "See the format" }
+    },
+    "cta": {
+      "title": "Ready to start",
+      "desc": "Access is granted manually",
+      "primary": "Catalog",
+      "secondary": "Sign in"
+    }
+  },
+  "footer": {
+    "product": "Product",
+    "resources": "Resources",
+    "legal": "Legal",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "faq": "FAQ",
+    "guides": "Guides",
+    "support": "Support"
   }
 }

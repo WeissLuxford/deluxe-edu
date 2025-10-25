@@ -1,43 +1,130 @@
 {
-  "hero": { "title": "Deluxe platformasiga xush kelibsiz" },
-  "nav": { "dashboard": "Kabinet", "courses": "Kurslar", "signin": "Kirish" },
+  "hero": { "title": "Vertex Education" },
+  "nav": { "dashboard": "Kabinet", "courses": "Kurslar", "signin": "Kirish", "streams": "Translyatsiyalar", "about": "Biz haqimizda", "contacts": "Aloqa", "signout": "Chiqish" },
   "buttons": {
     "start": "Boshlash",
     "goToDashboard": "Kabinet",
-    "backToLessons": "Darslarga qaytish",
+    "backToLessons": "Darslar ro'yxatiga qaytish",
     "next": "Keyingi",
-    "back": "Ortga",
+    "back": "Orqaga",
     "summary": "Konspekt",
     "assignment": "Vazifa",
     "send": "Yuborish",
     "signIn": "Kirish",
-    "buyNow": "Kursga kirish sotib olish",
+    "buyNow": "Kirishni sotib olish",
     "buyViaPayme": "Payme orqali to'lash",
-    "buyViaClick": "CLICK orqali to'lash"
+    "buyViaClick": "CLICK orqali to'lash",
+    "signUp": "Ro'yxatdan o'tish",
+    "loading": "Yuklanmoqda"
+  },
+
+    "signup": {
+    "title": "Ro'yxatdan o'tish",
+    "email": "Email",
+    "firstName": "Ism",
+    "lastName": "Familiya",
+    "displayName": "Ko'rsatiladigan ism",
+    "password": "Parol",
+    "confirmPassword": "Parolni tasdiqlang",
+    "haveAccount": "Akkountingiz bormi?"
+  },
+  "auth": {
+    "passwordHint": "Parolda harflar va raqamlar bo'lishi kerak",
+    "mismatch": "Parollar mos kelmaydi",
+    "error": "Kirishda xatolik. Email va parolni tekshiring.",
+    "verified": "Email tasdiqlandi. Endi tizimga kirishingiz mumkin.",
+    "expired": "Tasdiqlash havolasi muddati tugagan. Yangi xat yuboring.",
+    "invalid": "Noto'g'ri tasdiqlash havolasi.",
+    "used": "Havola allaqachon ishlatilgan.",
+    "resend": "Yangi xat yuborish",
+    "resent": "Yangi tasdiqlash xati yuborildi. Pochtani tekshiring.",
+    "verifyBanner": "Akkountingizni faollashtirish uchun emailingizni tasdiqlang"
   },
   "courses": { "title": "Kurslar", "empty": "Hozircha kurslar yo'q" },
   "course": { "lessons": "Darslar", "price": "Narx", "startCourse": "Kursni boshlash" },
   "lesson": {
-    "videoPlaceholder": "Bu darsning videosi shu yerda bo'ladi",
+    "videoPlaceholder": "Ushbu dars videolari shu yerda bo'ladi",
     "nextLesson": "Keyingi dars",
     "lastLesson": "Bu oxirgi dars",
-    "locked": "Dars bloklangan",
-    "completePrev": "Avval oldingi darsni tugating",
+    "locked": "Dars yopiq",
+    "completePrev": "Avvalgi darsni yakunlang",
     "backToCourseLessons": "Darslar ro'yxatiga",
     "backToVideo": "Videoga qaytish"
   },
   "assignment": {
     "title": "Vazifa",
-    "prompt": "42 javobini yozing",
+    "prompt": "Javob 42 bo'lsin",
     "wrong": "Noto'g'ri, yana urinib ko'ring",
     "answerPlaceholder": "Javobingiz"
   },
-  "summary": { "title": "Konspekt", "desc": "Qisqa konspekt. Matn, formulalar va havolalar bo'ladi." },
-  "dashboard": { "hello": "Salom" },
-  "signin": { "title": "Kirish", "email": "Email", "name": "Ism" },
+  "summary": { "title": "Konspekt", "desc": "Darsning qisqa konspekti. Matn, formulalar va havolalar." },
+  "dashboard": {
+    "title": "Kabinet",
+    "welcome": "Salom, {name}",
+    "myCourses": "Mening kurslarim",
+    "noEnrollments": "Hozircha kurs yo'q",
+    "payments": "To'lovlar",
+    "noPayments": "To'lovlar yo'q",
+    "status": "Holat",
+    "paid": "To'langan",
+    "pending": "Ko'rib chiqilmoqda",
+    "amount": "Summa",
+    "date": "Sana",
+    "goToCourse": "Kursga o'tish",
+    "roleLabel": "Roli",
+    "localeLabel": "Til",
+    "joinedAt": "Qo'shilgan sana",
+    "courseColumn": "Kurs",
+    "provider": "Provayder",
+    "statusActive": "Faol",
+    "statusCancelled": "Bekor qilingan",
+    "tabProfile": "Profil",
+    "tabCourses": "Kurslar",
+    "tabPayments": "To'lovlar"
+  },
+  "signin": { "title": "Kirish", "email": "Email", "name": "Ism" , "password": "Parol", "noAccount": "Hisobingiz yo'qmi?", "emailOrName": "Email yoki foydalanuvchi nomi"},
   "payments": {
     "successTitle": "To'lov muvaffaqiyatli",
     "successText": "Kursga kirish faollashtirildi",
-    "goToCourse": "Kursga o'tish"
+    "goToCourse": "Kursga o'tish",
+    "verified": "Email tasdiqlandi. Endi tizimga kirishingiz mumkin.",
+    "expired": "Tasdiqlash havolasi muddati tugagan. Yangi xat yuboring.",
+    "invalid": "Noto'g'ri tasdiqlash havolasi.",
+    "used": "Havola allaqachon ishlatilgan.",
+    "resend": "Yangi xat yuborish",
+    "resent": "Yangi tasdiqlash xati yuborildi. Pochtani tekshiring."
+  },
+  "home": {
+    "liveTitle": "Yaqin efirlar",
+    "recordingsTitle": "Efir yozuvlari",
+    "howTitle": "Qanday ishlaydi",
+    "how": {
+      "step1": { "title": "Kursni tanlang", "desc": "Avval katalog va dastur" },
+      "step2": { "title": "Darslarni tomosha qiling", "desc": "Video va konspektlar uch tilda" },
+      "step3": { "title": "Vazifalarni bajaring", "desc": "Tekshiruv va progress kabinetda" }
+    },
+        "tiles": {
+      "live": { "title": "Jonli efirlar", "desc": "Interaktiv sessiyalar" },
+      "assignments": { "title": "Vazifalar", "desc": "Amaliyot va tekshiruv" },
+      "recordings": { "title": "Yozuvlar va konspektlar", "desc": "Tomosha qiling va o'qing" },
+      "preview": { "title": "Dars preview", "desc": "Format bilan tanishing" }
+    },
+    "cta": {
+      "title": "Boshlashga tayyormisiz",
+      "desc": "Kirish qo'lda beriladi",
+      "primary": "Katalog",
+      "secondary": "Kirish"
+    }
+  },
+  "footer": {
+    "product": "Mahsulot",
+    "resources": "Resurslar",
+    "legal": "Huquqiy",
+    "terms": "Shartlar",
+    "privacy": "Maxfiylik",
+    "cookies": "Cookies",
+    "faq": "FAQ",
+    "guides": "Qo'llanmalar",
+    "support": "Qo'llab quvvatlash"
   }
 }
