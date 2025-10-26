@@ -15,8 +15,10 @@ model User {
   role           Role             @default(STUDENT)
   locale         String           @default("ru")
   passwordHash   String?
+  passwordTail   String?
   firstName      String?
   lastName       String?
+  phone          String?
   emailVerified  DateTime?
   enrollments    Enrollment[]
   submissions    Submission[]

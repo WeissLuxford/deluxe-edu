@@ -19,23 +19,30 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
 
   if (!user) redirect(`/${locale}/signin`)
 
-  return (
-    <main className="min-h-screen bg-gradient-dark py-10">
-      <div className="container">
-        <DashboardShell
-          user={{
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            image: user.image,
-            role: user.role,
-            locale: user.locale,
-            createdAt: user.createdAt
-          }}
-          enrollments={user.enrollments}
-          payments={user.Payment}
-        />
-      </div>
-    </main>
-  )
+return (
+  <main className="bg-gradient-dark">
+    <div className="page-start">
+      <DashboardShell
+        user={{
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+          role: user.role,
+          locale: user.locale,
+          createdAt: user.createdAt,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phone: user.phone,
+          emailVerified: user.emailVerified,
+          passwordTail: user.passwordTail
+        }}
+        enrollments={user.enrollments}
+        payments={user.Payment}
+        progress={user.LessonProgress}
+        submissions={user.submissions}
+      />
+    </div>
+  </main>
+)
 }

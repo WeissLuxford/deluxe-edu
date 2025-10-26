@@ -15,7 +15,8 @@
     "buyViaPayme": "Pay via Payme",
     "buyViaClick": "Pay via CLICK",    
     "signUp": "Sign up",
-    "loading": "Loading"
+    "loading": "Loading",
+    "saving": "Saving…"
   },
     "signup": {
     "title": "Sign up",
@@ -79,7 +80,25 @@
     "statusCancelled": "Cancelled",
     "tabProfile": "Profile",
     "tabCourses": "Courses",
-    "tabPayments": "Payments"
+    "tabPayments": "Payments",
+    "tabProgress": "Progress",
+    "tabSubmissions": "Submissions",
+    "tabSettings": "Settings"
+  },
+    "profile": {
+    "displayName": "Display name",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Phone",
+    "passwordTail": "Last 4 of password",
+    "locale": "Locale",
+    "role": "Role",
+    "joined": "Joined",
+    "emailNotVerified": "Email is not verified",
+    "emailChanged": "Email updated. Please verify the new address",
+    "save": "Save",
+    "saved": "Saved"
   },
   "signin": { 
     "title": "Sign in",
@@ -126,5 +145,10 @@
     "faq": "FAQ",
     "guides": "Guides",
     "support": "Support"
+  },
+  "errors": {
+    "server": "Server error",
+    "emailTaken": "This email is already taken",
+    "saveFailed": "Save failed"
   }
 }

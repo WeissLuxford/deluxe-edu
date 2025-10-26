@@ -355,14 +355,12 @@ export default function HeroVertex() {
         }
 body .bg {
   width: 100%;
-  max-width: 1400px;
   margin: auto;
   height: 100vh;
   max-height: 600px;
   overflow: hidden;
   position: absolute;
   top: 50%;
-  left:20%;
 }
 body .bg .aur_cont {
   margin: 120px auto 0;

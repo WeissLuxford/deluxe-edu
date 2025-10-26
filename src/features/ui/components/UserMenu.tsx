@@ -12,6 +12,7 @@ export default function UserMenu() {
   const base = `/${locale}`
   const [open, setOpen] = useState(false)
   const [hydrated, setHydrated] = useState(false)
+  const [override, setOverride] = useState<{ name?: string; email?: string } | null>(null)
   const ref = useRef<HTMLDivElement>(null)
   const btnId = 'user-menu-button'
   const menuId = 'user-menu-panel'
@@ -26,13 +27,29 @@ export default function UserMenu() {
     return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onEsc) }
   }, [])
 
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem('vertexUserOverride')
+      if (raw) setOverride(JSON.parse(raw))
+    } catch {}
+    const handler = (e: Event) => {
+      const ce = e as CustomEvent
+      if (ce.detail) {
+        setOverride({ name: ce.detail.name, email: ce.detail.email })
+        try { sessionStorage.setItem('vertexUserOverride', JSON.stringify(ce.detail)) } catch {}
+      }
+    }
+    window.addEventListener('vertex:user-updated', handler as EventListener)
+    return () => window.removeEventListener('vertex:user-updated', handler as EventListener)
+  }, [])
+
   const initials = useMemo(() => {
-    const n = session?.user?.name || session?.user?.email || ''
-    const parts = n.split(' ').filter(Boolean)
-    const first = parts[0]?.[0] || n[0] || 'U'
+    const baseStr = override?.name || session?.user?.name || override?.email || session?.user?.email || ''
+    const parts = baseStr.split(' ').filter(Boolean)
+    const first = parts[0]?.[0] || baseStr[0] || 'U'
     const second = parts[1]?.[0] || ''
     return (first + second).toUpperCase()
-  }, [session])
+  }, [override, session])
 
   if (!hydrated || status === 'loading') {
     return <div className="user-skeleton" />

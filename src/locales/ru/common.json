@@ -15,7 +15,8 @@
     "buyViaPayme": "Оплатить через Payme",
     "buyViaClick": "Оплатить через CLICK",
     "signUp": "Зарегистрироваться",
-    "loading": "Загрузка"
+    "loading": "Загрузка",
+    "saving": "Сохраняю…"
   },
     "signup": {
     "title": "Регистрация",
@@ -79,7 +80,25 @@
     "statusCancelled": "Отменен",
     "tabProfile": "Профиль",
     "tabCourses": "Курсы",
-    "tabPayments": "Платежи"
+    "tabPayments": "Платежи",
+    "tabProgress": "Прогресс",
+    "tabSubmissions": "Ответы",
+    "tabSettings": "Настройки"
+  },
+    "profile": {
+    "displayName": "Ник",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "email": "Почта",
+    "phone": "Телефон",
+    "passwordTail": "Последние 4 символа",
+    "locale": "Язык",
+    "role": "Роль",
+    "joined": "Дата регистрации",
+    "emailNotVerified": "Почта не подтверждена",
+    "emailChanged": "Почта обновлена. Подтвердите новый адрес",
+    "save": "Сохранить",
+    "saved": "Сохранено"
   },
   "signin": { "title": "Вход", "email": "Email", "name": "Имя",  "password": "Пароль", "noAccount": "Нет аккаунта?", "emailOrName": "Email или имя пользователя" },
   "payments": {
@@ -119,5 +138,10 @@
     "faq": "FAQ",
     "guides": "Гайды",
     "support": "Поддержка"
+  },
+  "errors": {
+    "server": "Ошибка сервера",
+    "emailTaken": "Этот email уже используется",
+    "saveFailed": "Не удалось сохранить"
   }
 }

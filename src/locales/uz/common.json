@@ -15,7 +15,8 @@
     "buyViaPayme": "Payme orqali to'lash",
     "buyViaClick": "CLICK orqali to'lash",
     "signUp": "Ro'yxatdan o'tish",
-    "loading": "Yuklanmoqda"
+    "loading": "Yuklanmoqda",
+    "saving": "Saqlanmoqda…"
   },
 
     "signup": {
@@ -80,7 +81,25 @@
     "statusCancelled": "Bekor qilingan",
     "tabProfile": "Profil",
     "tabCourses": "Kurslar",
-    "tabPayments": "To'lovlar"
+    "tabPayments": "To'lovlar",
+    "tabProgress": "Rivojlanish",
+    "tabSubmissions": "Topshirganlar",
+    "tabSettings": "Sozlamalar"
+  },
+    "profile": {
+    "displayName": "Niqob",
+    "firstName": "Ism",
+    "lastName": "Familiya",
+    "email": "Email",
+    "phone": "Telefon",
+    "passwordTail": "Oxirgi 4 belgi",
+    "locale": "Til",
+    "role": "Rol",
+    "joined": "Roʻyxatdan oʻtgan sana",
+    "emailNotVerified": "Email tasdiqlanmagan",
+    "emailChanged": "Email yangilandi. Yangi manzilni tasdiqlang",
+    "save": "Saqlash",
+    "saved": "Saqlandi"
   },
   "signin": { "title": "Kirish", "email": "Email", "name": "Ism" , "password": "Parol", "noAccount": "Hisobingiz yo'qmi?", "emailOrName": "Email yoki foydalanuvchi nomi"},
   "payments": {
@@ -126,5 +145,10 @@
     "faq": "FAQ",
     "guides": "Qo'llanmalar",
     "support": "Qo'llab quvvatlash"
+  },
+  "errors": {
+    "server": "Server xatosi",
+    "emailTaken": "Bu email allaqachon band",
+    "saveFailed": "Saqlash muvaffaqiyatsiz"
   }
 }

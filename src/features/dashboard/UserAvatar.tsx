@@ -29,7 +29,7 @@ export default function UserAvatar({ src, name, email, size = 64, className = ''
 
   return (
     <div className={`${base} avatar-fallback ${textSize} ${className}`} style={style}>
-      {letter}
+      <span>{letter}</span>
     </div>
   )
 }
