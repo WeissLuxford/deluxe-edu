@@ -5,14 +5,12 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { getTranslations } from 'next-intl/server'
 
-export default async function CoursePage({
-  params,
-  searchParams,
-}: {
-  params: { locale: string; slug: string }
-  searchParams?: Record<string, string | string[] | undefined>
+export default async function CoursePage(props: {
+  params: Promise<{ locale: string; slug: string }>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const { locale, slug } = params
+  const { locale, slug } = await props.params
+  const searchParams = (await props.searchParams) || {}
   const i18n = await getTranslations({ locale, namespace: 'common' })
 
   const planParam = typeof searchParams?.plan === 'string' ? searchParams?.plan : undefined
