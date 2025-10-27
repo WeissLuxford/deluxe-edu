@@ -19,7 +19,7 @@ export default function TilesCarousel() {
   const [active, setActive] = useState(block)
   const [paused, setPaused] = useState(false)
   const isScrollingRef = useRef(false)
-  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
+  const scrollTimeoutRef = useRef<number | null>(null)
 
   const clampToMiddle = useCallback((index: number) => {
     let idx = ((index % total) + total) % total
@@ -39,12 +39,15 @@ export default function TilesCarousel() {
       left: child.offsetLeft - (el.clientWidth - child.clientWidth) / 2,
       behavior: smooth ? 'smooth' : 'auto'
     })
-    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current)
-    scrollTimeoutRef.current = setTimeout(() => { isScrollingRef.current = false }, smooth ? 600 : 50)
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current)
+      scrollTimeoutRef.current = null
+    }
+    scrollTimeoutRef.current = window.setTimeout(() => { isScrollingRef.current = false }, smooth ? 600 : 50)
   }, [clampToMiddle])
 
   useEffect(() => {
-    const id = setTimeout(() => { scrollToIndex(block, false) }, 60)
+    const id = window.setTimeout(() => { scrollToIndex(block, false) }, 60)
     return () => clearTimeout(id)
   }, [block, scrollToIndex])
 
@@ -101,6 +104,15 @@ export default function TilesCarousel() {
     document.addEventListener('visibilitychange', onVis)
     return () => { clearInterval(id); document.removeEventListener('visibilitychange', onVis) }
   }, [paused, active, scrollToIndex])
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+        scrollTimeoutRef.current = null
+      }
+    }
+  }, [])
 
   const prev = () => { if (!isScrollingRef.current) scrollToIndex(active - 1) }
   const next = () => { if (!isScrollingRef.current) scrollToIndex(active + 1) }

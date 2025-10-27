@@ -8,6 +8,30 @@ export default function AccessTiers({ base }: { base: string }) {
   const [visible, setVisible] = useState<boolean[]>([])
 
   useEffect(() => {
+    const tiers = [
+      {
+        title: "Basic",
+        desc: "Access to video lessons and assignments",
+        price: "200 000 UZS / month",
+        seats: "500 seats"
+      },
+      {
+        title: "Pro",
+        desc: "Video lessons, assignments, and personal feedback",
+        price: "400 000 UZS / month",
+        seats: "200 seats",
+        highlight: true
+      },
+      {
+        title: "Deluxe",
+        desc: "Individual one-on-one mentoring sessions",
+        price: "800 000 UZS / month",
+        seats: "50 seats"
+      }
+    ]
+
+    setVisible(new Array(tiers.length).fill(false))
+
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
@@ -24,8 +48,13 @@ export default function AccessTiers({ base }: { base: string }) {
       { threshold: 0.3 }
     )
 
-    cardsRef.current.forEach(el => el && observer.observe(el))
-    return () => observer.disconnect()
+    cardsRef.current.forEach(el => {
+      if (el) observer.observe(el)
+    })
+
+    return () => {
+      observer.disconnect()
+    }
   }, [])
 
   const tiers = [
@@ -63,7 +92,7 @@ export default function AccessTiers({ base }: { base: string }) {
           {tiers.map((tier, i) => (
             <div
               key={i}
-              ref={el => (cardsRef.current[i] = el)}
+              ref={el => { cardsRef.current[i] = el }}
               data-index={i}
               className={`vx-tier glass-tier transition-all duration-700 ease-out transform opacity-0 translate-y-8 ${
                 visible[i] ? 'opacity-100 translate-y-0' : ''

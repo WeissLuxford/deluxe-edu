@@ -17,6 +17,11 @@ type User = {
   role: string
   locale: string
   createdAt: string | Date
+  firstName?: string | null
+  lastName?: string | null
+  phone?: string | null
+  emailVerified?: string | Date | null
+  passwordTail?: string | null
 }
 
 export default function DashboardShell({
