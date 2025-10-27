@@ -3,12 +3,16 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 
-export default async function FreeLessonPage({ params }: { params: { locale: string } }) {
-  const { locale } = params
+export default async function FreeLessonPage({ 
+  params 
+}: { 
+  params: Promise<{ locale: string }> // 👈 ДОБАВЛЕНО: Promise
+}) {
+  const { locale } = await params // 👈 ДОБАВЛЕНО: await
   const t = await getTranslations({ locale, namespace: 'common' })
 
   const demoLesson = await prisma.lesson.findFirst({
-    where: { content: { path: ['isDemo'], equals: true } }, // если демо помечен в JSON
+    where: { content: { path: ['isDemo'], equals: true } },
     include: { course: true }
   })
 
