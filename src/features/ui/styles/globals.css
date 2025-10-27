@@ -38,6 +38,8 @@
   --transition-slow: all 0.3s ease-in-out;
 
   --header-h: 80px;
+  --gradient-gold: radial-gradient(120% 120% at 10% 0%, rgba(199,164,90,0.25), transparent 60%),
+              radial-gradient(100% 100% at 90% 40%, rgba(212,176,106,0.25), transparent 60%);
 }
 
 html.light {
@@ -58,6 +60,8 @@ html.light {
   --header-bg: rgba(248,248,249,0.88);
   --text-hero: #d29b1b;
   --gold-light-text: #ffffff;
+  --gradient-gold: radial-gradient(120% 120% at 10% 0%, rgba(90, 106, 199, 0.25), transparent 60%),
+              radial-gradient(100% 100% at 90% 40%, rgba(106, 178, 212, 0.25), transparent 60%);
 }
 
 /* ================================
@@ -597,8 +601,7 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   font-size: clamp(2.75rem, 7vw, 6rem);
 }
 .hero-gradient {
-  background: radial-gradient(120% 120% at 10% 0%, rgba(199,164,90,0.25), transparent 60%),
-              radial-gradient(100% 100% at 90% 40%, rgba(212,176,106,0.25), transparent 60%);
+  background: var(--gradient-gold) ;
 }
 
 .bi {

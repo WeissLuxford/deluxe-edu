@@ -7,8 +7,10 @@ function formatUZS(n: number, locale: string) {
   return new Intl.NumberFormat(locale, { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(n)
 }
 
-export default async function CoursesPlansPage({ params }: { params: { locale: string } }) {
-  const { locale } = params
+export default async function CoursesPlansPage(
+  props: { params: Promise<{ locale: string }> }
+) {
+  const { locale } = await props.params
   const session = await getServerSession(authOptions)
   const userEmail = session?.user?.email || null
   const user = userEmail ? await prisma.user.findUnique({ where: { email: userEmail } }) : null
