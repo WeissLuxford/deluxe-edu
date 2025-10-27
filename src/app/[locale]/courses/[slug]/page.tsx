@@ -4,11 +4,13 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { getTranslations } from 'next-intl/server'
-import BuyButton from '@/features/payments/BuyButton'
 
-export default async function CoursePage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
+export default async function CoursePage({ params, searchParams }: { params: Promise<{ locale: string; slug: string }>, searchParams?: Record<string, string | string[] | undefined> }) {
   const { locale, slug } = await params
   const i18n = await getTranslations({ locale, namespace: 'common' })
+  const planParam = typeof searchParams?.plan === 'string' ? searchParams?.plan : undefined
+  const plan = planParam && ['free','basic','pro','deluxe'].includes(planParam) ? planParam.toUpperCase() as 'FREE'|'BASIC'|'PRO'|'DELUXE' : undefined
+
   const course = await prisma.course.findUnique({
     where: { slug },
     include: { lessons: { orderBy: { order: 'asc' } } }
@@ -39,11 +41,11 @@ export default async function CoursePage({ params }: { params: Promise<{ locale:
     const existing = await prisma.enrollment.findFirst({ where: { userId: user.id, courseId: course.id } })
     const isFree = course.priceCents === 0
     const isStaff = user.role === 'ADMIN' || user.role === 'MENTOR'
-    if (!existing && !isFree && !isStaff) redirect(`/${locale}/courses/${slug}`)
+    if (!existing && !isFree && !isStaff && !plan) redirect(`/${locale}/courses/${slug}`)
     if (!existing) {
-      await prisma.enrollment.create({ data: { userId: user.id, courseId: course.id, status: 'ACTIVE' } })
-    } else if (existing.status !== 'ACTIVE') {
-      await prisma.enrollment.update({ where: { id: existing.id }, data: { status: 'ACTIVE' } })
+      await prisma.enrollment.create({ data: { userId: user.id, courseId: course.id, status: 'ACTIVE', plan: plan || 'BASIC' } })
+    } else if (existing.status !== 'ACTIVE' || (plan && existing.plan !== plan)) {
+      await prisma.enrollment.update({ where: { id: existing.id }, data: { status: 'ACTIVE', plan: plan || existing.plan || 'BASIC' } })
     }
     if (first) redirect(`/${locale}/courses/${slug}/lessons/${first.slug}`)
     redirect(`/${locale}/courses/${slug}`)
@@ -60,13 +62,10 @@ export default async function CoursePage({ params }: { params: Promise<{ locale:
             <form action={start}>
               <button className="px-4 py-2 rounded bg-black text-white">{i18n('course.startCourse')}</button>
             </form>
-          ) : locale === 'uz' ? (
-            <>
-              <BuyButton courseSlug={slug} locale={locale} provider="payme" label={i18n('buttons.buyViaPayme')} />
-              <BuyButton courseSlug={slug} locale={locale} provider="click" label={i18n('buttons.buyViaClick')} />
-            </>
           ) : (
-            <BuyButton courseSlug={slug} locale={locale} label={i18n('buttons.buyNow')} />
+            <form action={start}>
+              <button className="px-4 py-2 rounded bg-black text-white">Start</button>
+            </form>
           )}
           <Link href={`/${locale}/dashboard`} className="px-4 py-2 rounded border">{i18n('nav.dashboard')}</Link>
           {!session && <Link href={`/${locale}/signin`} className="px-4 py-2 rounded border">{i18n('buttons.signIn')}</Link>}

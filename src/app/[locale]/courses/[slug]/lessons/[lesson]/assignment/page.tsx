@@ -19,9 +19,11 @@ export default async function AssignmentPage({
   searchParams
 }: {
   params: Promise<{ locale: string; slug: string; lesson: string }>
-  searchParams?: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }> // 👈 ИЗМЕНЕНО: добавил Promise
 }) {
   const { locale, slug, lesson } = await params
+  const resolvedSearchParams = await searchParams // 👈 ДОБАВЛЕНО: await
+  
   const t = await getTranslations({ locale, namespace: 'common' })
   const session = await getServerSession(authOptions)
   if (!session?.user?.email) redirect(`/${locale}/signin`)
@@ -98,7 +100,7 @@ export default async function AssignmentPage({
   const ct = current.title as any
   const title = ct?.[locale] ?? ct?.ru ?? ct?.en ?? ct?.uz ?? current.slug
   const backHref = `/${locale}/courses/${slug}/lessons/${lesson}`
-  const error = searchParams?.error === '1'
+  const error = resolvedSearchParams?.error === '1' // 👈 ИЗМЕНЕНО: использую resolvedSearchParams
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10 space-y-6">
