@@ -10,7 +10,7 @@ import CTASection from "@/features/home/CTASection"
 import MentorIntro from "@/features/home/MentorIntro"
 import FAQSection from "@/features/home/FAQSection"
 
-export default async function LocaleHome({ params }: { params: { locale: string } }) {
+export default async function LocaleHome({ params }: any) {
   const locale = params.locale
   const t = await getTranslations({ locale, namespace: "common" })
   const base = `/${locale}`
