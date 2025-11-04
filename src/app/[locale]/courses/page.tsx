@@ -1,155 +1,164 @@
-import { prisma } from '@/lib/db'
+// src/app/[locale]/courses/page.tsx
+import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import Link from 'next/link'
+import { prisma } from '@/lib/db'
+import { CourseCard } from '@/features/courses/components/CourseCard'
+import { SpecialOffersSection } from '@/features/courses/components/SpecialOffersSection'
 
-function formatUZS(n: number, locale: string) {
-  return new Intl.NumberFormat(locale, { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(n)
+type Props = {
+  params: { locale: string }
+  searchParams?: { level?: string }
 }
 
-export default async function CoursesPlansPage(
-  props: { params: Promise<{ locale: string }> }
-) {
-  const { locale } = await props.params
+function getLocalizedText(value: any, locale: string) {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  if (typeof value === 'object') {
+    if (value[locale]) return value[locale]
+    const first = Object.values(value)[0]
+    return typeof first === 'string' ? first : ''
+  }
+  return ''
+}
+
+const LEVELS = ['Beginner', 'Elementary', 'Pre-Intermediate', 'Intermediate', 'Upper-Intermediate', 'Advanced']
+
+export default async function CoursesPage({ params, searchParams }: Props) {
+  const locale = params.locale
+  const selectedLevel = searchParams?.level || null
   const session = await getServerSession(authOptions)
   const userEmail = session?.user?.email || null
   const user = userEmail ? await prisma.user.findUnique({ where: { email: userEmail } }) : null
 
-  const course = await prisma.course.findFirst({
-    where: { published: true },
-    include: {
-      lessons: { orderBy: { order: 'asc' } },
-      Enrollment: user ? { where: { userId: user.id, status: 'ACTIVE' } } : false
-    }
+  const courses = await prisma.course.findMany({
+    where: { published: true, visible: true },
+    orderBy: { createdAt: 'desc' },
+    include: { lessons: { orderBy: { order: 'asc' } } }
   })
 
-  const enrolled = Boolean(course && user && (course as any).Enrollment && (course as any).Enrollment.length > 0)
-  const enrollment = enrolled ? (course as any).Enrollment[0] : null
-  const plan = enrollment?.plan || null
-  const slug = course?.slug || 'english'
-  const firstLesson = course?.lessons?.[0]?.slug
+  // Фильтруем специальные курсы
+  const regularCourses = courses.filter(c => 
+    c.slug !== 'level-test' && 
+    c.slug !== 'trial-lesson' && 
+    !c.slug.includes('mock-test')
+  )
+  
+  const trialLesson = courses.find(c => c.slug === 'trial-lesson')
+  const levelTestCourse = courses.find(c => c.slug === 'level-test')
+  const freeMockTest = courses.find(c => c.slug.includes('mock-test') && c.priceBasic === 0)
+  const paidMockTest = courses.find(c => c.slug.includes('mock-test') && c.priceBasic > 0)
 
-  const plans = [
-    {
-      id: 'free',
-      name: 'Free lesson',
-      desc: 'Try one lesson to feel the format',
-      seats: null as number | null,
-      price: 0,
-      cta: 'Watch',
-      href: firstLesson ? `/${locale}/courses/${slug}/lessons/${firstLesson}` : `/${locale}/courses/${slug}`
-    },
-    {
-      id: 'basic',
-      name: 'Basic',
-      desc: 'Access to video lessons and assignments',
-      seats: 500,
-      price: 200_000,
-      cta: 'Join',
-      href: `/${locale}/courses/${slug}?plan=basic`
-    },
-    {
-      id: 'pro',
-      name: 'Pro',
-      desc: 'Video lessons, assignments, and mentor feedback',
-      seats: 200,
-      price: 400_000,
-      cta: 'Join',
-      href: `/${locale}/courses/${slug}?plan=pro`
-    },
-    {
-      id: 'deluxe',
-      name: 'Deluxe',
-      desc: 'One on one mentoring and full guidance',
-      seats: 50,
-      price: 800_000,
-      cta: 'Join',
-      href: `/${locale}/courses/${slug}?plan=deluxe`
-    }
-  ]
+  const grouped: Record<string, typeof regularCourses> = {}
+  for (const c of regularCourses) {
+    const lvl = c.level || 'Other'
+    if (!grouped[lvl]) grouped[lvl] = []
+    grouped[lvl].push(c)
+  }
+
+  const displayLevels = [...LEVELS, 'Other'].filter((l) => grouped[l] && grouped[l].length > 0)
+
+  let enrollmentMap: Record<string, any> = {}
+  if (user) {
+    const enrollments = await prisma.enrollment.findMany({
+      where: { userId: user.id, status: 'ACTIVE' },
+      include: { course: true }
+    })
+    enrollmentMap = Object.fromEntries(enrollments.map((e) => [e.courseId, e]))
+  }
+
+  if (!selectedLevel) {
+    return (
+      <main className="page-start" style={{ paddingBlock: '3rem' }}>
+        <div className="mx-auto max-w-5xl">
+          <header className="mb-8 text-center">
+            <h1 className="hero-title" style={{ color: 'var(--text-hero)', fontSize: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: '1rem' }}>Choose Your Level</h1>
+            <p className="herotxt" style={{ color: 'var(--muted)', fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>Select your English proficiency level</p>
+          </header>
+
+          {/* Special Offers - 4 блока */}
+          <SpecialOffersSection
+            levelTestCourse={levelTestCourse}
+            freeMockTest={freeMockTest}
+            paidMockTest={paidMockTest}
+            locale={locale}
+          />
+
+          {/* Level Cards */}
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 mt-12">
+            {displayLevels.map((lvl) => {
+              const count = (grouped[lvl] || []).length
+              return (
+                <Link key={lvl} href={`/${locale}/courses?level=${encodeURIComponent(lvl)}`} className="glass-panel" style={{ padding: '1.5rem', textAlign: 'center', transition: 'var(--transition-slow)', cursor: 'pointer' }}>
+                  <div className="text-3xl font-bold" style={{ color: 'var(--gold)', marginBottom: '0.75rem' }}>{lvl.charAt(0)}</div>
+                  <div className="text-sm font-semibold" style={{ color: 'var(--fg)', marginBottom: '0.25rem' }}>{lvl}</div>
+                  <div className="text-xs" style={{ color: 'var(--muted)' }}>{count} course{count !== 1 ? 's' : ''}</div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      </main>
+    )
+  }
+
+  const coursesForLevel = grouped[selectedLevel] || []
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-12">
-      {!course && (
-        <div className="card border rounded-xl p-6 opacity-80 text-center">No course is published yet</div>
-      )}
+    <main className="page-start" style={{ paddingBlock: '3rem' }}>
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-6 flex items-center gap-2 text-sm">
+          <Link href={`/${locale}/courses`} style={{ color: 'var(--muted)' }}>Courses</Link>
+          <span style={{ color: 'var(--muted)' }}>/</span>
+          <span style={{ color: 'var(--gold)', fontWeight: 600 }}>{selectedLevel}</span>
+        </div>
 
-      {course && (
-        <>
-          {enrolled && (
-            <section className="mb-10 rounded-2xl border p-6"
-              style={{ borderColor: 'var(--gold)', background: 'var(--bg)', color: 'var(--fg)', boxShadow: 'var(--shadow-gold)' }}>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div>
-                  <h2 className="text-2xl font-semibold">Your current plan</h2>
-                  <div className="mt-1 text-lg opacity-90">{plan ? plan.toUpperCase() : 'BASIC'}</div>
-                  <div className="opacity-70 text-sm mt-1">Progress: 6 of 20 lessons</div>
-                </div>
-                <Link
-                  href={`/${locale}/courses/${slug}`}
-                  className="px-5 py-2 rounded-full text-black font-medium"
-                  style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.7), rgba(240,240,240,0.6))', boxShadow: '0 4px 24px rgba(199,164,90,0.25)' }}>
-                  Continue learning
-                </Link>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold" style={{ color: 'var(--text-hero)' }}>{selectedLevel}</h1>
+            <p className="mt-2 text-sm" style={{ color: 'var(--muted)' }}>{coursesForLevel.length} course{coursesForLevel.length !== 1 ? 's' : ''}</p>
+          </div>
+          <Link href={`/${locale}/courses`} className="btn btn-secondary">← Change level</Link>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {coursesForLevel.map((course) => (
+            <CourseCard
+              key={course.id}
+              id={course.id}
+              slug={course.slug}
+              title={getLocalizedText(course.title, locale) || course.slug}
+              description={getLocalizedText(course.description, locale) || ''}
+              priceBasic={course.priceBasic}
+              pricePro={course.pricePro}
+              priceDeluxe={course.priceDeluxe}
+              lessonsCount={course.lessons.length}
+              locale={locale}
+              isEnrolled={!!enrollmentMap[course.id]}
+              firstLessonSlug={course.lessons?.[0]?.slug}
+            />
+          ))}
+        </div>
+
+        <section className="mt-12 cta-glass">
+          <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--fg)' }}>All plans include</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { name: 'Trial Lesson', items: ['First lesson free', 'Video content', 'Basic assignments'] },
+              { name: 'Basic', items: ['All video lessons', 'Auto-graded tests', 'Certificate'] },
+              { name: 'Pro', items: ['Everything in Basic', 'Mentor feedback', 'Priority support'] },
+              { name: 'Deluxe', items: ['Everything in Pro', '1-on-1 mentoring', 'Career guidance'] }
+            ].map((plan) => (
+              <div key={plan.name} className="glass-panel">
+                <div className="text-sm font-semibold mb-2" style={{ color: 'var(--gold)' }}>{plan.name}</div>
+                <ul className="space-y-1 text-sm" style={{ color: 'var(--muted)' }}>
+                  {plan.items.map((item, i) => <li key={i}>• {item}</li>)}
+                </ul>
               </div>
-              <div className="mt-6 border-t pt-4 text-sm opacity-80">Want another level? <a href="#plans" className="underline">Change plan</a></div>
-            </section>
-          )}
-
-          <section id="plans">
-            <div className={`mb-8 ${enrolled ? 'text-center' : 'text-left'}`}>
-              <h1 className={`${enrolled ? 'text-2xl' : 'text-4xl'} font-bold hero-title`}>
-                {enrolled ? 'Choose another plan' : 'Choose your plan'}
-              </h1>
-              {!enrolled && <p className="opacity-80 mt-1 pt-8">Start free, then upgrade for feedback or mentoring</p>}
-            </div>
-
-            <ul className={`grid gap-6 ${enrolled ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
-              {plans.map(p => {
-                const isActive = enrolled && plan && p.id.toUpperCase() === plan.toUpperCase()
-                return (
-                  <li key={p.id} className={`rounded-2xl border p-6 transition-all ${isActive ? 'ring-2 ring-[var(--gold)] opacity-90' : ''}`}
-                    style={{ borderColor: 'var(--gold)', boxShadow: 'var(--shadow-gold)', background: 'var(--bg)', color: 'var(--fg)' }}>
-                    <div className="mb-4 flex items-start justify-between">
-                      <h3 className="text-xl font-semibold">{p.name}</h3>
-                      {p.seats ? (
-                        <span className="badge rounded-full px-3 py-1 text-sm"
-                          style={{ background: 'rgba(199,164,90,0.12)', color: 'var(--fg)' }}>
-                          {p.seats} seats
-                        </span>
-                      ) : (
-                        <span className="badge rounded-full px-3 py-1 text-sm"
-                          style={{ background: 'rgba(199,164,90,0.12)', color: 'var(--fg)' }}>
-                          Free
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="min-h-[56px] opacity-80">{p.desc}</p>
-
-                    <div className="my-5 h-px w-full" style={{ background: 'var(--border)' }} />
-
-                    <div className="mt-auto flex items-end justify-between">
-                      <div className="text-lg font-medium">
-                        {p.price > 0 ? `${formatUZS(p.price, locale)} / month` : '0 UZS'}
-                      </div>
-                      {isActive ? (
-                        <button disabled className="rounded-full px-4 py-2 opacity-60 cursor-default border"
-                          style={{ borderColor: 'var(--gold)' }}>Current</button>
-                      ) : (
-                        <Link href={p.href} className="btn rounded-full px-4 py-2"
-                          style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.7), rgba(240,240,240,0.6))', color: 'var(--fg)', boxShadow: '0 4px 24px rgba(199,164,90,0.25)' }}>
-                          {p.cta}
-                        </Link>
-                      )}
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
-          </section>
-        </>
-      )}
+            ))}
+          </div>
+        </section>
+      </div>
     </main>
   )
 }

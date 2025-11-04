@@ -10,6 +10,9 @@
     "db:migrate": "prisma migrate dev",
     "seed": "node scripts/seed.cjs"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "latest",
     "@tailwindcss/postcss": "^4.1.16",
@@ -20,6 +23,7 @@
     "framer-motion": "latest",
     "gsap": "^3.13.0",
     "jsonwebtoken": "latest",
+    "lucide-react": "^0.548.0",
     "next": "latest",
     "next-auth": "latest",
     "next-intl": "latest",
@@ -43,6 +47,7 @@
     "prisma": "latest",
     "tailwindcss": "^4.1.16",
     "ts-node": "latest",
+    "tsx": "^4.20.6",
     "typescript": "latest",
     "vitest": "latest"
   },

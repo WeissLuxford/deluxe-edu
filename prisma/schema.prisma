@@ -47,9 +47,13 @@ model Course {
   slug        String       @unique
   title       Json
   description Json
-  priceCents  Int
+  priceBasic      Int          @default(200000)
+  pricePro        Int          @default(400000)
+  priceDeluxe     Int          @default(800000)
   lessons     Lesson[]
+  level       String       @default("Beginner")
   published   Boolean      @default(false)
+  visible     Boolean      @default(true) 
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   Enrollment  Enrollment[]
@@ -62,6 +66,11 @@ model Lesson {
   slug           String
   title          Json
   content        Json
+
+  hasVideo       Boolean          @default(true)
+  hasConspect    Boolean          @default(false)
+  hasTest        Boolean          @default(false)
+
   zoomMeetingId  String?
   order          Int              @default(0)
   course         Course           @relation(fields: [courseId], references: [id])
