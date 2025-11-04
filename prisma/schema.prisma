@@ -138,6 +138,21 @@ model LessonProgress {
   @@unique([userId, lessonId])
 }
 
+model ContactRequest {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  phone     String
+  email     String?
+  message   String?
+  status    ContactStatus @default(NEW)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
 enum Role {
   ADMIN
   MENTOR
@@ -154,4 +169,11 @@ enum Plan {
 enum EnrollmentStatus {
   ACTIVE
   CANCELED
+}
+
+enum ContactStatus {
+  NEW
+  CONTACTED
+  RESOLVED
+  SPAM
 }
