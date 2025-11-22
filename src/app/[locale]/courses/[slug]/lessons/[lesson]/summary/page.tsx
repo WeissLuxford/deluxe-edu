@@ -14,9 +14,10 @@ export default async function SummaryPage({
   const t = await getTranslations({ locale, namespace: 'common' })
 
   const session = await getServerSession(authOptions)
-  if (!session?.user?.email) redirect(`/${locale}/signin`)
+  const userPhone = session?.user?.phone
+  if (!userPhone) redirect(`/${locale}/signin`)
 
-  const user = await prisma.user.findUnique({ where: { email: session.user.email } })
+  const user = await prisma.user.findUnique({ where: { phone: userPhone } })
   if (!user) redirect(`/${locale}/signin`)
 
   const course = await prisma.course.findUnique({

@@ -1,3 +1,4 @@
+// src/features/dashboard/DashboardShell.tsx
 'use client'
 
 import { useSearchParams } from 'next/navigation'
@@ -12,7 +13,7 @@ import SettingsSection from './sections/SettingsSection'
 type User = {
   id: string
   name: string | null
-  email: string
+  email?: string | null
   image: string | null
   role: string
   locale: string
@@ -43,7 +44,7 @@ export default function DashboardShell({
   return (
     <div className="space-y-6">
       <TabsNav />
-      {tab === 'profile' && <ProfileSection user={user} />}
+      {tab === 'profile' && <ProfileSection />}
       {tab === 'courses' && <CoursesSection enrollments={enrollments} />}
       {tab === 'payments' && <PaymentsSection payments={payments} />}
       {tab === 'progress' && <ProgressSection rows={progress} />}

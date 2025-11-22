@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       courseId: course.id,
       provider: 'payme',
       providerRef: '',
-      amountCents: course.priceCents,
+      amountCents: course.priceBasic,
       currency: 'UZS',
       status: 'pending'
     }
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
   const url = new URL(base)
   url.searchParams.set('m', process.env.PAYME_MERCHANT_ID as string)
   url.searchParams.set('ac.order_id', payment.id)
-  url.searchParams.set('a', String(course.priceCents))
+  url.searchParams.set('a', String(course.priceBasic))
   if (locale) url.searchParams.set('l', locale)
 
   return NextResponse.json({ ok: true, url: url.toString(), paymentId: payment.id })

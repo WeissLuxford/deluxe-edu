@@ -7,7 +7,7 @@ import { prisma } from '@/lib/db'
 import { LessonsList } from '@/features/courses/components/LessonsList'
 
 type Props = {
-  params: { locale: string; slug: string }
+  params: Promise<{ locale: string; slug: string }>
 }
 
 function getLocalizedText(value: any, locale: string) {
@@ -22,10 +22,10 @@ function getLocalizedText(value: any, locale: string) {
 }
 
 export default async function CoursePage({ params }: Props) {
-  const { locale, slug } = params
+  const { locale, slug } = await params
   const session = await getServerSession(authOptions)
-  const userEmail = session?.user?.email || null
-  const user = userEmail ? await prisma.user.findUnique({ where: { email: userEmail } }) : null
+  const userPhone = session?.user?.phone || null
+  const user = userPhone ? await prisma.user.findUnique({ where: { phone: userPhone } }) : null
 
   const course = await prisma.course.findUnique({
     where: { slug, published: true, visible: true },

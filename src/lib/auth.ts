@@ -3,97 +3,76 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import { prisma } from "./db"
 import { z } from "zod"
 import bcrypt from "bcryptjs"
-import nodemailer from "nodemailer"
-import crypto from "crypto"
 
 declare module "next-auth" {
   interface Session {
     user: {
       id: string
-      email: string
+      phone: string
       name: string | null
+      firstName: string | null
+      lastName: string | null
       role: "ADMIN" | "MENTOR" | "STUDENT"
       locale: string
       image?: string | null
-      emailVerified?: Date | null
+      phoneVerified?: Date | null
     }
   }
   interface User {
     id: string
-    email: string
+    phone: string
     name: string | null
+    firstName: string | null
+    lastName: string | null
     role: "ADMIN" | "MENTOR" | "STUDENT"
     locale: string
     image?: string | null
-    emailVerified?: Date | null
+    phoneVerified?: Date | null
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     id: string
-    email: string
+    phone: string
     name: string | null
+    firstName: string | null
+    lastName: string | null
     role: "ADMIN" | "MENTOR" | "STUDENT"
     locale: string
     image?: string | null
-    emailVerified?: Date | null
+    phoneVerified?: Date | null
   }
 }
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const passwordSchema = z.string().regex(/^(?=.*[A-Za-z])(?=.*\d).+$/)
+const passwordSchema = z.string().regex(/^(?=.*[A-Za-z])(?=.*\d).{6,}$/)
+
 const signinSchema = z.object({
   action: z.literal("signin"),
-  identifier: z.string().trim().min(1),
+  phone: z.string().trim().min(12).max(12),
   password: passwordSchema
 })
+
 const signupSchema = z
   .object({
     action: z.literal("signup"),
-    email: z.string().trim().toLowerCase().email(),
+    phone: z.string().trim().length(12),
     password: passwordSchema,
-    confirmPassword: z.string(),
     firstName: z.string().trim().min(1),
-    lastName: z.string().trim().min(1),
-    displayName: z.string().trim().min(1)
+    lastName: z.string().trim().min(1)
   })
-  .refine(d => d.password === d.confirmPassword, { path: ["confirmPassword"] })
 
 type UserWithSecret = {
   id: string
-  email: string
+  phone: string
   name: string | null
+  firstName: string | null
+  lastName: string | null
   role: "ADMIN" | "MENTOR" | "STUDENT"
   locale: string
   image: string | null
   passwordHash: string | null
-  emailVerified: Date | null
-}
-
-const hasSmtp = Boolean(process.env.SMTP_HOST)
-const transporter = hasSmtp
-  ? nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || 587),
-      secure: process.env.SMTP_SECURE === "true",
-      auth:
-        process.env.SMTP_USER && process.env.SMTP_PASS
-          ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-          : undefined
-    })
-  : null
-
-async function sendVerificationEmail(to: string, token: string) {
-  const base = process.env.NEXTAUTH_URL || ""
-  const url = `${base}/api/verify?token=${encodeURIComponent(token)}`
-  const subject = "Подтверждение почты"
-  const html = `<p>Подтвердите адрес электронной почты</p><p><a href="${url}">Открыть ссылку</a></p><p>Если вы не запрашивали это письмо, игнорируйте его</p>`
-  if (!transporter) {
-    console.log("EMAIL VERIFICATION LINK:", url)
-    return
-  }
-  await transporter.sendMail({ to, from: process.env.EMAIL_FROM || "no-reply@localhost", subject, html })
+  phoneVerified: Date | null
 }
 
 export const authOptions: NextAuthOptions = {
@@ -104,112 +83,131 @@ export const authOptions: NextAuthOptions = {
       name: "credentials",
       credentials: {
         action: { label: "action", type: "text" },
-        identifier: { label: "identifier", type: "text" },
-        email: { label: "email", type: "text" },
+        phone: { label: "phone", type: "text" },
         password: { label: "password", type: "password" },
-        confirmPassword: { label: "confirmPassword", type: "password" },
         firstName: { label: "firstName", type: "text" },
-        lastName: { label: "lastName", type: "text" },
-        displayName: { label: "displayName", type: "text" }
+        lastName: { label: "lastName", type: "text" }
       },
       authorize: async raw => {
         const action = String(raw?.action || "").trim()
 
+        // SIGN IN
         if (action === "signin") {
           const parsed = signinSchema.safeParse({
             action: "signin",
-            identifier: raw?.identifier ?? raw?.email,
+            phone: raw?.phone,
             password: raw?.password
           })
-          if (!parsed.success) return null
-
-          const idf = String(parsed.data.identifier || "").trim()
-          const isEmail = emailRegex.test(idf)
-          const email = isEmail ? idf.toLowerCase() : null
-
-          let user: UserWithSecret | null = null
-
-          if (email) {
-            const u = await prisma.user.findUnique({
-              where: { email },
-              select: { id: true, email: true, name: true, role: true, locale: true, image: true, passwordHash: true, emailVerified: true }
-            })
-            user = (u as UserWithSecret) || null
-          } else {
-            const u = await prisma.user.findFirst({
-              where: { name: { equals: idf, mode: "insensitive" } },
-              select: { id: true, email: true, name: true, role: true, locale: true, image: true, passwordHash: true, emailVerified: true }
-            })
-            user = (u as UserWithSecret) || null
+          if (!parsed.success) {
+            console.error('❌ Signin validation failed:', parsed.error)
+            return null
           }
 
-          if (!user || !user.passwordHash) return null
+          const user = await prisma.user.findUnique({
+            where: { phone: parsed.data.phone },
+            select: {
+              id: true,
+              phone: true,
+              name: true,
+              firstName: true,
+              lastName: true,
+              role: true,
+              locale: true,
+              image: true,
+              passwordHash: true,
+              phoneVerified: true
+            }
+          })
+
+          if (!user || !user.passwordHash) {
+            console.error('❌ User not found or no password')
+            return null
+          }
+
           const ok = await bcrypt.compare(parsed.data.password, user.passwordHash)
-          if (!ok) return null
-          
-          // 👈 УБРАЛ ПРОВЕРКУ: if (!user.emailVerified) throw new Error("EMAIL_NOT_VERIFIED")
-          // Теперь можно войти даже с неподтверждённой почтой
+          if (!ok) {
+            console.error('❌ Invalid password')
+            return null
+          }
+
+          console.log('✅ Sign in successful:', user.phone)
 
           const out: User = {
             id: user.id,
-            email: user.email,
+            phone: user.phone,
             name: user.name,
+            firstName: user.firstName,
+            lastName: user.lastName,
             role: user.role,
             locale: user.locale || "ru",
             image: user.image,
-            emailVerified: user.emailVerified
+            phoneVerified: user.phoneVerified
           }
           return out
         }
 
+        // SIGN UP
         if (action === "signup") {
           const parsed = signupSchema.safeParse({
             action: "signup",
-            email: raw?.email,
+            phone: raw?.phone,
             password: raw?.password,
-            confirmPassword: raw?.confirmPassword,
             firstName: raw?.firstName,
-            lastName: raw?.lastName,
-            displayName: raw?.displayName
+            lastName: raw?.lastName
           })
-          if (!parsed.success) return null
+          
+          if (!parsed.success) {
+            console.error('❌ Signup validation failed:', parsed.error)
+            return null
+          }
 
-          const exists = await prisma.user.findUnique({ where: { email: parsed.data.email }, select: { id: true } })
-          if (exists) return null
+          const exists = await prisma.user.findUnique({
+            where: { phone: parsed.data.phone },
+            select: { id: true }
+          })
+          
+          if (exists) {
+            console.error('❌ Phone already registered')
+            return null
+          }
 
           const passwordHash = await bcrypt.hash(parsed.data.password, 10)
           const created = await prisma.user.create({
             data: {
-              email: parsed.data.email,
+              phone: parsed.data.phone,
               passwordHash,
               firstName: parsed.data.firstName,
               lastName: parsed.data.lastName,
-              name: parsed.data.displayName,
+              name: `${parsed.data.firstName} ${parsed.data.lastName}`,
               role: "STUDENT",
               locale: "ru",
-              emailVerified: null
+              phoneVerified: new Date() // Считаем что номер уже верифицирован через OTP
             },
-            select: { id: true, email: true, name: true, role: true, locale: true, image: true, emailVerified: true } // 👈 ИЗМЕНЕНО: возвращаем больше данных
+            select: {
+              id: true,
+              phone: true,
+              name: true,
+              firstName: true,
+              lastName: true,
+              role: true,
+              locale: true,
+              image: true,
+              phoneVerified: true
+            }
           })
 
-          const token = crypto.randomUUID()
-          const expiresAt = new Date(Date.now() + 1000 * 60 * 30)
-          await prisma.verificationToken.create({
-            data: { token, userId: created.id, expiresAt }
-          })
-          
-          // 👈 ИЗМЕНЕНО: отправляем письмо, но НЕ выбрасываем ошибку
-          await sendVerificationEmail(created.email, token)
-          
-          // 👈 ДОБАВЛЕНО: возвращаем пользователя для автоматического входа
+          console.log('✅ User created:', created.phone)
+
           const out: User = {
             id: created.id,
-            email: created.email,
+            phone: created.phone,
             name: created.name,
+            firstName: created.firstName,
+            lastName: created.lastName,
             role: created.role,
             locale: created.locale || "ru",
             image: created.image || null,
-            emailVerified: created.emailVerified
+            phoneVerified: created.phoneVerified
           }
           return out
         }
@@ -219,32 +217,31 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    jwt: async ({ token, user, trigger, session }) => {
+    jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id
-        token.email = user.email
+        token.phone = user.phone
         token.name = user.name ?? null
-        token.role = (user as any).role
-        token.locale = (user as any).locale || "ru"
+        token.firstName = user.firstName ?? null
+        token.lastName = user.lastName ?? null
+        token.role = user.role
+        token.locale = user.locale || "ru"
         token.image = user.image ?? null
-        token.emailVerified = (user as any).emailVerified ?? null
+        token.phoneVerified = user.phoneVerified ?? null
       }
-      
-      if (trigger === 'update' && session?.user?.emailVerified) {
-        token.emailVerified = session.user.emailVerified
-      }
-      
       return token
     },
     session: async ({ session, token }) => {
       session.user = {
         id: token.id as string,
-        email: token.email as string,
+        phone: token.phone as string,
         name: (token.name as string | null) ?? null,
+        firstName: (token.firstName as string | null) ?? null,
+        lastName: (token.lastName as string | null) ?? null,
         role: token.role as any,
         locale: (token.locale as string) || "ru",
         image: (token.image as string | null) ?? null,
-        emailVerified: token.emailVerified ?? null
+        phoneVerified: token.phoneVerified ?? null
       }
       return session
     }

@@ -36,19 +36,19 @@ export default function SiteHeader() {
       return
     }
     
-    // Проверяем только для залогиненных пользователей
-    const emailNotVerified = session?.user && !session.user.emailVerified
+    // Проверяем только для залогиненных пользователей (используем phoneVerified вместо emailVerified)
+    const phoneNotVerified = session?.user && !session.user.phoneVerified
     
-    setBannerVisible(!!emailNotVerified)
+    setBannerVisible(!!phoneNotVerified)
     
-    if (emailNotVerified) {
+    if (phoneNotVerified) {
       const timer = setTimeout(() => setBannerVisible(false), 7000)
       return () => clearTimeout(timer)
     }
   }, [search, session, status])
 
   // 👈 КЛЮЧЕВОЕ: НЕ рендерим баннер вообще, если он не нужен
-  const shouldRenderBanner = status === 'authenticated' && session?.user && !session.user.emailVerified
+  const shouldRenderBanner = status === 'authenticated' && session?.user && !session.user.phoneVerified
 
   return (
     <header className="site-header relative">

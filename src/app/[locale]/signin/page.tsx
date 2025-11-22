@@ -5,91 +5,124 @@ import { useState } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { Phone, Lock } from 'lucide-react'
 
 export default function SignInPage() {
   const t = useTranslations('common')
   const locale = useLocale()
   const search = useSearchParams()
-  const next = search.get('next') || `/${locale}/dashboard`
+  const validLocale = ['ru', 'uz', 'en'].includes(locale) ? locale : 'ru'
+  const next = search.get('next') || `/${validLocale}/dashboard`
   const error = search.get('error')
-  const verified = search.get('verified')
-  const verifyStatus = search.get('verify')
-  const [identifier, setIdentifier] = useState('')
+  
+  const [phone, setPhone] = useState('+998 ') // ← Дефолт
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [resendOk, setResendOk] = useState(false)
+
+  const formatPhone = (value: string) => {
+    let digits = value.replace(/\D/g, '')
+    if (digits.startsWith('998')) {
+      digits = digits.slice(3, 12)
+    } else if (digits.length > 0) {
+      digits = digits.slice(0, 9)
+    }
+    if (digits.length === 0) return '+998 '
+    if (digits.length <= 2) return `+998 ${digits}`
+    if (digits.length <= 5) return `+998 ${digits.slice(0, 2)} ${digits.slice(2)}`
+    if (digits.length <= 7) return `+998 ${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`
+    return `+998 ${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5, 7)} ${digits.slice(7, 9)}`
+  }
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    if (value.length < 5) {
+      setPhone('+998 ')
+      return
+    }
+    const formatted = formatPhone(value)
+    setPhone(formatted)
+  }
+
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace' && phone === '+998 ') {
+      e.preventDefault()
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    
+    const cleanPhone = phone.replace(/\D/g, '')
+    
     await signIn('credentials', {
       action: 'signin',
-      identifier,
+      phone: cleanPhone,
       password,
       redirect: true,
       callbackUrl: next
     })
-    setLoading(false)
-  }
-
-  const resendEmail = async () => {
-    setLoading(true)
-    const res = await fetch('/api/resend-verification', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: identifier })
-    })
-    if (res.ok) setResendOk(true)
+    
     setLoading(false)
   }
 
   return (
     <main className="auth-shell">
       <form onSubmit={handleSubmit} className="auth-card">
-        <h1 className="auth-title">{t('signin.title')}</h1>
+        <h1 className="auth-title">Welcome Back</h1>
 
-        {verified && <p className="auth-success">{t('auth.verified')}</p>}
-        {verifyStatus === 'expired' && <p className="auth-error">{t('auth.expired')}</p>}
-        {verifyStatus === 'invalid' && <p className="auth-error">{t('auth.invalid')}</p>}
-        {verifyStatus === 'used' && <p className="auth-error">{t('auth.used')}</p>}
-        {error && !verifyStatus && <p className="auth-error">{t('auth.error')}</p>}
+        {error && (
+          <p className="auth-error" style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', padding: '0.75rem', borderRadius: 'var(--radius)' }}>
+            Invalid phone number or password
+          </p>
+        )}
 
-        <input
-          type="text"
-          placeholder={t('signin.emailOrName')}
-          value={identifier}
-          onChange={e => setIdentifier(e.target.value)}
-          className="input"
-          required
-        />
-        <input
-          type="password"
-          placeholder={t('signin.password')}
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          className="input"
-          required
-        />
+        <div>
+          <label className="label">Phone Number</label>
+          <div style={{ position: 'relative' }}>
+            <Phone size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
+            <input
+              type="tel"
+              placeholder="+998 90 123 45 67"
+              value={phone}
+              onChange={handlePhoneChange}
+              onKeyDown={handlePhoneKeyDown}
+              className="input"
+              style={{ paddingLeft: '3rem', fontSize: '1rem', letterSpacing: '0.02em' }}
+              autoFocus
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="label">Password</label>
+          <div style={{ position: 'relative' }}>
+            <Lock size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              className="input"
+              style={{ paddingLeft: '3rem' }}
+              required
+            />
+          </div>
+        </div>
 
         <button type="submit" className="iridescent vx w-full" disabled={loading}>
-          {loading ? t('buttons.loading') : t('buttons.signIn')}
+          {loading ? 'Signing In...' : 'Sign In'}
           <span className="drop-shadow" />
         </button>
 
-        {!resendOk && verifyStatus === 'expired' && (
-          <button type="button" onClick={resendEmail} disabled={loading} className="auth-link mt-2">
-            {t('auth.resend')}
-          </button>
-        )}
-        {resendOk && <p className="auth-success">{t('auth.resent')}</p>}
-
         <p className="auth-note">
-          {t('signin.noAccount')}{' '}
+          Don't have an account?{' '}
           <Link
-            href={`/${locale}/signup${next ? `?next=${encodeURIComponent(next)}` : ''}`}
+            href={`/${validLocale}/signup${next ? `?next=${encodeURIComponent(next)}` : ''}`}
             className="auth-link"
           >
-            {t('buttons.signUp')}
+            Sign Up
           </Link>
         </p>
       </form>

@@ -6,14 +6,14 @@ import { prisma } from '@/lib/db'
 import { LessonPlayer } from '@/features/courses/components/LessonPlayer'
 
 type Props = {
-  params: { locale: string; slug: string; lesson: string }
+  params: Promise<{ locale: string; slug: string; lesson: string }>
 }
 
 export default async function LessonPage({ params }: Props) {
-  const { locale, slug, lesson: lessonSlug } = params
+  const { locale, slug, lesson: lessonSlug } = await params
   const session = await getServerSession(authOptions)
-  const userEmail = session?.user?.email || null
-  const user = userEmail ? await prisma.user.findUnique({ where: { email: userEmail } }) : null
+  const userPhone = session?.user?.phone || null
+  const user = userPhone ? await prisma.user.findUnique({ where: { phone: userPhone } }) : null
 
   if (!user) {
     redirect(`/${locale}/signin?callbackUrl=/${locale}/courses/${slug}/lessons/${lessonSlug}`)

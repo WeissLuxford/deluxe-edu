@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db'
 import { FreeTrialPlayer } from '@/features/courses/components/FreeTrialPlayer'
 
 type Props = {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }
 
 function getLocalizedText(value: any, locale: string) {
@@ -20,7 +20,7 @@ function getLocalizedText(value: any, locale: string) {
 }
 
 export default async function TrialLessonPage({ params }: Props) {
-  const { locale } = params
+  const { locale } = await params
 
   const course = await prisma.course.findUnique({
     where: { slug: 'trial-lesson' },

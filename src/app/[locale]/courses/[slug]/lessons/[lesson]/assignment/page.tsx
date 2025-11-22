@@ -19,15 +19,19 @@ export default async function AssignmentPage({
   searchParams
 }: {
   params: Promise<{ locale: string; slug: string; lesson: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }> // 👈 ИЗМЕНЕНО: добавил Promise
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const { locale, slug, lesson } = await params
-  const resolvedSearchParams = await searchParams // 👈 ДОБАВЛЕНО: await
+  const resolvedSearchParams = await searchParams
   
   const t = await getTranslations({ locale, namespace: 'common' })
   const session = await getServerSession(authOptions)
-  if (!session?.user?.email) redirect(`/${locale}/signin`)
-  const user = await prisma.user.findUnique({ where: { email: session.user.email } })
+  
+  // Используем phone вместо email
+  const userPhone = session?.user?.phone
+  if (!userPhone) redirect(`/${locale}/signin`)
+  
+  const user = await prisma.user.findUnique({ where: { phone: userPhone } })
   if (!user) redirect(`/${locale}/signin`)
 
   const course = await prisma.course.findUnique({
@@ -64,8 +68,10 @@ export default async function AssignmentPage({
   async function submit(formData: FormData) {
     'use server'
     const session = await getServerSession(authOptions)
-    if (!session?.user?.email) redirect(`/${locale}/signin`)
-    const user = await prisma.user.findUnique({ where: { email: session.user.email } })
+    const userPhone = session?.user?.phone
+    if (!userPhone) redirect(`/${locale}/signin`)
+    
+    const user = await prisma.user.findUnique({ where: { phone: userPhone } })
     if (!user) redirect(`/${locale}/signin`)
 
     const raw = formData.get('answer')
@@ -100,7 +106,7 @@ export default async function AssignmentPage({
   const ct = current.title as any
   const title = ct?.[locale] ?? ct?.ru ?? ct?.en ?? ct?.uz ?? current.slug
   const backHref = `/${locale}/courses/${slug}/lessons/${lesson}`
-  const error = resolvedSearchParams?.error === '1' // 👈 ИЗМЕНЕНО: использую resolvedSearchParams
+  const error = resolvedSearchParams?.error === '1'
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10 space-y-6">

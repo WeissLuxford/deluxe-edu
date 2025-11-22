@@ -9,7 +9,7 @@ export default function LocaleLayoutClient({ children, locale }: { children: Rea
   return (
     <SessionProvider>
       <SiteHeader />
-      <div>{children}</div>
+      {children}
       <SiteFooter />
     </SessionProvider>
   )

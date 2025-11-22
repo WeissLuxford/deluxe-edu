@@ -5,7 +5,8 @@ import { prisma } from '@/lib/db'
 
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions)
-  if (!session?.user?.email) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+  const userPhone = session?.user?.phone
+  if (!userPhone) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
 
   const url = new URL(req.url)
   const slug = url.searchParams.get('course') || ''
@@ -14,7 +15,7 @@ export async function GET(req: Request) {
   const course = await prisma.course.findUnique({ where: { slug } })
   if (!course) return NextResponse.json({ ok: false, error: 'course not found' }, { status: 404 })
 
-  const user = await prisma.user.findUnique({ where: { email: session.user.email } })
+  const user = await prisma.user.findUnique({ where: { phone: userPhone } })
   if (!user) return NextResponse.json({ ok: false, error: 'user not found' }, { status: 404 })
 
   const existing = await prisma.enrollment.findFirst({ where: { userId: user.id, courseId: course.id } })

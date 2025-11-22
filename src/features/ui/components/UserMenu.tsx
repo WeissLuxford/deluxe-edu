@@ -12,7 +12,7 @@ export default function UserMenu() {
   const base = `/${locale}`
   const [open, setOpen] = useState(false)
   const [hydrated, setHydrated] = useState(false)
-  const [override, setOverride] = useState<{ name?: string; email?: string } | null>(null)
+  const [override, setOverride] = useState<{ name?: string; phone?: string } | null>(null)
   const ref = useRef<HTMLDivElement>(null)
   const btnId = 'user-menu-button'
   const menuId = 'user-menu-panel'
@@ -35,7 +35,7 @@ export default function UserMenu() {
     const handler = (e: Event) => {
       const ce = e as CustomEvent
       if (ce.detail) {
-        setOverride({ name: ce.detail.name, email: ce.detail.email })
+        setOverride({ name: ce.detail.name, phone: ce.detail.phone })
         try { sessionStorage.setItem('vertexUserOverride', JSON.stringify(ce.detail)) } catch {}
       }
     }
@@ -44,7 +44,7 @@ export default function UserMenu() {
   }, [])
 
   const initials = useMemo(() => {
-    const baseStr = override?.name || session?.user?.name || override?.email || session?.user?.email || ''
+    const baseStr = override?.name || session?.user?.name || override?.phone || session?.user?.phone || ''
     const parts = baseStr.split(' ').filter(Boolean)
     const first = parts[0]?.[0] || baseStr[0] || 'U'
     const second = parts[1]?.[0] || ''

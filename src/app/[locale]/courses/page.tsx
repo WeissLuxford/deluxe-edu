@@ -7,8 +7,8 @@ import { CourseCard } from '@/features/courses/components/CourseCard'
 import { SpecialOffersSection } from '@/features/courses/components/SpecialOffersSection'
 
 type Props = {
-  params: { locale: string }
-  searchParams?: { level?: string }
+  params: Promise<{ locale: string }>
+  searchParams?: Promise<{ level?: string }>
 }
 
 function getLocalizedText(value: any, locale: string) {
@@ -25,11 +25,12 @@ function getLocalizedText(value: any, locale: string) {
 const LEVELS = ['Beginner', 'Elementary', 'Pre-Intermediate', 'Intermediate', 'Upper-Intermediate', 'Advanced']
 
 export default async function CoursesPage({ params, searchParams }: Props) {
-  const locale = params.locale
-  const selectedLevel = searchParams?.level || null
+  const { locale } = await params
+  const resolvedSearchParams = await searchParams
+  const selectedLevel = resolvedSearchParams?.level || null
   const session = await getServerSession(authOptions)
-  const userEmail = session?.user?.email || null
-  const user = userEmail ? await prisma.user.findUnique({ where: { email: userEmail } }) : null
+  const userPhone = session?.user?.phone || null
+  const user = userPhone ? await prisma.user.findUnique({ where: { phone: userPhone } }) : null
 
   const courses = await prisma.course.findMany({
     where: { published: true, visible: true },

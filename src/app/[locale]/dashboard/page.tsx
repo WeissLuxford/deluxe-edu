@@ -22,7 +22,7 @@ const user = await prisma.user.findUnique({
   if (!user) redirect(`/${locale}/signin`)
 
 return (
-  <main className="bg-gradient-dark">
+  <main className="bg-gradient-dark mb-auto">
     <div className="page-start">
 <DashboardShell
   user={{

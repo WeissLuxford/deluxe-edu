@@ -1,163 +1,206 @@
 'use client'
 
 import { useState } from 'react'
-import UserAvatar from '../UserAvatar'
-import { useTranslations, useLocale } from 'next-intl'
-import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import { User, Phone, Mail, Save, Loader2 } from 'lucide-react'
 
-type User = {
-  id: string
-  name: string | null
-  email: string
-  image: string | null
-  role: string
-  locale: string
-  createdAt: string | Date
-  firstName?: string | null
-  lastName?: string | null
-  phone?: string | null
-  emailVerified?: string | Date | null
-  passwordTail?: string | null
-}
+export default function ProfileSection() {
+  const { data: session, update } = useSession()
+  const user = session?.user
 
-export default function ProfileSection({ user }: { user: User }) {
-  const t = useTranslations('common')
-  const locale = useLocale()
-  const [displayName, setDisplayName] = useState(user.name || '')
-  const [firstName, setFirstName] = useState(user.firstName || '')
-  const [lastName, setLastName] = useState(user.lastName || '')
-  const [email, setEmail] = useState(user.email)
-  const [phone, setPhone] = useState(user.phone || '')
-  const [saving, setSaving] = useState(false)
-  const [saved, setSaved] = useState(false)
-  const [emailChanged, setEmailChanged] = useState(false)
+  const [firstName, setFirstName] = useState(user?.firstName || '')
+  const [lastName, setLastName] = useState(user?.lastName || '')
+  const [email, setEmail] = useState('') // Email опциональный
+  const [loading, setLoading] = useState(false)
+  const [err, setErr] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
 
+  // Валидация: имя и фамилия обязательны, email опционален
   const canSave =
-    displayName.trim() &&
     firstName.trim() &&
     lastName.trim() &&
-    email.trim()
+    (email.trim() === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()))
 
-const [err, setErr] = useState<string | null>(null)
+  const handleSave = async () => {
+    setLoading(true)
+    setErr(null)
+    setSuccess(false)
 
-const onSave = async () => {
-  if (!canSave || saving) return
-  setSaving(true)
-  setSaved(false)
-  setEmailChanged(false)
-  setErr(null)
-  try {
-    const r = await fetch('/api/me', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ displayName, firstName, lastName, email, phone, locale })
-    })
-    const json = await r.json()
-    if (!r.ok || !json.ok) {
-      if (json?.error === 'email_taken') setErr('emailTaken')
-      else if (json?.error === 'server') setErr('server')
-      else setErr('saveFailed')
-      return
+    try {
+      const res = await fetch('/api/user/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          email: email.trim() || null // null если пустой
+        })
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Failed to update profile')
+      }
+
+      // Обновляем сессию
+      await update({
+        user: {
+          ...user,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          name: `${firstName.trim()} ${lastName.trim()}`
+        }
+      })
+
+      setSuccess(true)
+      setTimeout(() => setSuccess(false), 3000)
+    } catch (error: any) {
+      setErr(error.message)
+    } finally {
+      setLoading(false)
     }
-    setSaved(true)
-    const nextName = displayName?.trim() || [firstName, lastName].filter(Boolean).join(' ').trim() || ''
-    const nextEmail = email.trim()
-    if (typeof window !== 'undefined') {
-      const payload = { name: nextName, email: nextEmail }
-      window.dispatchEvent(new CustomEvent('vertex:user-updated', { detail: payload }))
-      sessionStorage.setItem('vertexUserOverride', JSON.stringify(payload))
-    }
-    setEmailChanged(Boolean(json.emailChanged))
-  } catch {
-    setErr('server')
-  } finally {
-    setSaving(false)
   }
-}
-
-
-
-  const fullName = [firstName, lastName].filter(Boolean).join(' ')
-  const joined = new Date(user.createdAt).toLocaleDateString(locale)
-  const verified = Boolean(user.emailVerified)
-  const tail = user.passwordTail || '••••'
 
   return (
-    <section className="card">
-      <div className="flex items-center gap-4">
-        <UserAvatar src={user.image || undefined} name={user.name} email={user.email} size={72} />
-        <div className="min-w-0">
-          <div className="text-lg font-semibold truncate">{displayName || user.email}</div>
-          {fullName ? (
-            <div className="text-sm text-muted truncate">{fullName}</div>
-          ) : (
-            <div className="text-sm text-muted truncate">{user.email}</div>
-          )}
-        </div>
-      </div>
+    <section className="dashboard-section">
+      <h2 className="section-title">Profile Settings</h2>
 
-      <div className="divider" />
+      {err && (
+        <div className="alert alert-error">
+          {err}
+        </div>
+      )}
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <div className="label">{t('profile.displayName')}</div>
-          <input className="input" value={displayName} onChange={e => setDisplayName(e.target.value)} />
+      {success && (
+        <div className="alert alert-success">
+          Profile updated successfully!
         </div>
-        <div>
-          <div className="label">{t('profile.role')}</div>
-          <input className="input" value={user.role} disabled />
-        </div>
-        <div>
-          <div className="label">{t('profile.firstName')}</div>
-          <input className="input" value={firstName} onChange={e => setFirstName(e.target.value)} />
-        </div>
-        <div>
-          <div className="label">{t('profile.lastName')}</div>
-          <input className="input" value={lastName} onChange={e => setLastName(e.target.value)} />
-        </div>
-        <div className="sm:col-span-2">
-          <div className="label">{t('profile.email')}</div>
-          <input className="input" type="email" value={email} onChange={e => setEmail(e.target.value)} />
-          {!verified && (
-            <div className="mt-2 text-sm">
-              <span className="text-muted">{t('profile.emailNotVerified')}</span>{' '}
-              <Link href={`/${locale}/resend-verification`} className="auth-link underline hover:no-underline">
-                {t('auth.resend')}
-              </Link>
+      )}
+
+      <div className="card">
+        <div className="card-content" style={{ display: 'grid', gap: '1.5rem' }}>
+          {/* Phone Number (Read-only) */}
+          <div>
+            <label className="label">
+              <Phone size={16} />
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              value={user?.phone || ''}
+              className="input"
+              disabled
+              style={{ 
+                background: 'var(--surface-2)', 
+                cursor: 'not-allowed',
+                opacity: 0.7
+              }}
+            />
+            <p className="hint" style={{ marginTop: '0.5rem', color: 'var(--muted)' }}>
+              Phone number cannot be changed
+            </p>
+          </div>
+
+          {/* First Name */}
+          <div className="form-grid-2">
+            <div>
+              <label className="label">
+                <User size={16} />
+                First Name
+              </label>
+              <input
+                type="text"
+                placeholder="Enter first name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="input"
+              />
             </div>
-          )}
-          {emailChanged && (
-            <div className="mt-2 text-sm text-gold">{t('profile.emailChanged')}</div>
-          )}
-        </div>
-        <div>
-          <div className="label">{t('profile.phone')}</div>
-          <input className="input" inputMode="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+998..." />
-        </div>
-        <div>
-          <div className="label">{t('profile.passwordTail')}</div>
-          <input className="input" value={`**** **** **** ${tail}`} disabled />
-        </div>
-        <div>
-          <div className="label">{t('profile.locale')}</div>
-          <input className="input" value={user.locale} disabled />
-        </div>
-        <div>
-          <div className="label">{t('profile.joined')}</div>
-          <input className="input" value={joined} disabled />
+
+            {/* Last Name */}
+            <div>
+              <label className="label">
+                <User size={16} />
+                Last Name
+              </label>
+              <input
+                type="text"
+                placeholder="Enter last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="input"
+              />
+            </div>
+          </div>
+
+          {/* Email (Optional) */}
+          <div>
+            <label className="label">
+              <Mail size={16} />
+              Email Address (Optional)
+            </label>
+            <input
+              type="email"
+              placeholder="your@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input"
+            />
+            <p className="hint" style={{ marginTop: '0.5rem', color: 'var(--muted)' }}>
+              Add email for notifications and account recovery
+            </p>
+          </div>
+
+          {/* Save Button */}
+          <button
+            onClick={handleSave}
+            disabled={!canSave || loading}
+            className="btn-primary"
+            style={{ width: 'fit-content' }}
+          >
+            {loading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save size={18} />
+                Save Changes
+              </>
+            )}
+          </button>
         </div>
       </div>
 
-      <div className="divider" />
-
-      <div className="flex items-center gap-3">
-        <button className="btn btn-primary" onClick={onSave} disabled={!canSave || saving}>
-          {saving ? t('buttons.saving') : t('profile.save')}
-        </button>
-        {saved && <span className="text-sm text-gold">{t('profile.saved')}</span>}
-        {err && <span className="text-sm text-red-500">{t(`errors.${err}`)}</span>}
+      {/* Account Info */}
+      <div className="card" style={{ marginTop: '1.5rem' }}>
+        <div className="card-content">
+          <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '1rem' }}>
+            Account Information
+          </h3>
+          <div style={{ display: 'grid', gap: '0.75rem', color: 'var(--muted)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span>Role:</span>
+              <span style={{ fontWeight: 500, color: 'var(--foreground)' }}>
+                {user?.role || 'STUDENT'}
+              </span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span>Phone Verified:</span>
+              <span style={{ fontWeight: 500, color: 'var(--foreground)' }}>
+                {user?.phoneVerified ? '✅ Yes' : '❌ No'}
+              </span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span>User ID:</span>
+              <span style={{ fontWeight: 500, color: 'var(--foreground)', fontFamily: 'monospace', fontSize: '0.875rem' }}>
+                {user?.id?.slice(0, 12)}...
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-
     </section>
   )
 }

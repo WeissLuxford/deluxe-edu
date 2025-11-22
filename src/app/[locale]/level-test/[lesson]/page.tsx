@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db'
 import { FreeLevelTestPlayer } from '@/features/courses/components/FreeLevelTestPlayer'
 
 type Props = {
-  params: { locale: string; lesson: string }
+  params: Promise<{ locale: string; lesson: string }>
 }
 
 function getLocalizedText(value: any, locale: string) {
@@ -20,7 +20,7 @@ function getLocalizedText(value: any, locale: string) {
 }
 
 export default async function LevelTestLessonPage({ params }: Props) {
-  const { locale, lesson: lessonSlug } = params
+  const { locale, lesson: lessonSlug } = await params
 
   const course = await prisma.course.findUnique({
     where: { slug: 'level-test' },
@@ -56,7 +56,7 @@ export default async function LevelTestLessonPage({ params }: Props) {
             </Link>
 
             <div className="text-center flex-1">
-              <div className="badge badge-success mb-1">FREE TEST</div>
+              <div className="badge badge-success mb-1">LEVEL TEST</div>
               <h1 className="text-lg font-bold" style={{ color: 'var(--fg)' }}>{title}</h1>
               <div className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
                 Section {lessonIndex + 1} of {course.lessons.length}

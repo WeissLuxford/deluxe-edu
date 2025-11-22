@@ -17,7 +17,13 @@ export async function POST(req: Request) {
   const user = await prisma.user.upsert({
     where: { email },
     update: { name: name ?? undefined },
-    create: { email, name: name ?? '', role: 'STUDENT', locale: 'ru' }
+    create: { 
+      phone: email, // Используем email как phone (обязательное поле)
+      email, 
+      name: name ?? '', 
+      role: 'STUDENT', 
+      locale: 'ru' 
+    }
   })
 
   await prisma.payment.create({
@@ -26,7 +32,7 @@ export async function POST(req: Request) {
       courseId: course.id,
       provider: 'manual',
       providerRef: '',
-      amountCents: typeof amountCents === 'number' ? amountCents : course.priceCents,
+      amountCents: typeof amountCents === 'number' ? amountCents : course.priceBasic,
       currency: currency || 'UZS',
       status: 'paid'
     }

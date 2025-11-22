@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id             String           @id @default(cuid())
-  email          String           @unique
+  phone          String           @unique
   name           String?
   image          String?
   role           Role             @default(STUDENT)
@@ -18,8 +18,9 @@ model User {
   passwordTail   String?
   firstName      String?
   lastName       String?
-  phone          String?
+  email          String?          @unique  // ← ИСПРАВЛЕНО: добавил ?
   emailVerified  DateTime?
+  phoneVerified  DateTime?
   enrollments    Enrollment[]
   submissions    Submission[]
   createdAt      DateTime         @default(now())
@@ -27,16 +28,31 @@ model User {
   Payment        Payment[]
   LessonProgress LessonProgress[]
   tokens         VerificationToken[]
+  
+  @@index([phone])
+  @@index([email])
+}
+
+model OTPCode {
+  id        String   @id @default(cuid())
+  phone     String
+  code      String
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([phone])
+  @@index([expiresAt])
 }
 
 model VerificationToken {
-  id        String   @id @default(cuid())
-  token     String   @unique
+  id        String    @id @default(cuid())
+  token     String    @unique
   userId    String
   expiresAt DateTime
   usedAt    DateTime?
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([expiresAt])
@@ -47,9 +63,9 @@ model Course {
   slug        String       @unique
   title       Json
   description Json
-  priceBasic      Int          @default(200000)
-  pricePro        Int          @default(400000)
-  priceDeluxe     Int          @default(800000)
+  priceBasic  Int          @default(200000)
+  pricePro    Int          @default(400000)
+  priceDeluxe Int          @default(800000)
   lessons     Lesson[]
   level       String       @default("Beginner")
   published   Boolean      @default(false)
@@ -66,11 +82,9 @@ model Lesson {
   slug           String
   title          Json
   content        Json
-
   hasVideo       Boolean          @default(true)
   hasConspect    Boolean          @default(false)
   hasTest        Boolean          @default(false)
-
   zoomMeetingId  String?
   order          Int              @default(0)
   course         Course           @relation(fields: [courseId], references: [id])
@@ -83,10 +97,10 @@ model Enrollment {
   userId    String
   courseId  String
   status    EnrollmentStatus @default(ACTIVE)
+  plan      Plan?
   createdAt DateTime         @default(now())
   user      User             @relation(fields: [userId], references: [id])
   course    Course           @relation(fields: [courseId], references: [id])
-  plan Plan?
 }
 
 model Assignment {
@@ -139,15 +153,15 @@ model LessonProgress {
 }
 
 model ContactRequest {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   firstName String
   lastName  String
   phone     String
   email     String?
   message   String?
   status    ContactStatus @default(NEW)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
   @@index([status])
   @@index([createdAt])
