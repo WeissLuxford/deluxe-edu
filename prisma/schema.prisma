@@ -90,6 +90,10 @@ model Lesson {
   course         Course           @relation(fields: [courseId], references: [id])
   Assignment     Assignment[]
   LessonProgress LessonProgress[]
+
+  // Адрес урока уникален внутри курса. Раньше это проверялось только
+  // в коде админки, из-за чего сид при повторном запуске плодил дубли.
+  @@unique([courseId, slug])
 }
 
 model Enrollment {

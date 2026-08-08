@@ -1,3 +1,7 @@
+// При наличии prisma.config.ts Prisma перестаёт подхватывать .env сама —
+// загружаем его явно, иначе CLI не видит DATABASE_URL.
+import 'dotenv/config'
+
 import path from 'node:path'
 import { defineConfig } from 'prisma/config'
 

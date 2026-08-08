@@ -1,6 +1,16 @@
 {
-  "hero": { "title": "Vertex Education" },
-  "nav": { "dashboard": "Кабинет", "courses": "Курсы", "signin": "Войти", "streams": "Трансляции", "about": "О нас", "contacts": "Контакты","signout": "Выйти" },
+  "hero": {
+    "title": "Vertex Education"
+  },
+  "nav": {
+    "dashboard": "Кабинет",
+    "courses": "Курсы",
+    "signin": "Войти",
+    "streams": "Трансляции",
+    "about": "О нас",
+    "contacts": "Контакты",
+    "signout": "Выйти"
+  },
   "buttons": {
     "start": "Начать",
     "goToDashboard": "Кабинет",
@@ -18,7 +28,7 @@
     "loading": "Загрузка",
     "saving": "Сохраняю…"
   },
-    "signup": {
+  "signup": {
     "title": "Регистрация",
     "email": "Email",
     "firstName": "Имя",
@@ -40,8 +50,27 @@
     "resent": "Новое письмо отправлено. Проверьте почту.",
     "verifyBanner": "Подтвердите вашу почту, чтобы активировать аккаунт"
   },
-  "courses": { "title": "Курсы", "empty": "Пока нет курсов" },
-  "course": { "lessons": "Уроки", "price": "Цена", "startCourse": "Начать курс" },
+  "courses": {
+    "title": "Курсы",
+    "empty": "Пока нет курсов",
+    "subtitle": "Выберите свой уровень английского",
+    "allLevels": "Все уровни",
+    "level": "Уровень",
+    "changeLevel": "Другой уровень",
+    "coursesCount": "{count, plural, one {# курс} few {# курса} other {# курсов}}",
+    "lessonsCount": "{count, plural, one {# урок} few {# урока} other {# уроков}}",
+    "emptyLevel": "На этом уровне курсов пока нет",
+    "enrolled": "Вы записаны",
+    "continue": "Продолжить",
+    "details": "Подробнее",
+    "free": "Бесплатно",
+    "from": "от"
+  },
+  "course": {
+    "lessons": "Уроки",
+    "price": "Цена",
+    "startCourse": "Начать курс"
+  },
   "lesson": {
     "videoPlaceholder": "Видео этого урока будет здесь",
     "nextLesson": "Следующий урок",
@@ -57,7 +86,10 @@
     "wrong": "Неверно, попробуйте снова",
     "answerPlaceholder": "Ваш ответ"
   },
-  "summary": { "title": "Конспект", "desc": "Краткий конспект урока. Здесь будет текст, формулы и ссылки." },
+  "summary": {
+    "title": "Конспект",
+    "desc": "Краткий конспект урока. Здесь будет текст, формулы и ссылки."
+  },
   "dashboard": {
     "title": "Кабинет",
     "welcome": "Привет, {name}",
@@ -85,7 +117,7 @@
     "tabSubmissions": "Ответы",
     "tabSettings": "Настройки"
   },
-    "profile": {
+  "profile": {
     "displayName": "Ник",
     "firstName": "Имя",
     "lastName": "Фамилия",
@@ -100,7 +132,14 @@
     "save": "Сохранить",
     "saved": "Сохранено"
   },
-  "signin": { "title": "Вход", "email": "Email", "name": "Имя",  "password": "Пароль", "noAccount": "Нет аккаунта?", "emailOrName": "Email или имя пользователя" },
+  "signin": {
+    "title": "Вход",
+    "email": "Email",
+    "name": "Имя",
+    "password": "Пароль",
+    "noAccount": "Нет аккаунта?",
+    "emailOrName": "Email или имя пользователя"
+  },
   "payments": {
     "successTitle": "Оплата прошла",
     "successText": "Доступ к курсу активирован",
@@ -111,15 +150,36 @@
     "recordingsTitle": "Записи эфиров",
     "howTitle": "Как это работает",
     "how": {
-      "step1": { "title": "Выберите курс", "desc": "Сначала каталог и программа" },
-      "step2": { "title": "Смотрите уроки", "desc": "Видео и конспекты на трех языках" },
-      "step3": { "title": "Выполняйте задания", "desc": "Проверка и прогресс в кабинете" }
+      "step1": {
+        "title": "Выберите курс",
+        "desc": "Сначала каталог и программа"
+      },
+      "step2": {
+        "title": "Смотрите уроки",
+        "desc": "Видео и конспекты на трех языках"
+      },
+      "step3": {
+        "title": "Выполняйте задания",
+        "desc": "Проверка и прогресс в кабинете"
+      }
     },
-        "tiles": {
-      "live": { "title": "Прямые эфиры", "desc": "Интерактивные сессии" },
-      "assignments": { "title": "Задания", "desc": "Практика и проверка" },
-      "recordings": { "title": "Записи и конспекты", "desc": "Смотрите и читайте" },
-      "preview": { "title": "Превью урока", "desc": "Оцените формат" }
+    "tiles": {
+      "live": {
+        "title": "Прямые эфиры",
+        "desc": "Интерактивные сессии"
+      },
+      "assignments": {
+        "title": "Задания",
+        "desc": "Практика и проверка"
+      },
+      "recordings": {
+        "title": "Записи и конспекты",
+        "desc": "Смотрите и читайте"
+      },
+      "preview": {
+        "title": "Превью урока",
+        "desc": "Оцените формат"
+      }
     },
     "cta": {
       "title": "Готовы начать",

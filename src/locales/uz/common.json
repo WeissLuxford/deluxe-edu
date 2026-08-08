@@ -1,6 +1,16 @@
 {
-  "hero": { "title": "Vertex Education" },
-  "nav": { "dashboard": "Kabinet", "courses": "Kurslar", "signin": "Kirish", "streams": "Translyatsiyalar", "about": "Biz haqimizda", "contacts": "Aloqa", "signout": "Chiqish" },
+  "hero": {
+    "title": "Vertex Education"
+  },
+  "nav": {
+    "dashboard": "Kabinet",
+    "courses": "Kurslar",
+    "signin": "Kirish",
+    "streams": "Translyatsiyalar",
+    "about": "Biz haqimizda",
+    "contacts": "Aloqa",
+    "signout": "Chiqish"
+  },
   "buttons": {
     "start": "Boshlash",
     "goToDashboard": "Kabinet",
@@ -18,8 +28,7 @@
     "loading": "Yuklanmoqda",
     "saving": "Saqlanmoqda…"
   },
-
-    "signup": {
+  "signup": {
     "title": "Ro'yxatdan o'tish",
     "email": "Email",
     "firstName": "Ism",
@@ -41,8 +50,27 @@
     "resent": "Yangi tasdiqlash xati yuborildi. Pochtani tekshiring.",
     "verifyBanner": "Akkountingizni faollashtirish uchun emailingizni tasdiqlang"
   },
-  "courses": { "title": "Kurslar", "empty": "Hozircha kurslar yo'q" },
-  "course": { "lessons": "Darslar", "price": "Narx", "startCourse": "Kursni boshlash" },
+  "courses": {
+    "title": "Kurslar",
+    "empty": "Hozircha kurslar yo’q",
+    "subtitle": "Ingliz tili darajangizni tanlang",
+    "allLevels": "Barcha darajalar",
+    "level": "Daraja",
+    "changeLevel": "Boshqa daraja",
+    "coursesCount": "{count, plural, one {# kurs} other {# kurs}}",
+    "lessonsCount": "{count, plural, one {# dars} other {# dars}}",
+    "emptyLevel": "Bu darajada hozircha kurslar yo’q",
+    "enrolled": "Siz yozilgansiz",
+    "continue": "Davom etish",
+    "details": "Batafsil",
+    "free": "Bepul",
+    "from": "dan"
+  },
+  "course": {
+    "lessons": "Darslar",
+    "price": "Narx",
+    "startCourse": "Kursni boshlash"
+  },
   "lesson": {
     "videoPlaceholder": "Ushbu dars videolari shu yerda bo'ladi",
     "nextLesson": "Keyingi dars",
@@ -58,7 +86,10 @@
     "wrong": "Noto'g'ri, yana urinib ko'ring",
     "answerPlaceholder": "Javobingiz"
   },
-  "summary": { "title": "Konspekt", "desc": "Darsning qisqa konspekti. Matn, formulalar va havolalar." },
+  "summary": {
+    "title": "Konspekt",
+    "desc": "Darsning qisqa konspekti. Matn, formulalar va havolalar."
+  },
   "dashboard": {
     "title": "Kabinet",
     "welcome": "Salom, {name}",
@@ -86,7 +117,7 @@
     "tabSubmissions": "Topshirganlar",
     "tabSettings": "Sozlamalar"
   },
-    "profile": {
+  "profile": {
     "displayName": "Niqob",
     "firstName": "Ism",
     "lastName": "Familiya",
@@ -101,7 +132,14 @@
     "save": "Saqlash",
     "saved": "Saqlandi"
   },
-  "signin": { "title": "Kirish", "email": "Email", "name": "Ism" , "password": "Parol", "noAccount": "Hisobingiz yo'qmi?", "emailOrName": "Email yoki foydalanuvchi nomi"},
+  "signin": {
+    "title": "Kirish",
+    "email": "Email",
+    "name": "Ism",
+    "password": "Parol",
+    "noAccount": "Hisobingiz yo'qmi?",
+    "emailOrName": "Email yoki foydalanuvchi nomi"
+  },
   "payments": {
     "successTitle": "To'lov muvaffaqiyatli",
     "successText": "Kursga kirish faollashtirildi",
@@ -118,15 +156,36 @@
     "recordingsTitle": "Efir yozuvlari",
     "howTitle": "Qanday ishlaydi",
     "how": {
-      "step1": { "title": "Kursni tanlang", "desc": "Avval katalog va dastur" },
-      "step2": { "title": "Darslarni tomosha qiling", "desc": "Video va konspektlar uch tilda" },
-      "step3": { "title": "Vazifalarni bajaring", "desc": "Tekshiruv va progress kabinetda" }
+      "step1": {
+        "title": "Kursni tanlang",
+        "desc": "Avval katalog va dastur"
+      },
+      "step2": {
+        "title": "Darslarni tomosha qiling",
+        "desc": "Video va konspektlar uch tilda"
+      },
+      "step3": {
+        "title": "Vazifalarni bajaring",
+        "desc": "Tekshiruv va progress kabinetda"
+      }
     },
-        "tiles": {
-      "live": { "title": "Jonli efirlar", "desc": "Interaktiv sessiyalar" },
-      "assignments": { "title": "Vazifalar", "desc": "Amaliyot va tekshiruv" },
-      "recordings": { "title": "Yozuvlar va konspektlar", "desc": "Tomosha qiling va o'qing" },
-      "preview": { "title": "Dars preview", "desc": "Format bilan tanishing" }
+    "tiles": {
+      "live": {
+        "title": "Jonli efirlar",
+        "desc": "Interaktiv sessiyalar"
+      },
+      "assignments": {
+        "title": "Vazifalar",
+        "desc": "Amaliyot va tekshiruv"
+      },
+      "recordings": {
+        "title": "Yozuvlar va konspektlar",
+        "desc": "Tomosha qiling va o'qing"
+      },
+      "preview": {
+        "title": "Dars preview",
+        "desc": "Format bilan tanishing"
+      }
     },
     "cta": {
       "title": "Boshlashga tayyormisiz",

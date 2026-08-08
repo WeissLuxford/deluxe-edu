@@ -1,6 +1,16 @@
 {
-  "hero": { "title": "Vertex Education" },
-  "nav": { "dashboard": "Dashboard", "courses": "Courses", "signin": "Sign in", "streams": "Streams", "about": "About", "contacts": "Contacts", "signout": "Sign out" },
+  "hero": {
+    "title": "Vertex Education"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "courses": "Courses",
+    "signin": "Sign in",
+    "streams": "Streams",
+    "about": "About",
+    "contacts": "Contacts",
+    "signout": "Sign out"
+  },
   "buttons": {
     "start": "Start",
     "goToDashboard": "Dashboard",
@@ -13,12 +23,12 @@
     "signIn": "Sign in",
     "buyNow": "Buy access",
     "buyViaPayme": "Pay via Payme",
-    "buyViaClick": "Pay via CLICK",    
+    "buyViaClick": "Pay via CLICK",
     "signUp": "Sign up",
     "loading": "Loading",
     "saving": "Saving…"
   },
-    "signup": {
+  "signup": {
     "title": "Sign up",
     "email": "Email",
     "firstName": "First name",
@@ -40,8 +50,27 @@
     "resent": "A new email has been sent. Check your inbox.",
     "verifyBanner": "Please verify your email to activate your account"
   },
-  "courses": { "title": "Courses", "empty": "No courses yet" },
-  "course": { "lessons": "Lessons", "price": "Price", "startCourse": "Start the course" },
+  "courses": {
+    "title": "Courses",
+    "empty": "No courses yet",
+    "subtitle": "Choose your English level",
+    "allLevels": "All levels",
+    "level": "Level",
+    "changeLevel": "Change level",
+    "coursesCount": "{count, plural, one {# course} other {# courses}}",
+    "lessonsCount": "{count, plural, one {# lesson} other {# lessons}}",
+    "emptyLevel": "No courses at this level yet",
+    "enrolled": "You are enrolled",
+    "continue": "Continue",
+    "details": "Details",
+    "free": "Free",
+    "from": "from"
+  },
+  "course": {
+    "lessons": "Lessons",
+    "price": "Price",
+    "startCourse": "Start the course"
+  },
   "lesson": {
     "videoPlaceholder": "The video of this lesson will be here",
     "nextLesson": "Next lesson",
@@ -57,7 +86,10 @@
     "wrong": "Incorrect, try again",
     "answerPlaceholder": "Your answer"
   },
-  "summary": { "title": "Summary", "desc": "Short summary of the lesson. Text, formulas, and links will be here." },
+  "summary": {
+    "title": "Summary",
+    "desc": "Short summary of the lesson. Text, formulas, and links will be here."
+  },
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Hello, {name}",
@@ -85,7 +117,7 @@
     "tabSubmissions": "Submissions",
     "tabSettings": "Settings"
   },
-    "profile": {
+  "profile": {
     "displayName": "Display name",
     "firstName": "First name",
     "lastName": "Last name",
@@ -100,7 +132,7 @@
     "save": "Save",
     "saved": "Saved"
   },
-  "signin": { 
+  "signin": {
     "title": "Sign in",
     "email": "Email",
     "name": "Name",
@@ -118,15 +150,36 @@
     "recordingsTitle": "Recordings",
     "howTitle": "How it works",
     "how": {
-      "step1": { "title": "Choose a course", "desc": "Start with the catalog and syllabus" },
-      "step2": { "title": "Watch lessons", "desc": "Videos and summaries in three languages" },
-      "step3": { "title": "Do assignments", "desc": "Checking and progress in the dashboard" }
+      "step1": {
+        "title": "Choose a course",
+        "desc": "Start with the catalog and syllabus"
+      },
+      "step2": {
+        "title": "Watch lessons",
+        "desc": "Videos and summaries in three languages"
+      },
+      "step3": {
+        "title": "Do assignments",
+        "desc": "Checking and progress in the dashboard"
+      }
     },
     "tiles": {
-      "live": { "title": "Live streams", "desc": "Interactive sessions" },
-      "assignments": { "title": "Assignments", "desc": "Practice and review" },
-      "recordings": { "title": "Recordings and notes", "desc": "Watch and read" },
-      "preview": { "title": "Lesson preview", "desc": "See the format" }
+      "live": {
+        "title": "Live streams",
+        "desc": "Interactive sessions"
+      },
+      "assignments": {
+        "title": "Assignments",
+        "desc": "Practice and review"
+      },
+      "recordings": {
+        "title": "Recordings and notes",
+        "desc": "Watch and read"
+      },
+      "preview": {
+        "title": "Lesson preview",
+        "desc": "See the format"
+      }
     },
     "cta": {
       "title": "Ready to start",
