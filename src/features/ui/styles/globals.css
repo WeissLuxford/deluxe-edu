@@ -1558,3 +1558,52 @@ html.light .glass-panel {
     border-top: 1px solid var(--border);
   }
 }
+
+/* ================================
+   Мобильный футер
+   ================================
+   Сетка была жёстко задана в четыре колонки без переопределения:
+   на 375px они схлопывались до 78/54/67/143px, и «Instagram»
+   переносился по буквам в колонке шириной 54 пикселя. */
+
+@media (max-width: 900px) {
+  .vx-footer__top {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .vx-footer__brand {
+    grid-column-start: auto;
+    grid-row-start: auto;
+    min-height: auto;
+  }
+
+  .vx-footer__logoImg {
+    max-width: 240px;
+  }
+
+  .vx-footer__meta {
+    grid-row-start: auto;
+    grid-column: auto;
+  }
+
+  /* Ссылки в две колонки: одной колонкой футер вытягивается
+     в бесконечную ленту, по которой долго скроллить */
+  .vx-footer__nav,
+  .vx-footer__social {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1rem;
+  }
+
+  .vx-metaRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .vx-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
