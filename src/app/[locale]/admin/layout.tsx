@@ -8,6 +8,7 @@ export const metadata = {
 
 const nav = [
   { href: 'courses', label: 'Курсы' },
+  { href: 'students', label: 'Студенты' },
   { href: 'contacts', label: 'Заявки' }
 ]
 

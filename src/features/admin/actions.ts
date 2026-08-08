@@ -219,3 +219,57 @@ export async function setContactStatus(
   revalidatePath('/ru/admin/contacts')
   return { ok: true }
 }
+
+// ------------------------------------------------------------ студенты
+
+const PLANS = ['FREE', 'BASIC', 'PRO', 'DELUXE'] as const
+type Plan = (typeof PLANS)[number]
+
+/**
+ * Записывает пользователя на курс вручную.
+ *
+ * Это замена удалённому /api/dev/enroll: тот был открыт всем подряд,
+ * здесь запись доступна только администратору.
+ */
+export async function enrollUser(_prev: unknown, form: FormData): Promise<ActionResult> {
+  await requireAdmin()
+
+  const userId = String(form.get('userId') ?? '')
+  const courseId = String(form.get('courseId') ?? '')
+  const plan = String(form.get('plan') ?? 'BASIC') as Plan
+
+  if (!userId || !courseId) return { ok: false, error: 'Выберите пользователя и курс' }
+  if (!PLANS.includes(plan)) return { ok: false, error: 'Неизвестный тариф' }
+
+  const [user, course] = await Promise.all([
+    prisma.user.findUnique({ where: { id: userId }, select: { id: true } }),
+    prisma.course.findUnique({ where: { id: courseId }, select: { id: true } })
+  ])
+  if (!user) return { ok: false, error: 'Пользователь не найден' }
+  if (!course) return { ok: false, error: 'Курс не найден' }
+
+  const existing = await prisma.enrollment.findFirst({ where: { userId, courseId } })
+
+  if (existing) {
+    await prisma.enrollment.update({
+      where: { id: existing.id },
+      data: { status: 'ACTIVE', plan }
+    })
+  } else {
+    await prisma.enrollment.create({
+      data: { userId, courseId, plan, status: 'ACTIVE' }
+    })
+  }
+
+  revalidatePath('/ru/admin/students')
+  return { ok: true }
+}
+
+export async function revokeEnrollment(id: string): Promise<ActionResult> {
+  await requireAdmin()
+
+  // Не удаляем, а помечаем отменённой: прогресс студента должен сохраниться
+  await prisma.enrollment.update({ where: { id }, data: { status: 'CANCELED' } })
+  revalidatePath('/ru/admin/students')
+  return { ok: true }
+}
