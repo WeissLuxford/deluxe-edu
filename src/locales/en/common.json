@@ -65,7 +65,18 @@
     "details": "Details",
     "free": "Free",
     "from": "from",
-    "choosePlan": "Choose plan"
+    "choosePlan": "Choose plan",
+    "myCourses": "My courses",
+    "myCoursesHint": "Pick up where you left off",
+    "completedTitle": "Completed",
+    "completedHint": "Materials stay available forever",
+    "available": "Available courses",
+    "availableHint": "Choose a course and start learning",
+    "progressOf": "{done} of {total} done",
+    "completedBadge": "Completed",
+    "start": "Start",
+    "review": "Review",
+    "noLessonsYet": "Lessons coming soon"
   },
   "course": {
     "lessons": "Lessons",
@@ -229,5 +240,36 @@
   "about": {
     "title": "About us",
     "subtitle": "Who we are and how we teach"
+  },
+  "offers": {
+    "title": "Try before you buy",
+    "subtitle": "Start with a free lesson or check your level",
+    "free": "Free",
+    "recommended": "Recommended",
+    "premium": "With a teacher",
+    "trialTitle": "Trial lesson",
+    "trialDesc": "A full lesson so you can see if our format suits you",
+    "trialA": "Video lesson",
+    "trialB": "Notes",
+    "trialC": "20 minutes",
+    "trialCta": "Start free",
+    "levelTitle": "Level test",
+    "levelDesc": "Find your English level in 15 minutes",
+    "levelA": "Instant result",
+    "levelB": "Detailed breakdown",
+    "levelC": "Course suggestion",
+    "levelCta": "Take the test",
+    "mockTitle": "Mock exam",
+    "mockDesc": "IELTS and TOEFL practice with automatic grading",
+    "mockA": "Auto-graded",
+    "mockB": "60 minutes",
+    "mockC": "Score report",
+    "mockCta": "Start",
+    "teacherTitle": "Exam with a teacher",
+    "teacherDesc": "Work review and feedback from a teacher",
+    "teacherA": "Teacher review",
+    "teacherB": "Written breakdown",
+    "teacherC": "Consultation",
+    "teacherCta": "Book"
   }
 }

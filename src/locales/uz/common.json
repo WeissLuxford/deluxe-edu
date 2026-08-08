@@ -65,7 +65,18 @@
     "details": "Batafsil",
     "free": "Bepul",
     "from": "dan",
-    "choosePlan": "Tarifni tanlash"
+    "choosePlan": "Tarifni tanlash",
+    "myCourses": "Mening kurslarim",
+    "myCoursesHint": "To’xtagan joyingizdan davom eting",
+    "completedTitle": "Tugatilgan",
+    "completedHint": "Materiallar abadiy ochiq qoladi",
+    "available": "Mavjud kurslar",
+    "availableHint": "Kursni tanlang va boshlang",
+    "progressOf": "{total} dan {done} ta bajarildi",
+    "completedBadge": "Tugatilgan",
+    "start": "Boshlash",
+    "review": "Takrorlash",
+    "noLessonsYet": "Darslar tez orada"
   },
   "course": {
     "lessons": "Darslar",
@@ -235,5 +246,36 @@
   "about": {
     "title": "Biz haqimizda",
     "subtitle": "Biz kimmiz va qanday o’qitamiz"
+  },
+  "offers": {
+    "title": "Sotib olishdan oldin sinab ko’ring",
+    "subtitle": "Bepul darsdan boshlang yoki darajangizni tekshiring",
+    "free": "Bepul",
+    "recommended": "Tavsiya etamiz",
+    "premium": "O’qituvchi bilan",
+    "trialTitle": "Sinov darsi",
+    "trialDesc": "Formatimiz sizga mos kelishini tushunish uchun to’liq dars",
+    "trialA": "Video dars",
+    "trialB": "Konspekt",
+    "trialC": "20 daqiqa",
+    "trialCta": "Bepul boshlash",
+    "levelTitle": "Daraja testi",
+    "levelDesc": "Ingliz tili darajangizni 15 daqiqada aniqlang",
+    "levelA": "Natija darhol",
+    "levelB": "Batafsil tahlil",
+    "levelC": "Kurs tanlash",
+    "levelCta": "Testni topshirish",
+    "mockTitle": "Sinov imtihoni",
+    "mockDesc": "IELTS va TOEFL amaliyoti avtomatik tekshiruv bilan",
+    "mockA": "Avtomatik tekshiruv",
+    "mockB": "60 daqiqa",
+    "mockC": "Ballar hisoboti",
+    "mockCta": "Boshlash",
+    "teacherTitle": "O’qituvchi bilan imtihon",
+    "teacherDesc": "Ish tahlili va o’qituvchidan fikr-mulohaza",
+    "teacherA": "O’qituvchi tekshiruvi",
+    "teacherB": "Yozma tahlil",
+    "teacherC": "Konsultatsiya",
+    "teacherCta": "Yozilish"
   }
 }

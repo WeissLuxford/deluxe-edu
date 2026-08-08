@@ -1607,3 +1607,361 @@ html.light .glass-panel {
     gap: 0.5rem;
   }
 }
+
+/* ================================
+   Общая шапка страницы
+   ================================
+   Главная выглядела живой из-за градиента и крупной типографики,
+   а остальные страницы начинались плоской заливкой — из-за этого
+   казалось, что попал на другой сайт. Один блок на все разделы. */
+
+.page-shell {
+  min-height: 60vh;
+}
+
+.page-hero {
+  position: relative;
+  padding: 3.5rem 0 2.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--gradient-gold), var(--bg);
+  overflow: hidden;
+}
+
+.page-hero__title {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-hero);
+  margin: 0;
+}
+
+.page-hero__sub {
+  margin: 0.75rem 0 0;
+  font-size: clamp(0.95rem, 2vw, 1.125rem);
+  color: var(--muted);
+  max-width: 42rem;
+}
+
+.page-body {
+  padding: 2.5rem 0 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* ================================
+   Заголовки разделов
+   ================================ */
+
+.section-head {
+  margin-bottom: 1.25rem;
+}
+
+.section-title {
+  font-size: clamp(1.25rem, 3vw, 1.625rem);
+  font-weight: 700;
+  color: var(--fg);
+  margin: 0;
+}
+
+.section-sub {
+  margin: 0.35rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+/* ================================
+   Курс как статья
+   ================================ */
+
+.course-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+}
+
+.course-article {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  transition: var(--transition-slow);
+}
+
+.course-article:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.course-article.state-completed {
+  opacity: 0.85;
+}
+
+.course-article__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.course-article__level {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+.course-article__done {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.course-article__title {
+  margin: 0;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.course-article__title a {
+  color: var(--fg);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.course-article__title a:hover {
+  color: var(--gold-text);
+}
+
+.course-article__desc {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+  /* Описания разной длины ломали ровную сетку карточек */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.course-article__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.course-article__lessons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.course-article__price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--gold-text);
+  white-space: nowrap;
+}
+
+.course-article__progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.course-article__progress .progress {
+  margin: 0;
+}
+
+.course-article__progress-text {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.course-article__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+/* ================================
+   Фильтр по уровню
+   ================================ */
+
+.level-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.level-chip {
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.level-chip:hover {
+  border-color: var(--border-hover);
+  color: var(--fg);
+}
+
+.level-chip.active {
+  border-color: var(--gold);
+  color: var(--gold-text);
+  background: rgba(199, 164, 90, 0.1);
+}
+
+.catalog-empty {
+  padding: 2.5rem 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ================================
+   Блок «попробуйте до покупки»
+   ================================ */
+
+.offers-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.offer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1.375rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  text-decoration: none;
+  transition: var(--transition-slow);
+}
+
+.offer-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.offer-card.accent {
+  border-color: var(--gold);
+}
+
+.offer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.offer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius);
+  background: rgba(199, 164, 90, 0.12);
+  color: var(--gold-text);
+}
+
+.offer-title {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.offer-desc {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.offer-points {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.offer-points li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.offer-points svg {
+  color: var(--gold-text);
+  flex-shrink: 0;
+}
+
+.offer-cta {
+  margin-top: auto;
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .page-hero {
+    padding: 2.25rem 0 1.75rem;
+  }
+
+  .page-body {
+    gap: 2.25rem;
+  }
+
+  .course-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Отступы по краям задаём своим классам: у Tailwind есть собственная
+   утилита .container без горизонтальных отступов, и она перебивает
+   нашу — из-за этого карточки упирались в края экрана. */
+.page-hero > .container,
+.page-body {
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .page-hero > .container,
+  .page-body {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-hero > .container,
+  .page-body {
+    padding-inline: 2rem;
+  }
+}

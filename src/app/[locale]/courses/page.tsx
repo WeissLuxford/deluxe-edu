@@ -1,9 +1,10 @@
 // src/app/[locale]/courses/page.tsx
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
+import { getTranslations } from 'next-intl/server'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
-import { CourseCard } from '@/features/courses/components/CourseCard'
+import { CourseArticle, type CourseArticleState } from '@/features/courses/components/CourseArticle'
 import { SpecialOffersSection } from '@/features/courses/components/SpecialOffersSection'
 
 type Props = {
@@ -11,7 +12,20 @@ type Props = {
   searchParams?: Promise<{ level?: string }>
 }
 
-function getLocalizedText(value: any, locale: string) {
+const LEVELS = [
+  'Beginner',
+  'Elementary',
+  'Pre-Intermediate',
+  'Intermediate',
+  'Upper-Intermediate',
+  'Advanced'
+]
+
+/** Курсы-витрины, у них свои отдельные страницы */
+const SPECIAL_SLUGS = ['level-test', 'trial-lesson']
+const isSpecial = (slug: string) => SPECIAL_SLUGS.includes(slug) || slug.includes('mock-test')
+
+function localized(value: any, locale: string): string {
   if (!value) return ''
   if (typeof value === 'string') return value
   if (typeof value === 'object') {
@@ -22,143 +36,164 @@ function getLocalizedText(value: any, locale: string) {
   return ''
 }
 
-const LEVELS = ['Beginner', 'Elementary', 'Pre-Intermediate', 'Intermediate', 'Upper-Intermediate', 'Advanced']
-
 export default async function CoursesPage({ params, searchParams }: Props) {
   const { locale } = await params
-  const resolvedSearchParams = await searchParams
-  const selectedLevel = resolvedSearchParams?.level || null
+  const resolved = await searchParams
+  const selectedLevel = resolved?.level || null
+
+  const t = await getTranslations({ locale, namespace: 'courses' })
   const session = await getServerSession(authOptions)
-  const userPhone = session?.user?.phone || null
-  const user = userPhone ? await prisma.user.findUnique({ where: { phone: userPhone } }) : null
+  const userId = session?.user?.id ?? null
 
   const courses = await prisma.course.findMany({
     where: { published: true, visible: true },
     orderBy: { createdAt: 'desc' },
-    include: { lessons: { orderBy: { order: 'asc' } } }
+    include: { lessons: { orderBy: { order: 'asc' }, select: { id: true, slug: true } } }
   })
 
-  // Фильтруем специальные курсы
-  const regularCourses = courses.filter(c => 
-    c.slug !== 'level-test' && 
-    c.slug !== 'trial-lesson' && 
-    !c.slug.includes('mock-test')
+  const hasLevelTest = courses.some(c => c.slug === 'level-test')
+  const hasFreeMockTest = courses.some(c => c.slug.includes('mock-test') && c.priceBasic === 0)
+
+  // Курс без уроков покупать не за что — в каталоге он выглядит как пустое
+  // обещание, поэтому не показываем его вовсе
+  const regular = courses.filter(c => !isSpecial(c.slug) && c.lessons.length > 0)
+
+  // Прогресс нужен, чтобы отделить активные курсы от пройденных
+  const progressByLesson = new Map<string, boolean>()
+  const enrolledCourseIds = new Set<string>()
+
+  if (userId) {
+    const [enrollments, progress] = await Promise.all([
+      prisma.enrollment.findMany({
+        where: { userId, status: 'ACTIVE' },
+        select: { courseId: true }
+      }),
+      prisma.lessonProgress.findMany({
+        where: { userId },
+        select: { lessonId: true, passed: true }
+      })
+    ])
+    enrollments.forEach(e => enrolledCourseIds.add(e.courseId))
+    progress.forEach(p => progressByLesson.set(p.lessonId, p.passed))
+  }
+
+  const decorate = (course: (typeof regular)[number]) => {
+    const total = course.lessons.length
+    const done = course.lessons.filter(l => progressByLesson.get(l.id)).length
+    const enrolled = enrolledCourseIds.has(course.id)
+    const completed = enrolled && total > 0 && done === total
+    const resume = course.lessons.find(l => !progressByLesson.get(l.id)) ?? course.lessons[0]
+
+    const state: CourseArticleState = !enrolled ? 'available' : completed ? 'completed' : 'enrolled'
+
+    return {
+      course,
+      total,
+      done,
+      state,
+      resumeSlug: resume?.slug
+    }
+  }
+
+  const decorated = regular.map(decorate)
+  const active = decorated.filter(d => d.state === 'enrolled')
+  const completed = decorated.filter(d => d.state === 'completed')
+  const available = decorated.filter(d => d.state === 'available')
+
+  // Фильтр по уровню применяем только к доступным: свои курсы человек
+  // хочет видеть все и сразу, а не искать их по разделам
+  const levelsWithCourses = LEVELS.filter(l => available.some(d => d.course.level === l))
+  const availableFiltered = selectedLevel
+    ? available.filter(d => d.course.level === selectedLevel)
+    : available
+
+  const render = (d: (typeof decorated)[number]) => (
+    <CourseArticle
+      key={d.course.id}
+      id={d.course.id}
+      slug={d.course.slug}
+      title={localized(d.course.title, locale) || d.course.slug}
+      description={localized(d.course.description, locale)}
+      level={d.course.level}
+      lessonsCount={d.total}
+      lessonsDone={d.done}
+      priceBasic={d.course.priceBasic}
+      pricePro={d.course.pricePro}
+      priceDeluxe={d.course.priceDeluxe}
+      locale={locale}
+      state={d.state}
+      resumeLessonSlug={d.resumeSlug}
+    />
   )
-  
-  const trialLesson = courses.find(c => c.slug === 'trial-lesson')
-  const levelTestCourse = courses.find(c => c.slug === 'level-test')
-  const freeMockTest = courses.find(c => c.slug.includes('mock-test') && c.priceBasic === 0)
-  const paidMockTest = courses.find(c => c.slug.includes('mock-test') && c.priceBasic > 0)
-
-  const grouped: Record<string, typeof regularCourses> = {}
-  for (const c of regularCourses) {
-    const lvl = c.level || 'Other'
-    if (!grouped[lvl]) grouped[lvl] = []
-    grouped[lvl].push(c)
-  }
-
-  const displayLevels = [...LEVELS, 'Other'].filter((l) => grouped[l] && grouped[l].length > 0)
-
-  let enrollmentMap: Record<string, any> = {}
-  if (user) {
-    const enrollments = await prisma.enrollment.findMany({
-      where: { userId: user.id, status: 'ACTIVE' },
-      include: { course: true }
-    })
-    enrollmentMap = Object.fromEntries(enrollments.map((e) => [e.courseId, e]))
-  }
-
-  if (!selectedLevel) {
-    return (
-      <main className="page-start" style={{ paddingBlock: '3rem' }}>
-        <div className="mx-auto max-w-5xl">
-          <header className="mb-8 text-center">
-            <h1 className="hero-title" style={{ color: 'var(--text-hero)', fontSize: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: '1rem' }}>Choose Your Level</h1>
-            <p className="herotxt" style={{ color: 'var(--muted)', fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>Select your English proficiency level</p>
-          </header>
-
-          {/* Special Offers - 4 блока */}
-          <SpecialOffersSection
-            levelTestCourse={levelTestCourse}
-            freeMockTest={freeMockTest}
-            paidMockTest={paidMockTest}
-            locale={locale}
-          />
-
-          {/* Level Cards */}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 mt-12">
-            {displayLevels.map((lvl) => {
-              const count = (grouped[lvl] || []).length
-              return (
-                <Link key={lvl} href={`/${locale}/courses?level=${encodeURIComponent(lvl)}`} className="glass-panel" style={{ padding: '1.5rem', textAlign: 'center', transition: 'var(--transition-slow)', cursor: 'pointer' }}>
-                  <div className="text-3xl font-bold" style={{ color: 'var(--gold-text)', marginBottom: '0.75rem' }}>{lvl.charAt(0)}</div>
-                  <div className="text-sm font-semibold" style={{ color: 'var(--fg)', marginBottom: '0.25rem' }}>{lvl}</div>
-                  <div className="text-xs" style={{ color: 'var(--muted)' }}>{count} course{count !== 1 ? 's' : ''}</div>
-                </Link>
-              )
-            })}
-          </div>
-        </div>
-      </main>
-    )
-  }
-
-  const coursesForLevel = grouped[selectedLevel] || []
 
   return (
-    <main className="page-start" style={{ paddingBlock: '3rem' }}>
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-6 flex items-center gap-2 text-sm">
-          <Link href={`/${locale}/courses`} style={{ color: 'var(--muted)' }}>Courses</Link>
-          <span style={{ color: 'var(--muted)' }}>/</span>
-          <span style={{ color: 'var(--gold-text)', fontWeight: 600 }}>{selectedLevel}</span>
+    <main className="page-shell">
+      <div className="page-hero">
+        <div className="container">
+          <h1 className="page-hero__title">{t('title')}</h1>
+          <p className="page-hero__sub">{t('subtitle')}</p>
         </div>
+      </div>
 
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold" style={{ color: 'var(--text-hero)' }}>{selectedLevel}</h1>
-            <p className="mt-2 text-sm" style={{ color: 'var(--muted)' }}>{coursesForLevel.length} course{coursesForLevel.length !== 1 ? 's' : ''}</p>
+      <div className="container page-body">
+        {active.length > 0 && (
+          <section className="catalog-section">
+            <div className="section-head">
+              <h2 className="section-title">{t('myCourses')}</h2>
+              <p className="section-sub">{t('myCoursesHint')}</p>
+            </div>
+            <div className="course-grid">{active.map(render)}</div>
+          </section>
+        )}
+
+        {completed.length > 0 && (
+          <section className="catalog-section">
+            <div className="section-head">
+              <h2 className="section-title">{t('completedTitle')}</h2>
+              <p className="section-sub">{t('completedHint')}</p>
+            </div>
+            <div className="course-grid">{completed.map(render)}</div>
+          </section>
+        )}
+
+        <section className="catalog-section">
+          <div className="section-head">
+            <h2 className="section-title">{t('available')}</h2>
+            <p className="section-sub">{t('availableHint')}</p>
           </div>
-          <Link href={`/${locale}/courses`} className="btn btn-secondary">← Change level</Link>
-        </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {coursesForLevel.map((course) => (
-            <CourseCard
-              key={course.id}
-              id={course.id}
-              slug={course.slug}
-              title={getLocalizedText(course.title, locale) || course.slug}
-              description={getLocalizedText(course.description, locale) || ''}
-              priceBasic={course.priceBasic}
-              pricePro={course.pricePro}
-              priceDeluxe={course.priceDeluxe}
-              lessonsCount={course.lessons.length}
-              locale={locale}
-              isEnrolled={!!enrollmentMap[course.id]}
-              firstLessonSlug={course.lessons?.[0]?.slug}
-            />
-          ))}
-        </div>
+          {levelsWithCourses.length > 1 && (
+            <div className="level-filter">
+              <Link
+                href={`/${locale}/courses`}
+                className={`level-chip${!selectedLevel ? ' active' : ''}`}
+              >
+                {t('allLevels')}
+              </Link>
+              {levelsWithCourses.map(l => (
+                <Link
+                  key={l}
+                  href={`/${locale}/courses?level=${encodeURIComponent(l)}`}
+                  className={`level-chip${selectedLevel === l ? ' active' : ''}`}
+                >
+                  {l}
+                </Link>
+              ))}
+            </div>
+          )}
 
-        <section className="mt-12 cta-glass">
-          <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--fg)' }}>All plans include</h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { name: 'Trial Lesson', items: ['First lesson free', 'Video content', 'Basic assignments'] },
-              { name: 'Basic', items: ['All video lessons', 'Auto-graded tests', 'Certificate'] },
-              { name: 'Pro', items: ['Everything in Basic', 'Mentor feedback', 'Priority support'] },
-              { name: 'Deluxe', items: ['Everything in Pro', '1-on-1 mentoring', 'Career guidance'] }
-            ].map((plan) => (
-              <div key={plan.name} className="glass-panel">
-                <div className="text-sm font-semibold mb-2" style={{ color: 'var(--gold-text)' }}>{plan.name}</div>
-                <ul className="space-y-1 text-sm" style={{ color: 'var(--muted)' }}>
-                  {plan.items.map((item, i) => <li key={i}>• {item}</li>)}
-                </ul>
-              </div>
-            ))}
-          </div>
+          {availableFiltered.length > 0 ? (
+            <div className="course-grid">{availableFiltered.map(render)}</div>
+          ) : (
+            <p className="catalog-empty">{selectedLevel ? t('emptyLevel') : t('empty')}</p>
+          )}
         </section>
+
+        <SpecialOffersSection
+          hasLevelTest={hasLevelTest}
+          hasFreeMockTest={hasFreeMockTest}
+          locale={locale}
+        />
       </div>
     </main>
   )
