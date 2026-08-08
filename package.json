@@ -24,7 +24,7 @@
     "gsap": "^3.13.0",
     "jsonwebtoken": "latest",
     "lucide-react": "^0.548.0",
-    "next": "latest",
+    "next": "15.5.8",
     "next-auth": "latest",
     "next-intl": "latest",
     "nodemailer": "^6.10.1",
