@@ -19,7 +19,17 @@ type Course = {
   visible: boolean
 }
 
-const LEVELS = ['Beginner', 'Elementary', 'Intermediate', 'Upper-Intermediate', 'Advanced', 'Other']
+// Должно совпадать со списком в каталоге (app/[locale]/courses/page.tsx):
+// уровень, которого там нет, не попадёт ни в один раздел
+const LEVELS = [
+  'Beginner',
+  'Elementary',
+  'Pre-Intermediate',
+  'Intermediate',
+  'Upper-Intermediate',
+  'Advanced',
+  'Other'
+]
 
 const empty: Course = {
   slug: '',

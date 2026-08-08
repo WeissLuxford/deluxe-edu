@@ -597,77 +597,141 @@ async function main() {
   console.log('\n🎊 All done!')
 
   // Добавляем тесты к урокам
-  console.log('\n✅ Adding tests to lessons...')
+  console.log('Adding tests to lessons...')
 
-  const presentSimpleLesson = await prisma.lesson.findFirst({
-    where: { slug: 'present-simple' }
-  })
+  /**
+   * Вопросы и ответы хранятся РАЗДЕЛЬНО:
+   *   prompt    — уходит в браузер студента (вопросы и варианты)
+   *   answerKey — остаётся на сервере, по нему считается оценка
+   * Класть correctAnswer внутрь prompt нельзя: студент увидит ответы
+   * в исходниках страницы.
+   */
+  async function addTest(
+    lessonSlug: string,
+    title: { en: string; ru: string; uz: string },
+    questions: Array<{
+      id: string
+      type: 'single' | 'multiple' | 'text'
+      question: { en: string; ru: string; uz: string }
+      options?: Array<{ value: string; label: { en: string; ru: string; uz: string } }>
+      correct: string | string[]
+    }>
+  ) {
+    const lesson = await prisma.lesson.findFirst({ where: { slug: lessonSlug } })
+    if (!lesson) return
 
-  if (presentSimpleLesson) {
-    await prisma.assignment.create({
-      data: {
-        lessonId: presentSimpleLesson.id,
-        title: { en: 'Present Simple Quiz', ru: 'Тест по Present Simple', uz: 'Present Simple testi' },
-        prompt: {
-          questions: [
-            {
-              id: '1',
-              type: 'single',
-              question: 'Choose the correct form: He ___ to school every day.',
-              options: ['go', 'goes', 'going', 'is going'],
-              correctAnswer: 'goes'
-            },
-            {
-              id: '2',
-              type: 'single',
-              question: 'Which sentence is correct?',
-              options: ['She like pizza', 'She likes pizza', 'She liking pizza', 'She is like pizza'],
-              correctAnswer: 'She likes pizza'
-            },
-            {
-              id: '3',
-              type: 'text',
-              question: 'Write the correct form: I ___ (play) tennis on weekends.',
-              correctAnswer: 'play'
-            }
-          ]
-        }
-      }
-    })
-    console.log('✅ Added test to present-simple')
+    const prompt = {
+      questions: questions.map(q => ({
+        id: q.id,
+        type: q.type,
+        question: q.question,
+        ...(q.options ? { options: q.options } : {})
+      }))
+    }
+    const answerKey = Object.fromEntries(questions.map(q => [q.id, q.correct]))
+
+    const existing = await prisma.assignment.findFirst({ where: { lessonId: lesson.id } })
+    if (existing) {
+      await prisma.assignment.update({
+        where: { id: existing.id },
+        data: { title, prompt, answerKey }
+      })
+    } else {
+      await prisma.assignment.create({
+        data: { lessonId: lesson.id, title, prompt, answerKey }
+      })
+    }
+
+    await prisma.lesson.update({ where: { id: lesson.id }, data: { hasTest: true } })
+    console.log(`✅ Added test to ${lessonSlug}`)
   }
 
-  const articlesLesson = await prisma.lesson.findFirst({
-    where: { slug: 'articles' }
-  })
-
-  if (articlesLesson) {
-    await prisma.assignment.create({
-      data: {
-        lessonId: articlesLesson.id,
-        title: { en: 'Articles Quiz', ru: 'Тест по артиклям', uz: 'Artikl testi' },
-        prompt: {
-          questions: [
-            {
-              id: '1',
-              type: 'single',
-              question: 'Fill in: I have ___ apple.',
-              options: ['a', 'an', 'the', '-'],
-              correctAnswer: 'an'
-            },
-            {
-              id: '2',
-              type: 'single',
-              question: 'Fill in: ___ sun is very hot today.',
-              options: ['A', 'An', 'The', '-'],
-              correctAnswer: 'The'
-            }
-          ]
-        }
+  await addTest(
+    'present-simple',
+    { en: 'Present Simple Quiz', ru: 'Тест по Present Simple', uz: 'Present Simple testi' },
+    [
+      {
+        id: 'q1',
+        type: 'single',
+        question: {
+          en: 'Choose the correct form: He ___ to school every day.',
+          ru: 'Выберите верную форму: He ___ to school every day.',
+          uz: "To’g’ri shaklni tanlang: He ___ to school every day."
+        },
+        options: [
+          { value: 'a', label: { en: 'go', ru: 'go', uz: 'go' } },
+          { value: 'b', label: { en: 'goes', ru: 'goes', uz: 'goes' } },
+          { value: 'c', label: { en: 'going', ru: 'going', uz: 'going' } },
+          { value: 'd', label: { en: 'is going', ru: 'is going', uz: 'is going' } }
+        ],
+        correct: 'b'
+      },
+      {
+        id: 'q2',
+        type: 'single',
+        question: {
+          en: 'Which sentence is correct?',
+          ru: 'Какое предложение верное?',
+          uz: "Qaysi gap to’g’ri?"
+        },
+        options: [
+          { value: 'a', label: { en: 'She like pizza', ru: 'She like pizza', uz: 'She like pizza' } },
+          { value: 'b', label: { en: 'She likes pizza', ru: 'She likes pizza', uz: 'She likes pizza' } },
+          { value: 'c', label: { en: 'She liking pizza', ru: 'She liking pizza', uz: 'She liking pizza' } }
+        ],
+        correct: 'b'
+      },
+      {
+        id: 'q3',
+        type: 'text',
+        question: {
+          en: 'Write the correct form: I ___ (play) tennis on weekends.',
+          ru: 'Впишите верную форму: I ___ (play) tennis on weekends.',
+          uz: "To’g’ri shaklni yozing: I ___ (play) tennis on weekends."
+        },
+        correct: 'play'
       }
-    })
-    console.log('✅ Added test to articles')
-  }
+    ]
+  )
+
+  await addTest(
+    'articles',
+    { en: 'Articles Quiz', ru: 'Тест по артиклям', uz: 'Artikl testi' },
+    [
+      {
+        id: 'q1',
+        type: 'single',
+        question: {
+          en: 'Fill in: I have ___ apple.',
+          ru: 'Вставьте артикль: I have ___ apple.',
+          uz: "Artikl qo’ying: I have ___ apple."
+        },
+        options: [
+          { value: 'a', label: { en: 'a', ru: 'a', uz: 'a' } },
+          { value: 'b', label: { en: 'an', ru: 'an', uz: 'an' } },
+          { value: 'c', label: { en: 'the', ru: 'the', uz: 'the' } },
+          { value: 'd', label: { en: '—', ru: '—', uz: '—' } }
+        ],
+        correct: 'b'
+      },
+      {
+        id: 'q2',
+        type: 'single',
+        question: {
+          en: 'Fill in: ___ sun is very hot today.',
+          ru: 'Вставьте артикль: ___ sun is very hot today.',
+          uz: "Artikl qo’ying: ___ sun is very hot today."
+        },
+        options: [
+          { value: 'a', label: { en: 'A', ru: 'A', uz: 'A' } },
+          { value: 'b', label: { en: 'An', ru: 'An', uz: 'An' } },
+          { value: 'c', label: { en: 'The', ru: 'The', uz: 'The' } },
+          { value: 'd', label: { en: '—', ru: '—', uz: '—' } }
+        ],
+        correct: 'c'
+      }
+    ]
+  )
 
   // Добавляем уроки к бесплатному mock test
   const freeMockTest = await prisma.course.findUnique({ where: { slug: 'free-mock-test-online' } })
