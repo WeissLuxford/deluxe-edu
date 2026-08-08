@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
+import { Menu, X } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 import LangSwitcher from './LangDropdown'
 import VerifyBanner from './VerifyBanner'
@@ -19,6 +20,7 @@ export default function SiteHeader() {
   const { data: session, status } = useSession()
   const base = `/${locale}`
   const [bannerVisible, setBannerVisible] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const navItems = [
     { href: `${base}/courses`, label: t('nav.courses') },
@@ -29,30 +31,46 @@ export default function SiteHeader() {
 
   useEffect(() => {
     const isAuthenticated = status === 'authenticated'
-    
-    // Если не залогинен - баннер НЕ показываем
+
     if (!isAuthenticated) {
       setBannerVisible(false)
       return
     }
-    
-    // Проверяем только для залогиненных пользователей (используем phoneVerified вместо emailVerified)
+
     const phoneNotVerified = session?.user && !session.user.phoneVerified
-    
     setBannerVisible(!!phoneNotVerified)
-    
+
     if (phoneNotVerified) {
       const timer = setTimeout(() => setBannerVisible(false), 7000)
       return () => clearTimeout(timer)
     }
   }, [search, session, status])
 
-  // 👈 КЛЮЧЕВОЕ: НЕ рендерим баннер вообще, если он не нужен
-  const shouldRenderBanner = status === 'authenticated' && session?.user && !session.user.phoneVerified
+  // Меню закрываем при переходе на другую страницу, иначе оно
+  // останется висеть поверх нового содержимого
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
+
+  // Пока меню открыто, страница под ним не должна прокручиваться
+  useEffect(() => {
+    if (!menuOpen) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+    document.addEventListener('keydown', onEsc)
+
+    return () => {
+      document.body.style.overflow = previous
+      document.removeEventListener('keydown', onEsc)
+    }
+  }, [menuOpen])
 
   return (
     <header className="site-header relative">
-
       <nav className="site-nav container flex items-center justify-between py-3">
         <Link href={base} className="logo-link">
           <VertexLogo className="h-7 w-auto" />
@@ -76,9 +94,51 @@ export default function SiteHeader() {
           <LangSwitcher />
           <UserMenu />
         </div>
+
+        <button
+          type="button"
+          className="burger-btn"
+          aria-label="Меню"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+          onClick={() => setMenuOpen(v => !v)}
+        >
+          {menuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </nav>
-          <VerifyBanner />
+
+      {/* Мобильное меню */}
+      <div
+        className={`mobile-menu-backdrop${menuOpen ? ' open' : ''}`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      />
+      <div id="mobile-menu" className={`mobile-menu${menuOpen ? ' open' : ''}`}>
+        <ul className="mobile-menu-list">
+          {navItems.map(item => {
+            const active = pathname === item.href
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`mobile-menu-link${active ? ' active' : ''}`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+
+        <div className="mobile-menu-actions">
+          <ThemeToggle />
+          <LangSwitcher />
+          <UserMenu />
+        </div>
+      </div>
+
+      <VerifyBanner />
     </header>
-    
   )
 }
