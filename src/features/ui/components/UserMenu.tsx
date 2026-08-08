@@ -97,6 +97,16 @@ export default function UserMenu() {
         >
           {t('nav.dashboard')}
         </Link>
+        {session.user.role === 'ADMIN' && (
+          <Link
+            href={`${base}/admin`}
+            role="menuitem"
+            className="menu-item"
+            onClick={() => setOpen(false)}
+          >
+            Админка
+          </Link>
+        )}
         <button
           role="menuitem"
           className="menu-item menu-last"
