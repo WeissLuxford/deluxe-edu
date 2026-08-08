@@ -70,7 +70,8 @@ export default function SiteHeader() {
   }, [menuOpen])
 
   return (
-    <header className="site-header relative">
+    <>
+      <header className="site-header relative">
       <nav className="site-nav container flex items-center justify-between py-3">
         <Link href={base} className="logo-link">
           <VertexLogo className="h-7 w-auto" />
@@ -107,13 +108,29 @@ export default function SiteHeader() {
         </button>
       </nav>
 
-      {/* Мобильное меню */}
+        <VerifyBanner />
+      </header>
+
+      {/* Меню и затемнение живут ВНЕ шапки.
+          У .site-header стоит backdrop-filter, а он делает элемент точкой
+          отсчёта для вложенных position: fixed — панель обрезалась
+          по высоте шапки, и затемнялась только она. */}
       <div
         className={`mobile-menu-backdrop${menuOpen ? ' open' : ''}`}
         onClick={() => setMenuOpen(false)}
         aria-hidden="true"
       />
       <div id="mobile-menu" className={`mobile-menu${menuOpen ? ' open' : ''}`}>
+        {/* Свой крестик: пока панель открыта, бургер в шапке накрыт затемнением */}
+        <button
+          type="button"
+          className="mobile-menu-close"
+          aria-label="Закрыть меню"
+          onClick={() => setMenuOpen(false)}
+        >
+          <X size={22} />
+        </button>
+
         <ul className="mobile-menu-list">
           {navItems.map(item => {
             const active = pathname === item.href
@@ -137,8 +154,6 @@ export default function SiteHeader() {
           <UserMenu />
         </div>
       </div>
-
-      <VerifyBanner />
-    </header>
+    </>
   )
 }
