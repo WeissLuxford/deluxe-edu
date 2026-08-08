@@ -64,7 +64,8 @@
     "continue": "Davom etish",
     "details": "Batafsil",
     "free": "Bepul",
-    "from": "dan"
+    "from": "dan",
+    "choosePlan": "Tarifni tanlash"
   },
   "course": {
     "lessons": "Darslar",
@@ -78,7 +79,11 @@
     "locked": "Dars yopiq",
     "completePrev": "Avvalgi darsni yakunlang",
     "backToCourseLessons": "Darslar ro'yxatiga",
-    "backToVideo": "Videoga qaytish"
+    "backToVideo": "Videoga qaytish",
+    "backToCourse": "Kursga",
+    "stepOf": "{total} dan {current}-qadam",
+    "finish": "Darsni yakunlash",
+    "completeCourse": "Kursni yakunlash"
   },
   "assignment": {
     "title": "Vazifa",

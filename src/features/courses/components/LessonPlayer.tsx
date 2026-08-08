@@ -3,6 +3,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react'
 import { VideoStep } from './lesson-steps/VideoStep'
 import { ConspectStep } from './lesson-steps/ConspectStep'
@@ -56,9 +57,17 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
   if (lesson.hasConspect) steps.push('conspect')
   if (lesson.hasTest) steps.push('test')
 
+  const t = useTranslations('lesson')
+  const tButtons = useTranslations('buttons')
+
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const [testCompleted, setTestCompleted] = useState(progress?.passed || false)
-  
+  const [finishing, setFinishing] = useState(false)
+
+  // Тест есть только если к уроку заведено задание. Одной галочки hasTest
+  // мало: она может стоять, когда вопросы ещё не добавлены.
+  const hasGradedTest = Boolean(assignment)
+
   const currentStep = steps[currentStepIndex]
   const isLastStep = currentStepIndex === steps.length - 1
   const canGoNext = currentStep === 'video' || currentStep === 'conspect' || testCompleted
@@ -66,16 +75,30 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
   const title = getLocalizedText(lesson.title, locale)
   const content = getLocalizedText(lesson.content, locale)
 
-  const handleNext = () => {
-    if (isLastStep) {
-      if (nextLesson) {
-        window.location.href = `/${locale}/courses/${course.slug}/lessons/${nextLesson.slug}`
-      } else {
-        window.location.href = `/${locale}/courses/${course.slug}`
-      }
-    } else {
+  const handleNext = async () => {
+    if (!isLastStep) {
       setCurrentStepIndex(prev => prev + 1)
+      return
     }
+
+    // Урок без теста иначе никогда не станет пройденным, и следующий
+    // урок останется закрытым навсегда
+    if (!hasGradedTest && !progress?.passed) {
+      setFinishing(true)
+      try {
+        await fetch('/api/lessons/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lessonId: lesson.id })
+        })
+      } finally {
+        setFinishing(false)
+      }
+    }
+
+    window.location.href = nextLesson
+      ? `/${locale}/courses/${course.slug}/lessons/${nextLesson.slug}`
+      : `/${locale}/courses/${course.slug}`
   }
 
   const handleTestComplete = () => {
@@ -90,13 +113,13 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
           <div className="flex items-center justify-between py-4">
             <Link href={`/${locale}/courses/${course.slug}`} className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
               <ArrowLeft size={16} />
-              <span>Back to course</span>
+              <span>{t('backToCourse')}</span>
             </Link>
 
             <div className="text-center flex-1">
               <h1 className="text-lg font-bold" style={{ color: 'var(--fg)' }}>{title}</h1>
               <div className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
-                Step {currentStepIndex + 1} of {steps.length}
+                {t('stepOf', { current: currentStepIndex + 1, total: steps.length })}
               </div>
             </div>
 
@@ -146,17 +169,17 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
               style={{ opacity: currentStepIndex === 0 ? 0.5 : 1 }}
             >
               <ArrowLeft size={16} />
-              Previous
+              {tButtons('back')}
             </button>
 
             {testCompleted && isLastStep ? (
-              <button onClick={handleNext} className="btn btn-primary flex items-center gap-2" style={{ background: 'var(--gold)', color: 'var(--bg)' }}>
+              <button onClick={handleNext} disabled={finishing} className="btn btn-primary flex items-center gap-2" style={{ background: 'var(--gold)', color: 'var(--bg)' }}>
                 <CheckCircle size={16} />
-                {nextLesson ? 'Next Lesson' : 'Complete Course'}
+                {nextLesson ? t('nextLesson') : t('completeCourse')}
               </button>
             ) : (
-              <button onClick={handleNext} disabled={!canGoNext} className="btn btn-primary flex items-center gap-2" style={{ background: 'var(--gold)', color: 'var(--bg)', opacity: canGoNext ? 1 : 0.5 }}>
-                {isLastStep ? 'Finish' : 'Next'}
+              <button onClick={handleNext} disabled={!canGoNext || finishing} className="btn btn-primary flex items-center gap-2" style={{ background: 'var(--gold)', color: 'var(--bg)', opacity: canGoNext ? 1 : 0.5 }}>
+                {finishing ? tButtons('saving') : isLastStep ? t('finish') : tButtons('next')}
                 <ArrowRight size={16} />
               </button>
             )}

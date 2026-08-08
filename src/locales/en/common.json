@@ -64,7 +64,8 @@
     "continue": "Continue",
     "details": "Details",
     "free": "Free",
-    "from": "from"
+    "from": "from",
+    "choosePlan": "Choose plan"
   },
   "course": {
     "lessons": "Lessons",
@@ -78,7 +79,11 @@
     "locked": "Lesson is locked",
     "completePrev": "Complete the previous lesson first",
     "backToCourseLessons": "Back to lessons list",
-    "backToVideo": "Back to video"
+    "backToVideo": "Back to video",
+    "backToCourse": "Back to course",
+    "stepOf": "Step {current} of {total}",
+    "finish": "Finish lesson",
+    "completeCourse": "Complete course"
   },
   "assignment": {
     "title": "Assignment",

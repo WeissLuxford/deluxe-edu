@@ -64,7 +64,8 @@
     "continue": "Продолжить",
     "details": "Подробнее",
     "free": "Бесплатно",
-    "from": "от"
+    "from": "от",
+    "choosePlan": "Выбрать тариф"
   },
   "course": {
     "lessons": "Уроки",
@@ -78,7 +79,11 @@
     "locked": "Урок заблокирован",
     "completePrev": "Сначала завершите предыдущий урок",
     "backToCourseLessons": "К списку уроков",
-    "backToVideo": "Назад к видео"
+    "backToVideo": "Назад к видео",
+    "backToCourse": "К курсу",
+    "stepOf": "Шаг {current} из {total}",
+    "finish": "Завершить урок",
+    "completeCourse": "Завершить курс"
   },
   "assignment": {
     "title": "Задание",

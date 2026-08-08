@@ -498,6 +498,7 @@ async function main() {
   const levelTestCourse = await prisma.course.findUnique({ where: { slug: 'level-test' } })
   if (levelTestCourse) {
     await prisma.lesson.createMany({
+      skipDuplicates: true,
       data: [
         {
           courseId: levelTestCourse.id,
@@ -538,6 +539,7 @@ async function main() {
   const beginnerGrammar = await prisma.course.findUnique({ where: { slug: 'beginner-grammar' } })
   if (beginnerGrammar) {
     await prisma.lesson.createMany({
+      skipDuplicates: true,
       data: [
         {
           courseId: beginnerGrammar.id,
@@ -737,6 +739,7 @@ async function main() {
   const freeMockTest = await prisma.course.findUnique({ where: { slug: 'free-mock-test-online' } })
   if (freeMockTest) {
     await prisma.lesson.createMany({
+      skipDuplicates: true,
       data: [
         {
           courseId: freeMockTest.id,
