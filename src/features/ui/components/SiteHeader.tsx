@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 
 export default function SiteHeader() {
   const locale = useLocale()
-  const t = useTranslations('common')
+  const t = useTranslations()
   const pathname = usePathname()
   const search = useSearchParams()
   const { data: session, status } = useSession()

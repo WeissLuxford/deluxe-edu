@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { Phone, User, Lock, ArrowRight } from 'lucide-react'
 
 export default function SignUpPage() {
-  const t = useTranslations('common')
+  const t = useTranslations()
   const locale = useLocale()
   const router = useRouter()
   const search = useSearchParams()

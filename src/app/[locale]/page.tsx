@@ -13,7 +13,7 @@ import ContactFormSection from '@/features/home/ContactFormSection'
 
 export default async function LocaleHome({ params }: any) {
   const locale = params.locale
-  const t = await getTranslations({ locale, namespace: "common" })
+  const t = await getTranslations({ locale })
   const base = `/${locale}`
 
   return (

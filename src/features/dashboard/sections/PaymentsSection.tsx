@@ -11,7 +11,7 @@ type Payment = {
 }
 
 export default function PaymentsSection({ payments }: { payments: Payment[] }) {
-  const t = useTranslations('common')
+  const t = useTranslations()
   const locale = useLocale()
 
   return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
+import { signIn, getSession } from 'next-auth/react'
 import { useState } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
@@ -8,16 +8,19 @@ import Link from 'next/link'
 import { Phone, Lock } from 'lucide-react'
 
 export default function SignInPage() {
-  const t = useTranslations('common')
+  const t = useTranslations('signin')
   const locale = useLocale()
   const search = useSearchParams()
   const validLocale = ['ru', 'uz', 'en'].includes(locale) ? locale : 'ru'
-  const next = search.get('next') || `/${validLocale}/dashboard`
-  const error = search.get('error')
-  
-  const [phone, setPhone] = useState('+998 ') // ← Дефолт
+
+  // Куда вести после входа: явный next имеет приоритет — например, человек
+  // шёл на конкретный урок и его развернули на вход
+  const requestedNext = search.get('next')
+
+  const [phone, setPhone] = useState('+998 ')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const formatPhone = (value: string) => {
     let digits = value.replace(/\D/g, '')
@@ -39,8 +42,7 @@ export default function SignInPage() {
       setPhone('+998 ')
       return
     }
-    const formatted = formatPhone(value)
-    setPhone(formatted)
+    setPhone(formatPhone(value))
   }
 
   const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -52,35 +54,60 @@ export default function SignInPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    
+    setError(null)
+
     const cleanPhone = phone.replace(/\D/g, '')
-    
-    await signIn('credentials', {
+
+    // redirect: false — иначе при неверном пароле NextAuth уводит со страницы
+    // сам, и человек не понимает, что произошло
+    const res = await signIn('credentials', {
       action: 'signin',
       phone: cleanPhone,
       password,
-      redirect: true,
-      callbackUrl: next
+      redirect: false
     })
-    
-    setLoading(false)
+
+    if (!res?.ok) {
+      setError(t('wrongCredentials'))
+      setLoading(false)
+      return
+    }
+
+    // Администратору незачем идти через кабинет студента
+    const session = await getSession()
+    const isAdmin = session?.user?.role === 'ADMIN'
+    const destination =
+      requestedNext || (isAdmin ? `/${validLocale}/admin` : `/${validLocale}/dashboard`)
+
+    window.location.href = destination
   }
 
   return (
     <main className="auth-shell">
       <form onSubmit={handleSubmit} className="auth-card">
-        <h1 className="auth-title">Welcome Back</h1>
+        <h1 className="auth-title">{t('title')}</h1>
 
         {error && (
-          <p className="auth-error" style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', padding: '0.75rem', borderRadius: 'var(--radius)' }}>
-            Invalid phone number or password
+          <p
+            className="auth-error"
+            style={{
+              background: 'rgba(239,68,68,0.1)',
+              color: '#ef4444',
+              padding: '0.75rem',
+              borderRadius: 'var(--radius)'
+            }}
+          >
+            {error}
           </p>
         )}
 
         <div>
-          <label className="label">Phone Number</label>
+          <label className="label">{t('phone')}</label>
           <div style={{ position: 'relative' }}>
-            <Phone size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
+            <Phone
+              size={20}
+              style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }}
+            />
             <input
               type="tel"
               placeholder="+998 90 123 45 67"
@@ -96,12 +123,15 @@ export default function SignInPage() {
         </div>
 
         <div>
-          <label className="label">Password</label>
+          <label className="label">{t('password')}</label>
           <div style={{ position: 'relative' }}>
-            <Lock size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
+            <Lock
+              size={20}
+              style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }}
+            />
             <input
               type="password"
-              placeholder="Enter password"
+              placeholder={t('passwordPlaceholder')}
               value={password}
               onChange={e => setPassword(e.target.value)}
               className="input"
@@ -112,17 +142,17 @@ export default function SignInPage() {
         </div>
 
         <button type="submit" className="iridescent vx w-full" disabled={loading}>
-          {loading ? 'Signing In...' : 'Sign In'}
+          {loading ? t('submitting') : t('submit')}
           <span className="drop-shadow" />
         </button>
 
         <p className="auth-note">
-          Don't have an account?{' '}
+          {t('noAccount')}{' '}
           <Link
-            href={`/${validLocale}/signup${next ? `?next=${encodeURIComponent(next)}` : ''}`}
+            href={`/${validLocale}/signup${requestedNext ? `?next=${encodeURIComponent(requestedNext)}` : ''}`}
             className="auth-link"
           >
-            Sign Up
+            {t('signUp')}
           </Link>
         </p>
       </form>

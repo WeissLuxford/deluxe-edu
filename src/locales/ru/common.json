@@ -138,12 +138,18 @@
     "saved": "Сохранено"
   },
   "signin": {
-    "title": "Вход",
+    "title": "С возвращением",
     "email": "Email",
     "name": "Имя",
     "password": "Пароль",
     "noAccount": "Нет аккаунта?",
-    "emailOrName": "Email или имя пользователя"
+    "emailOrName": "Email или имя пользователя",
+    "phone": "Номер телефона",
+    "passwordPlaceholder": "Введите пароль",
+    "submit": "Войти",
+    "submitting": "Входим…",
+    "signUp": "Зарегистрироваться",
+    "wrongCredentials": "Неверный номер телефона или пароль"
   },
   "payments": {
     "successTitle": "Оплата прошла",
@@ -208,5 +214,20 @@
     "server": "Ошибка сервера",
     "emailTaken": "Этот email уже используется",
     "saveFailed": "Не удалось сохранить"
+  },
+  "streams": {
+    "title": "Прямые эфиры",
+    "subtitle": "Живые занятия с преподавателем и записи прошедших встреч",
+    "live": "В эфире",
+    "upcoming": "Скоро",
+    "past": "Запись",
+    "empty": "Пока нет ни одного эфира",
+    "watch": "Смотреть",
+    "viewers": "{count} смотрят",
+    "linkCopied": "Ссылка скопирована"
+  },
+  "about": {
+    "title": "О нас",
+    "subtitle": "Кто мы и как учим"
   }
 }

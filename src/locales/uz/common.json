@@ -138,12 +138,18 @@
     "saved": "Saqlandi"
   },
   "signin": {
-    "title": "Kirish",
+    "title": "Xush kelibsiz",
     "email": "Email",
     "name": "Ism",
     "password": "Parol",
-    "noAccount": "Hisobingiz yo'qmi?",
-    "emailOrName": "Email yoki foydalanuvchi nomi"
+    "noAccount": "Hisobingiz yo’qmi?",
+    "emailOrName": "Email yoki foydalanuvchi nomi",
+    "phone": "Telefon raqami",
+    "passwordPlaceholder": "Parolni kiriting",
+    "submit": "Kirish",
+    "submitting": "Kirilmoqda…",
+    "signUp": "Ro’yxatdan o’tish",
+    "wrongCredentials": "Telefon raqami yoki parol noto’g’ri"
   },
   "payments": {
     "successTitle": "To'lov muvaffaqiyatli",
@@ -214,5 +220,20 @@
     "server": "Server xatosi",
     "emailTaken": "Bu email allaqachon band",
     "saveFailed": "Saqlash muvaffaqiyatsiz"
+  },
+  "streams": {
+    "title": "Jonli efirlar",
+    "subtitle": "O’qituvchi bilan jonli darslar va o’tgan uchrashuvlar yozuvi",
+    "live": "Efirda",
+    "upcoming": "Tez orada",
+    "past": "Yozuv",
+    "empty": "Hozircha efirlar yo’q",
+    "watch": "Ko’rish",
+    "viewers": "{count} kishi ko’rmoqda",
+    "linkCopied": "Havola nusxalandi"
+  },
+  "about": {
+    "title": "Biz haqimizda",
+    "subtitle": "Biz kimmiz va qanday o’qitamiz"
   }
 }

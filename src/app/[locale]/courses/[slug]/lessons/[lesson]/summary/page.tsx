@@ -11,7 +11,7 @@ export default async function SummaryPage({
   params: Promise<{ locale: string; slug: string; lesson: string }>
 }) {
   const { locale, slug, lesson } = await params
-  const t = await getTranslations({ locale, namespace: 'common' })
+  const t = await getTranslations({ locale })
 
   const session = await getServerSession(authOptions)
   const userPhone = session?.user?.phone

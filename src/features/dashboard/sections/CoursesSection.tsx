@@ -7,7 +7,7 @@ type Enrollment = {
 }
 
 export default function CoursesSection({ enrollments }: { enrollments: Enrollment[] }) {
-  const t = useTranslations('common')
+  const t = useTranslations()
   const locale = useLocale()
 
   if (!enrollments?.length) {

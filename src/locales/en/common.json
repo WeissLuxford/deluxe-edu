@@ -138,12 +138,18 @@
     "saved": "Saved"
   },
   "signin": {
-    "title": "Sign in",
+    "title": "Welcome back",
     "email": "Email",
     "name": "Name",
     "password": "Password",
-    "noAccount": "No account?",
-    "emailOrName": "Email or username"
+    "noAccount": "Don’t have an account?",
+    "emailOrName": "Email or username",
+    "phone": "Phone number",
+    "passwordPlaceholder": "Enter password",
+    "submit": "Sign in",
+    "submitting": "Signing in…",
+    "signUp": "Sign up",
+    "wrongCredentials": "Wrong phone number or password"
   },
   "payments": {
     "successTitle": "Payment successful",
@@ -208,5 +214,20 @@
     "server": "Server error",
     "emailTaken": "This email is already taken",
     "saveFailed": "Save failed"
+  },
+  "streams": {
+    "title": "Live streams",
+    "subtitle": "Live classes with a teacher and recordings of past sessions",
+    "live": "Live",
+    "upcoming": "Upcoming",
+    "past": "Recording",
+    "empty": "No streams yet",
+    "watch": "Watch",
+    "viewers": "{count} watching",
+    "linkCopied": "Link copied"
+  },
+  "about": {
+    "title": "About us",
+    "subtitle": "Who we are and how we teach"
   }
 }

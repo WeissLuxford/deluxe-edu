@@ -8,7 +8,7 @@ const tabs = ['profile','courses','payments','progress','submissions','settings'
 type TabKey = typeof tabs[number]
 
 export default function TabsNav() {
-  const t = useTranslations('common')
+  const t = useTranslations()
   const pathname = usePathname()
   const search = useSearchParams()
   const current = (search.get('tab') as TabKey) || 'profile'

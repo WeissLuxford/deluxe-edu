@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react'
 const LS_KEY = 'vx_verify_banner_dismissed_until'
 
 export default function VerifyBanner() {
-  const t = useTranslations('common')
+  const t = useTranslations()
   const locale = useLocale()
   const { data: session, status } = useSession()
   const base = `/${locale}`

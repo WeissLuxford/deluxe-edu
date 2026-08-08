@@ -7,7 +7,7 @@ import { useSession, signOut } from 'next-auth/react'
 
 export default function UserMenu() {
   const locale = useLocale()
-  const t = useTranslations('common')
+  const t = useTranslations()
   const { data: session, status } = useSession()
   const base = `/${locale}`
   const [open, setOpen] = useState(false)

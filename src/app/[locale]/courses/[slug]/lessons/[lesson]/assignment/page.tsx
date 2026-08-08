@@ -24,7 +24,7 @@ export default async function AssignmentPage({
   const { locale, slug, lesson } = await params
   const resolvedSearchParams = await searchParams
   
-  const t = await getTranslations({ locale, namespace: 'common' })
+  const t = await getTranslations({ locale })
   const session = await getServerSession(authOptions)
   
   // Используем phone вместо email
