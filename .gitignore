@@ -1,0 +1,35 @@
+# dependencies
+/node_modules
+
+# env files — НИКОГДА не коммитим. Реальные значения живут только локально
+# и в переменных окружения на Vercel. Шаблон без значений — в .env.example
+.env
+.env.*
+!.env.example
+
+# build output
+/.next
+/out
+/build
+
+# debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Внимание: /prisma/migrations СОЗНАТЕЛЬНО не игнорируется.
+# Миграции обязаны лежать в репозитории, иначе базу не воспроизвести
+# ни на другой машине, ни на проде.
+
+# build artifacts
+tsconfig.tsbuildinfo

@@ -1,0 +1,147 @@
+{
+  "hero": { "title": "Vertex Education" },
+  "nav": { "dashboard": "Кабинет", "courses": "Курсы", "signin": "Войти", "streams": "Трансляции", "about": "О нас", "contacts": "Контакты","signout": "Выйти" },
+  "buttons": {
+    "start": "Начать",
+    "goToDashboard": "Кабинет",
+    "backToLessons": "Назад к урокам",
+    "next": "Дальше",
+    "back": "Назад",
+    "summary": "Конспект",
+    "assignment": "Задание",
+    "send": "Отправить",
+    "signIn": "Войти",
+    "buyNow": "Купить доступ",
+    "buyViaPayme": "Оплатить через Payme",
+    "buyViaClick": "Оплатить через CLICK",
+    "signUp": "Зарегистрироваться",
+    "loading": "Загрузка",
+    "saving": "Сохраняю…"
+  },
+    "signup": {
+    "title": "Регистрация",
+    "email": "Email",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "displayName": "Отображаемое имя",
+    "password": "Пароль",
+    "confirmPassword": "Повторите пароль",
+    "haveAccount": "Уже есть аккаунт?"
+  },
+  "auth": {
+    "passwordHint": "Пароль должен содержать буквы и цифры",
+    "mismatch": "Пароли не совпадают",
+    "error": "Ошибка входа. Проверьте email и пароль.",
+    "verified": "Почта подтверждена. Теперь можно войти.",
+    "expired": "Срок действия ссылки истёк. Отправьте новое письмо.",
+    "invalid": "Неверная ссылка подтверждения.",
+    "used": "Ссылка уже использована.",
+    "resend": "Отправить письмо повторно",
+    "resent": "Новое письмо отправлено. Проверьте почту.",
+    "verifyBanner": "Подтвердите вашу почту, чтобы активировать аккаунт"
+  },
+  "courses": { "title": "Курсы", "empty": "Пока нет курсов" },
+  "course": { "lessons": "Уроки", "price": "Цена", "startCourse": "Начать курс" },
+  "lesson": {
+    "videoPlaceholder": "Видео этого урока будет здесь",
+    "nextLesson": "Следующий урок",
+    "lastLesson": "Это последний урок",
+    "locked": "Урок заблокирован",
+    "completePrev": "Сначала завершите предыдущий урок",
+    "backToCourseLessons": "К списку уроков",
+    "backToVideo": "Назад к видео"
+  },
+  "assignment": {
+    "title": "Задание",
+    "prompt": "Ответьте 42",
+    "wrong": "Неверно, попробуйте снова",
+    "answerPlaceholder": "Ваш ответ"
+  },
+  "summary": { "title": "Конспект", "desc": "Краткий конспект урока. Здесь будет текст, формулы и ссылки." },
+  "dashboard": {
+    "title": "Кабинет",
+    "welcome": "Привет, {name}",
+    "myCourses": "Мои курсы",
+    "noEnrollments": "Пока нет курсов",
+    "payments": "Платежи",
+    "noPayments": "Платежей нет",
+    "status": "Статус",
+    "paid": "Оплачен",
+    "pending": "В обработке",
+    "amount": "Сумма",
+    "date": "Дата",
+    "goToCourse": "Перейти к курсу",
+    "roleLabel": "Роль",
+    "localeLabel": "Язык",
+    "joinedAt": "Присоединился",
+    "courseColumn": "Курс",
+    "provider": "Провайдер",
+    "statusActive": "Активен",
+    "statusCancelled": "Отменен",
+    "tabProfile": "Профиль",
+    "tabCourses": "Курсы",
+    "tabPayments": "Платежи",
+    "tabProgress": "Прогресс",
+    "tabSubmissions": "Ответы",
+    "tabSettings": "Настройки"
+  },
+    "profile": {
+    "displayName": "Ник",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "email": "Почта",
+    "phone": "Телефон",
+    "passwordTail": "Последние 4 символа",
+    "locale": "Язык",
+    "role": "Роль",
+    "joined": "Дата регистрации",
+    "emailNotVerified": "Почта не подтверждена",
+    "emailChanged": "Почта обновлена. Подтвердите новый адрес",
+    "save": "Сохранить",
+    "saved": "Сохранено"
+  },
+  "signin": { "title": "Вход", "email": "Email", "name": "Имя",  "password": "Пароль", "noAccount": "Нет аккаунта?", "emailOrName": "Email или имя пользователя" },
+  "payments": {
+    "successTitle": "Оплата прошла",
+    "successText": "Доступ к курсу активирован",
+    "goToCourse": "Перейти к курсу"
+  },
+  "home": {
+    "liveTitle": "Ближайшие эфиры",
+    "recordingsTitle": "Записи эфиров",
+    "howTitle": "Как это работает",
+    "how": {
+      "step1": { "title": "Выберите курс", "desc": "Сначала каталог и программа" },
+      "step2": { "title": "Смотрите уроки", "desc": "Видео и конспекты на трех языках" },
+      "step3": { "title": "Выполняйте задания", "desc": "Проверка и прогресс в кабинете" }
+    },
+        "tiles": {
+      "live": { "title": "Прямые эфиры", "desc": "Интерактивные сессии" },
+      "assignments": { "title": "Задания", "desc": "Практика и проверка" },
+      "recordings": { "title": "Записи и конспекты", "desc": "Смотрите и читайте" },
+      "preview": { "title": "Превью урока", "desc": "Оцените формат" }
+    },
+    "cta": {
+      "title": "Готовы начать",
+      "desc": "Доступ выдается вручную админом",
+      "primary": "Каталог",
+      "secondary": "Войти"
+    }
+  },
+  "footer": {
+    "product": "Продукт",
+    "resources": "Ресурсы",
+    "legal": "Правовое",
+    "terms": "Условия",
+    "privacy": "Конфиденциальность",
+    "cookies": "Cookies",
+    "faq": "FAQ",
+    "guides": "Гайды",
+    "support": "Поддержка"
+  },
+  "errors": {
+    "server": "Ошибка сервера",
+    "emailTaken": "Этот email уже используется",
+    "saveFailed": "Не удалось сохранить"
+  }
+}

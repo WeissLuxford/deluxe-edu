@@ -1,0 +1,48 @@
+// src/app/api/lessons/watch/route.ts
+import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
+import { prisma } from '@/lib/db'
+
+export async function POST(req: NextRequest) {
+  try {
+    // userId берём ТОЛЬКО из сессии, никогда из тела запроса
+    const session = await getServerSession(authOptions)
+    const userId = session?.user?.id
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const { lessonId } = await req.json()
+    if (!lessonId) {
+      return NextResponse.json({ error: 'Missing lessonId' }, { status: 400 })
+    }
+
+    // Урок должен существовать, а юзер — быть записан на его курс
+    const lesson = await prisma.lesson.findUnique({
+      where: { id: lessonId },
+      select: { id: true, courseId: true }
+    })
+    if (!lesson) {
+      return NextResponse.json({ error: 'Lesson not found' }, { status: 404 })
+    }
+
+    const enrollment = await prisma.enrollment.findFirst({
+      where: { userId, courseId: lesson.courseId, status: 'ACTIVE' }
+    })
+    if (!enrollment) {
+      return NextResponse.json({ error: 'Not enrolled' }, { status: 403 })
+    }
+
+    await prisma.lessonProgress.upsert({
+      where: { userId_lessonId: { userId, lessonId } },
+      update: { watched: true },
+      create: { userId, lessonId, watched: true, passed: false }
+    })
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Error marking lesson as watched:', error)
+    return NextResponse.json({ error: 'Failed to mark as watched' }, { status: 500 })
+  }
+}

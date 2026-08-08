@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Lesson" ADD COLUMN     "hasConspect" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "hasTest" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "hasVideo" BOOLEAN NOT NULL DEFAULT true;
