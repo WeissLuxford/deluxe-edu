@@ -80,7 +80,7 @@ export function FreeLevelTestPlayer({ lesson, assignment, nextLesson, locale, to
               Section Complete!
             </h2>
             <p className="text-lg mb-6" style={{ color: 'var(--muted)' }}>
-              Your score: <strong style={{ color: 'var(--gold)' }}>{score}%</strong>
+              Your score: <strong style={{ color: 'var(--gold-text)' }}>{score}%</strong>
             </p>
 
             {isLastSection ? (
@@ -92,7 +92,7 @@ export function FreeLevelTestPlayer({ lesson, assignment, nextLesson, locale, to
                   <h3 className="text-lg font-semibold mb-3" style={{ color: 'var(--fg)' }}>
                     Your Recommended Level
                   </h3>
-                  <div className="text-3xl font-bold mb-2" style={{ color: 'var(--gold)' }}>
+                  <div className="text-3xl font-bold mb-2" style={{ color: 'var(--gold-text)' }}>
                     {score >= 80 ? 'Upper-Intermediate' : score >= 60 ? 'Intermediate' : score >= 40 ? 'Pre-Intermediate' : 'Elementary'}
                   </div>
                   <p className="text-sm" style={{ color: 'var(--muted)' }}>

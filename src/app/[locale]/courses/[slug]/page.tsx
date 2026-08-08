@@ -62,7 +62,7 @@ export default async function CoursePage({ params }: Props) {
           <span style={{ color: 'var(--muted)' }}>/</span>
           <Link href={`/${locale}/courses?level=${course.level}`} style={{ color: 'var(--muted)' }}>{course.level}</Link>
           <span style={{ color: 'var(--muted)' }}>/</span>
-          <span style={{ color: 'var(--gold)', fontWeight: 600 }}>{title}</span>
+          <span style={{ color: 'var(--gold-text)', fontWeight: 600 }}>{title}</span>
         </div>
 
         {/* Hero */}

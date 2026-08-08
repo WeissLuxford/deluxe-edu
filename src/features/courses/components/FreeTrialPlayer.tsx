@@ -120,12 +120,12 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
             {/* Conspect Content */}
             <div className="glass-panel" style={{ padding: '2rem' }}>
               <div className="prose prose-invert max-w-none" style={{ color: 'var(--fg)' }}>
-                <h3 style={{ color: 'var(--gold)' }}>What You Learned</h3>
+                <h3 style={{ color: 'var(--gold-text)' }}>What You Learned</h3>
                 <p style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
                   {content || 'In this free trial lesson, you experienced our teaching methodology. Our courses include:'}
                 </p>
 
-                <h3 style={{ color: 'var(--gold)', marginTop: '2rem' }}>Course Features</h3>
+                <h3 style={{ color: 'var(--gold-text)', marginTop: '2rem' }}>Course Features</h3>
                 <ul style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
                   <li><strong style={{ color: 'var(--fg)' }}>High-quality video lessons</strong> - Professional recordings with clear explanations</li>
                   <li><strong style={{ color: 'var(--fg)' }}>Detailed notes</strong> - Written materials for every lesson</li>
@@ -133,7 +133,7 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
                   <li><strong style={{ color: 'var(--fg)' }}>Progress tracking</strong> - See your improvement over time</li>
                 </ul>
 
-                <h3 style={{ color: 'var(--gold)', marginTop: '2rem' }}>What's Next?</h3>
+                <h3 style={{ color: 'var(--gold-text)', marginTop: '2rem' }}>What's Next?</h3>
                 <p style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
                   Ready to continue learning? Sign up to access full courses with structured lessons, 
                   tests, and certificates. Choose from Beginner to Advanced levels!

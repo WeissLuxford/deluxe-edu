@@ -38,7 +38,7 @@ export function AboutHero() {
           </h1>
 
           <p className="text-muted" style={{ fontSize: '1.3rem', lineHeight: '1.7', marginBottom: '2rem' }}>
-            We're here to <strong style={{ color: 'var(--gold)' }}>disrupt the overpriced English learning industry</strong> in
+            We're here to <strong style={{ color: 'var(--gold-text)' }}>disrupt the overpriced English learning industry</strong> in
             Uzbekistan and make quality education available to everyone — not just the wealthy.
           </p>
 

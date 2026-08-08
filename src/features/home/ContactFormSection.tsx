@@ -272,11 +272,11 @@ export default function ContactFormSection() {
 
               <p className="text-muted text-center" style={{ fontSize: '0.875rem' }}>
                 Or contact us directly:{' '}
-                <a href="tel:+998901234567" style={{ color: 'var(--gold)', textDecoration: 'underline' }}>
+                <a href="tel:+998901234567" style={{ color: 'var(--gold-text)', textDecoration: 'underline' }}>
                   +998 90 123 45 67
                 </a>{' '}
                 |{' '}
-                <a href="https://t.me/deluxeedu" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)', textDecoration: 'underline' }}>
+                <a href="https://t.me/deluxeedu" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold-text)', textDecoration: 'underline' }}>
                   @deluxeedu
                 </a>
               </p>

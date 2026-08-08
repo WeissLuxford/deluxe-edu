@@ -76,7 +76,7 @@ export default async function EditCourse({
                   <tr key={l.id}>
                     <td style={{ textAlign: 'center', color: 'var(--muted)' }}>{l.order}</td>
                     <td>
-                      <Link href={`/${locale}/admin/lessons/${l.id}`} style={{ color: 'var(--gold)' }}>
+                      <Link href={`/${locale}/admin/lessons/${l.id}`} style={{ color: 'var(--gold-text)' }}>
                         {ru(l.title)}
                       </Link>
                       <div className="text-xs" style={{ color: 'var(--muted)', fontFamily: 'monospace' }}>

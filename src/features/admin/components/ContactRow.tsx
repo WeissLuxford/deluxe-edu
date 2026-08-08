@@ -51,7 +51,7 @@ export function ContactRow({
         {email && <div className="text-xs" style={{ color: 'var(--muted)' }}>{email}</div>}
       </td>
       <td>
-        <a href={`tel:+${phone}`} style={{ color: 'var(--gold)' }}>+{phone}</a>
+        <a href={`tel:+${phone}`} style={{ color: 'var(--gold-text)' }}>+{phone}</a>
       </td>
       <td style={{ maxWidth: '22rem', color: 'var(--muted)', fontSize: '0.9rem' }}>
         {message || '—'}

@@ -93,7 +93,7 @@ export default function AccessTiers({ base }: { base: string }) {
               <p className="text-base text-muted mb-6 leading-relaxed">{tier.desc}</p>
               
               <div className="mb-6">
-                <div className="text-3xl font-bold mb-1" style={{ color: 'var(--gold)' }}>{tier.price}</div>
+                <div className="text-3xl font-bold mb-1" style={{ color: 'var(--gold-text)' }}>{tier.price}</div>
                 <div className="text-sm text-muted">{tier.priceUSD} / month</div>
               </div>
 
@@ -102,7 +102,7 @@ export default function AccessTiers({ base }: { base: string }) {
               <ul style={{ display: 'grid', gap: '0.75rem', marginBottom: '2rem' }}>
                 {tier.features.map((feature, idx) => (
                   <li key={idx} style={{ display: 'flex', alignItems: 'start', gap: '0.75rem', fontSize: '0.95rem' }}>
-                    <span style={{ color: 'var(--gold)', fontSize: '1.2rem', lineHeight: '1' }}>✓</span>
+                    <span style={{ color: 'var(--gold-text)', fontSize: '1.2rem', lineHeight: '1' }}>✓</span>
                     <span style={{ color: 'var(--fg)' }}>{feature}</span>
                   </li>
                 ))}

@@ -23,7 +23,7 @@ export function OurMission() {
             That's insane.
           </p>
           <p className="text-muted" style={{ fontSize: '1.2rem', lineHeight: '1.7', marginTop: '1rem' }}>
-            So we built a platform where <strong style={{ color: 'var(--gold)' }}>$15-20/month</strong> gets you everything:
+            So we built a platform where <strong style={{ color: 'var(--gold-text)' }}>$15-20/month</strong> gets you everything:
             structured courses, live streams, expert feedback, and a community that actually cares.
           </p>
         </motion.div>
@@ -47,7 +47,7 @@ export function OurMission() {
               icon: Users,
               title: 'No Arrogance, Just Results',
               desc: 'Our teachers have IELTS 8.0 and actually care. No high horses, just human beings helping humans.',
-              color: 'var(--gold)',
+              color: 'var(--gold-text)',
             },
             {
               icon: Heart,

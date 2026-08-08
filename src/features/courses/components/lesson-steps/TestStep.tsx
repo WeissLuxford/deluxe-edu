@@ -148,7 +148,7 @@ export function TestStep({ assignment, locale, enrollmentPlan, onComplete, isCom
             {passed ? 'Congratulations!' : 'Keep Practicing'}
           </h2>
           <p className="text-lg mb-4" style={{ color: 'var(--muted)' }}>
-            Your score: <strong style={{ color: 'var(--gold)' }}>{grade}%</strong>
+            Your score: <strong style={{ color: 'var(--gold-text)' }}>{grade}%</strong>
           </p>
           <p style={{ color: 'var(--muted)' }}>
             {passed
@@ -168,7 +168,7 @@ export function TestStep({ assignment, locale, enrollmentPlan, onComplete, isCom
             </div>
             <div className="flex items-center justify-between text-sm">
               <span style={{ color: 'var(--muted)' }}>Passing Score</span>
-              <span style={{ color: 'var(--gold)', fontWeight: 600 }}>{passingScore}%</span>
+              <span style={{ color: 'var(--gold-text)', fontWeight: 600 }}>{passingScore}%</span>
             </div>
           </div>
         </div>

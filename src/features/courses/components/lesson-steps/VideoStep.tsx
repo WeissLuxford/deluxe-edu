@@ -62,7 +62,7 @@ export function VideoStep({ lessonId, locale }: Props) {
       {/* Tips */}
       <div className="rounded-lg p-4" style={{ background: 'rgba(199, 164, 90, 0.1)', border: '1px solid var(--border)' }}>
         <div className="text-sm" style={{ color: 'var(--muted)' }}>
-          💡 <strong style={{ color: 'var(--gold)' }}>Tip:</strong> Take notes while watching. You can review them in the next step.
+          💡 <strong style={{ color: 'var(--gold-text)' }}>Tip:</strong> Take notes while watching. You can review them in the next step.
         </div>
       </div>
     </div>

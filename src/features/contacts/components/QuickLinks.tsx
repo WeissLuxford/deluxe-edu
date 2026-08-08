@@ -11,7 +11,7 @@ export function QuickLinks() {
       title: 'Browse Courses',
       desc: 'Explore all available courses',
       href: '/courses',
-      color: 'var(--gold)',
+      color: 'var(--gold-text)',
     },
     {
       icon: Video,

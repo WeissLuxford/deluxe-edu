@@ -91,7 +91,7 @@ export default async function CoursesPage({ params, searchParams }: Props) {
               const count = (grouped[lvl] || []).length
               return (
                 <Link key={lvl} href={`/${locale}/courses?level=${encodeURIComponent(lvl)}`} className="glass-panel" style={{ padding: '1.5rem', textAlign: 'center', transition: 'var(--transition-slow)', cursor: 'pointer' }}>
-                  <div className="text-3xl font-bold" style={{ color: 'var(--gold)', marginBottom: '0.75rem' }}>{lvl.charAt(0)}</div>
+                  <div className="text-3xl font-bold" style={{ color: 'var(--gold-text)', marginBottom: '0.75rem' }}>{lvl.charAt(0)}</div>
                   <div className="text-sm font-semibold" style={{ color: 'var(--fg)', marginBottom: '0.25rem' }}>{lvl}</div>
                   <div className="text-xs" style={{ color: 'var(--muted)' }}>{count} course{count !== 1 ? 's' : ''}</div>
                 </Link>
@@ -111,7 +111,7 @@ export default async function CoursesPage({ params, searchParams }: Props) {
         <div className="mb-6 flex items-center gap-2 text-sm">
           <Link href={`/${locale}/courses`} style={{ color: 'var(--muted)' }}>Courses</Link>
           <span style={{ color: 'var(--muted)' }}>/</span>
-          <span style={{ color: 'var(--gold)', fontWeight: 600 }}>{selectedLevel}</span>
+          <span style={{ color: 'var(--gold-text)', fontWeight: 600 }}>{selectedLevel}</span>
         </div>
 
         <div className="mb-8 flex items-center justify-between">
@@ -151,7 +151,7 @@ export default async function CoursesPage({ params, searchParams }: Props) {
               { name: 'Deluxe', items: ['Everything in Pro', '1-on-1 mentoring', 'Career guidance'] }
             ].map((plan) => (
               <div key={plan.name} className="glass-panel">
-                <div className="text-sm font-semibold mb-2" style={{ color: 'var(--gold)' }}>{plan.name}</div>
+                <div className="text-sm font-semibold mb-2" style={{ color: 'var(--gold-text)' }}>{plan.name}</div>
                 <ul className="space-y-1 text-sm" style={{ color: 'var(--muted)' }}>
                   {plan.items.map((item, i) => <li key={i}>• {item}</li>)}
                 </ul>

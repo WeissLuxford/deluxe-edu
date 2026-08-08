@@ -16,6 +16,11 @@
   --text-hero: #f7edd8;
   --gold-light-text: #d4b06a;
   --header-bg: rgba(14,15,16,0.9);
+
+  /* Золото как ТЕКСТ — отдельно от золота как заливки.
+     Один и тот же #c7a45a даёт 9:1 на тёмном фоне и всего 2.4:1
+     на белом при норме 4.5:1, поэтому в светлой теме нужен свой. */
+  --gold-text: #d4b06a;
   
   /* Borders */
   --border: rgba(255, 255, 255, 0.1);
@@ -58,8 +63,11 @@ html.light {
   --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
   --shadow-gold: 0 4px 20px rgba(199,164,90,0.18);
   --header-bg: rgba(248,248,249,0.88);
-  --text-hero: #d29b1b;
+  /* было #d29b1b — 2.5:1 на белом, крупные заголовки размывались */
+  --text-hero: #a8761a;
   --gold-light-text: #ffffff;
+  /* тёмное золото: 5:1 на белом, читается как текст */
+  --gold-text: #8a6a1f;
   --gradient-gold: radial-gradient(120% 120% at 10% 0%, rgba(90, 106, 199, 0.25), transparent 60%),
               radial-gradient(100% 100% at 90% 40%, rgba(106, 178, 212, 0.25), transparent 60%);
 }
@@ -129,7 +137,7 @@ p {
 }
 
 a {
-  color: var(--gold);
+  color: var(--gold-text);
   text-decoration: none;
   transition: var(--transition);
 }
@@ -302,7 +310,7 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
 .input:focus,
 .textarea:focus,
 .select:focus {
-  border-color: var(--gold);
+  border-color: var(--gold-text);
   background: var(--bg);
   outline: none;
 }
@@ -341,7 +349,7 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
 
 .badge-primary {
   background: rgba(199, 164, 90, 0.2);
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .badge-success {
@@ -398,7 +406,7 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
 }
 
 .text-gold {
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .text-gradient {
@@ -503,7 +511,7 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   width: 20px;
   height: 20px;
   border: 2px solid var(--border);
-  border-top-color: var(--gold);
+  border-top-color: var(--gold-text);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -715,7 +723,7 @@ html.light .theme-toggle:hover { background: rgba(0,0,0,0.03) }
 }
 
 .nav-link.active {
-  color: var(--gold);
+  color: var(--gold-text);
   opacity: 1;
 }
 
@@ -751,7 +759,7 @@ html.light .theme-toggle:hover { background: rgba(0,0,0,0.03) }
 .btn-auto-right { margin-left: auto }
 
 
-.structure-head { font-size: 1.5rem; font-weight: 700; color: var(--gold); margin-bottom: 1rem }
+.structure-head { font-size: 1.5rem; font-weight: 700; color: var(--gold-text); margin-bottom: 1rem }
 .structure-track { display: grid; grid-auto-flow: column; grid-auto-columns: 85%; gap: 1rem; overflow-x: auto; padding-bottom: .25rem; scroll-snap-type: x mandatory }
 .structure-item { scroll-snap-align: start }
 @media (min-width: 1024px){ .structure-track { grid-auto-columns: 1fr; overflow: visible } }
@@ -759,7 +767,7 @@ html.light .theme-toggle:hover { background: rgba(0,0,0,0.03) }
 .struct-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 1rem; height: 100%; display: grid; gap: .75rem; transition: var(--transition) }
 .struct-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-gold) }
 .struct-title { font-weight: 700; color: var(--fg) }
-.struct-title .accent { color: var(--gold) }
+.struct-title .accent { color: var(--gold-text) }
 .struct-desc { color: var(--muted); font-size: .95rem; line-height: 1.4 }
 
 .struct-split { display: grid; gap: 0; }
@@ -1022,7 +1030,7 @@ html.light .auth-card {
   margin-top: .25rem;
 }
 .auth-link {
-  color: var(--gold);
+  color: var(--gold-text);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -1184,13 +1192,13 @@ html.dark .verify-banner-close:hover{
   background:rgba(255,255,255,.08);
 }
 
-.avatar { display: flex; justify-content: center; align-items: center; border-color: var(--border); background: var(--bg-secondary); color: var(--gold); font-weight: 700; border-radius: 50%; box-shadow: 0px 0px 2px var(--fg);}
+.avatar { display: flex; justify-content: center; align-items: center; border-color: var(--border); background: var(--bg-secondary); color: var(--gold-text); font-weight: 700; border-radius: 50%; box-shadow: 0px 0px 2px var(--fg);}
 .avatar-img { border-color: var(--border) }
 .avatar span { font-size: 2.875rem; }
 .tabs { display:flex; gap:.5rem; flex-wrap:wrap; border-top:1px solid var(--border); padding-bottom:.5rem }
 .tab { padding:.5rem .75rem; border:1px solid var(--border); border-radius: var(--radius); color:var(--fg); transition:var(--transition); border-top-left-radius: 0; border-top-right-radius: 0; }
 .tab:hover { border-color: var(--border-hover); background: rgba(255,255,255,.04) }
-.tab-active { color: var(--bg); background: var(--gold); border-color: var(--gold) }
+.tab-active { color: var(--bg); background: var(--gold); border-color: var(--gold-text) }
 html.light .tab-active { color:#000 }
 
 .table { width:100% }
@@ -1337,7 +1345,7 @@ html.light .glass-panel {
 .mentor-content { align-self: center }
 .mentor-list { display: grid; gap: .6rem; color: var(--fg); opacity: .9 }
 .mentor-list li { padding-left: 1.4rem; position: relative }
-.mentor-list li::before { content: "•"; position: absolute; left: .4rem; color: var(--gold) }
+.mentor-list li::before { content: "•"; position: absolute; left: .4rem; color: var(--gold-text) }
 
 .faq-root { display: grid; gap: 0.75rem }
 .faq-item { padding: 1rem 1.25rem }

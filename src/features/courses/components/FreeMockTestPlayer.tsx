@@ -106,7 +106,7 @@ export function FreeMockTestPlayer({ lesson, assignment, nextLesson, locale, tot
               Section Complete!
             </h2>
             <p className="text-lg mb-6" style={{ color: 'var(--muted)' }}>
-              Your score: <strong style={{ color: 'var(--gold)' }}>{score}%</strong>
+              Your score: <strong style={{ color: 'var(--gold-text)' }}>{score}%</strong>
             </p>
 
             {isLastSection ? (
@@ -118,7 +118,7 @@ export function FreeMockTestPlayer({ lesson, assignment, nextLesson, locale, tot
                   <h3 className="text-lg font-semibold mb-3" style={{ color: 'var(--fg)' }}>
                     Estimated IELTS Band Score
                   </h3>
-                  <div className="text-3xl font-bold mb-2" style={{ color: 'var(--gold)' }}>
+                  <div className="text-3xl font-bold mb-2" style={{ color: 'var(--gold-text)' }}>
                     {bandScore}
                   </div>
                   <p className="text-sm mb-4" style={{ color: 'var(--muted)' }}>

@@ -43,7 +43,7 @@ export function JoinMovement() {
 
           <p className="text-muted" style={{ fontSize: '1.2rem', lineHeight: '1.7', marginBottom: '2.5rem' }}>
             Let's destroy the overpriced education system together. Start learning English for{' '}
-            <strong style={{ color: 'var(--gold)' }}>$15-20/month</strong> — not $300.
+            <strong style={{ color: 'var(--gold-text)' }}>$15-20/month</strong> — not $300.
           </p>
 
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>

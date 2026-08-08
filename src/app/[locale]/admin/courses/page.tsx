@@ -51,7 +51,7 @@ export default async function AdminCourses({ params }: { params: Promise<{ local
               {courses.map(c => (
                 <tr key={c.id}>
                   <td>
-                    <Link href={`/${locale}/admin/courses/${c.id}`} style={{ color: 'var(--gold)' }}>
+                    <Link href={`/${locale}/admin/courses/${c.id}`} style={{ color: 'var(--gold-text)' }}>
                       {ru(c.title)}
                     </Link>
                     <div className="text-xs" style={{ color: 'var(--muted)' }}>{c.level}</div>

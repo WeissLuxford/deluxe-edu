@@ -53,7 +53,7 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={onClose}>
         <div className="w-full max-w-md rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-gold)' }} onClick={(e) => e.stopPropagation()}>
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-xl font-bold" style={{ color: 'var(--gold)' }}>Contact us to enroll</h3>
+            <h3 className="text-xl font-bold" style={{ color: 'var(--gold-text)' }}>Contact us to enroll</h3>
             <button onClick={onClose} className="rounded-lg p-2 transition-colors" style={{ border: '1px solid var(--border)', color: 'var(--fg)' }}>
               <X size={20} />
             </button>
@@ -61,18 +61,18 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
 
           <div className="space-y-4">
             <p style={{ color: 'var(--muted)' }}>
-              To enroll in the <strong style={{ color: 'var(--gold)' }}>{plans.find(p => p.id === selectedPlan)?.name}</strong> plan, please contact us via:
+              To enroll in the <strong style={{ color: 'var(--gold-text)' }}>{plans.find(p => p.id === selectedPlan)?.name}</strong> plan, please contact us via:
             </p>
 
             <div className="rounded-lg p-4" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border)' }}>
               <div className="space-y-3">
                 <div>
                   <div className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Phone</div>
-                  <a href="tel:+998901234567" className="text-lg font-semibold" style={{ color: 'var(--gold)' }}>+998 90 123 45 67</a>
+                  <a href="tel:+998901234567" className="text-lg font-semibold" style={{ color: 'var(--gold-text)' }}>+998 90 123 45 67</a>
                 </div>
                 <div>
                   <div className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Telegram</div>
-                  <a href="https://t.me/deluxeedu" target="_blank" rel="noopener noreferrer" className="text-lg font-semibold" style={{ color: 'var(--gold)' }}>@deluxeedu</a>
+                  <a href="https://t.me/deluxeedu" target="_blank" rel="noopener noreferrer" className="text-lg font-semibold" style={{ color: 'var(--gold-text)' }}>@deluxeedu</a>
                 </div>
               </div>
             </div>
@@ -111,13 +111,13 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
               <div className="vx-tier">
                 <div>
                   <h3 className="text-lg font-bold" style={{ color: 'var(--fg)' }}>{plan.name}</h3>
-                  <div className="mt-2 text-3xl font-bold" style={{ color: 'var(--gold)' }}>{formatPrice(plan.price)}</div>
+                  <div className="mt-2 text-3xl font-bold" style={{ color: 'var(--gold-text)' }}>{formatPrice(plan.price)}</div>
                   {plan.price > 0 && <div className="text-sm" style={{ color: 'var(--muted)' }}>one-time payment</div>}
 
                   <ul className="mt-4 space-y-2">
                     {plan.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-sm" style={{ color: 'var(--fg)' }}>
-                        <span style={{ color: 'var(--gold)' }}>✓</span>
+                        <span style={{ color: 'var(--gold-text)' }}>✓</span>
                         <span>{feature}</span>
                       </li>
                     ))}

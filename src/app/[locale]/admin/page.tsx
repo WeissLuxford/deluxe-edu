@@ -28,7 +28,7 @@ export default async function AdminHome({ params }: { params: Promise<{ locale: 
         {stats.map(s => (
           <div key={s.label} className="card" style={{ padding: '1.25rem' }}>
             <div className="text-sm" style={{ color: 'var(--muted)' }}>{s.label}</div>
-            <div className="text-3xl font-bold" style={{ color: 'var(--gold)', margin: '0.25rem 0' }}>
+            <div className="text-3xl font-bold" style={{ color: 'var(--gold-text)', margin: '0.25rem 0' }}>
               {s.value}
             </div>
             <div className="text-xs" style={{ color: 'var(--muted)' }}>{s.hint}</div>

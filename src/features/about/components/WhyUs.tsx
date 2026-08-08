@@ -31,7 +31,7 @@ export function WhyUs() {
           </h2>
           <p className="text-muted" style={{ fontSize: '1.2rem', marginBottom: '3rem' }}>
             Because we're not here to <strong style={{ color: '#ef4444' }}>rob you</strong>. We're here to{' '}
-            <strong style={{ color: 'var(--gold)' }}>empower you</strong>.
+            <strong style={{ color: 'var(--gold-text)' }}>empower you</strong>.
           </p>
 
           <div

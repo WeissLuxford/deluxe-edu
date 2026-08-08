@@ -23,26 +23,26 @@ export function ConspectStep({ content, locale }: Props) {
       <div className="glass-panel" style={{ padding: '2rem' }}>
         <div className="prose prose-invert max-w-none" style={{ color: 'var(--fg)' }}>
           {/* Mock content - replace with real lesson.content */}
-          <h3 style={{ color: 'var(--gold)' }}>Key Concepts</h3>
+          <h3 style={{ color: 'var(--gold-text)' }}>Key Concepts</h3>
           <p style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
             {content || 'Lesson conspect will be displayed here. This can include formatted text, lists, examples, and important notes from the video.'}
           </p>
 
-          <h3 style={{ color: 'var(--gold)', marginTop: '2rem' }}>Important Points</h3>
+          <h3 style={{ color: 'var(--gold-text)', marginTop: '2rem' }}>Important Points</h3>
           <ul style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
             <li>Point 1: Key concept explanation</li>
             <li>Point 2: Important rule or pattern</li>
             <li>Point 3: Common mistake to avoid</li>
           </ul>
 
-          <h3 style={{ color: 'var(--gold)', marginTop: '2rem' }}>Examples</h3>
+          <h3 style={{ color: 'var(--gold-text)', marginTop: '2rem' }}>Examples</h3>
           <div className="rounded-lg p-4 mt-4" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border)' }}>
             <code style={{ color: 'var(--fg)', fontSize: '0.875rem' }}>
               Example sentences or code will appear here
             </code>
           </div>
 
-          <h3 style={{ color: 'var(--gold)', marginTop: '2rem' }}>Summary</h3>
+          <h3 style={{ color: 'var(--gold-text)', marginTop: '2rem' }}>Summary</h3>
           <p style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
             Quick recap of what you learned in this lesson. Make sure you understand these concepts before proceeding to the test.
           </p>
@@ -52,7 +52,7 @@ export function ConspectStep({ content, locale }: Props) {
       {/* Next Step Info */}
       <div className="rounded-lg p-4" style={{ background: 'rgba(199, 164, 90, 0.1)', border: '1px solid var(--border)' }}>
         <div className="text-sm" style={{ color: 'var(--muted)' }}>
-          💡 <strong style={{ color: 'var(--gold)' }}>Ready?</strong> Click "Next" when you've reviewed all the notes to proceed to the test.
+          💡 <strong style={{ color: 'var(--gold-text)' }}>Ready?</strong> Click "Next" when you've reviewed all the notes to proceed to the test.
         </div>
       </div>
     </div>
