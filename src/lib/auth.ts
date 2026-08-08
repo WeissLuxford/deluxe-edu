@@ -165,9 +165,29 @@ export const authOptions: NextAuthOptions = {
             where: { phone: parsed.data.phone },
             select: { id: true }
           })
-          
+
           if (exists) {
             console.error('❌ Phone already registered')
+            return null
+          }
+
+          // Телефон должен быть подтверждён кодом из SMS.
+          // Ищем OTP, который уже прошёл через /api/auth/verify-otp (used: true)
+          // и всё ещё находится внутри своего окна жизни.
+          // Без этой проверки регистрацию можно было пройти в обход SMS,
+          // обратившись к NextAuth напрямую.
+          const verifiedOtp = await prisma.oTPCode.findFirst({
+            where: {
+              phone: parsed.data.phone,
+              used: true,
+              expiresAt: { gte: new Date() }
+            },
+            orderBy: { createdAt: 'desc' },
+            select: { id: true }
+          })
+
+          if (!verifiedOtp) {
+            console.error('❌ Phone not verified by OTP')
             return null
           }
 
@@ -195,6 +215,10 @@ export const authOptions: NextAuthOptions = {
               phoneVerified: true
             }
           })
+
+          // Код одноразовый: гасим все коды этого номера, чтобы одним
+          // подтверждением нельзя было создать несколько аккаунтов
+          await prisma.oTPCode.deleteMany({ where: { phone: parsed.data.phone } })
 
           console.log('✅ User created:', created.phone)
 
