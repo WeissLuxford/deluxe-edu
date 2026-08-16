@@ -29,14 +29,31 @@
     "saving": "Сохраняю…"
   },
   "signup": {
-    "title": "Регистрация",
+    "title": "Создать аккаунт",
     "email": "Email",
     "firstName": "Имя",
     "lastName": "Фамилия",
     "displayName": "Отображаемое имя",
     "password": "Пароль",
     "confirmPassword": "Повторите пароль",
-    "haveAccount": "Уже есть аккаунт?"
+    "haveAccount": "Уже есть аккаунт?",
+    "phone": "Номер телефона",
+    "codeSent": "Отправим код подтверждения",
+    "code": "Код из SMS",
+    "codePlaceholder": "6 цифр",
+    "passwordPlaceholder": "Придумайте пароль",
+    "passwordHint": "Минимум 6 символов, буквы и цифры",
+    "confirm": "Повторите пароль",
+    "confirmPlaceholder": "Ещё раз",
+    "mismatch": "Пароли не совпадают",
+    "verifyTitle": "Подтвердите номер",
+    "sendCode": "Получить код",
+    "sending": "Отправляем…",
+    "verifyCode": "Подтвердить",
+    "verifying": "Проверяем…",
+    "create": "Создать аккаунт",
+    "creating": "Создаём…",
+    "signIn": "Войти"
   },
   "auth": {
     "passwordHint": "Пароль должен содержать буквы и цифры",
@@ -349,5 +366,13 @@
     "notReadyText": "Для этого урока пока не добавлены вопросы",
     "sendError": "Не удалось отправить тест. Проверьте соединение",
     "typeAnswer": "Введите ответ"
+  },
+  "plans": {
+    "choose": "Выберите тариф",
+    "popular": "Популярный",
+    "contactToEnroll": "Свяжитесь с нами, чтобы оформить доступ",
+    "phone": "Телефон",
+    "telegram": "Telegram",
+    "gotIt": "Понятно"
   }
 }

@@ -29,14 +29,31 @@
     "saving": "Saving…"
   },
   "signup": {
-    "title": "Sign up",
+    "title": "Create account",
     "email": "Email",
     "firstName": "First name",
     "lastName": "Last name",
     "displayName": "Display name",
     "password": "Password",
     "confirmPassword": "Confirm password",
-    "haveAccount": "Already have an account?"
+    "haveAccount": "Already have an account?",
+    "phone": "Phone number",
+    "codeSent": "We will send a verification code",
+    "code": "Code from SMS",
+    "codePlaceholder": "6 digits",
+    "passwordPlaceholder": "Create a password",
+    "passwordHint": "At least 6 characters, letters and digits",
+    "confirm": "Repeat password",
+    "confirmPlaceholder": "Once more",
+    "mismatch": "Passwords do not match",
+    "verifyTitle": "Verify your phone",
+    "sendCode": "Send code",
+    "sending": "Sending…",
+    "verifyCode": "Verify",
+    "verifying": "Verifying…",
+    "create": "Create account",
+    "creating": "Creating…",
+    "signIn": "Sign in"
   },
   "auth": {
     "passwordHint": "Password must contain letters and numbers",
@@ -349,5 +366,13 @@
     "notReadyText": "No questions have been added for this lesson yet",
     "sendError": "Could not send the test. Check your connection",
     "typeAnswer": "Type your answer"
+  },
+  "plans": {
+    "choose": "Choose your plan",
+    "popular": "Popular",
+    "contactToEnroll": "Contact us to get access",
+    "phone": "Phone",
+    "telegram": "Telegram",
+    "gotIt": "Got it"
   }
 }

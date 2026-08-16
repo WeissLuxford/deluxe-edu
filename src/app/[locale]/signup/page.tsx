@@ -9,6 +9,7 @@ import { Phone, User, Lock, ArrowRight } from 'lucide-react'
 
 export default function SignUpPage() {
   const t = useTranslations()
+  const tSignup = useTranslations('signup')
   const locale = useLocale()
   const router = useRouter()
   const search = useSearchParams()
@@ -170,8 +171,8 @@ export default function SignUpPage() {
     <main className="auth-shell">
       <div className="auth-card">
         <h1 className="auth-title">
-          {step === 'phone' && 'Create Account'}
-          {step === 'otp' && 'Verify Phone'}
+          {step === 'phone' && tSignup('title')}
+          {step === 'otp' && tSignup('verifyTitle')}
           {step === 'details' && 'Complete Profile'}
         </h1>
         
@@ -184,7 +185,7 @@ export default function SignUpPage() {
         {step === 'phone' && (
           <form onSubmit={(e) => { e.preventDefault(); sendOTP(); }} style={{ display: 'grid', gap: '1.25rem' }}>
             <div>
-              <label className="label">Phone Number</label>
+              <label className="label">{tSignup('phone')}</label>
               <div style={{ position: 'relative' }}>
                 <Phone size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
                 <input
@@ -199,7 +200,7 @@ export default function SignUpPage() {
                   required
                 />
               </div>
-              <p className="auth-hint" style={{ marginTop: '0.5rem' }}>We'll send you a verification code</p>
+              <p className="auth-hint" style={{ marginTop: '0.5rem' }}>{tSignup('codeSent')}</p>
             </div>
 
             <button 
@@ -207,14 +208,14 @@ export default function SignUpPage() {
               className="iridescent vx w-full" 
               disabled={loading || phone.replace(/\D/g, '').length !== 12}
             >
-              {loading ? 'Sending...' : 'Send Code'}
+              {loading ? tSignup('sending') : tSignup('sendCode')}
               <span className="drop-shadow" />
             </button>
 
             <p className="auth-note">
-              Already have an account?{' '}
+              {tSignup('haveAccount')}{' '}
               <Link href={`/${validLocale}/signin${next ? `?next=${encodeURIComponent(next)}` : ''}`} className="auth-link">
-                Sign In
+                {tSignup('signIn')}
               </Link>
             </p>
           </form>
@@ -223,10 +224,10 @@ export default function SignUpPage() {
         {step === 'otp' && (
           <form onSubmit={(e) => { e.preventDefault(); verifyOTP(); }} style={{ display: 'grid', gap: '1.25rem' }}>
             <div>
-              <label className="label">Verification Code</label>
+              <label className="label">{tSignup('code')}</label>
               <input
                 type="text"
-                placeholder="Enter 6-digit code"
+                placeholder={tSignup('codePlaceholder')}
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                 className="input"
@@ -241,7 +242,7 @@ export default function SignUpPage() {
             </div>
 
             <button type="submit" className="iridescent vx w-full" disabled={loading || otp.length !== 6}>
-              {loading ? 'Verifying...' : 'Verify Code'}
+              {loading ? tSignup('verifying') : tSignup('verifyCode')}
               <span className="drop-shadow" />
             </button>
 
@@ -269,7 +270,7 @@ export default function SignUpPage() {
           <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '1.25rem' }}>
             <div className="auth-grid2">
               <div>
-                <label className="label">First Name</label>
+                <label className="label">{tSignup('firstName')}</label>
                 <div style={{ position: 'relative' }}>
                   <User size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
                   <input
@@ -286,7 +287,7 @@ export default function SignUpPage() {
               </div>
 
               <div>
-                <label className="label">Last Name</label>
+                <label className="label">{tSignup('lastName')}</label>
                 <div style={{ position: 'relative' }}>
                   <User size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
                   <input
@@ -303,12 +304,12 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <label className="label">Password</label>
+              <label className="label">{tSignup('password')}</label>
               <div style={{ position: 'relative' }}>
                 <Lock size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
                 <input
                   type="password"
-                  placeholder="Create password"
+                  placeholder={tSignup('passwordPlaceholder')}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="input"
@@ -316,16 +317,16 @@ export default function SignUpPage() {
                   required
                 />
               </div>
-              {weak && <p className="auth-hint" style={{ color: '#ef4444', marginTop: '0.5rem' }}>Password must contain letters and numbers (min 6 chars)</p>}
+              {weak && <p className="auth-hint" style={{ color: '#ef4444', marginTop: '0.5rem' }}>{tSignup('passwordHint')}</p>}
             </div>
 
             <div>
-              <label className="label">Confirm Password</label>
+              <label className="label">{tSignup('confirm')}</label>
               <div style={{ position: 'relative' }}>
                 <Lock size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
                 <input
                   type="password"
-                  placeholder="Confirm password"
+                  placeholder={tSignup('confirmPlaceholder')}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="input"
@@ -333,7 +334,7 @@ export default function SignUpPage() {
                   required
                 />
               </div>
-              {mismatch && <p className="auth-hint" style={{ color: '#ef4444', marginTop: '0.5rem' }}>Passwords do not match</p>}
+              {mismatch && <p className="auth-hint" style={{ color: '#ef4444', marginTop: '0.5rem' }}>{tSignup('mismatch')}</p>}
             </div>
 
             <button 
@@ -341,7 +342,7 @@ export default function SignUpPage() {
               className="iridescent vx w-full" 
               disabled={loading || !firstName || !lastName || !passwordOk(password) || password !== confirmPassword}
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? tSignup('creating') : tSignup('create')}
               <span className="drop-shadow" />
             </button>
           </form>

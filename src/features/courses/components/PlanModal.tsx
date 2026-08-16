@@ -1,5 +1,7 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 import { useState } from 'react'
 import { X } from 'lucide-react'
 
@@ -23,6 +25,7 @@ type PlanModalProps = {
 }
 
 export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, pricePro, priceDeluxe, locale, onClose }: PlanModalProps) {
+  const t = useTranslations('plans')
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showContactModal, setShowContactModal] = useState(false)
 
@@ -52,7 +55,7 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={onClose}>
         <div className="w-full max-w-md rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-gold)' }} onClick={(e) => e.stopPropagation()}>
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-xl font-bold" style={{ color: 'var(--gold-text)' }}>Contact us to enroll</h3>
+            <h3 className="text-xl font-bold" style={{ color: 'var(--gold-text)' }}>{t('contactToEnroll')}</h3>
             <button onClick={onClose} className="rounded-lg p-2 transition-colors" style={{ border: '1px solid var(--border)', color: 'var(--fg)' }}>
               <X size={20} />
             </button>
@@ -66,11 +69,11 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
             <div className="rounded-lg p-4" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border)' }}>
               <div className="space-y-3">
                 <div>
-                  <div className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Phone</div>
+                  <div className="text-sm font-medium" style={{ color: 'var(--muted)' }}>{t('phone')}</div>
                   <a href="tel:+998901234567" className="text-lg font-semibold" style={{ color: 'var(--gold-text)' }}>+998 90 123 45 67</a>
                 </div>
                 <div>
-                  <div className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Telegram</div>
+                  <div className="text-sm font-medium" style={{ color: 'var(--muted)' }}>{t('telegram')}</div>
                   <a href="https://t.me/deluxeedu" target="_blank" rel="noopener noreferrer" className="text-lg font-semibold" style={{ color: 'var(--gold-text)' }}>@deluxeedu</a>
                 </div>
               </div>
@@ -81,7 +84,7 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
             </div>
           </div>
 
-          <button onClick={onClose} className="btn btn-primary mt-6 w-full" style={{ background: 'var(--gold)', color: 'var(--bg)' }}>Got it</button>
+          <button onClick={onClose} className="btn btn-primary mt-6 w-full" style={{ background: 'var(--gold)', color: 'var(--bg)' }}>{t('gotIt')}</button>
         </div>
       </div>
     )
@@ -92,7 +95,7 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
       <div className="w-full max-w-5xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-gold)' }} onClick={(e) => e.stopPropagation()}>
         <div className="mb-6 flex items-start justify-between">
           <div>
-            <h2 className="text-2xl font-bold" style={{ color: 'var(--fg)' }}>Choose your plan</h2>
+            <h2 className="text-2xl font-bold" style={{ color: 'var(--fg)' }}>{t('choose')}</h2>
             <p className="mt-1 text-sm" style={{ color: 'var(--muted)' }}>{courseTitle}</p>
           </div>
           <button onClick={onClose} className="rounded-lg p-2 transition-colors" style={{ border: '1px solid var(--border)', color: 'var(--fg)' }}>
@@ -104,7 +107,7 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
           {plans.map((plan) => (
             <div key={plan.id} className="glass-tier" style={{ borderColor: plan.popular ? 'var(--gold)' : 'var(--border)', position: 'relative' }}>
               {plan.popular && (
-                <div className="badge badge-primary" style={{ position: 'absolute', top: '-0.75rem', left: '50%', transform: 'translateX(-50%)' }}>Most Popular</div>
+                <div className="badge badge-primary" style={{ position: 'absolute', top: '-0.75rem', left: '50%', transform: 'translateX(-50%)' }}>{t('popular')}</div>
               )}
 
               <div className="vx-tier">

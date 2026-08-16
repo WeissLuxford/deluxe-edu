@@ -29,14 +29,31 @@
     "saving": "Saqlanmoqda…"
   },
   "signup": {
-    "title": "Ro'yxatdan o'tish",
+    "title": "Hisob yaratish",
     "email": "Email",
     "firstName": "Ism",
     "lastName": "Familiya",
     "displayName": "Ko'rsatiladigan ism",
     "password": "Parol",
     "confirmPassword": "Parolni tasdiqlang",
-    "haveAccount": "Akkountingiz bormi?"
+    "haveAccount": "Hisobingiz bormi?",
+    "phone": "Telefon raqami",
+    "codeSent": "Tasdiqlash kodini yuboramiz",
+    "code": "SMS dagi kod",
+    "codePlaceholder": "6 raqam",
+    "passwordPlaceholder": "Parol o’ylab toping",
+    "passwordHint": "Kamida 6 belgi, harflar va raqamlar",
+    "confirm": "Parolni takrorlang",
+    "confirmPlaceholder": "Yana bir bor",
+    "mismatch": "Parollar mos kelmadi",
+    "verifyTitle": "Raqamni tasdiqlang",
+    "sendCode": "Kod olish",
+    "sending": "Yuborilmoqda…",
+    "verifyCode": "Tasdiqlash",
+    "verifying": "Tekshirilmoqda…",
+    "create": "Hisob yaratish",
+    "creating": "Yaratilmoqda…",
+    "signIn": "Kirish"
   },
   "auth": {
     "passwordHint": "Parolda harflar va raqamlar bo'lishi kerak",
@@ -355,5 +372,13 @@
     "notReadyText": "Bu dars uchun savollar hali qo’shilmagan",
     "sendError": "Testni yuborib bo’lmadi. Aloqani tekshiring",
     "typeAnswer": "Javobni kiriting"
+  },
+  "plans": {
+    "choose": "Tarifni tanlang",
+    "popular": "Ommabop",
+    "contactToEnroll": "Kirish rasmiylashtirish uchun biz bilan bog’laning",
+    "phone": "Telefon",
+    "telegram": "Telegram",
+    "gotIt": "Tushunarli"
   }
 }
