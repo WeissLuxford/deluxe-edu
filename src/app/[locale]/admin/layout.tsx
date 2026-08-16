@@ -17,10 +17,11 @@ export default async function AdminLayout({
   const { locale } = await params
   const admin = await requireAdmin(locale)
 
-  const [courses, students, streams, newContacts] = await Promise.all([
+  const [courses, students, streams, news, newContacts] = await Promise.all([
     prisma.course.count(),
     prisma.user.count(),
     prisma.stream.count(),
+    prisma.news.count(),
     prisma.contactRequest.count({ where: { status: 'NEW' } })
   ])
 
@@ -30,7 +31,7 @@ export default async function AdminLayout({
         locale={locale}
         adminName={admin.name || 'Администратор'}
         adminPhone={admin.phone}
-        counters={{ courses, students, streams, newContacts }}
+        counters={{ courses, students, streams, news, newContacts }}
       />
 
       <main className="admin-main">

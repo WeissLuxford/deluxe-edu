@@ -9,7 +9,8 @@
     "streams": "Streams",
     "about": "About",
     "contacts": "Contacts",
-    "signout": "Sign out"
+    "signout": "Sign out",
+    "news": "News"
   },
   "buttons": {
     "start": "Start",
@@ -595,5 +596,13 @@
     "quickLead": "Or just explore on your own",
     "faqLead": "Still have questions? Check the full list or message us",
     "faqAll": "All questions"
+  },
+  "news": {
+    "title": "News",
+    "subtitle": "What is happening on the platform",
+    "empty": "No news yet",
+    "emptyHint": "Announcements and updates will appear here",
+    "readMore": "Read",
+    "backToList": "All news"
   }
 }

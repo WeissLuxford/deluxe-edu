@@ -8,6 +8,7 @@ import {
   BookOpen,
   Users,
   Radio,
+  Newspaper,
   Inbox,
   ExternalLink,
   PanelLeftClose,
@@ -21,7 +22,7 @@ type Props = {
   locale: string
   adminName: string
   adminPhone: string
-  counters: { courses: number; students: number; streams: number; newContacts: number }
+  counters: { courses: number; students: number; streams: number; news: number; newContacts: number }
 }
 
 export function AdminSidebar({ locale, adminName, adminPhone, counters }: Props) {
@@ -36,6 +37,7 @@ export function AdminSidebar({ locale, adminName, adminPhone, counters }: Props)
     { href: `${base}/courses`, icon: BookOpen, label: 'Курсы', count: counters.courses },
     { href: `${base}/students`, icon: Users, label: 'Студенты', count: counters.students },
     { href: `${base}/streams`, icon: Radio, label: 'Эфиры', count: counters.streams },
+    { href: `${base}/news`, icon: Newspaper, label: 'Новости', count: counters.news },
     { href: `${base}/contacts`, icon: Inbox, label: 'Заявки', count: counters.newContacts, accent: true }
   ]
 

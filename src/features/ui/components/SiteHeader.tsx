@@ -25,6 +25,7 @@ export default function SiteHeader() {
   const navItems = [
     { href: `${base}/courses`, label: t('nav.courses') },
     { href: `${base}/streams`, label: t('nav.streams') },
+    { href: `${base}/news`, label: t('nav.news') },
     { href: `${base}/about`, label: t('nav.about') },
     { href: `${base}/contacts`, label: t('nav.contacts') }
   ]

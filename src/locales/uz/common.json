@@ -9,7 +9,8 @@
     "streams": "Translyatsiyalar",
     "about": "Biz haqimizda",
     "contacts": "Aloqa",
-    "signout": "Chiqish"
+    "signout": "Chiqish",
+    "news": "Yangiliklar"
   },
   "buttons": {
     "start": "Boshlash",
@@ -601,5 +602,13 @@
     "quickLead": "Yoki shunchaki o’zingiz ko’ring",
     "faqLead": "Savollar qoldimi? To’liq ro’yxatga qarang yoki bizga yozing",
     "faqAll": "Barcha savollar"
+  },
+  "news": {
+    "title": "Yangiliklar",
+    "subtitle": "Platformada nimalar bolyapti",
+    "empty": "Hozircha yangiliklar yoq",
+    "emptyHint": "Bu yerda elonlar va yangilanishlar paydo boladi",
+    "readMore": "Oqish",
+    "backToList": "Barcha yangiliklar"
   }
 }

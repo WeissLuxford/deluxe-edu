@@ -3510,3 +3510,126 @@ html.light .course-article__cta {
   margin-top: -1rem;
   background: linear-gradient(to top, var(--bg) 60%, transparent);
 }
+
+.news-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  overflow: hidden;
+  transition: var(--transition-slow);
+}
+
+.news-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.news-card__cover {
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-tertiary);
+}
+
+.news-card__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.news-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.35rem;
+  flex: 1;
+}
+
+.news-card__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.news-card__title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.news-card__title a {
+  color: var(--fg);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.news-card__title a:hover {
+  color: var(--gold-text);
+}
+
+.news-card__lead {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-card__more {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gold-text);
+  text-decoration: none;
+}
+
+.news-article {
+  max-width: 44rem;
+}
+
+.news-article__title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.news-article__cover {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  margin-bottom: 1.5rem;
+}
+
+.news-article__lead {
+  margin: 0 0 1.5rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.news-article__p {
+  margin: 0 0 1.1rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
