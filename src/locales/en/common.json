@@ -153,7 +153,21 @@
     "tabPayments": "Payments",
     "tabProgress": "Progress",
     "tabSubmissions": "Submissions",
-    "tabSettings": "Settings"
+    "tabSettings": "Settings",
+    "statCourses": "Courses",
+    "statLessonsDone": "Lessons done",
+    "statInProgress": "In progress",
+    "statCompleted": "Completed",
+    "continueLearning": "Continue learning",
+    "browseCourses": "Browse courses",
+    "noEnrollmentsHint": "Pick a course in the catalog — access opens forever",
+    "progressEmpty": "You have not started any lesson yet",
+    "lessonColumn": "Lesson",
+    "watchedColumn": "Watched",
+    "passedColumn": "Passed",
+    "updatedColumn": "Updated",
+    "yes": "Yes",
+    "no": "No"
   },
   "profile": {
     "displayName": "Display name",

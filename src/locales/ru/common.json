@@ -153,7 +153,21 @@
     "tabPayments": "Платежи",
     "tabProgress": "Прогресс",
     "tabSubmissions": "Ответы",
-    "tabSettings": "Настройки"
+    "tabSettings": "Настройки",
+    "statCourses": "Курсов",
+    "statLessonsDone": "Уроков пройдено",
+    "statInProgress": "В работе",
+    "statCompleted": "Завершено",
+    "continueLearning": "Продолжить обучение",
+    "browseCourses": "Выбрать курс",
+    "noEnrollmentsHint": "Выберите курс в каталоге — доступ открывается навсегда",
+    "progressEmpty": "Вы ещё не начали ни одного урока",
+    "lessonColumn": "Урок",
+    "watchedColumn": "Просмотрен",
+    "passedColumn": "Сдан",
+    "updatedColumn": "Обновлён",
+    "yes": "Да",
+    "no": "Нет"
   },
   "profile": {
     "displayName": "Ник",

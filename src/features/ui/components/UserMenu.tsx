@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
 import { useSession, signOut } from 'next-auth/react'
+import { Avatar } from './Avatar'
 
 export default function UserMenu() {
   const locale = useLocale()
@@ -64,7 +65,6 @@ export default function UserMenu() {
     )
   }
 
-  const avatarSrc = session.user.image || '/brand/avatar-default.png'
 
   return (
     <div className="user-menu-root" ref={ref}>
@@ -76,11 +76,14 @@ export default function UserMenu() {
         className="avatar-btn"
         onClick={() => setOpen(v => !v)}
       >
-        {session.user.image ? (
-          <img src={avatarSrc} alt="" className="avatar-img" />
-        ) : (
-          <span className="avatar-fallback">{initials}</span>
-        )}
+        {/* Один и тот же аватар в шапке и в кабинете: цвет считается
+            из телефона, поэтому у каждого он свой и не меняется */}
+        <Avatar
+          name={session.user.name}
+          seed={session.user.phone || session.user.id}
+          image={session.user.image}
+          size={36}
+        />
       </button>
 
       <div

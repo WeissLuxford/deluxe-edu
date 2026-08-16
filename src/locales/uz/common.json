@@ -153,7 +153,21 @@
     "tabPayments": "To'lovlar",
     "tabProgress": "Rivojlanish",
     "tabSubmissions": "Topshirganlar",
-    "tabSettings": "Sozlamalar"
+    "tabSettings": "Sozlamalar",
+    "statCourses": "Kurslar",
+    "statLessonsDone": "Tugatilgan darslar",
+    "statInProgress": "Jarayonda",
+    "statCompleted": "Tugatilgan",
+    "continueLearning": "O’qishni davom ettirish",
+    "browseCourses": "Kurs tanlash",
+    "noEnrollmentsHint": "Katalogdan kurs tanlang — kirish abadiy ochiladi",
+    "progressEmpty": "Siz hali birorta darsni boshlamadingiz",
+    "lessonColumn": "Dars",
+    "watchedColumn": "Ko’rilgan",
+    "passedColumn": "Topshirilgan",
+    "updatedColumn": "Yangilangan",
+    "yes": "Ha",
+    "no": "Yo’q"
   },
   "profile": {
     "displayName": "Niqob",
