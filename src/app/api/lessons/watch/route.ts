@@ -1,4 +1,3 @@
-// src/app/api/lessons/watch/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
@@ -6,7 +5,6 @@ import { prisma } from '@/lib/db'
 
 export async function POST(req: NextRequest) {
   try {
-    // userId берём ТОЛЬКО из сессии, никогда из тела запроса
     const session = await getServerSession(authOptions)
     const userId = session?.user?.id
     if (!userId) {
@@ -18,7 +16,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing lessonId' }, { status: 400 })
     }
 
-    // Урок должен существовать, а юзер — быть записан на его курс
     const lesson = await prisma.lesson.findUnique({
       where: { id: lessonId },
       select: { id: true, courseId: true }

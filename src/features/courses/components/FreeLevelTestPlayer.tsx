@@ -1,4 +1,3 @@
-// src/features/courses/components/FreeLevelTestPlayer.tsx
 'use client'
 
 import { useState } from 'react'
@@ -14,7 +13,6 @@ type Props = {
   currentIndex: number
 }
 
-// Mock questions
 const mockQuestions = [
   {
     id: '1',
@@ -132,14 +130,12 @@ export function FreeLevelTestPlayer({ lesson, assignment, nextLesson, locale, to
   return (
     <div className="page-start py-8">
       <div className="mx-auto max-w-3xl">
-        {/* Info Banner */}
         <div className="mb-6 rounded-lg p-4" style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
           <div className="text-sm" style={{ color: 'var(--muted)' }}>
             💡 Answer all questions in this section. There's no time limit!
           </div>
         </div>
 
-        {/* Question Progress */}
         <div className="glass-panel mb-6" style={{ padding: '1rem' }}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium" style={{ color: 'var(--fg)' }}>
@@ -154,7 +150,6 @@ export function FreeLevelTestPlayer({ lesson, assignment, nextLesson, locale, to
           </div>
         </div>
 
-        {/* Question */}
         <div className="glass-panel" style={{ padding: '2rem' }}>
           <h3 className="text-xl font-semibold mb-6" style={{ color: 'var(--fg)' }}>
             {currentQuestion.question}
@@ -178,7 +173,6 @@ export function FreeLevelTestPlayer({ lesson, assignment, nextLesson, locale, to
           </div>
         </div>
 
-        {/* Navigation */}
         <div className="mt-6 flex gap-4">
           <button
             onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}

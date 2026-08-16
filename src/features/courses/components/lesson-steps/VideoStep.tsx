@@ -1,4 +1,3 @@
-// src/features/courses/components/lesson-steps/VideoStep.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -12,7 +11,6 @@ export function VideoStep({ lessonId, locale }: Props) {
   const [videoWatched, setVideoWatched] = useState(false)
 
   useEffect(() => {
-    // Отметить видео как просмотренное после 5 секунд
     const timer = setTimeout(async () => {
       if (!videoWatched) {
         setVideoWatched(true)
@@ -29,7 +27,6 @@ export function VideoStep({ lessonId, locale }: Props) {
 
   return (
     <div className="space-y-6">
-      {/* Video Player */}
       <div className="aspect-video rounded-xl overflow-hidden" style={{ background: '#000' }}>
         <div className="w-full h-full flex items-center justify-center text-white">
           <div className="text-center">
@@ -42,7 +39,6 @@ export function VideoStep({ lessonId, locale }: Props) {
         </div>
       </div>
 
-      {/* Video Info */}
       <div className="glass-panel" style={{ padding: '1.5rem' }}>
         <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--fg)' }}>
           Video Lesson
@@ -59,7 +55,6 @@ export function VideoStep({ lessonId, locale }: Props) {
         )}
       </div>
 
-      {/* Tips */}
       <div className="rounded-lg p-4" style={{ background: 'rgba(199, 164, 90, 0.1)', border: '1px solid var(--border)' }}>
         <div className="text-sm" style={{ color: 'var(--muted)' }}>
           💡 <strong style={{ color: 'var(--gold-text)' }}>Tip:</strong> Take notes while watching. You can review them in the next step.

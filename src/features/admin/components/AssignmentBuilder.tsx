@@ -31,7 +31,6 @@ const newQuestion = (): Question => ({
   correct: ''
 })
 
-/** Поле с русским текстом и раскрывающимися переводами */
 function LocalizedField({
   value,
   onChange,

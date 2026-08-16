@@ -1,4 +1,3 @@
-// src/features/courses/components/CourseArticle.tsx
 'use client'
 
 import { useState } from 'react'
@@ -22,7 +21,6 @@ type Props = {
   priceDeluxe: number
   locale: string
   state: CourseArticleState
-  /** Урок, с которого продолжить: первый непройденный */
   resumeLessonSlug?: string
 }
 
@@ -60,8 +58,6 @@ export function CourseArticle({
 
   return (
     <>
-      {/* data-level красит карточку в цвет уровня: без него все курсы
-          выглядели одинаковыми серыми прямоугольниками */}
       <article className={`course-article state-${state}`} data-level={level}>
         <header className="course-article__head">
           <span className="course-article__level">{level}</span>

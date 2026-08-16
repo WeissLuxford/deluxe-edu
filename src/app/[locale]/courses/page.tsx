@@ -1,4 +1,3 @@
-// src/app/[locale]/courses/page.tsx
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
@@ -21,7 +20,6 @@ const LEVELS = [
   'Advanced'
 ]
 
-/** Курсы-витрины, у них свои отдельные страницы */
 const SPECIAL_SLUGS = ['level-test', 'trial-lesson']
 const isSpecial = (slug: string) => SPECIAL_SLUGS.includes(slug) || slug.includes('mock-test')
 
@@ -54,11 +52,8 @@ export default async function CoursesPage({ params, searchParams }: Props) {
   const hasLevelTest = courses.some(c => c.slug === 'level-test')
   const hasFreeMockTest = courses.some(c => c.slug.includes('mock-test') && c.priceBasic === 0)
 
-  // Курс без уроков покупать не за что — в каталоге он выглядит как пустое
-  // обещание, поэтому не показываем его вовсе
   const regular = courses.filter(c => !isSpecial(c.slug) && c.lessons.length > 0)
 
-  // Прогресс нужен, чтобы отделить активные курсы от пройденных
   const progressByLesson = new Map<string, boolean>()
   const enrolledCourseIds = new Set<string>()
 
@@ -100,8 +95,6 @@ export default async function CoursesPage({ params, searchParams }: Props) {
   const completed = decorated.filter(d => d.state === 'completed')
   const available = decorated.filter(d => d.state === 'available')
 
-  // Фильтр по уровню применяем только к доступным: свои курсы человек
-  // хочет видеть все и сразу, а не искать их по разделам
   const levelsWithCourses = LEVELS.filter(l => available.some(d => d.course.level === l))
   const availableFiltered = selectedLevel
     ? available.filter(d => d.course.level === selectedLevel)

@@ -12,7 +12,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Ищем OTP
     const otpRecord = await prisma.oTPCode.findFirst({
       where: {
         phone,
@@ -30,7 +29,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Отмечаем как использованный
     await prisma.oTPCode.update({
       where: { id: otpRecord.id },
       data: { used: true }

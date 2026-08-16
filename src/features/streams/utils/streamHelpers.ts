@@ -1,42 +1,53 @@
-import type { Stream } from '../types';
+import { prisma } from '@/lib/db'
 
-const MOCK_STREAMS: Stream[] = [
-  {
-    id: 'dQw4w9WgXcQ', // Используем YouTube ID как ID стрима
-    youtubeId: 'dQw4w9WgXcQ',
-    title: 'English Grammar Masterclass - Live Session',
-    description: 'Join us for an interactive grammar session covering present perfect tense and common mistakes. We will practice real-life examples and answer all your questions in real-time!',
-    thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
-    scheduledAt: new Date().toISOString(),
-    isLive: true,
-    viewerCount: 42,
-  },
-  {
-    id: 'jNQXAC9IVRw',
-    youtubeId: 'jNQXAC9IVRw',
-    title: 'IELTS Speaking Practice - Band 7+ Tips',
-    description: 'Learn advanced speaking techniques with our expert mentor. Master fluency, vocabulary, and pronunciation strategies.',
-    thumbnail: 'https://img.youtube.com/vi/jNQXAC9IVRw/maxresdefault.jpg',
-    scheduledAt: new Date(Date.now() + 86400000).toISOString(),
-    isLive: false,
-    viewerCount: 0,
-  },
-  {
-    id: '9bZkp7q19f0',
-    youtubeId: '9bZkp7q19f0',
-    title: 'Business English Conversation Workshop',
-    description: 'Professional communication skills for the workplace. Negotiations, presentations, and email writing.',
-    thumbnail: 'https://img.youtube.com/vi/9bZkp7q19f0/maxresdefault.jpg',
-    scheduledAt: new Date(Date.now() - 3600000).toISOString(),
-    isLive: false,
-    viewerCount: 127,
-  },
-];
+export type StreamStatus = 'live' | 'upcoming' | 'past'
 
-export async function getActiveStreams(): Promise<Stream[]> {
-  return MOCK_STREAMS;
+const PLAN_RANK: Record<string, number> = {
+  FREE: 0,
+  BASIC: 1,
+  PRO: 2,
+  DELUXE: 3
 }
 
-export async function getStreamById(id: string): Promise<Stream | null> {
-  return MOCK_STREAMS.find((s) => s.id === id) || null;
+export function statusOf(startsAt: Date, durationMin: number, now = new Date()): StreamStatus {
+  const start = startsAt.getTime()
+  const end = start + durationMin * 60_000
+  const t = now.getTime()
+
+  if (t < start) return 'upcoming'
+  if (t <= end) return 'live'
+  return 'past'
+}
+
+export async function getPublishedStreams() {
+  return prisma.stream.findMany({
+    where: { published: true },
+    orderBy: { startsAt: 'desc' }
+  })
+}
+
+export async function getStreamById(id: string) {
+  return prisma.stream.findFirst({ where: { id, published: true } })
+}
+
+export async function getUserPlanRank(userId: string | null): Promise<number | null> {
+  if (!userId) return null
+
+  const enrollments = await prisma.enrollment.findMany({
+    where: { userId, status: 'ACTIVE' },
+    select: { plan: true }
+  })
+
+  if (enrollments.length === 0) return null
+
+  return enrollments.reduce((best, e) => {
+    const rank = PLAN_RANK[e.plan || 'BASIC'] ?? 0
+    return rank > best ? rank : best
+  }, 0)
+}
+
+export function canWatch(requiredPlan: string | null, userPlanRank: number | null): boolean {
+  if (!requiredPlan) return true
+  if (userPlanRank === null) return false
+  return userPlanRank >= (PLAN_RANK[requiredPlan] ?? 0)
 }

@@ -21,8 +21,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Missing meetingNumber' }, { status: 400 })
   }
 
-  // Встреча должна принадлежать реальному уроку — подпись на произвольный
-  // номер выдавать нельзя, иначе можно зайти в чужую конференцию
   const lesson = await prisma.lesson.findFirst({
     where: { zoomMeetingId: meetingNumber },
     select: { courseId: true }
@@ -42,7 +40,6 @@ export async function POST(req: Request) {
     }
   }
 
-  // Роль назначает сервер по роли пользователя, а не клиент
   const role: ZoomRole = isStaff ? 1 : 0
 
   const signature = createZoomSignature({ sdkKey, sdkSecret, meetingNumber, role })

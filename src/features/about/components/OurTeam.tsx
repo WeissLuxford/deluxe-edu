@@ -30,7 +30,6 @@ export function OurTeam() {
             margin: '0 auto',
           }}
         >
-          {/* Founder 1 */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -65,7 +64,6 @@ export function OurTeam() {
             </p>
           </motion.div>
 
-          {/* Teacher */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

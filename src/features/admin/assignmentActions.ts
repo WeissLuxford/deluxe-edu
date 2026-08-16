@@ -22,7 +22,6 @@ const questionSchema = z.object({
   type: z.enum(['single', 'multiple', 'text']),
   question: localized,
   options: z.array(optionSchema).default([]),
-  /** Строка для single/text, массив для multiple */
   correct: z.union([z.string(), z.array(z.string())])
 })
 
@@ -31,14 +30,6 @@ const payloadSchema = z.object({
   questions: z.array(questionSchema).min(1, 'Нужен хотя бы один вопрос')
 })
 
-/**
- * Разделяет данные формы на две части:
- *  - prompt    уходит в браузер студента (вопросы и варианты, без ответов)
- *  - answerKey остаётся на сервере (правильные ответы)
- *
- * Смешивать их нельзя: всё, что попадает в prompt, студент видит в исходниках
- * страницы. Оценку считает сервер по answerKey — см. /api/lessons/submit.
- */
 function split(questions: z.infer<typeof questionSchema>[]) {
   const prompt = {
     questions: questions.map(q => ({
@@ -139,7 +130,6 @@ export async function saveAssignment(
     })
   }
 
-  // Тест есть — значит у урока должен стоять соответствующий флаг
   await prisma.lesson.update({ where: { id: lessonId }, data: { hasTest: true } })
 
   revalidatePath(`/ru/admin/lessons/${lessonId}`)

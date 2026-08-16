@@ -40,9 +40,6 @@ export default function HeroVertex() {
       p.y = Math.random() * window.innerHeight
       p.speed = Math.random() * 0.4 + 0.2
       p.opacity = Math.random() * 0.6 + 0.4
-      // p.fadeDelay = Math.random() * 1000 + 500
-      // p.fadeStart = Date.now() + p.fadeDelay
-      // p.fadingOut = false
       p.size = Math.random() * 2 + 0.8
     }
 

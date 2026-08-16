@@ -1,4 +1,3 @@
-// src/features/courses/components/LessonPlayer.tsx
 'use client'
 
 import { useState } from 'react'
@@ -64,13 +63,10 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
   const [testCompleted, setTestCompleted] = useState(progress?.passed || false)
   const [finishing, setFinishing] = useState(false)
 
-  // Тест есть только если к уроку заведено задание. Одной галочки hasTest
-  // мало: она может стоять, когда вопросы ещё не добавлены.
   const hasGradedTest = Boolean(assignment)
 
   const currentStep = steps[currentStepIndex]
   const isLastStep = currentStepIndex === steps.length - 1
-  // Провалил тест — предлагаем вернуться к конспекту, если он у урока есть
   const conspectStepIndex = steps.indexOf('conspect')
   const canGoNext = currentStep === 'video' || currentStep === 'conspect' || testCompleted
 
@@ -83,8 +79,6 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
       return
     }
 
-    // Урок без теста иначе никогда не станет пройденным, и следующий
-    // урок останется закрытым навсегда
     if (!hasGradedTest && !progress?.passed) {
       setFinishing(true)
       try {
@@ -109,7 +103,6 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      {/* Header */}
       <header className="sticky top-0 z-10" style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border)' }}>
         <div className="page-start">
           <div className="flex items-center justify-between py-4">
@@ -128,14 +121,12 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
             <div className="w-24" />
           </div>
 
-          {/* Progress Bar */}
           <div className="progress" style={{ height: '4px', marginBottom: 0 }}>
             <div className="progress-bar" style={{ width: `${((currentStepIndex + 1) / steps.length) * 100}%` }} />
           </div>
         </div>
       </header>
 
-      {/* Content */}
       <div className="page-start py-8">
         <div className="mx-auto max-w-4xl">
           {currentStep === 'video' && (
@@ -167,7 +158,6 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
             />
           )}
 
-          {/* Navigation */}
           <div className="mt-8 flex items-center justify-between">
             <button
               onClick={() => setCurrentStepIndex(prev => Math.max(0, prev - 1))}

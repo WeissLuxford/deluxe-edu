@@ -46,13 +46,10 @@ export default function SiteHeader() {
     }
   }, [search, session, status])
 
-  // Меню закрываем при переходе на другую страницу, иначе оно
-  // останется висеть поверх нового содержимого
   useEffect(() => {
     setMenuOpen(false)
   }, [pathname])
 
-  // Пока меню открыто, страница под ним не должна прокручиваться
   useEffect(() => {
     if (!menuOpen) return
     const previous = document.body.style.overflow
@@ -111,17 +108,12 @@ export default function SiteHeader() {
         <VerifyBanner />
       </header>
 
-      {/* Меню и затемнение живут ВНЕ шапки.
-          У .site-header стоит backdrop-filter, а он делает элемент точкой
-          отсчёта для вложенных position: fixed — панель обрезалась
-          по высоте шапки, и затемнялась только она. */}
       <div
         className={`mobile-menu-backdrop${menuOpen ? ' open' : ''}`}
         onClick={() => setMenuOpen(false)}
         aria-hidden="true"
       />
       <div id="mobile-menu" className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-        {/* Свой крестик: пока панель открыта, бургер в шапке накрыт затемнением */}
         <button
           type="button"
           className="mobile-menu-close"

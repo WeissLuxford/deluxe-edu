@@ -42,7 +42,6 @@ export default function ProgressSection({ rows, locale }: { rows: Row[]; locale:
           </span>
 
           <div className="progress-row__body">
-            {/* Раньше здесь показывался slug курса — человеку он ничего не говорит */}
             <span className="progress-row__course">
               {localized(r.lesson.course.title, locale) || r.lesson.course.slug}
             </span>

@@ -1,4 +1,3 @@
-// prisma/seed.ts
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -7,7 +6,6 @@ async function main() {
   console.log('🌱 Seeding courses...')
 
   const courses = [
-    // FREE TRIAL LESSON (бесплатный пробный урок)
     {
       slug: 'trial-lesson',
       title: {
@@ -28,7 +26,6 @@ async function main() {
       visible: true
     },
 
-    // LEVEL TEST (бесплатный)
     {
       slug: 'level-test',
       title: {
@@ -49,7 +46,6 @@ async function main() {
       visible: true
     },
 
-    // FREE MOCK TEST (бесплатный онлайн без учителя)
     {
       slug: 'free-mock-test-online',
       title: {
@@ -70,7 +66,6 @@ async function main() {
       visible: true
     },
 
-    // BEGINNER
     {
       slug: 'beginner-grammar',
       title: {
@@ -129,7 +124,6 @@ async function main() {
       visible: true
     },
 
-    // ELEMENTARY
     {
       slug: 'elementary-grammar',
       title: {
@@ -169,7 +163,6 @@ async function main() {
       visible: true
     },
 
-    // PRE-INTERMEDIATE
     {
       slug: 'pre-intermediate-grammar',
       title: {
@@ -228,7 +221,6 @@ async function main() {
       visible: true
     },
 
-    // INTERMEDIATE
     {
       slug: 'intermediate-grammar',
       title: {
@@ -306,7 +298,6 @@ async function main() {
       visible: true
     },
 
-    // UPPER-INTERMEDIATE
     {
       slug: 'upper-intermediate-grammar',
       title: {
@@ -384,7 +375,6 @@ async function main() {
       visible: true
     },
 
-    // ADVANCED
     {
       slug: 'advanced-speaking-mastery',
       title: {
@@ -474,10 +464,8 @@ async function main() {
 
   console.log('🎉 Seeding completed!')
 
-  // Добавляем уроки к первому курсу (level-test)
   console.log('\n📚 Adding lessons...')
 
-  // Пробный урок
   const trialCourse = await prisma.course.findUnique({ where: { slug: 'trial-lesson' } })
   if (trialCourse) {
     await prisma.lesson.create({
@@ -535,7 +523,6 @@ async function main() {
     console.log('✅ Added 3 lessons to level-test')
   }
 
-  // Добавляем уроки к beginner-grammar
   const beginnerGrammar = await prisma.course.findUnique({ where: { slug: 'beginner-grammar' } })
   if (beginnerGrammar) {
     await prisma.lesson.createMany({
@@ -598,16 +585,8 @@ async function main() {
 
   console.log('\n🎊 All done!')
 
-  // Добавляем тесты к урокам
   console.log('Adding tests to lessons...')
 
-  /**
-   * Вопросы и ответы хранятся РАЗДЕЛЬНО:
-   *   prompt    — уходит в браузер студента (вопросы и варианты)
-   *   answerKey — остаётся на сервере, по нему считается оценка
-   * Класть correctAnswer внутрь prompt нельзя: студент увидит ответы
-   * в исходниках страницы.
-   */
   async function addTest(
     lessonSlug: string,
     title: { en: string; ru: string; uz: string },
@@ -735,7 +714,6 @@ async function main() {
     ]
   )
 
-  // Добавляем уроки к бесплатному mock test
   const freeMockTest = await prisma.course.findUnique({ where: { slug: 'free-mock-test-online' } })
   if (freeMockTest) {
     await prisma.lesson.createMany({

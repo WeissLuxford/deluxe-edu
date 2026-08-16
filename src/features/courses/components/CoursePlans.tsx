@@ -1,4 +1,3 @@
-// src/features/courses/components/CoursePlans.tsx
 'use client'
 
 import { useState } from 'react'
@@ -38,9 +37,6 @@ export function CoursePlans({
           maximumFractionDigits: 0
         }).format(value)
 
-  // Цены берутся из базы — те, что задаются в админке, а не написаны в вёрстке.
-  // Выделен Deluxe: только в нём есть живой преподаватель, остальные два —
-  // для самостоятельного обучения
   const plans = [
     {
       key: 'BASIC',

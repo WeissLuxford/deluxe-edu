@@ -1,4 +1,3 @@
-// src/app/[locale]/trial-lesson/page.tsx
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
@@ -38,7 +37,6 @@ export default async function TrialLessonPage({ params }: Props) {
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      {/* Header */}
       <header className="sticky top-0 z-10" style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border)' }}>
         <div className="page-start">
           <div className="flex items-center justify-between py-4">
@@ -56,7 +54,6 @@ export default async function TrialLessonPage({ params }: Props) {
         </div>
       </header>
 
-      {/* Content */}
       <FreeTrialPlayer
         lesson={lesson}
         courseTitle={courseTitle}

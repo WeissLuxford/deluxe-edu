@@ -1,6 +1,5 @@
 import crypto from 'crypto'
 
-/** 0 — участник, 1 — организатор (ведущий) */
 export type ZoomRole = 0 | 1
 
 type SignatureParams = {
@@ -8,7 +7,6 @@ type SignatureParams = {
   sdkSecret: string
   meetingNumber: string
   role: ZoomRole
-  /** Время жизни подписи в секундах */
   exp?: number
 }
 

@@ -1,4 +1,3 @@
-// src/features/courses/components/CourseCard.tsx
 'use client'
 
 import { useState } from 'react'
@@ -61,7 +60,6 @@ export function CourseCard({
         <div className="flex items-center justify-between pt-4" style={{ borderTop: '1px solid var(--border)' }}>
           <div className="flex flex-col">
             <span className="text-2xl font-bold" style={{ color: 'var(--gold-text)' }}>
-              {/* У бесплатного курса «0 сум» выглядит как ошибка, а не как предложение */}
               {isFree
                 ? t('free')
                 : new Intl.NumberFormat(locale, {

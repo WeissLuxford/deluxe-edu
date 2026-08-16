@@ -16,7 +16,6 @@ export async function PATCH(request: NextRequest) {
 
     const { firstName, lastName, email } = await request.json()
 
-    // Валидация
     if (!firstName?.trim() || !lastName?.trim()) {
       return NextResponse.json(
         { error: 'First name and last name are required' },
@@ -24,7 +23,6 @@ export async function PATCH(request: NextRequest) {
       )
     }
 
-    // Проверяем уникальность email если он указан
     if (email) {
       const existing = await prisma.user.findFirst({
         where: {
@@ -41,7 +39,6 @@ export async function PATCH(request: NextRequest) {
       }
     }
 
-    // Обновляем профиль
     const updated = await prisma.user.update({
       where: { id: session.user.id },
       data: {

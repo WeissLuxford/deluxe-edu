@@ -1,4 +1,3 @@
-// src/app/[locale]/free-mock-test/page.tsx
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/db'
 
@@ -9,7 +8,6 @@ export default async function FreeMockTestPage({
 }) {
   const { locale } = await params
 
-  // Находим курс free-mock-test-online и редиректим на первый урок
   const course = await prisma.course.findUnique({
     where: { slug: 'free-mock-test-online' },
     include: {

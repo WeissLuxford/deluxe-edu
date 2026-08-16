@@ -31,8 +31,6 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
 
   if (!user) redirect(`/${locale}/signin`)
 
-  // Прогресс считаем здесь, чтобы кабинет показывал не «статус ACTIVE»,
-  // а сколько уроков пройдено и куда возвращаться
   const passedLessonIds = new Set(
     user.LessonProgress.filter(p => p.passed).map(p => p.lessonId)
   )

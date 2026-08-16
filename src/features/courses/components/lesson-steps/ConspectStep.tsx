@@ -1,4 +1,3 @@
-// src/features/courses/components/lesson-steps/ConspectStep.tsx
 'use client'
 
 type Props = {
@@ -9,7 +8,6 @@ type Props = {
 export function ConspectStep({ content, locale }: Props) {
   return (
     <div className="space-y-6">
-      {/* Conspect Header */}
       <div className="glass-panel" style={{ padding: '1.5rem' }}>
         <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--fg)' }}>
           📝 Lesson Notes
@@ -19,10 +17,8 @@ export function ConspectStep({ content, locale }: Props) {
         </p>
       </div>
 
-      {/* Conspect Content */}
       <div className="glass-panel" style={{ padding: '2rem' }}>
         <div className="prose prose-invert max-w-none" style={{ color: 'var(--fg)' }}>
-          {/* Mock content - replace with real lesson.content */}
           <h3 style={{ color: 'var(--gold-text)' }}>Key Concepts</h3>
           <p style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
             {content || 'Lesson conspect will be displayed here. This can include formatted text, lists, examples, and important notes from the video.'}
@@ -49,7 +45,6 @@ export function ConspectStep({ content, locale }: Props) {
         </div>
       </div>
 
-      {/* Next Step Info */}
       <div className="rounded-lg p-4" style={{ background: 'rgba(199, 164, 90, 0.1)', border: '1px solid var(--border)' }}>
         <div className="text-sm" style={{ color: 'var(--muted)' }}>
           💡 <strong style={{ color: 'var(--gold-text)' }}>Ready?</strong> Click "Next" when you've reviewed all the notes to proceed to the test.

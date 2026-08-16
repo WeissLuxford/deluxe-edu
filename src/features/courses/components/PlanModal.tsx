@@ -1,4 +1,3 @@
-// src/features/courses/components/PlanModal.tsx
 'use client'
 
 import { useState } from 'react'

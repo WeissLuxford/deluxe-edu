@@ -10,9 +10,6 @@ export default function SiteFooter() {
   const year = new Date().getFullYear()
   const base = `/${locale}`
 
-  // Ссылки ведут с локалью: без неё /contact уводил на несуществующую
-  // страницу (реальная называется /contacts), а middleware ещё и добавлял
-  // редирект по дороге
   const navLinks = [
     { href: `${base}/courses`, label: t('nav.courses') },
     { href: `${base}/streams`, label: t('nav.streams') },

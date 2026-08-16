@@ -1,20 +1,8 @@
-// src/app/api/lessons/complete/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 
-/**
- * Отмечает урок пройденным, когда проверять нечего.
- *
- * Доступ к следующему уроку открывается по passed у предыдущего, а passed
- * выставляла только отправка теста. На уроке без теста студент застревал
- * навсегда.
- *
- * Ориентируемся на наличие задания в базе, а не на флаг hasTest: если
- * галочка стоит, но вопросы ещё не заведены, оценивать всё равно нечего,
- * и держать студента запертым нельзя.
- */
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
@@ -43,7 +31,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Not enrolled' }, { status: 403 })
     }
 
-    // У урока есть задание — пройти его можно только сдав тест
     if (lesson.Assignment.length > 0) {
       return NextResponse.json(
         { error: 'Lesson has a test, submit it instead' },

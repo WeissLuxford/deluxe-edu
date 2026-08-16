@@ -15,7 +15,6 @@ export default function ProfileSection() {
   const [err, setErr] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
-  // Валидация: имя и фамилия обязательны, email опционален
   const canSave =
     firstName.trim() &&
     lastName.trim() &&
@@ -42,7 +41,6 @@ export default function ProfileSection() {
         throw new Error(data.error || 'Failed to update profile')
       }
 
-      // Обновляем сессию
       await update({
         user: {
           ...user,
@@ -79,7 +77,6 @@ export default function ProfileSection() {
 
       <div className="card">
         <div className="card-content" style={{ display: 'grid', gap: '1.5rem' }}>
-          {/* Phone Number (Read-only) */}
           <div>
             <label className="label">
               <Phone size={16} />
@@ -101,7 +98,6 @@ export default function ProfileSection() {
             </p>
           </div>
 
-          {/* First Name */}
           <div className="form-grid-2">
             <div>
               <label className="label">
@@ -117,7 +113,6 @@ export default function ProfileSection() {
               />
             </div>
 
-            {/* Last Name */}
             <div>
               <label className="label">
                 <User size={16} />
@@ -133,7 +128,6 @@ export default function ProfileSection() {
             </div>
           </div>
 
-          {/* Email (Optional) */}
           <div>
             <label className="label">
               <Mail size={16} />
@@ -151,7 +145,6 @@ export default function ProfileSection() {
             </p>
           </div>
 
-          {/* Save Button */}
           <button
             onClick={handleSave}
             disabled={!canSave || loading}
@@ -173,7 +166,6 @@ export default function ProfileSection() {
         </div>
       </div>
 
-      {/* Account Info */}
       <div className="card" style={{ marginTop: '1.5rem' }}>
         <div className="card-content">
           <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '1rem' }}>

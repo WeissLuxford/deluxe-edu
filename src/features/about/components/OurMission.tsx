@@ -28,7 +28,6 @@ export function OurMission() {
           </p>
         </motion.div>
 
-        {/* Values Grid */}
         <div
           style={{
             display: 'grid',

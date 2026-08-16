@@ -57,7 +57,6 @@ export function AboutHero() {
           </motion.div>
         </motion.div>
 
-        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, y: [0, 10, 0] }}
@@ -68,7 +67,6 @@ export function AboutHero() {
         </motion.div>
       </div>
 
-      {/* Background decorations */}
       <div className="hero-glow" />
     </section>
   );

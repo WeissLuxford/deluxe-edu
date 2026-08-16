@@ -1,10 +1,7 @@
 @import "tailwindcss";
 
-/* ================================
-   CSS Variables
-   ================================ */
 :root {
-  /* Colors */
+  
   --bg: #0e0f10;
   --bg-secondary: #1a1b1e;
   --bg-tertiary: #252629;
@@ -17,28 +14,26 @@
   --gold-light-text: #d4b06a;
   --header-bg: rgba(14,15,16,0.9);
 
-  /* Золото как ТЕКСТ — отдельно от золота как заливки.
-     Один и тот же #c7a45a даёт 9:1 на тёмном фоне и всего 2.4:1
-     на белом при норме 4.5:1, поэтому в светлой теме нужен свой. */
+  
   --gold-text: #d4b06a;
   
-  /* Borders */
+  
   --border: rgba(255, 255, 255, 0.1);
   --border-hover: rgba(199, 164, 90, 0.3);
   
-  /* Shadows */
+  
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-gold: 0 4px 20px rgba(199, 164, 90, 0.2);
   
-  /* Radius */
+  
   --radius-sm: 0.375rem;
   --radius: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   
-  /* Transitions */
+  
   --transition: all 0.2s ease-in-out;
   --transition-slow: all 0.3s ease-in-out;
 
@@ -63,18 +58,15 @@ html.light {
   --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
   --shadow-gold: 0 4px 20px rgba(199,164,90,0.18);
   --header-bg: rgba(248,248,249,0.88);
-  /* было #d29b1b — 2.5:1 на белом, крупные заголовки размывались */
+  
   --text-hero: #a8761a;
   --gold-light-text: #ffffff;
-  /* тёмное золото: 5:1 на белом, читается как текст */
+  
   --gold-text: #8a6a1f;
   --gradient-gold: radial-gradient(120% 120% at 10% 0%, rgba(90, 106, 199, 0.25), transparent 60%),
               radial-gradient(100% 100% at 90% 40%, rgba(106, 178, 212, 0.25), transparent 60%);
 }
 
-/* ================================
-   Base Styles
-   ================================ */
 * {
   box-sizing: border-box;
   text-decoration: none;
@@ -94,10 +86,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  /* clip, а не hidden: hidden создаёт контейнер прокрутки и ломает
-     position: sticky у шапки. clip просто отсекает всё, что вылезло
-     вбок — например, закрытую панель мобильного меню, которая стоит
-     за правым краем экрана. */
+  
   overflow-x: clip;
 }
 
@@ -114,9 +103,6 @@ footer{
   padding-top: 1.4em;
 }
 
-/* ================================
-   Typography
-   ================================ */
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   font-weight: 700;
@@ -151,9 +137,6 @@ a:hover {
   color: var(--gold-light);
 }
 
-/* ================================
-   Scrollbar
-   ================================ */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -172,15 +155,11 @@ a:hover {
   background: var(--gold);
 }
 
-/* Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--muted) var(--bg);
 }
 
-/* ================================
-   Selection
-   ================================ */
 ::selection {
   background: var(--gold);
   color: var(--bg);
@@ -191,9 +170,6 @@ a:hover {
   color: var(--bg);
 }
 
-/* ================================
-   Focus Styles
-   ================================ */
 *:focus {
   outline: none;
 }
@@ -203,11 +179,6 @@ a:hover {
   outline-offset: 2px;
 }
 
-/* ================================
-   Custom Components
-   ================================ */
-
-/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -260,7 +231,6 @@ a:hover {
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* Cards */
 .card {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
@@ -292,7 +262,6 @@ html.light .only-dark { display: none }
 html.dark .only-light.theme-fade { opacity: 0; visibility: hidden }
 html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
 
-/* Inputs */
 .input,
 .textarea,
 .select {
@@ -332,7 +301,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   resize: vertical;
 }
 
-/* Labels */
 .label {
   display: block;
   font-size: 0.875rem;
@@ -341,7 +309,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   color: var(--fg);
 }
 
-/* Badges */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -372,7 +339,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   color: #ef4444;
 }
 
-/* Progress Bar */
 .progress {
   width: 100%;
   height: 0.5rem;
@@ -388,7 +354,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   transition: width 0.3s ease;
 }
 
-/* Divider */
 .divider {
   height: 1px;
   background: var(--border);
@@ -401,11 +366,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   height: 100%;
 }
 
-/* ================================
-   Utility Classes
-   ================================ */
-
-/* Text */
 .text-muted {
   color: var(--muted);
 }
@@ -421,7 +381,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   background-clip: text;
 }
 
-/* Backgrounds */
 .bg-gradient-gold {
   background: linear-gradient(135deg, var(--gold), var(--gold-light));
 }
@@ -430,7 +389,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   background: linear-gradient(135deg, var(--bg), var(--bg-secondary));
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -487,9 +445,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   animation: spin 1s linear infinite;
 }
 
-/* ================================
-   Loading States
-   ================================ */
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -511,7 +466,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   }
 }
 
-/* Spinner */
 .spinner {
   width: 20px;
   height: 20px;
@@ -521,9 +475,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   animation: spin 0.8s linear infinite;
 }
 
-/* ================================
-   Responsive Utilities
-   ================================ */
 .container {
   width: 100%;
   max-width: 1280px;
@@ -543,9 +494,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   }
 }
 
-/* ================================
-   Print Styles
-   ================================ */
 @media print {
   * {
     background: white !important;
@@ -561,9 +509,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   }
 }
 
-/* ================================
-   Accessibility
-   ================================ */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -576,7 +521,6 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
   border-width: 0;
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -738,7 +682,6 @@ html.light .theme-toggle:hover { background: rgba(0,0,0,0.03) }
   gap: 0.5rem;
 }
 
-
 .hero-video {
   aspect-ratio: 16 / 9;
   width: 100%;
@@ -762,7 +705,6 @@ html.light .theme-toggle:hover { background: rgba(0,0,0,0.03) }
 .events-grid { display: grid; gap: 1.3rem }
 @media (min-width: 640px){ .events-grid { grid-template-columns: repeat(3,minmax(0,1fr)) } }
 .btn-auto-right { margin-left: auto }
-
 
 .structure-head { font-size: 1.5rem; font-weight: 700; color: var(--gold-text); margin-bottom: 1rem }
 .structure-track { display: grid; grid-auto-flow: column; grid-auto-columns: 85%; gap: 1rem; overflow-x: auto; padding-bottom: .25rem; scroll-snap-type: x mandatory }
@@ -800,7 +742,7 @@ html.light .struct-dim { color: #9ca3af }
   letter-spacing: .01em;
   line-height: 1;
   white-space: nowrap;
-  /* Темная тема по умолчанию - золотистая кнопка */
+  
   color: #1a1a1a;
   background:
     linear-gradient(to bottom, rgba(255,255,255,.96), rgba(253,244,199,.92) 33%, rgba(255,252,230,.9)) padding-box,
@@ -820,7 +762,6 @@ html.light .struct-dim { color: #9ca3af }
   font-size: .9rem;
 }
 
-/* Светлая тема - голубовато-белая кнопка */
 html.light .iridescent {
   color: #3c5a80;
   background:
@@ -839,7 +780,7 @@ html.light .iridescent {
   inset: -2px;
   border-radius: inherit;
   opacity: .3;
-  /* Темная тема по умолчанию */
+  
   box-shadow:
     inset 0 -.3em .25em rgba(255,255,255,.15),
     inset 0 -.3em .5em rgba(255,255,255,.1),
@@ -879,7 +820,7 @@ html.light .iridescent::after {
   opacity: 0;
   translate: 1.1em 0;
   scale: .9;
-  /* Темная тема по умолчанию - золотистое свечение */
+  
   background: linear-gradient(102deg, rgba(250,204,21,.85), rgba(255,240,179,.85) 40%, rgba(255,253,240,.9) 120%);
   mask: linear-gradient(166deg, transparent 60%, #000);
   filter: blur(6px) brightness(1.05) contrast(1.08);
@@ -903,7 +844,7 @@ html.light .iridescent .drop-shadow::after {
   opacity: 1;
   translate: 1.2em 1.1em;
 
-  /* Темная тема по умолчанию */
+  
   background: rgba(255, 255, 255, 0.045);
   mask: radial-gradient(closest-side, #363636 0, rgba(255,255,255,0) 100%);
   z-index: -1;
@@ -913,9 +854,6 @@ html.light .iridescent .drop-shadow::before {
   background: oklch(60.325% 0.00007 271.152 / 0.155);
 }
 
-
-
-/* Hover states - темная тема */
 .iridescent:hover,
 .iridescent.shine,
 .iridescent:focus-visible {
@@ -927,7 +865,6 @@ html.light .iridescent .drop-shadow::before {
     0 6px 16px rgba(0,0,0,.3);
 }
 
-/* Hover states - светлая тема */
 html.light .iridescent:hover,
 html.light .iridescent.shine,
 html.light .iridescent:focus-visible {
@@ -970,7 +907,6 @@ html.light .iridescent:focus-visible {
 .iridescent:active {
   transition: all .1s cubic-bezier(.33,1,.68,1);
 }
-
 
 .auth-shell {
   display: grid;
@@ -1044,7 +980,6 @@ html.light .auth-card {
 }
 .w-full { width: 100% }
 
-
 .user-skeleton { width: 2rem; height: 2rem; border-radius: 9999px; background: var(--bg-tertiary); animation: pulse 1.6s ease-in-out infinite }
 @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
 
@@ -1094,7 +1029,6 @@ html.light .menu-item:hover { background: rgba(0,0,0,.04) }
 .menu-first { border-top-left-radius: calc(var(--radius-xl) - 1px); border-top-right-radius: calc(var(--radius-xl) - 1px) }
 .menu-last { border-bottom-left-radius: calc(var(--radius-xl) - 1px); border-bottom-right-radius: calc(var(--radius-xl) - 1px) }
 
-
 .lang-root{position:relative;display:inline-block}
 .lang-btn{
   display:inline-flex;align-items:center;gap:.4rem;height:2.25rem;padding:0 .75rem;
@@ -1123,7 +1057,6 @@ html.light .lang-panel{background:#fff}
 }
 .lang-item:hover{background:rgba(255,255,255,.06)}
 html.light .lang-item:hover{background:rgba(0,0,0,.04)}
-
 
 :root{--header-h:8rem}
 
@@ -1217,8 +1150,6 @@ th,td { border-color: var(--border) }
 
 @media (min-width: 640px) { .page-start { padding-inline: 1.5rem } }
 @media (min-width: 1024px) { .page-start { padding-inline: 2rem } }
-
-
 
 .vx-footer{background:var(--bg-secondary);color:var(--fg)}
 html.dark .vx-footer{background:#111}
@@ -1362,7 +1293,6 @@ html.light .glass-panel {
 .faq-answer > * { overflow: hidden; margin-top: 0 }
 .faq-item.open .faq-answer { grid-template-rows: 1fr; margin-top: .5rem }
 
-
 #faq div h2{margin-bottom: 1rem;}
 
 #how-it-works .container{display: grid; gap: 20px; margin: 40px auto; justify-content: center;}
@@ -1417,12 +1347,6 @@ html.light .glass-panel {
     transform: rotate(360deg);
   }
 }
-/* ================================
-   Мобильный хедер
-   ================================
-   До этого хедер не сжимался вообще: на экране 375px он занимал 569px,
-   и вбок ездила КАЖДАЯ страница сайта. Ниже 900px прячем горизонтальное
-   меню и действия, показываем бургер с выезжающей панелью. */
 
 .burger-btn {
   display: none;
@@ -1469,7 +1393,7 @@ html.light .glass-panel {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.25s ease;
-    /* выше шапки (z-index: 50), иначе темнеет только контент под ней */
+    
     z-index: 60;
   }
 
@@ -1559,13 +1483,6 @@ html.light .glass-panel {
   }
 }
 
-/* ================================
-   Мобильный футер
-   ================================
-   Сетка была жёстко задана в четыре колонки без переопределения:
-   на 375px они схлопывались до 78/54/67/143px, и «Instagram»
-   переносился по буквам в колонке шириной 54 пикселя. */
-
 @media (max-width: 900px) {
   .vx-footer__top {
     grid-template-columns: 1fr;
@@ -1587,8 +1504,7 @@ html.light .glass-panel {
     grid-column: auto;
   }
 
-  /* Ссылки в две колонки: одной колонкой футер вытягивается
-     в бесконечную ленту, по которой долго скроллить */
+  
   .vx-footer__nav,
   .vx-footer__social {
     grid-template-columns: 1fr 1fr;
@@ -1607,13 +1523,6 @@ html.light .glass-panel {
     gap: 0.5rem;
   }
 }
-
-/* ================================
-   Общая шапка страницы
-   ================================
-   Главная выглядела живой из-за градиента и крупной типографики,
-   а остальные страницы начинались плоской заливкой — из-за этого
-   казалось, что попал на другой сайт. Один блок на все разделы. */
 
 .page-shell {
   min-height: 60vh;
@@ -1649,10 +1558,6 @@ html.light .glass-panel {
   gap: 3rem;
 }
 
-/* ================================
-   Заголовки разделов
-   ================================ */
-
 .section-head {
   margin-bottom: 1.25rem;
 }
@@ -1669,10 +1574,6 @@ html.light .glass-panel {
   font-size: 0.9375rem;
   color: var(--muted);
 }
-
-/* ================================
-   Курс как статья
-   ================================ */
 
 .course-grid {
   display: grid;
@@ -1744,7 +1645,7 @@ html.light .glass-panel {
   font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--muted);
-  /* Описания разной длины ломали ровную сетку карточек */
+  
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -1799,10 +1700,6 @@ html.light .glass-panel {
   width: 100%;
 }
 
-/* ================================
-   Фильтр по уровню
-   ================================ */
-
 .level-filter {
   display: flex;
   flex-wrap: wrap;
@@ -1837,10 +1734,6 @@ html.light .glass-panel {
   text-align: center;
   color: var(--muted);
 }
-
-/* ================================
-   Блок «попробуйте до покупки»
-   ================================ */
 
 .offers-grid {
   display: grid;
@@ -1944,9 +1837,6 @@ html.light .glass-panel {
   }
 }
 
-/* Отступы по краям задаём своим классам: у Tailwind есть собственная
-   утилита .container без горизонтальных отступов, и она перебивает
-   нашу — из-за этого карточки упирались в края экрана. */
 .page-hero > .container,
 .page-body {
   padding-inline: 1rem;
@@ -1965,10 +1855,6 @@ html.light .glass-panel {
     padding-inline: 2rem;
   }
 }
-
-/* ================================
-   Тест внутри урока
-   ================================ */
 
 .test-progress {
   padding: 1rem 1.25rem;
@@ -2070,8 +1956,6 @@ html.light .glass-panel {
   justify-content: center;
 }
 
-/* ---------------------------------------------- результат */
-
 .test-result {
   padding: 2.5rem 1.5rem;
   text-align: center;
@@ -2136,7 +2020,6 @@ html.light .glass-panel {
   color: var(--fg);
 }
 
-/* Разбор ошибок: показываем вопросы, но НЕ ответы */
 .test-mistakes {
   padding: 1.25rem;
   border: 1px solid rgba(239, 68, 68, 0.35);
@@ -2227,10 +2110,6 @@ html.light .glass-panel {
   }
 }
 
-/* ================================
-   Страница курса
-   ================================ */
-
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -2284,8 +2163,6 @@ html.light .glass-panel {
 .course-progress__head strong {
   color: var(--gold-text);
 }
-
-/* ---------------------------------------------- тарифы */
 
 .plans-grid {
   display: grid;
@@ -2352,10 +2229,6 @@ html.light .glass-panel {
     width: 100%;
   }
 }
-
-/* ================================
-   Список уроков курса
-   ================================ */
 
 .lesson-list {
   display: flex;
@@ -2460,14 +2333,6 @@ html.light .glass-panel {
   }
 }
 
-/* ================================
-   Живые карточки курсов
-   ================================
-   У каждого уровня свой цвет. Это не украшательство: одинаковые серые
-   прямоугольники невозможно различить взглядом, а цвет даёт опору —
-   человек запоминает «мой зелёный» и находит его мгновенно.
-   Художник для этого не нужен, всё считает CSS. */
-
 .course-article {
   --accent: var(--gold);
   --accent-soft: rgba(199, 164, 90, 0.14);
@@ -2500,7 +2365,6 @@ html.light .glass-panel {
   --accent-soft: rgba(251, 113, 133, 0.14);
 }
 
-/* Мягкое пятно цвета в углу — оттуда карточка «оживает» при наведении */
 .course-article::before {
   content: "";
   position: absolute;
@@ -2528,7 +2392,6 @@ html.light .glass-panel {
   position: relative;
 }
 
-/* Уровень — не подпись, а метка своего цвета */
 .course-article__level {
   display: inline-flex;
   align-items: center;
@@ -2566,7 +2429,6 @@ html.light .glass-panel {
   color: var(--fg);
 }
 
-/* Пройденный курс не должен выглядеть как ошибка — приглушаем мягко */
 .course-article.state-completed {
   opacity: 1;
   border-style: dashed;
@@ -2575,8 +2437,6 @@ html.light .glass-panel {
 .course-article.state-completed::before {
   opacity: 0.45;
 }
-
-/* ---- оживление уроков ---- */
 
 .lesson-row {
   position: relative;
@@ -2594,8 +2454,6 @@ html.light .glass-panel {
   transform: translateX(3px);
   box-shadow: var(--shadow);
 }
-
-/* ---- появление блоков при прокрутке ---- */
 
 @media (prefers-reduced-motion: no-preference) {
   .course-article,
@@ -2631,9 +2489,6 @@ html.light .glass-panel {
   }
 }
 
-/* Светлая тема: те же цвета уровней, но тёмные.
-   Светлый бирюзовый на белом даёт 1.9:1 — метку уровня было бы
-   не прочитать. Тёмные варианты держат 5:1 и выше. */
 html.light .course-article[data-level="Beginner"] {
   --accent: #047857;
   --accent-soft: rgba(4, 120, 87, 0.12);
@@ -2659,12 +2514,10 @@ html.light .course-article[data-level="Advanced"] {
   --accent-soft: rgba(190, 18, 60, 0.12);
 }
 
-/* На тёмной кнопке нужен светлый текст, иначе надпись пропадает */
 html.light .course-article__cta {
   color: #fff;
 }
 
-/* Выделенный тариф: единственный с живым преподавателем */
 .plan-card {
   position: relative;
 }
@@ -2693,10 +2546,6 @@ html.light .course-article__cta {
   color: var(--muted);
 }
 
-/* ================================
-   Аватары
-   ================================ */
-
 .avatar-initials {
   display: inline-flex;
   align-items: center;
@@ -2713,10 +2562,6 @@ html.light .course-article__cta {
   object-fit: cover;
   flex-shrink: 0;
 }
-
-/* ================================
-   Личный кабинет
-   ================================ */
 
 .dash-head {
   display: flex;
@@ -2768,8 +2613,6 @@ html.light .course-article__cta {
   color: var(--muted);
 }
 
-/* ---- пустые состояния ---- */
-
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -2796,8 +2639,6 @@ html.light .course-article__cta {
 .empty-state .btn {
   margin-top: 0.75rem;
 }
-
-/* ---- список прогресса ---- */
 
 .progress-list {
   display: flex;
@@ -2860,5 +2701,216 @@ html.light .course-article__cta {
 @media (max-width: 640px) {
   .dash-head {
     gap: 0.85rem;
+  }
+}
+
+.stream-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+}
+
+.stream-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  overflow: hidden;
+  transition: var(--transition-slow);
+}
+
+.stream-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stream-card.status-live {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.25);
+}
+
+.stream-card.status-past {
+  opacity: 0.85;
+}
+
+.stream-card__thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-tertiary);
+}
+
+.stream-card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.stream-card__live {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stream-card__live svg {
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1 }
+  50% { opacity: 0.35 }
+}
+
+.stream-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.25rem;
+  flex: 1;
+}
+
+.stream-card__kind {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+.stream-card__title {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--fg);
+}
+
+.stream-card__desc {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.stream-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.stream-card__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.stream-card__plan {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.stream-card__action {
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.stream-card__action .btn {
+  width: 100%;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.stream-card__locked {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.stream-stage {
+  display: grid;
+  gap: 1rem;
+}
+
+.stream-stage.with-chat {
+  grid-template-columns: minmax(0, 1fr) 22rem;
+}
+
+.stream-stage__video {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #000;
+}
+
+.stream-stage__video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.stream-stage__chat {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+
+.stream-stage__chat-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.stream-stage__chat-head svg {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  color: var(--gold-text);
+}
+
+.stream-stage__chat iframe {
+  flex: 1;
+  min-height: 24rem;
+  width: 100%;
+  border: 0;
+}
+
+@media (max-width: 1024px) {
+  .stream-stage.with-chat {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .stream-grid {
+    grid-template-columns: 1fr;
   }
 }

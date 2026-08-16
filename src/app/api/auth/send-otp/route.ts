@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
   try {
     const { phone } = await request.json()
 
-    // Валидация номера
     if (!phone || phone.length !== 12 || !phone.startsWith('998')) {
       return NextResponse.json(
         { error: 'Invalid phone number. Expected format: 998901234567' },
@@ -18,7 +17,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Проверяем существует ли юзер
     const existingUser = await prisma.user.findUnique({
       where: { phone }
     })
@@ -30,11 +28,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Генерируем код
     const code = generateOTP()
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000) // 10 минут
 
-    // Удаляем старые неиспользованные коды для этого номера
     await prisma.oTPCode.deleteMany({
       where: {
         phone,
@@ -42,7 +38,6 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    // Сохраняем новый OTP
     await prisma.oTPCode.create({
       data: {
         phone,
@@ -53,19 +48,15 @@ export async function POST(request: NextRequest) {
 
     console.log(`🔐 Generated OTP for ${phone}: ${code}`)
 
-    // ✅ ИСПРАВЛЕНО: Оборачиваем в try-catch чтобы ошибки Eskiz не ломали API
     try {
       await sendOTP(phone, code)
     } catch (smsError: any) {
-      // Логируем ошибку но НЕ возвращаем 500
       console.error('⚠️ SMS send warning:', smsError.message)
       
-      // В продакшне можно вернуть ошибку, в тестовом - пропускаем
       const IS_TEST = process.env.ESKIZ_TEST_MODE === 'true'
       if (!IS_TEST) {
         throw smsError
       }
-      // В тестовом режиме продолжаем даже если SMS "не отправлена"
       console.log('✅ Test mode: Continuing despite SMS error')
     }
 

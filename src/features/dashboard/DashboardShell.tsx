@@ -1,4 +1,3 @@
-// src/features/dashboard/DashboardShell.tsx
 'use client'
 
 import { useSearchParams } from 'next/navigation'

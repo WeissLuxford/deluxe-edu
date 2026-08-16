@@ -1,4 +1,3 @@
-// Eskiz.uz SMS Integration
 const ESKIZ_EMAIL = process.env.ESKIZ_EMAIL!
 const ESKIZ_PASSWORD = process.env.ESKIZ_PASSWORD!
 const ESKIZ_API = 'https://notify.eskiz.uz/api'
@@ -24,15 +23,10 @@ interface EskizBalanceResponse {
   }
 }
 
-// Кеш токена (чтобы не запрашивать каждый раз)
 let cachedToken: string | null = null
 let tokenExpiresAt: number = 0
 
-/**
- * Получение токена авторизации
- */
 async function getToken(): Promise<string> {
-  // Если токен еще валиден, возвращаем из кеша
   if (cachedToken && Date.now() < tokenExpiresAt) {
     console.log('✅ Using cached token')
     return cachedToken
@@ -74,13 +68,6 @@ async function getToken(): Promise<string> {
   }
 }
 
-/**
- * Отправка SMS
- * @param phone - Номер в формате 998901234567 (12 цифр, без +)
- * @param message - Текст сообщения
- */
-// ... (весь предыдущий код остается)
-
 export async function sendSMS(phone: string, message: string): Promise<void> {
   try {
     if (!phone.startsWith('998') || phone.length !== 12) {
@@ -117,7 +104,6 @@ export async function sendSMS(phone: string, message: string): Promise<void> {
     const responseText = await res.text()
     console.log('📥 Eskiz send response:', responseText)
 
-    // ✅ В ТЕСТОВОМ РЕЖИМЕ даже 400 ошибка может быть успехом
     if (!res.ok && res.status !== 400) {
       if (res.status === 401) {
         console.log('🔄 Token expired, refreshing...')
@@ -131,7 +117,6 @@ export async function sendSMS(phone: string, message: string): Promise<void> {
 
     const data: EskizSendResponse = JSON.parse(responseText)
     
-    // ✅ ИСПРАВЛЕНО: В тестовом режиме считаем успехом если есть ID
     const isSuccess = 
       data.id !== undefined ||  // Если есть ID - SMS отправлена
       data.status === 'success' || 
@@ -152,9 +137,6 @@ export async function sendSMS(phone: string, message: string): Promise<void> {
   }
 }
 
-/**
- * Проверка баланса SMS
- */
 export async function checkBalance(): Promise<number> {
   try {
     console.log('💰 Checking SMS balance...')
@@ -186,17 +168,12 @@ export async function checkBalance(): Promise<number> {
   }
 }
 
-/**
- * Отправка OTP кода
- */
 export async function sendOTP(phone: string, code: string): Promise<void> {
   const IS_TEST = process.env.ESKIZ_TEST_MODE === 'true'
   
   if (IS_TEST) {
-    // В тестовом режиме отправляем разрешенное сообщение
     await sendSMS(phone, 'This is test from Eskiz')
     
-    // Логируем РЕАЛЬНЫЙ код в консоль для отладки
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
     console.log('🔐 TEST MODE - OTP CODE')
     console.log(`📱 Phone: ${phone}`)
@@ -205,7 +182,6 @@ export async function sendOTP(phone: string, code: string): Promise<void> {
     console.log('💡 Use this code for verification')
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
   } else {
-    // В продакшн режиме отправляем реальное сообщение
     const message = `Your Vertex Edu verification code: ${code}\n\nDo not share this code with anyone.`
     await sendSMS(phone, message)
   }

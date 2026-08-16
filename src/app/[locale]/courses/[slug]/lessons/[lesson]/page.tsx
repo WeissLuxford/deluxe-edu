@@ -1,4 +1,3 @@
-// src/app/[locale]/courses/[slug]/lessons/[lesson]/page.tsx
 import { notFound, redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
@@ -39,7 +38,6 @@ export default async function LessonPage({ params }: Props) {
     redirect(`/${locale}/courses/${slug}`)
   }
 
-  // Проверка доступа к уроку
   const lessonIndex = course.lessons.findIndex(l => l.id === lesson.id)
   if (lessonIndex > 0) {
     const prevLesson = course.lessons[lessonIndex - 1]

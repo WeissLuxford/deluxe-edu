@@ -1,12 +1,3 @@
-/**
- * Создаёт первого администратора — без него в /admin некому войти.
- *
- * Запуск:
- *   npx tsx scripts/create-admin.ts 998901234567 "ПарольСЦифрой1"
- *
- * Если пользователь с таким телефоном уже есть, ему выдаётся роль ADMIN
- * и обновляется пароль.
- */
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
@@ -26,7 +17,6 @@ async function main() {
     process.exit(1)
   }
 
-  // Те же правила, что и при обычной регистрации
   if (!/^(?=.*[A-Za-z])(?=.*\d).{6,}$/.test(password)) {
     console.error('❌ Пароль: минимум 6 символов, хотя бы одна буква и одна цифра')
     process.exit(1)

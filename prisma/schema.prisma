@@ -18,7 +18,7 @@ model User {
   passwordTail   String?
   firstName      String?
   lastName       String?
-  email          String?          @unique  // ← ИСПРАВЛЕНО: добавил ?
+  email          String?          @unique
   emailVerified  DateTime?
   phoneVerified  DateTime?
   enrollments    Enrollment[]
@@ -91,8 +91,6 @@ model Lesson {
   Assignment     Assignment[]
   LessonProgress LessonProgress[]
 
-  // Адрес урока уникален внутри курса. Раньше это проверялось только
-  // в коде админки, из-за чего сид при повторном запуске плодил дубли.
   @@unique([courseId, slug])
 }
 
@@ -154,6 +152,35 @@ model LessonProgress {
   lesson    Lesson   @relation(fields: [lessonId], references: [id])
 
   @@unique([userId, lessonId])
+}
+
+model Stream {
+  id          String     @id @default(cuid())
+  title       Json
+  description Json
+  kind        StreamKind @default(YOUTUBE)
+
+  youtubeId String?
+  zoomJoinUrl String?
+
+  startsAt    DateTime
+  durationMin Int       @default(60)
+
+  recordingUrl String?
+
+  requiredPlan Plan?
+
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([startsAt])
+  @@index([published])
+}
+
+enum StreamKind {
+  YOUTUBE
+  ZOOM
 }
 
 model ContactRequest {

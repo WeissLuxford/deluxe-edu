@@ -33,7 +33,6 @@ export default function ContactFormSection() {
       setStatus('success')
       setFormData({ firstName: '', lastName: '', phone: '', email: '', message: '' })
       
-      // Reset success message after 5 seconds
       setTimeout(() => setStatus('idle'), 5000)
     } catch (error) {
       setStatus('error')
@@ -76,7 +75,6 @@ export default function ContactFormSection() {
 
           <div className="glass-panel" style={{ padding: '3rem 2rem' }}>
             <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '1.5rem' }}>
-              {/* Name Fields */}
               <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))' }}>
                 <div>
                   <label htmlFor="firstName" className="label">
@@ -137,7 +135,6 @@ export default function ContactFormSection() {
                 </div>
               </div>
 
-              {/* Contact Fields */}
               <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))' }}>
                 <div>
                   <label htmlFor="phone" className="label">
@@ -197,7 +194,6 @@ export default function ContactFormSection() {
                 </div>
               </div>
 
-              {/* Message Field */}
               <div>
                 <label htmlFor="message" className="label">
                   Message (optional)
@@ -213,7 +209,6 @@ export default function ContactFormSection() {
                 />
               </div>
 
-              {/* Status Messages */}
               {status === 'success' && (
                 <div
                   className="badge-success"
@@ -242,7 +237,6 @@ export default function ContactFormSection() {
                 </div>
               )}
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={status === 'loading'}

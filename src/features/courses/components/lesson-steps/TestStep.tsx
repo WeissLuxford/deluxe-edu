@@ -1,28 +1,8 @@
-// src/features/courses/components/lesson-steps/TestStep.tsx
 'use client'
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { CheckCircle2, XCircle, RefreshCw, BookOpen, MessageCircle, FileQuestion } from 'lucide-react'
-
-/**
- * Вопросы приходят из Assignment.prompt в базе. Правильных ответов здесь НЕТ
- * и быть не должно — их знает только сервер (Assignment.answerKey), он же
- * считает оценку и сообщает, какие вопросы провалены.
- *
- * Формат Assignment.prompt:
- * {
- *   "questions": [
- *     { "id": "q1", "type": "single",
- *       "question": { "ru": "...", "en": "...", "uz": "..." },
- *       "options": [ { "value": "a", "label": { "ru": "...", "en": "..." } } ] },
- *     { "id": "q2", "type": "text", "question": { "ru": "..." } }
- *   ]
- * }
- *
- * Формат Assignment.answerKey (только на сервере):
- * { "q1": "a", "q2": "London", "q3": ["a", "c"] }
- */
 
 type LocalizedText = string | Record<string, string>
 
@@ -52,7 +32,6 @@ type Props = {
   enrollmentPlan: string
   onComplete: () => void
   isCompleted: boolean
-  /** Есть ли у урока шаг с конспектом — тогда после провала предлагаем вернуться к нему */
   onReviewConspect?: () => void
 }
 
@@ -133,7 +112,6 @@ export function TestStep({
     setError(null)
   }
 
-  // ---------------------------------------------------------- результат
   if (result) {
     const { grade, passed, passingScore, correct, total: totalQ, wrongIds } = result
     const missed = questions.filter(q => wrongIds.includes(q.id))
@@ -162,7 +140,6 @@ export function TestStep({
           </div>
         </div>
 
-        {/* Показываем ЧТО провалено, но не показываем правильные ответы */}
         {missed.length > 0 && (
           <div className="test-mistakes">
             <h3 className="test-mistakes__title">{t('mistakesTitle')}</h3>
@@ -203,7 +180,6 @@ export function TestStep({
     )
   }
 
-  // ------------------------------------------------------------ вопросы
   const answer = answers[current.id]
   const answered = Array.isArray(answer) ? answer.length > 0 : Boolean(answer)
   const percent = Math.round(((currentIndex + 1) / total) * 100)

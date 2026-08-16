@@ -45,7 +45,6 @@ export default async function EditCourse({
         </Link>
       </div>
 
-      {/* Уроки */}
       <div className="card" style={{ padding: '1.5rem' }}>
         <div className="flex items-center justify-between" style={{ marginBottom: '1rem' }}>
           <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)' }}>
@@ -106,7 +105,6 @@ export default async function EditCourse({
         )}
       </div>
 
-      {/* Настройки курса */}
       <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)' }}>Настройки курса</h3>
       <CourseForm
         action={updateCourse.bind(null, id)}

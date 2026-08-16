@@ -1,4 +1,3 @@
-// src/features/courses/components/SpecialOffersSection.tsx
 'use client'
 
 import Link from 'next/link'
@@ -76,8 +75,6 @@ function OfferCard({ offer }: { offer: Offer }) {
 export function SpecialOffersSection({ hasLevelTest, hasFreeMockTest, locale }: Props) {
   const t = useTranslations('offers')
 
-  // Эмодзи заменены на иконки: у эмодзи собственные цвета, они не
-  // подчиняются теме и выбивались из золото-чёрной палитры
   const offers: Offer[] = [
     {
       key: 'trial',

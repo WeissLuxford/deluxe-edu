@@ -13,8 +13,6 @@ export default function SignInPage() {
   const search = useSearchParams()
   const validLocale = ['ru', 'uz', 'en'].includes(locale) ? locale : 'ru'
 
-  // Куда вести после входа: явный next имеет приоритет — например, человек
-  // шёл на конкретный урок и его развернули на вход
   const requestedNext = search.get('next')
 
   const [phone, setPhone] = useState('+998 ')
@@ -58,8 +56,6 @@ export default function SignInPage() {
 
     const cleanPhone = phone.replace(/\D/g, '')
 
-    // redirect: false — иначе при неверном пароле NextAuth уводит со страницы
-    // сам, и человек не понимает, что произошло
     const res = await signIn('credentials', {
       action: 'signin',
       phone: cleanPhone,
@@ -73,7 +69,6 @@ export default function SignInPage() {
       return
     }
 
-    // Администратору незачем идти через кабинет студента
     const session = await getSession()
     const isAdmin = session?.user?.role === 'ADMIN'
     const destination =

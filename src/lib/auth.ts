@@ -91,7 +91,6 @@ export const authOptions: NextAuthOptions = {
       authorize: async raw => {
         const action = String(raw?.action || "").trim()
 
-        // SIGN IN
         if (action === "signin") {
           const parsed = signinSchema.safeParse({
             action: "signin",
@@ -146,7 +145,6 @@ export const authOptions: NextAuthOptions = {
           return out
         }
 
-        // SIGN UP
         if (action === "signup") {
           const parsed = signupSchema.safeParse({
             action: "signup",
@@ -171,11 +169,6 @@ export const authOptions: NextAuthOptions = {
             return null
           }
 
-          // Телефон должен быть подтверждён кодом из SMS.
-          // Ищем OTP, который уже прошёл через /api/auth/verify-otp (used: true)
-          // и всё ещё находится внутри своего окна жизни.
-          // Без этой проверки регистрацию можно было пройти в обход SMS,
-          // обратившись к NextAuth напрямую.
           const verifiedOtp = await prisma.oTPCode.findFirst({
             where: {
               phone: parsed.data.phone,
@@ -216,8 +209,6 @@ export const authOptions: NextAuthOptions = {
             }
           })
 
-          // Код одноразовый: гасим все коды этого номера, чтобы одним
-          // подтверждением нельзя было создать несколько аккаунтов
           await prisma.oTPCode.deleteMany({ where: { phone: parsed.data.phone } })
 
           console.log('✅ User created:', created.phone)

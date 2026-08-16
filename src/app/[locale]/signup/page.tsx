@@ -26,20 +26,15 @@ export default function SignUpPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // Форматирование номера телефона
   const formatPhone = (value: string) => {
-    // Удаляем всё кроме цифр
     let digits = value.replace(/\D/g, '')
     
-    // Если начинается с 998, оставляем
     if (digits.startsWith('998')) {
       digits = digits.slice(3, 12) // Берем только 9 цифр после 998
     } else if (digits.length > 0) {
-      // Если юзер начал вводить без 998, используем его цифры
       digits = digits.slice(0, 9)
     }
     
-    // Форматируем: +998 XX XXX XX XX
     if (digits.length === 0) return '+998 '
     if (digits.length <= 2) return `+998 ${digits}`
     if (digits.length <= 5) return `+998 ${digits.slice(0, 2)} ${digits.slice(2)}`
@@ -50,7 +45,6 @@ export default function SignUpPage() {
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     
-    // Если юзер удаляет и остается меньше "+998 ", сбрасываем на "+998 "
     if (value.length < 5) {
       setPhone('+998 ')
       return
@@ -61,7 +55,6 @@ export default function SignUpPage() {
   }
 
   const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Запрещаем удалять "+998 "
     if (e.key === 'Backspace' && phone === '+998 ') {
       e.preventDefault()
     }
@@ -188,7 +181,6 @@ export default function SignUpPage() {
           </div>
         )}
 
-        {/* STEP 1: Phone Number */}
         {step === 'phone' && (
           <form onSubmit={(e) => { e.preventDefault(); sendOTP(); }} style={{ display: 'grid', gap: '1.25rem' }}>
             <div>
@@ -228,7 +220,6 @@ export default function SignUpPage() {
           </form>
         )}
 
-        {/* STEP 2: OTP Verification */}
         {step === 'otp' && (
           <form onSubmit={(e) => { e.preventDefault(); verifyOTP(); }} style={{ display: 'grid', gap: '1.25rem' }}>
             <div>
@@ -274,7 +265,6 @@ export default function SignUpPage() {
           </form>
         )}
 
-        {/* STEP 3: Profile Details */}
         {step === 'details' && (
           <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '1.25rem' }}>
             <div className="auth-grid2">

@@ -1,4 +1,3 @@
-// src/app/[locale]/courses/[slug]/page.tsx
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getServerSession } from 'next-auth'
@@ -58,7 +57,6 @@ export default async function CoursePage({ params }: Props) {
   const progressMap = Object.fromEntries(progress.map(p => [p.lessonId, p]))
   const total = course.lessons.length
   const done = progress.filter(p => p.passed).length
-  // Курс без уроков давал деление на ноль и NaN% в полосе прогресса
   const percent = total > 0 ? Math.round((done / total) * 100) : 0
 
   const title = localized(course.title, locale)

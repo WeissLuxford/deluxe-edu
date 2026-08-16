@@ -1,4 +1,3 @@
-// src/app/[locale]/free-mock-test/[lesson]/page.tsx
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
@@ -47,7 +46,6 @@ export default async function FreeMockTestLessonPage({ params }: Props) {
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      {/* Header */}
       <header className="sticky top-0 z-10" style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border)' }}>
         <div className="page-start">
           <div className="flex items-center justify-between py-4">
@@ -66,14 +64,12 @@ export default async function FreeMockTestLessonPage({ params }: Props) {
             <div className="w-32" />
           </div>
 
-          {/* Progress */}
           <div className="progress" style={{ height: '4px', marginBottom: 0 }}>
             <div className="progress-bar" style={{ width: `${((lessonIndex + 1) / course.lessons.length) * 100}%` }} />
           </div>
         </div>
       </header>
 
-      {/* Content */}
       <FreeMockTestPlayer
         lesson={lesson}
         assignment={assignment}

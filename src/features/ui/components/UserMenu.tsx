@@ -65,7 +65,6 @@ export default function UserMenu() {
     )
   }
 
-
   return (
     <div className="user-menu-root" ref={ref}>
       <button
@@ -76,8 +75,6 @@ export default function UserMenu() {
         className="avatar-btn"
         onClick={() => setOpen(v => !v)}
       >
-        {/* Один и тот же аватар в шапке и в кабинете: цвет считается
-            из телефона, поэтому у каждого он свой и не меняется */}
         <Avatar
           name={session.user.name}
           seed={session.user.phone || session.user.id}

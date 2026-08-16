@@ -5,7 +5,6 @@ import { z } from 'zod'
 import { prisma } from '@/lib/db'
 import { requireAdmin } from './requireAdmin'
 
-/** Многоязычное поле: одинаковая форма у title, description и т.д. */
 const localized = z.object({
   ru: z.string().trim().min(1, 'Русский текст обязателен'),
   uz: z.string().trim().default(''),
@@ -20,13 +19,7 @@ function readLocalized(form: FormData, prefix: string) {
   }
 }
 
-/**
- * Плоский тип, а не размеченное объединение: в tsconfig стоит strict: false,
- * а без строгого режима TypeScript не сужает union по полю ok.
- */
 export type ActionResult = { ok: boolean; error?: string }
-
-// ---------------------------------------------------------------- курсы
 
 const courseSchema = z.object({
   slug: z
@@ -105,7 +98,6 @@ export async function deleteCourse(id: string): Promise<ActionResult> {
     }
   }
 
-  // Удаляем снизу вверх: сначала то, что ссылается на уроки
   const lessons = await prisma.lesson.findMany({ where: { courseId: id }, select: { id: true } })
   const lessonIds = lessons.map(l => l.id)
 
@@ -121,8 +113,6 @@ export async function deleteCourse(id: string): Promise<ActionResult> {
   revalidatePath('/ru/admin/courses')
   return { ok: true }
 }
-
-// ---------------------------------------------------------------- уроки
 
 const lessonSchema = z.object({
   slug: z
@@ -208,8 +198,6 @@ export async function deleteLesson(id: string): Promise<ActionResult> {
   return { ok: true }
 }
 
-// ------------------------------------------------------------- заявки
-
 export async function setContactStatus(
   id: string,
   status: 'NEW' | 'CONTACTED' | 'RESOLVED' | 'SPAM'
@@ -220,17 +208,9 @@ export async function setContactStatus(
   return { ok: true }
 }
 
-// ------------------------------------------------------------ студенты
-
 const PLANS = ['FREE', 'BASIC', 'PRO', 'DELUXE'] as const
 type Plan = (typeof PLANS)[number]
 
-/**
- * Записывает пользователя на курс вручную.
- *
- * Это замена удалённому /api/dev/enroll: тот был открыт всем подряд,
- * здесь запись доступна только администратору.
- */
 export async function enrollUser(_prev: unknown, form: FormData): Promise<ActionResult> {
   await requireAdmin()
 
@@ -268,7 +248,6 @@ export async function enrollUser(_prev: unknown, form: FormData): Promise<Action
 export async function revokeEnrollment(id: string): Promise<ActionResult> {
   await requireAdmin()
 
-  // Не удаляем, а помечаем отменённой: прогресс студента должен сохраниться
   await prisma.enrollment.update({ where: { id }, data: { status: 'CANCELED' } })
   revalidatePath('/ru/admin/students')
   return { ok: true }

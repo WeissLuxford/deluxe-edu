@@ -1,4 +1,3 @@
-// src/app/api/lessons/submit/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
@@ -6,11 +5,6 @@ import { prisma } from '@/lib/db'
 
 const PASSING_SCORE = 70
 
-/**
- * Формат answerKey в базе: { "<questionId>": <правильный ответ> }
- * Строка — для типов single/text, массив строк — для multiple.
- * Оценку считает ТОЛЬКО сервер: клиенту доверять нельзя.
- */
 function gradeAnswers(answerKey: Record<string, unknown>, answers: Record<string, unknown>) {
   const questionIds = Object.keys(answerKey)
   if (questionIds.length === 0) return null
@@ -40,15 +34,12 @@ function gradeAnswers(answerKey: Record<string, unknown>, answers: Record<string
     grade: Math.round((correct / questionIds.length) * 100),
     correct,
     total: questionIds.length,
-    // Только НОМЕРА проваленных вопросов. Правильные ответы не отдаём:
-    // студент должен понять, что повторить, а не списать ответ
     wrongIds
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
-    // userId берём ТОЛЬКО из сессии, никогда из тела запроса
     const session = await getServerSession(authOptions)
     const userId = session?.user?.id
     if (!userId) {
@@ -60,7 +51,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing assignmentId or answers' }, { status: 400 })
     }
 
-    // lessonId и courseId берём из базы по assignmentId, а не с клиента
     const assignment = await prisma.assignment.findUnique({
       where: { id: assignmentId },
       include: { lesson: { select: { id: true, courseId: true } } }
@@ -84,7 +74,6 @@ export async function POST(req: NextRequest) {
       data: { assignmentId, userId, answer: answers, grade: result?.grade ?? null }
     })
 
-    // Без answerKey оценить нечего — засчитывать прохождение нельзя
     if (result === null) {
       return NextResponse.json(
         { error: 'Assignment has no answer key yet' },

@@ -61,7 +61,6 @@ export function HowItWorks() {
               className="glass-panel"
               style={{ padding: '2rem', position: 'relative' }}
             >
-              {/* Step number */}
               <div
                 style={{
                   position: 'absolute',

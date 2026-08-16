@@ -19,8 +19,6 @@ type Course = {
   visible: boolean
 }
 
-// Должно совпадать со списком в каталоге (app/[locale]/courses/page.tsx):
-// уровень, которого там нет, не попадёт ни в один раздел
 const LEVELS = [
   'Beginner',
   'Elementary',

@@ -14,10 +14,6 @@ function toLocalized(value: any): Localized {
   return { ru: value.ru ?? '', uz: value.uz ?? '', en: value.en ?? '' }
 }
 
-/**
- * Собирает вопросы обратно в вид, с которым работает конструктор:
- * prompt хранит вопросы без ответов, answerKey — ответы отдельно.
- */
 function toBuilderQuestions(prompt: any, answerKey: any) {
   const list = Array.isArray(prompt?.questions) ? prompt.questions : []
   const key = answerKey ?? {}

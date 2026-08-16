@@ -1,4 +1,3 @@
-// src/features/courses/components/FreeTrialPlayer.tsx
 'use client'
 
 import { useState } from 'react'
@@ -19,7 +18,6 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
   return (
     <div className="page-start py-8">
       <div className="mx-auto max-w-4xl">
-        {/* Info Banner */}
         <div className="mb-6 rounded-lg p-4" style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -40,7 +38,6 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
           </div>
         </div>
 
-        {/* Step Selector */}
         <div className="flex gap-2 mb-6">
           <button
             onClick={() => setCurrentStep('video')}
@@ -66,10 +63,8 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
           </button>
         </div>
 
-        {/* Video Step */}
         {currentStep === 'video' && (
           <div className="space-y-6 animate-fadeIn">
-            {/* Video Player */}
             <div className="aspect-video rounded-xl overflow-hidden" style={{ background: '#000' }}>
               <div className="w-full h-full flex items-center justify-center text-white">
                 <div className="text-center">
@@ -82,7 +77,6 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
               </div>
             </div>
 
-            {/* Video Info */}
             <div className="glass-panel" style={{ padding: '1.5rem' }}>
               <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--fg)' }}>
                 Welcome to {courseTitle}
@@ -92,7 +86,6 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
               </p>
             </div>
 
-            {/* Next Step Button */}
             <button
               onClick={() => setCurrentStep('conspect')}
               className="btn btn-primary w-full flex items-center justify-center gap-2"
@@ -104,10 +97,8 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
           </div>
         )}
 
-        {/* Conspect Step */}
         {currentStep === 'conspect' && (
           <div className="space-y-6 animate-fadeIn">
-            {/* Conspect Header */}
             <div className="glass-panel" style={{ padding: '1.5rem' }}>
               <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--fg)' }}>
                 📝 Lesson Notes
@@ -117,7 +108,6 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
               </p>
             </div>
 
-            {/* Conspect Content */}
             <div className="glass-panel" style={{ padding: '2rem' }}>
               <div className="prose prose-invert max-w-none" style={{ color: 'var(--fg)' }}>
                 <h3 style={{ color: 'var(--gold-text)' }}>What You Learned</h3>
@@ -141,7 +131,6 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
               </div>
             </div>
 
-            {/* CTA Section */}
             <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center' }}>
               <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--fg)' }}>
                 Ready to Start Your Journey?
@@ -169,7 +158,6 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
           </div>
         )}
 
-        {/* Benefits Section */}
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           <div className="glass-panel" style={{ padding: '1.25rem', textAlign: 'center' }}>
             <div className="text-3xl mb-2">🎓</div>

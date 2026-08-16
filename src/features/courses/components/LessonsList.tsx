@@ -1,4 +1,3 @@
-// src/features/courses/components/LessonsList.tsx
 'use client'
 
 import Link from 'next/link'
@@ -39,8 +38,6 @@ function getLocalizedText(value: any, locale: string) {
 export function LessonsList({ lessons, courseSlug, locale, progressMap, isEnrolled }: Props) {
   const t = useTranslations('lesson')
 
-  // Та же лестница, что и на сервере: следующий урок открывается,
-  // когда предыдущий пройден
   const statusOf = (lesson: Lesson, index: number) => {
     if (!isEnrolled) return 'locked' as const
     if (progressMap[lesson.id]?.passed) return 'completed' as const

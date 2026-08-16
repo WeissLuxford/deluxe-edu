@@ -27,7 +27,6 @@ export default async function AssignmentPage({
   const t = await getTranslations({ locale })
   const session = await getServerSession(authOptions)
   
-  // Используем phone вместо email
   const userPhone = session?.user?.phone
   if (!userPhone) redirect(`/${locale}/signin`)
   

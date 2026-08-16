@@ -37,8 +37,6 @@ export default function CoursesSection({
     )
   }
 
-  // Те же карточки, что в каталоге: одна и та же вещь должна выглядеть
-  // одинаково в обоих местах, иначе кабинет ощущается другим сайтом
   return (
     <div className="course-grid">
       {courses.map(c => (
