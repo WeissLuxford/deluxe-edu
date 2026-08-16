@@ -2663,3 +2663,32 @@ html.light .course-article[data-level="Advanced"] {
 html.light .course-article__cta {
   color: #fff;
 }
+
+/* Выделенный тариф: единственный с живым преподавателем */
+.plan-card {
+  position: relative;
+}
+
+.plan-card.accent {
+  border-width: 2px;
+  box-shadow: 0 8px 28px -14px var(--gold);
+}
+
+.plan-card__badge {
+  position: absolute;
+  top: -0.65rem;
+  left: 1.5rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--gold);
+  color: #0b0c0d;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.plan-card__kind {
+  font-size: 0.75rem;
+  color: var(--muted);
+}

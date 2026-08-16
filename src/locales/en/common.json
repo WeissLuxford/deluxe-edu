@@ -88,11 +88,14 @@
     "level": "Level",
     "plansTitle": "Plans",
     "plansHint": "Access opens forever, no renewals",
-    "planBasic": "All lessons, notes and tests",
-    "planPro": "Everything in Basic plus the option to ask a teacher",
-    "planDeluxe": "Everything in Pro",
+    "planBasic": "All course lessons: texts, videos, tests and materials",
+    "planPro": "Everything in Basic plus teacher feedback on your tests",
+    "planDeluxe": "Everything in Pro, one-to-one sessions with a teacher and group lessons with other students on this plan",
     "choosePlanCta": "Choose a plan and start",
-    "noLessons": "No lessons in this course yet"
+    "noLessons": "No lessons in this course yet",
+    "planPopular": "Best value",
+    "planSelfPaced": "For self-paced learners",
+    "planWithTeacher": "With a teacher"
   },
   "lesson": {
     "videoPlaceholder": "The video of this lesson will be here",

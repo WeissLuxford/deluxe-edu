@@ -38,11 +38,33 @@ export function CoursePlans({
           maximumFractionDigits: 0
         }).format(value)
 
-  // Цены берутся из базы — те, что задаются в админке, а не написаны в вёрстке
+  // Цены берутся из базы — те, что задаются в админке, а не написаны в вёрстке.
+  // Выделен Deluxe: только в нём есть живой преподаватель, остальные два —
+  // для самостоятельного обучения
   const plans = [
-    { key: 'BASIC', name: 'Basic', price: priceBasic, includes: t('planBasic') },
-    { key: 'PRO', name: 'Pro', price: pricePro, includes: t('planPro'), accent: true },
-    { key: 'DELUXE', name: 'Deluxe', price: priceDeluxe, includes: t('planDeluxe') }
+    {
+      key: 'BASIC',
+      name: 'Basic',
+      price: priceBasic,
+      includes: t('planBasic'),
+      kind: t('planSelfPaced')
+    },
+    {
+      key: 'PRO',
+      name: 'Pro',
+      price: pricePro,
+      includes: t('planPro'),
+      kind: t('planSelfPaced')
+    },
+    {
+      key: 'DELUXE',
+      name: 'Deluxe',
+      price: priceDeluxe,
+      includes: t('planDeluxe'),
+      kind: t('planWithTeacher'),
+      accent: true,
+      badge: t('planPopular')
+    }
   ]
 
   return (
@@ -55,7 +77,9 @@ export function CoursePlans({
       <div className="plans-grid">
         {plans.map(p => (
           <div key={p.key} className={`plan-card${p.accent ? ' accent' : ''}`}>
+            {p.badge && <span className="plan-card__badge">{p.badge}</span>}
             <div className="plan-card__name">{p.name}</div>
+            <div className="plan-card__kind">{p.kind}</div>
             <div className="plan-card__price">{money(p.price)}</div>
             <p className="plan-card__includes">
               <Check size={15} />

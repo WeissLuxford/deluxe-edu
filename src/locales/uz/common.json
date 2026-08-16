@@ -88,11 +88,14 @@
     "level": "Daraja",
     "plansTitle": "Tariflar",
     "plansHint": "Kursga kirish abadiy ochiladi, uzaytirishsiz",
-    "planBasic": "Barcha darslar, konspektlar va testlar",
-    "planPro": "Basic dagi hammasi va o’qituvchiga savol berish imkoni",
-    "planDeluxe": "Pro dagi hammasi",
+    "planBasic": "Kursning barcha darslari: matnlar, videolar, testlar va materiallar",
+    "planPro": "Basic dagi hammasi va testlaringiz tahlili o’qituvchidan",
+    "planDeluxe": "Pro dagi hammasi, o’qituvchi bilan individual mashg’ulotlar va shu tarif talabalari bilan guruh darslari",
     "choosePlanCta": "Tarifni tanlab boshlash",
-    "noLessons": "Kursda hozircha darslar yo’q"
+    "noLessons": "Kursda hozircha darslar yo’q",
+    "planPopular": "Eng yaxshi tanlov",
+    "planSelfPaced": "Mustaqil o’rganuvchilar uchun",
+    "planWithTeacher": "O’qituvchi bilan"
   },
   "lesson": {
     "videoPlaceholder": "Ushbu dars videolari shu yerda bo'ladi",
