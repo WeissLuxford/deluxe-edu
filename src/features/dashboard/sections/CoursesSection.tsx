@@ -4,17 +4,7 @@ import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { CourseArticle } from '@/features/courses/components/CourseArticle'
 import type { DashboardCourse } from '../DashboardShell'
-
-function localized(value: any, locale: string): string {
-  if (!value) return ''
-  if (typeof value === 'string') return value
-  if (typeof value === 'object') {
-    if (value[locale]) return value[locale]
-    const first = Object.values(value)[0]
-    return typeof first === 'string' ? first : ''
-  }
-  return ''
-}
+import { localized } from '@/lib/localized'
 
 export default function CoursesSection({
   courses,

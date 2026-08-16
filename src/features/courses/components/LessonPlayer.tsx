@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react'
 import { VideoStep } from './lesson-steps/VideoStep'
 import { ConspectStep } from './lesson-steps/ConspectStep'
 import { TestStep } from './lesson-steps/TestStep'
+import { localized } from '@/lib/localized'
 
 type Lesson = {
   id: string
@@ -40,17 +41,6 @@ type Props = {
   locale: string
 }
 
-function getLocalizedText(value: any, locale: string) {
-  if (!value) return ''
-  if (typeof value === 'string') return value
-  if (typeof value === 'object') {
-    if (value[locale]) return value[locale]
-    const first = Object.values(value)[0]
-    return typeof first === 'string' ? first : ''
-  }
-  return ''
-}
-
 export function LessonPlayer({ lesson, course, assignment, progress, nextLesson, enrollmentPlan, locale }: Props) {
   const steps: ('video' | 'conspect' | 'test')[] = []
   if (lesson.hasVideo) steps.push('video')
@@ -71,8 +61,8 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
   const conspectStepIndex = steps.indexOf('conspect')
   const canGoNext = currentStep === 'video' || currentStep === 'conspect' || testCompleted
 
-  const title = getLocalizedText(lesson.title, locale)
-  const content = getLocalizedText(lesson.content, locale)
+  const title = localized(lesson.title, locale)
+  const content = localized(lesson.content, locale)
 
   const handleNext = async () => {
     if (!isLastStep) {

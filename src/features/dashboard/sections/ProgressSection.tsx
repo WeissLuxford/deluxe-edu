@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import { CheckCircle2, Circle, Eye } from 'lucide-react'
+import { localized } from '@/lib/localized'
 
 type Row = {
   id: string
@@ -9,17 +10,6 @@ type Row = {
   passed: boolean
   updatedAt: string | Date
   lesson: { slug: string; title: any; course: { slug: string; title: any } }
-}
-
-function localized(value: any, locale: string): string {
-  if (!value) return ''
-  if (typeof value === 'string') return value
-  if (typeof value === 'object') {
-    if (value[locale]) return value[locale]
-    const first = Object.values(value)[0]
-    return typeof first === 'string' ? first : ''
-  }
-  return ''
 }
 
 export default function ProgressSection({ rows, locale }: { rows: Row[]; locale: string }) {

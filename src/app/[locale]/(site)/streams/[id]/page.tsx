@@ -11,19 +11,9 @@ import {
   getUserPlanRank,
   statusOf
 } from '@/features/streams/utils/streamHelpers'
+import { localized } from '@/lib/localized'
 
 export const dynamic = 'force-dynamic'
-
-function localized(value: any, locale: string): string {
-  if (!value) return ''
-  if (typeof value === 'string') return value
-  if (typeof value === 'object') {
-    if (value[locale]) return value[locale]
-    const first = Object.values(value)[0]
-    return typeof first === 'string' ? first : ''
-  }
-  return ''
-}
 
 export default async function StreamPage({
   params

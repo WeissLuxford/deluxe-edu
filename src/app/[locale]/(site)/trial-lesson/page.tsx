@@ -3,20 +3,10 @@ import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { FreeTrialPlayer } from '@/features/courses/components/FreeTrialPlayer'
+import { localized } from '@/lib/localized'
 
 type Props = {
   params: Promise<{ locale: string }>
-}
-
-function getLocalizedText(value: any, locale: string) {
-  if (!value) return ''
-  if (typeof value === 'string') return value
-  if (typeof value === 'object') {
-    if (value[locale]) return value[locale]
-    const first = Object.values(value)[0]
-    return typeof first === 'string' ? first : ''
-  }
-  return ''
 }
 
 export default async function TrialLessonPage({ params }: Props) {
@@ -33,9 +23,9 @@ export default async function TrialLessonPage({ params }: Props) {
   if (!course || course.lessons.length === 0) notFound()
 
   const lesson = course.lessons[0]
-  const title = getLocalizedText(lesson.title, locale)
-  const content = getLocalizedText(lesson.content, locale)
-  const courseTitle = getLocalizedText(course.title, locale)
+  const title = localized(lesson.title, locale)
+  const content = localized(lesson.content, locale)
+  const courseTitle = localized(course.title, locale)
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>

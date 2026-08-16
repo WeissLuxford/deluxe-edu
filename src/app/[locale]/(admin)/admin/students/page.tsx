@@ -3,11 +3,10 @@ import { prisma } from '@/lib/db'
 import { revokeEnrollment } from '@/features/admin/actions'
 import { EnrollForm } from '@/features/admin/components/EnrollForm'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
+import { localized } from '@/lib/localized'
 
-function ru(value: any) {
-  if (!value) return '—'
-  if (typeof value === 'string') return value
-  return value.ru || Object.values(value)[0] || '—'
+function ru(value: unknown) {
+  return localized(value, 'ru') || '—'
 }
 
 export default async function AdminStudents({

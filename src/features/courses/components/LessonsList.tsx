@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { Lock, CheckCircle2, PlayCircle, Video, FileText, ListChecks } from 'lucide-react'
+import { localized } from '@/lib/localized'
 
 type Lesson = {
   id: string
@@ -24,17 +25,6 @@ type Props = {
   isEnrolled: boolean
 }
 
-function getLocalizedText(value: any, locale: string) {
-  if (!value) return ''
-  if (typeof value === 'string') return value
-  if (typeof value === 'object') {
-    if (value[locale]) return value[locale]
-    const first = Object.values(value)[0]
-    return typeof first === 'string' ? first : ''
-  }
-  return ''
-}
-
 export function LessonsList({ lessons, courseSlug, locale, progressMap, isEnrolled }: Props) {
   const t = useTranslations('lesson')
 
@@ -49,7 +39,7 @@ export function LessonsList({ lessons, courseSlug, locale, progressMap, isEnroll
     <ol className="lesson-list">
       {lessons.map((lesson, index) => {
         const status = statusOf(lesson, index)
-        const title = getLocalizedText(lesson.title, locale)
+        const title = localized(lesson.title, locale)
         const href = `/${locale}/courses/${courseSlug}/lessons/${lesson.slug}`
 
         const parts = [

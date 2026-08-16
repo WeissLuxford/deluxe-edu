@@ -2,20 +2,10 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { FreeLevelTestPlayer } from '@/features/courses/components/FreeLevelTestPlayer'
+import { localized } from '@/lib/localized'
 
 type Props = {
   params: Promise<{ locale: string; lesson: string }>
-}
-
-function getLocalizedText(value: any, locale: string) {
-  if (!value) return ''
-  if (typeof value === 'string') return value
-  if (typeof value === 'object') {
-    if (value[locale]) return value[locale]
-    const first = Object.values(value)[0]
-    return typeof first === 'string' ? first : ''
-  }
-  return ''
 }
 
 export default async function LevelTestLessonPage({ params }: Props) {
@@ -42,7 +32,7 @@ export default async function LevelTestLessonPage({ params }: Props) {
   const nextLesson = course.lessons[lessonIndex + 1]
   const assignment = lesson.Assignment[0] || null
 
-  const title = getLocalizedText(lesson.title, locale)
+  const title = localized(lesson.title, locale)
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>

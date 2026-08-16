@@ -7,20 +7,10 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { LessonsList } from '@/features/courses/components/LessonsList'
 import { CoursePlans } from '@/features/courses/components/CoursePlans'
+import { localized } from '@/lib/localized'
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>
-}
-
-function localized(value: any, locale: string): string {
-  if (!value) return ''
-  if (typeof value === 'string') return value
-  if (typeof value === 'object') {
-    if (value[locale]) return value[locale]
-    const first = Object.values(value)[0]
-    return typeof first === 'string' ? first : ''
-  }
-  return ''
 }
 
 export default async function CoursePage({ params }: Props) {

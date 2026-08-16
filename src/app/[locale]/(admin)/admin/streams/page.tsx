@@ -4,11 +4,10 @@ import { deleteStream } from '@/features/admin/streamActions'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { statusOf } from '@/features/streams/utils/streamHelpers'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
+import { localized } from '@/lib/localized'
 
-function ru(value: any) {
-  if (!value) return '—'
-  if (typeof value === 'string') return value
-  return value.ru || Object.values(value)[0] || '—'
+function ru(value: unknown) {
+  return localized(value, 'ru') || '—'
 }
 
 const STATUS_LABEL: Record<string, string> = {

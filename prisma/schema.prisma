@@ -67,43 +67,67 @@ model Course {
   pricePro    Int          @default(400000)
   priceDeluxe Int          @default(800000)
   lessons     Lesson[]
+  modules     Module[]
   level       String       @default("Beginner")
+  coverUrl    String?
+  badge       String?
   published   Boolean      @default(false)
-  visible     Boolean      @default(true) 
+  visible     Boolean      @default(true)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   Enrollment  Enrollment[]
   Payment     Payment[]
 }
 
+model Module {
+  id          String   @id @default(cuid())
+  courseId    String
+  title       Json
+  description Json?
+  order       Int      @default(0)
+  course      Course   @relation(fields: [courseId], references: [id])
+  lessons     Lesson[]
+
+  @@index([courseId, order])
+}
+
 model Lesson {
   id             String           @id @default(cuid())
   courseId       String
+  moduleId       String?
   slug           String
   title          Json
   content        Json
   videoUrl       String?
+  coverUrl       String?
+  durationMin    Int?
   hasVideo       Boolean          @default(true)
   hasConspect    Boolean          @default(false)
   hasTest        Boolean          @default(false)
   zoomMeetingId  String?
   order          Int              @default(0)
   course         Course           @relation(fields: [courseId], references: [id])
+  module         Module?          @relation(fields: [moduleId], references: [id])
   Assignment     Assignment[]
   LessonProgress LessonProgress[]
 
   @@unique([courseId, slug])
+  @@index([moduleId, order])
 }
 
 model Enrollment {
-  id        String           @id @default(cuid())
-  userId    String
-  courseId  String
-  status    EnrollmentStatus @default(ACTIVE)
-  plan      Plan?
-  createdAt DateTime         @default(now())
-  user      User             @relation(fields: [userId], references: [id])
-  course    Course           @relation(fields: [courseId], references: [id])
+  id            String           @id @default(cuid())
+  userId        String
+  courseId      String
+  status        EnrollmentStatus @default(ACTIVE)
+  plan          Plan?
+  lastLessonId  String?
+  lastVisitedAt DateTime?
+  createdAt     DateTime         @default(now())
+  user          User             @relation(fields: [userId], references: [id])
+  course        Course           @relation(fields: [courseId], references: [id])
+
+  @@index([userId, status])
 }
 
 model Assignment {
@@ -147,6 +171,7 @@ model LessonProgress {
   lessonId  String
   watched   Boolean  @default(false)
   passed    Boolean  @default(false)
+  lastStep  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id])

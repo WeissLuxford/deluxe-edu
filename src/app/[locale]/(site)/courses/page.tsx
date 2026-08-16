@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { CourseArticle, type CourseArticleState } from '@/features/courses/components/CourseArticle'
 import { SpecialOffersSection } from '@/features/courses/components/SpecialOffersSection'
+import { localized } from '@/lib/localized'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -22,17 +23,6 @@ const LEVELS = [
 
 const SPECIAL_SLUGS = ['level-test', 'trial-lesson']
 const isSpecial = (slug: string) => SPECIAL_SLUGS.includes(slug) || slug.includes('mock-test')
-
-function localized(value: any, locale: string): string {
-  if (!value) return ''
-  if (typeof value === 'string') return value
-  if (typeof value === 'object') {
-    if (value[locale]) return value[locale]
-    const first = Object.values(value)[0]
-    return typeof first === 'string' ? first : ''
-  }
-  return ''
-}
 
 export default async function CoursesPage({ params, searchParams }: Props) {
   const { locale } = await params

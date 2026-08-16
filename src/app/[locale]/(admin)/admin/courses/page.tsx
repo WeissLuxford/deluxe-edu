@@ -4,11 +4,10 @@ import { deleteCourse, toggleCoursePublished } from '@/features/admin/actions'
 import { ActionButton } from '@/features/admin/components/ActionButton'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
+import { localized } from '@/lib/localized'
 
-function ru(value: any) {
-  if (!value) return '—'
-  if (typeof value === 'string') return value
-  return value.ru || Object.values(value)[0] || '—'
+function ru(value: unknown) {
+  return localized(value, 'ru') || '—'
 }
 
 export default async function AdminCourses({ params }: { params: Promise<{ locale: string }> }) {
