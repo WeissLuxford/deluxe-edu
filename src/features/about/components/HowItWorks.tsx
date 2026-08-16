@@ -1,29 +1,32 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { motion } from 'framer-motion';
 import { BookOpen, Video, MessageCircle, Award } from 'lucide-react';
 
 export function HowItWorks() {
+  const t = useTranslations('about');
   const steps = [
     {
       icon: BookOpen,
-      title: 'Choose Your Path',
-      desc: 'Study solo with video lessons & notes, or get 1-on-1 mentorship. Both are affordable.',
+      title: t('h1t'),
+      desc: t('h1d'),
     },
     {
       icon: Video,
-      title: 'Watch & Practice',
-      desc: 'High-quality video lessons, interactive tests, and downloadable materials.',
+      title: t('h2t'),
+      desc: t('h2d'),
     },
     {
       icon: MessageCircle,
-      title: 'Join Live Streams',
-      desc: 'Ask questions in real-time, practice speaking, and connect with other learners.',
+      title: t('h3t'),
+      desc: t('h3d'),
     },
     {
       icon: Award,
-      title: 'Track Your Progress',
-      desc: 'Take mock tests, get feedback, and see your improvement week by week.',
+      title: t('h4t'),
+      desc: t('h4d'),
     },
   ];
 
@@ -37,10 +40,10 @@ export function HowItWorks() {
           style={{ maxWidth: '800px', margin: '0 auto 4rem', textAlign: 'center' }}
         >
           <h2 className="hero-title" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '1rem' }}>
-            How It Works
+            {t('howTitle')}
           </h2>
           <p className="text-muted" style={{ fontSize: '1.2rem' }}>
-            Simple, transparent, and effective. No BS.
+            {t('howLead')}
           </p>
         </motion.div>
 

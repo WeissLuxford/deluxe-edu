@@ -1,15 +1,18 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 
 export default function TilesCarousel() {
+  const t = useTranslations('home')
   const items = useMemo(() => [
-    { emoji: '📡', title: 'Live streams', sub: 'Join interactive English lessons' },
-    { emoji: '📹', title: 'Video lessons', sub: 'Watch anytime, anywhere' },
-    { emoji: '📝', title: 'Assignments', sub: 'Practice and get feedback' },
-    { emoji: '🎧', title: 'Notes & PDFs', sub: 'Downloadable materials' },
-    { emoji: '🎬', title: 'Mock tests', sub: 'IELTS & TOEFL prep' },
-    { emoji: '💬', title: 'Speaking clubs', sub: 'Practice with peers' }
+    { emoji: '📡', title: t('t1'), sub: t('t1d') },
+    { emoji: '📹', title: t('t2'), sub: t('t2d') },
+    { emoji: '📝', title: t('t3'), sub: t('t3d') },
+    { emoji: '🎧', title: t('t4'), sub: t('t4d') },
+    { emoji: '🎬', title: t('t5'), sub: t('t5d') },
+    { emoji: '💬', title: t('t6'), sub: t('t6d') }
   ], [])
 
   const duplicatedItems = useMemo(() => [...items, ...items, ...items], [items])
@@ -157,7 +160,7 @@ export default function TilesCarousel() {
         .tiles-head-text { text-align: center; font-size: 1.75rem; font-weight: 800; background: linear-gradient(135deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2rem; padding-top: 1rem }
       `}</style>
 
-      <h2 id="tiles-head" className="tiles-head-text">What you'll get</h2>
+      <h2 id="tiles-head" className="tiles-head-text">{t('tilesTitle')}</h2>
 
       <div className="tiles-arrows">
         <button aria-label="Previous" className="tiles-arrow left" onClick={prev} type="button">‹</button>

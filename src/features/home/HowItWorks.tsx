@@ -1,21 +1,26 @@
+'use client'
+
+import { useTranslations } from 'next-intl'
+
 import Link from "next/link"
 
 export default function HowItWorks({ base = "" }: { base?: string }) {
+  const t = useTranslations('home')
   const steps = [
     {
       n: "1",
-      title: "Create your account",
-      desc: "Sign up for free and choose your learning path — with or without a mentor"
+      title: t('w1'),
+      desc: t('w1d')
     },
     {
       n: "2",
-      title: "Start learning",
-      desc: "Watch video lessons, read notes, complete tests. All materials are available 24/7"
+      title: t('w2'),
+      desc: t('w2d')
     },
     {
       n: "3",
-      title: "Join live streams",
-      desc: "Ask questions, practice speaking, and connect with other students in real-time"
+      title: t('w3'),
+      desc: t('w3d')
     }
   ]
 
@@ -23,8 +28,8 @@ export default function HowItWorks({ base = "" }: { base?: string }) {
     <section id="how-it-works" className="relative py-20">
       <div className="container">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gradient mb-3">How it works</h2>
-          <p className="text-muted text-lg">Start learning in under 10 minutes</p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gradient mb-3">{t('howTitle')}</h2>
+          <p className="text-muted text-lg">{t('howLead')}</p>
         </div>
         <div className="events-grid">
           {steps.map(s => (
@@ -43,7 +48,7 @@ export default function HowItWorks({ base = "" }: { base?: string }) {
           ))}
         </div>
         <div className="mt-10 flex justify-center">
-          <Link href={`${base}/trial-lesson`} className="iridescent vx">Try Free Lesson</Link>
+          <Link href={`${base}/trial-lesson`} className="iridescent vx">{t('tryFree')}</Link>
         </div>
       </div>
     </section>

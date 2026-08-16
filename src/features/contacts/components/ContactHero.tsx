@@ -1,9 +1,12 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { motion } from 'framer-motion';
 import { MessageCircle, Mail, Phone } from 'lucide-react';
 
 export function ContactHero() {
+  const t = useTranslations('contacts');
   return (
     <section className="hero-gradient" style={{ padding: '6rem 0 4rem', position: 'relative', overflow: 'hidden' }}>
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
@@ -41,19 +44,19 @@ export function ContactHero() {
               backgroundClip: 'text',
             }}
           >
-            Get in Touch
+            {t('heroTitle')}
           </h1>
 
           <p className="text-muted" style={{ fontSize: '1.3rem', lineHeight: '1.7', marginBottom: '2rem' }}>
-            Questions? Feedback? Just want to say hi? We're here and we actually respond. No bots, no BS.
+            {t('heroLead')}
           </p>
 
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <a href="#contact-methods" className="iridescent">
-              Contact Us
+              {t('ctaContact')}
             </a>
             <a href="/trial-lesson" className="btn-secondary">
-              Try Free Lesson
+              {t('ctaTrial')}
             </a>
           </div>
         </motion.div>

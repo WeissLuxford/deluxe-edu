@@ -1,26 +1,29 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, HelpCircle } from 'lucide-react';
 
 export function FAQPreview() {
+  const t = useTranslations('contacts');
   const faqs = [
     {
-      q: 'How much does it cost?',
-      a: '$15-20/month depending on the plan. No hidden fees.',
+      q: t('q1'),
+      a: t('a1'),
     },
     {
-      q: 'Do I need to pay upfront?',
-      a: 'Nope! Try our free trial lesson first, then decide.',
+      q: t('q2'),
+      a: t('a2'),
     },
     {
-      q: 'Can I learn without a teacher?',
-      a: 'Yes! Self-study materials are available. Or add a mentor for feedback.',
+      q: t('q3'),
+      a: t('a3'),
     },
     {
-      q: 'Are live streams recorded?',
-      a: 'Yes, all streams are saved so you can watch later.',
+      q: t('q4'),
+      a: t('a4'),
     },
   ];
 
@@ -36,10 +39,10 @@ export function FAQPreview() {
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <HelpCircle size={48} color="var(--gold)" style={{ margin: '0 auto 1rem' }} />
             <h2 className="hero-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', marginBottom: '1rem' }}>
-              Quick Questions
+              {t('faqTitle')}
             </h2>
             <p className="text-muted" style={{ fontSize: '1.1rem' }}>
-              Still have questions? Check our full FAQ or just message us.
+              {t('faqLead')}
             </p>
           </div>
 
@@ -66,7 +69,7 @@ export function FAQPreview() {
 
             <div style={{ marginTop: '2rem', textAlign: 'center' }}>
               <Link href="/#faq" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
-                View Full FAQ <ArrowRight size={18} />
+                {t('faqAll')} <ArrowRight size={18} />
               </Link>
             </div>
           </div>

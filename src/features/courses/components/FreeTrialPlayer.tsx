@@ -1,5 +1,7 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
@@ -13,6 +15,7 @@ type Props = {
 }
 
 export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }: Props) {
+  const tFree = useTranslations('free')
   const [currentStep, setCurrentStep] = useState<'video' | 'conspect'>('video')
 
   return (
@@ -22,10 +25,10 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="font-semibold mb-1" style={{ color: '#22c55e' }}>
-                🎉 Free Trial Lesson
+                {tFree('trialTitle')}
               </div>
               <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                No registration required. Experience our teaching style and see if it's right for you!
+                {tFree('trialLead')}
               </p>
             </div>
             <Link
@@ -69,7 +72,7 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
               <div className="w-full h-full flex items-center justify-center text-white">
                 <div className="text-center">
                   <div className="text-6xl mb-4">🎥</div>
-                  <div className="text-lg">Video Player</div>
+                  <div className="text-lg">{tFree('videoPlayer')}</div>
                   <div className="text-sm opacity-70 mt-2">
                     Integrate your video here (YouTube, Vimeo, or self-hosted)
                   </div>
@@ -110,20 +113,20 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
 
             <div className="glass-panel" style={{ padding: '2rem' }}>
               <div className="prose prose-invert max-w-none" style={{ color: 'var(--fg)' }}>
-                <h3 style={{ color: 'var(--gold-text)' }}>What You Learned</h3>
+                <h3 style={{ color: 'var(--gold-text)' }}>{tFree('learned')}</h3>
                 <p style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
                   {content || 'In this free trial lesson, you experienced our teaching methodology. Our courses include:'}
                 </p>
 
-                <h3 style={{ color: 'var(--gold-text)', marginTop: '2rem' }}>Course Features</h3>
+                <h3 style={{ color: 'var(--gold-text)', marginTop: '2rem' }}>{tFree('features')}</h3>
                 <ul style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
-                  <li><strong style={{ color: 'var(--fg)' }}>High-quality video lessons</strong> - Professional recordings with clear explanations</li>
-                  <li><strong style={{ color: 'var(--fg)' }}>Detailed notes</strong> - Written materials for every lesson</li>
-                  <li><strong style={{ color: 'var(--fg)' }}>Interactive tests</strong> - Check your understanding after each lesson</li>
-                  <li><strong style={{ color: 'var(--fg)' }}>Progress tracking</strong> - See your improvement over time</li>
+                  <li><strong style={{ color: 'var(--fg)' }}>{tFree('featVideo')}</strong> - Professional recordings with clear explanations</li>
+                  <li><strong style={{ color: 'var(--fg)' }}>{tFree('featNotes')}</strong> - Written materials for every lesson</li>
+                  <li><strong style={{ color: 'var(--fg)' }}>{tFree('featTests')}</strong> - Check your understanding after each lesson</li>
+                  <li><strong style={{ color: 'var(--fg)' }}>{tFree('featProgress')}</strong> - See your improvement over time</li>
                 </ul>
 
-                <h3 style={{ color: 'var(--gold-text)', marginTop: '2rem' }}>What's Next?</h3>
+                <h3 style={{ color: 'var(--gold-text)', marginTop: '2rem' }}>{tFree('whatsNext')}</h3>
                 <p style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
                   Ready to continue learning? Sign up to access full courses with structured lessons, 
                   tests, and certificates. Choose from Beginner to Advanced levels!

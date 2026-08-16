@@ -1,9 +1,12 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 import { useState } from 'react'
 import { Phone, User, Mail, MessageCircle, Send } from 'lucide-react'
 
 export default function ContactFormSection() {
+  const t = useTranslations('home')
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -66,10 +69,10 @@ export default function ContactFormSection() {
               <MessageCircle size={40} color="var(--gold)" />
             </div>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-3 text-gradient">
-              Have Questions?
+              {t('formTitle')}
             </h2>
             <p className="text-lg text-muted">
-              Leave your contact info and we'll reach out to you within 24 hours
+              {t('formLead')}
             </p>
           </div>
 
@@ -78,7 +81,7 @@ export default function ContactFormSection() {
               <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))' }}>
                 <div>
                   <label htmlFor="firstName" className="label">
-                    First Name *
+                    {t('fFirst')}
                   </label>
                   <div style={{ position: 'relative' }}>
                     <User
@@ -107,7 +110,7 @@ export default function ContactFormSection() {
 
                 <div>
                   <label htmlFor="lastName" className="label">
-                    Last Name *
+                    {t('fLast')}
                   </label>
                   <div style={{ position: 'relative' }}>
                     <User
@@ -138,7 +141,7 @@ export default function ContactFormSection() {
               <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))' }}>
                 <div>
                   <label htmlFor="phone" className="label">
-                    Phone Number *
+                    {t('fPhone')}
                   </label>
                   <div style={{ position: 'relative' }}>
                     <Phone
@@ -167,7 +170,7 @@ export default function ContactFormSection() {
 
                 <div>
                   <label htmlFor="email" className="label">
-                    Email (optional)
+                    {t('fEmail')}
                   </label>
                   <div style={{ position: 'relative' }}>
                     <Mail
@@ -196,7 +199,7 @@ export default function ContactFormSection() {
 
               <div>
                 <label htmlFor="message" className="label">
-                  Message (optional)
+                  {t('fMessage')}
                 </label>
                 <textarea
                   id="message"
@@ -259,13 +262,13 @@ export default function ContactFormSection() {
                 ) : (
                   <>
                     <Send size={20} />
-                    Send Message
+                    {t('fSend')}
                   </>
                 )}
               </button>
 
               <p className="text-muted text-center" style={{ fontSize: '0.875rem' }}>
-                Or contact us directly:{' '}
+                {t('formDirectLine')}:{' '}
                 <a href="tel:+998901234567" style={{ color: 'var(--gold-text)', textDecoration: 'underline' }}>
                   +998 90 123 45 67
                 </a>{' '}

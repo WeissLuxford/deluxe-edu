@@ -1,36 +1,39 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { motion } from 'framer-motion';
 import { Phone, Send, Mail, MessageCircle, Clock, MapPin } from 'lucide-react';
 
 export function ContactMethods() {
+  const t = useTranslations('contacts');
   const contacts = [
     {
       icon: Phone,
-      title: 'Call or WhatsApp',
+      title: t('callTitle'),
       value: '+998 90 123 45 67',
       link: 'tel:+998901234567',
-      desc: 'Available 9 AM - 9 PM (GMT+5)',
+      desc: t('callHint'),
       color: '#22c55e',
-      action: 'Call Now',
+      action: t('callCta'),
     },
     {
       icon: Send,
-      title: 'Telegram',
+      title: t('tgCta'),
       value: '@deluxeedu',
       link: 'https://t.me/deluxeedu',
-      desc: 'Fastest response time',
+      desc: t('tgHint'),
       color: '#0088cc',
-      action: 'Message on Telegram',
+      action: t('tgTitle'),
     },
     {
       icon: Mail,
       title: 'Email',
       value: 'hello@deluxeedu.uz',
       link: 'mailto:hello@deluxeedu.uz',
-      desc: 'We reply within 24 hours',
+      desc: t('mailHint'),
       color: '#ef4444',
-      action: 'Send Email',
+      action: t('mailCta'),
     },
   ];
 
@@ -44,10 +47,10 @@ export function ContactMethods() {
           style={{ maxWidth: '700px', margin: '0 auto 4rem', textAlign: 'center' }}
         >
           <h2 className="hero-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', marginBottom: '1rem' }}>
-            How to Reach Us
+            {t('methodsTitle')}
           </h2>
           <p className="text-muted" style={{ fontSize: '1.1rem' }}>
-            Pick your favorite way to connect. We're real humans, not an automated system.
+            {t('methodsLead')}
           </p>
         </motion.div>
 
@@ -138,7 +141,7 @@ export function ContactMethods() {
             <div>
               <Clock size={24} color="var(--gold)" style={{ margin: '0 auto 0.5rem' }} />
               <p style={{ fontSize: '0.95rem', color: 'var(--fg)', fontWeight: '600', marginBottom: '0.25rem' }}>
-                Working Hours
+                {t('hours')}
               </p>
               <p className="text-muted" style={{ fontSize: '0.9rem' }}>
                 Mon-Sun: 9 AM - 9 PM
@@ -148,20 +151,20 @@ export function ContactMethods() {
             <div>
               <MapPin size={24} color="var(--gold)" style={{ margin: '0 auto 0.5rem' }} />
               <p style={{ fontSize: '0.95rem', color: 'var(--fg)', fontWeight: '600', marginBottom: '0.25rem' }}>
-                Location
+                {t('location')}
               </p>
               <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-                Tashkent, Uzbekistan
+                {t('locationValue')}
               </p>
             </div>
 
             <div>
               <MessageCircle size={24} color="var(--gold)" style={{ margin: '0 auto 0.5rem' }} />
               <p style={{ fontSize: '0.95rem', color: 'var(--fg)', fontWeight: '600', marginBottom: '0.25rem' }}>
-                Response Time
+                {t('responseTime')}
               </p>
               <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-                Usually within 2-3 hours
+                {t('responseValue')}
               </p>
             </div>
           </div>

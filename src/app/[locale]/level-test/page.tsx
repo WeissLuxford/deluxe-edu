@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 
@@ -8,6 +9,7 @@ type Props = {
 
 export default async function LevelTestPage({ params }: Props) {
   const { locale } = await params
+  const tFree = await getTranslations({ locale, namespace: 'free' })
 
   const course = await prisma.course.findUnique({
     where: { slug: 'level-test' },
@@ -33,9 +35,9 @@ export default async function LevelTestPage({ params }: Props) {
           </p>
 
           <div className="grid gap-3 text-sm mb-8" style={{ color: 'var(--muted)' }}>
-            <div>✅ Instant results</div>
-            <div>📈 Detailed report</div>
-            <div>🎯 Course recommendations</div>
+            <div>{tFree('instantResults')}</div>
+            <div>{tFree('detailedReport')}</div>
+            <div>{tFree('courseAdvice')}</div>
           </div>
 
           {firstLesson ? (
@@ -47,7 +49,7 @@ export default async function LevelTestPage({ params }: Props) {
               Start Test
             </Link>
           ) : (
-            <div style={{ color: 'var(--muted)' }}>No lessons available</div>
+            <div style={{ color: 'var(--muted)' }}>{tFree('noLessons')}</div>
           )}
         </div>
       </div>

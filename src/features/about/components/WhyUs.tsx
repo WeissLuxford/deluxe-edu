@@ -1,20 +1,23 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 
 export function WhyUs() {
+  const t = useTranslations('about');
   const reasons = [
-    'No overpriced courses draining your wallet',
-    'Transparent pricing — no hidden fees or upsells',
-    'IELTS 8.0 certified teacher who actually teaches',
-    'Study with or without a tutor — your choice',
-    'Live streams for Q&A and speaking practice',
-    'Free mock tests and level assessments',
-    'Speaking clubs to practice with real people',
-    'Video lessons, notes, and interactive tests',
-    'Community support — not just a transaction',
-    'Learn at your own pace without pressure',
+    t('r1'),
+    t('r2'),
+    t('r3'),
+    t('r4'),
+    t('r5'),
+    t('r6'),
+    t('r7'),
+    t('r8'),
+    t('r9'),
+    t('r10'),
   ];
 
   return (
@@ -27,11 +30,10 @@ export function WhyUs() {
           style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}
         >
           <h2 className="hero-title" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '1rem' }}>
-            Why Choose Deluxe Edu?
+            {t('whyTitle')}
           </h2>
           <p className="text-muted" style={{ fontSize: '1.2rem', marginBottom: '3rem' }}>
-            Because we're not here to <strong style={{ color: '#ef4444' }}>rob you</strong>. We're here to{' '}
-            <strong style={{ color: 'var(--gold-text)' }}>empower you</strong>.
+            {t('whyLead')}
           </p>
 
           <div

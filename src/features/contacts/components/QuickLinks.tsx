@@ -1,36 +1,39 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { BookOpen, Video, Calendar, HelpCircle } from 'lucide-react';
 
 export function QuickLinks() {
+  const t = useTranslations('contacts');
   const links = [
     {
       icon: BookOpen,
-      title: 'Browse Courses',
-      desc: 'Explore all available courses',
+      title: t('l1'),
+      desc: t('l1d'),
       href: '/courses',
       color: 'var(--gold-text)',
     },
     {
       icon: Video,
-      title: 'Watch Streams',
-      desc: 'Join live English lessons',
+      title: t('l3'),
+      desc: t('l3d'),
       href: '/streams',
       color: '#ef4444',
     },
     {
       icon: Calendar,
-      title: 'Try Free Lesson',
-      desc: 'No credit card required',
+      title: t('l2'),
+      desc: t('l2d'),
       href: '/trial-lesson',
       color: '#22c55e',
     },
     {
       icon: HelpCircle,
       title: 'FAQ',
-      desc: 'Common questions answered',
+      desc: t('faqTitle'),
       href: '/#faq',
       color: '#3b82f6',
     },
@@ -46,10 +49,10 @@ export function QuickLinks() {
           style={{ maxWidth: '700px', margin: '0 auto 3rem', textAlign: 'center' }}
         >
           <h2 className="hero-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', marginBottom: '1rem' }}>
-            Quick Links
+            {t('quickTitle')}
           </h2>
           <p className="text-muted" style={{ fontSize: '1.1rem' }}>
-            Or maybe you just want to explore on your own?
+            {t('quickLead')}
           </p>
         </motion.div>
 

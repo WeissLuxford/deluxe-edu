@@ -1,9 +1,12 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { motion } from 'framer-motion';
 import { Award, Heart } from 'lucide-react';
 
 export function OurTeam() {
+  const t = useTranslations('about');
   return (
     <section id="team" style={{ padding: '6rem 0', background: 'var(--bg-secondary)' }}>
       <div className="container">
@@ -14,10 +17,10 @@ export function OurTeam() {
           style={{ maxWidth: '800px', margin: '0 auto 4rem', textAlign: 'center' }}
         >
           <h2 className="hero-title" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '1rem' }}>
-            Meet the Team
+            {t('teamTitle')}
           </h2>
           <p className="text-muted" style={{ fontSize: '1.2rem' }}>
-            Two people who got tired of the BS and decided to fix it.
+            {t('teamLead')}
           </p>
         </motion.div>
 
@@ -54,13 +57,13 @@ export function OurTeam() {
               Co
             </div>
             <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--fg)' }}>
-              Co-Founder
+              {t('roleFounder')}
             </h3>
             <p className="text-muted" style={{ fontSize: '0.95rem', marginBottom: '1rem' }}>
-              The Visionary
+              {t('roleVisionary')}
             </p>
             <p className="text-muted" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
-              Saw the broken system and said "enough is enough." Built this platform to make education accessible.
+              {t('bioFounder')}
             </p>
           </motion.div>
 
@@ -89,24 +92,24 @@ export function OurTeam() {
               T
             </div>
             <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--fg)' }}>
-              Lead Teacher
+              {t('roleTeacher')}
             </h3>
             <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginBottom: '1rem' }}>
               <span className="badge-success">IELTS 8.0</span>
-              <span className="badge-primary">Certified</span>
+              <span className="badge-primary">{t('tCertified')}</span>
             </div>
             <p className="text-muted" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
-              An actual good human being who teaches with passion. No arrogance, just results.
+              {t('bioTeacher')}
             </p>
 
             <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
               <div style={{ textAlign: 'center' }}>
                 <Award size={24} color="var(--gold)" style={{ marginBottom: '0.25rem' }} />
-                <p style={{ fontSize: '0.875rem', color: 'var(--muted)' }}>Expert</p>
+                <p style={{ fontSize: '0.875rem', color: 'var(--muted)' }}>{t('tExpert')}</p>
               </div>
               <div style={{ textAlign: 'center' }}>
                 <Heart size={24} color="#ef4444" style={{ marginBottom: '0.25rem' }} />
-                <p style={{ fontSize: '0.875rem', color: 'var(--muted)' }}>Caring</p>
+                <p style={{ fontSize: '0.875rem', color: 'var(--muted)' }}>{t('tCaring')}</p>
               </div>
             </div>
           </motion.div>
@@ -120,7 +123,7 @@ export function OurTeam() {
           style={{ textAlign: 'center', marginTop: '3rem' }}
         >
           <p className="text-muted" style={{ fontSize: '1.1rem', maxWidth: '700px', margin: '0 auto' }}>
-            That's it. No massive team with fancy titles. Just two people who care and a teacher who actually teaches.
+            {t('teamNote')}
           </p>
         </motion.div>
       </div>

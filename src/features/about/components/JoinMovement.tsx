@@ -1,10 +1,13 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 export function JoinMovement() {
+  const t = useTranslations('about');
   return (
     <section style={{ padding: '6rem 0', background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
@@ -38,25 +41,24 @@ export function JoinMovement() {
               backgroundClip: 'text',
             }}
           >
-            Join the Movement
+            {t('joinTitle')}
           </h2>
 
           <p className="text-muted" style={{ fontSize: '1.2rem', lineHeight: '1.7', marginBottom: '2.5rem' }}>
-            Let's destroy the overpriced education system together. Start learning English for{' '}
-            <strong style={{ color: 'var(--gold-text)' }}>$15-20/month</strong> — not $300.
+            {t('joinLead')}
           </p>
 
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/courses" className="iridescent" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
-              Browse Courses <ArrowRight size={20} />
+              {t('joinCourses')} <ArrowRight size={20} />
             </Link>
             <Link href="/trial-lesson" className="btn-secondary">
-              Try Free Lesson
+              {t('joinTrial')}
             </Link>
           </div>
 
           <p className="text-muted" style={{ fontSize: '0.95rem', marginTop: '2rem' }}>
-            No credit card required. No BS. Just education.
+            {t('joinNote')}
           </p>
         </motion.div>
       </div>

@@ -1,37 +1,30 @@
 'use client'
 
-import { useEffect, useRef, useState } from "react"
-import Link from "next/link"
+import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export default function AccessTiers({ base }: { base: string }) {
+  const t = useTranslations('home')
   const cardsRef = useRef<(HTMLDivElement | null)[]>([])
   const [visible, setVisible] = useState<boolean[]>([])
 
   const tiers = [
     {
-      title: "Basic",
-      desc: "Perfect for self-learners who want structured materials",
-      features: ["Video lessons", "Downloadable notes", "Interactive tests", "Auto-grading"],
-      price: "200,000 UZS",
-      priceUSD: "~$15",
-      seats: "Unlimited"
+      title: t('tierBasic'),
+      desc: t('tierBasicLead'),
+      features: [t('tb1'), t('tb2'), t('tb3'), t('tb4')]
     },
     {
-      title: "Pro",
-      desc: "Get personalized feedback from experienced mentors",
-      features: ["Everything in Basic", "Mentor feedback", "Speaking practice", "Weekly Q&A sessions"],
-      price: "400,000 UZS",
-      priceUSD: "~$30",
-      seats: "Limited",
+      title: t('tierPro'),
+      desc: t('tierProLead'),
+      features: [t('tp1'), t('tp2'), t('tp3'), t('tp4')]
+    },
+    {
+      title: t('tierDeluxe'),
+      desc: t('tierDeluxeLead'),
+      features: [t('td1'), t('td2'), t('td3'), t('td4')],
       highlight: true
-    },
-    {
-      title: "Deluxe",
-      desc: "Premium 1-on-1 mentoring for maximum results",
-      features: ["Everything in Pro", "Individual lessons", "Personalized study plan", "Priority support"],
-      price: "800,000 UZS",
-      priceUSD: "~$60",
-      seats: "Very Limited"
     }
   ]
 
@@ -68,8 +61,8 @@ export default function AccessTiers({ base }: { base: string }) {
       <div className="access-bg" />
       <div className="container relative z-10">
         <div className="access-head text-center mb-14">
-          <h2 className="text-4xl font-bold text-gradient mb-3">Choose Your Plan</h2>
-          <p className="text-lg text-muted">Affordable English learning for everyone</p>
+          <h2 className="text-4xl font-bold text-gradient mb-3">{t('tiersTitle')}</h2>
+          <p className="text-lg text-muted">{t('tiersLead')}</p>
         </div>
 
         <div className="access-grid">
@@ -85,16 +78,17 @@ export default function AccessTiers({ base }: { base: string }) {
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="font-bold text-2xl" style={{ color: 'var(--fg)' }}>{tier.title}</div>
-                <span className={`badge ${tier.highlight ? 'badge-success' : 'badge-primary'}`} style={{ padding: '0.5rem 1rem' }}>
-                  {tier.seats}
-                </span>
+                {tier.highlight && (
+                  <span className="badge badge-primary" style={{ padding: '0.5rem 1rem' }}>
+                    {t('tierDeluxe')}
+                  </span>
+                )}
               </div>
-              
+
               <p className="text-base text-muted mb-6 leading-relaxed">{tier.desc}</p>
-              
+
               <div className="mb-6">
-                <div className="text-3xl font-bold mb-1" style={{ color: 'var(--gold-text)' }}>{tier.price}</div>
-                <div className="text-sm text-muted">{tier.priceUSD} / month</div>
+                <div className="text-sm text-muted">{t('tierPriceHint')}</div>
               </div>
 
               <div className="divider mb-6" />
@@ -108,23 +102,21 @@ export default function AccessTiers({ base }: { base: string }) {
                 ))}
               </ul>
 
-              <Link 
-                href={`${base}/courses`} 
+              <Link
+                href={`${base}/courses`}
                 className={tier.highlight ? 'iridescent vx' : 'btn-secondary'}
                 style={{ width: '100%', justifyContent: 'center' }}
               >
-                Get Started
+                {t('tierCta')}
               </Link>
             </div>
           ))}
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-muted text-lg mb-4">
-            Not sure which plan is right for you?
-          </p>
+          <p className="text-muted text-lg mb-4">{t('tiersUnsure')}</p>
           <Link href={`${base}/trial-lesson`} className="btn-secondary">
-            Try Free Lesson First
+            {t('tiersTry')}
           </Link>
         </div>
       </div>

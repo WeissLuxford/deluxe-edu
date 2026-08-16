@@ -1,8 +1,11 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 import { useEffect, useRef } from 'react'
 
 export default function HeroVertex() {
+  const t = useTranslations('home')
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -486,7 +489,7 @@ body .bg .aur_cont .aur.aur_10 {
     </div>
 
       <div className="vx-hero-sub">
-        <p>Introducing</p>
+        <p>{t('introducing')}</p>
       </div>
       
 
@@ -497,7 +500,7 @@ body .bg .aur_cont .aur.aur_10 {
         </div>
       </div>
 
-      <p className="vx-hero-p">To the highest heights</p>
+      <p className="vx-hero-p">{t('tagline')}</p>
 
       <div className="vx-mountains">
         <div />

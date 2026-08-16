@@ -1,9 +1,12 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 
 export function AboutHero() {
+  const t = useTranslations('about');
   return (
     <section className="hero-gradient" style={{ padding: '6rem 0 4rem', position: 'relative', overflow: 'hidden' }}>
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
@@ -20,7 +23,7 @@ export function AboutHero() {
             className="badge-primary"
             style={{ fontSize: '0.95rem', padding: '0.5rem 1rem', marginBottom: '1.5rem', display: 'inline-block' }}
           >
-            Founded in 2025
+            {t('founded')}
           </motion.span>
 
           <h1
@@ -34,12 +37,11 @@ export function AboutHero() {
               backgroundClip: 'text',
             }}
           >
-            Education Should Be Accessible, Not a Luxury
+            {t('heroTitle')}
           </h1>
 
           <p className="text-muted" style={{ fontSize: '1.3rem', lineHeight: '1.7', marginBottom: '2rem' }}>
-            We're here to <strong style={{ color: 'var(--gold-text)' }}>disrupt the overpriced English learning industry</strong> in
-            Uzbekistan and make quality education available to everyone — not just the wealthy.
+            {t('heroLead')}
           </p>
 
           <motion.div
@@ -49,10 +51,10 @@ export function AboutHero() {
             style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}
           >
             <a href="#mission" className="iridescent">
-              Our Mission
+              {t('ctaMission')}
             </a>
             <a href="#team" className="btn-secondary">
-              Meet the Team
+              {t('ctaTeam')}
             </a>
           </motion.div>
         </motion.div>

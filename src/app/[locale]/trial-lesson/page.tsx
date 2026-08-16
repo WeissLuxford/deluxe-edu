@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { FreeTrialPlayer } from '@/features/courses/components/FreeTrialPlayer'
@@ -20,6 +21,7 @@ function getLocalizedText(value: any, locale: string) {
 
 export default async function TrialLessonPage({ params }: Props) {
   const { locale } = await params
+  const tFree = await getTranslations({ locale, namespace: 'free' })
 
   const course = await prisma.course.findUnique({
     where: { slug: 'trial-lesson' },
@@ -41,11 +43,11 @@ export default async function TrialLessonPage({ params }: Props) {
         <div className="page-start">
           <div className="flex items-center justify-between py-4">
             <Link href={`/${locale}/courses`} className="text-sm" style={{ color: 'var(--muted)' }}>
-              ← Back to courses
+              ← {tFree('backToCourses')}
             </Link>
 
             <div className="text-center flex-1">
-              <div className="badge badge-success mb-1">FREE TRIAL</div>
+              <div className="badge badge-success mb-1">{tFree('badge')}</div>
               <h1 className="text-lg font-bold" style={{ color: 'var(--fg)' }}>{title}</h1>
             </div>
 
