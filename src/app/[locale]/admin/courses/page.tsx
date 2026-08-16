@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db'
 import { deleteCourse, toggleCoursePublished } from '@/features/admin/actions'
 import { ActionButton } from '@/features/admin/components/ActionButton'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
+import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 
 function ru(value: any) {
   if (!value) return '—'
@@ -22,29 +23,28 @@ export default async function AdminCourses({ params }: { params: Promise<{ local
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
-          Курсы ({courses.length})
-        </h2>
-        <Link href={`/${locale}/admin/courses/new`} className="btn btn-primary">
-          Новый курс
-        </Link>
-      </div>
+      <AdminPageHead
+        title="Курсы"
+        subtitle={`Всего ${courses.length}`}
+        action={
+          <Link href={`/${locale}/admin/courses/new`} className="btn btn-primary">
+            Новый курс
+          </Link>
+        }
+      />
 
       {courses.length === 0 ? (
-        <div className="card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>
-          Курсов пока нет.
-        </div>
+        <div className="admin-empty">Курсов пока нет.</div>
       ) : (
-        <div className="card" style={{ padding: 0, overflowX: 'auto' }}>
-          <table className="table" style={{ width: '100%' }}>
+        <div className="admin-table-wrap">
+          <table className="admin-table">
             <thead>
               <tr>
-                <th style={{ textAlign: 'left' }}>Название</th>
-                <th style={{ textAlign: 'left' }}>Адрес</th>
-                <th>Уроков</th>
-                <th>Учеников</th>
-                <th>Статус</th>
+                <th>Название</th>
+                <th>Адрес</th>
+                <th className="num">Уроков</th>
+                <th className="num">Учеников</th>
+                <th className="num">Статус</th>
                 <th />
               </tr>
             </thead>
@@ -60,9 +60,9 @@ export default async function AdminCourses({ params }: { params: Promise<{ local
                   <td style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--muted)' }}>
                     {c.slug}
                   </td>
-                  <td style={{ textAlign: 'center' }}>{c._count.lessons}</td>
-                  <td style={{ textAlign: 'center' }}>{c._count.Enrollment}</td>
-                  <td style={{ textAlign: 'center' }}>
+                  <td className="num">{c._count.lessons}</td>
+                  <td className="num">{c._count.Enrollment}</td>
+                  <td className="num">
                     <ActionButton
                       action={toggleCoursePublished.bind(null, c.id)}
                       className={c.published ? 'badge badge-success toggle-badge' : 'badge badge-warning toggle-badge'}
@@ -72,7 +72,7 @@ export default async function AdminCourses({ params }: { params: Promise<{ local
                     </ActionButton>
                     {!c.visible && <span className="badge" style={{ marginLeft: '0.25rem' }}>скрыт</span>}
                   </td>
-                  <td style={{ textAlign: 'right' }}>
+                  <td className="right">
                     <DeleteButton
                       action={deleteCourse.bind(null, c.id)}
                       confirmText={`Удалить курс «${ru(c.title)}» вместе со всеми уроками и тестами? Это необратимо.`}

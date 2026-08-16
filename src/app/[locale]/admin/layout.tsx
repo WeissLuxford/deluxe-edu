@@ -1,17 +1,11 @@
-import Link from 'next/link'
+import { prisma } from '@/lib/db'
 import { requireAdmin } from '@/features/admin/requireAdmin'
+import { AdminSidebar } from '@/features/admin/components/AdminSidebar'
 
 export const metadata = {
   title: 'Админка — Vertex',
   robots: { index: false, follow: false }
 }
-
-const nav = [
-  { href: 'courses', label: 'Курсы' },
-  { href: 'students', label: 'Студенты' },
-  { href: 'streams', label: 'Эфиры' },
-  { href: 'contacts', label: 'Заявки' }
-]
 
 export default async function AdminLayout({
   children,
@@ -23,33 +17,25 @@ export default async function AdminLayout({
   const { locale } = await params
   const admin = await requireAdmin(locale)
 
+  const [courses, students, streams, newContacts] = await Promise.all([
+    prisma.course.count(),
+    prisma.user.count(),
+    prisma.stream.count(),
+    prisma.contactRequest.count({ where: { status: 'NEW' } })
+  ])
+
   return (
-    <main className="bg-gradient-dark mb-auto">
-      <div className="page-start" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
-        <div className="flex items-center justify-between" style={{ marginBottom: '1.5rem' }}>
-          <div>
-            <h1 className="text-2xl font-bold" style={{ color: 'var(--fg)' }}>
-              Панель управления
-            </h1>
-            <p className="text-sm" style={{ color: 'var(--muted)' }}>
-              {admin.name || admin.phone}
-            </p>
-          </div>
-          <Link href={`/${locale}/dashboard`} className="btn btn-secondary">
-            К кабинету
-          </Link>
-        </div>
+    <div className="admin-shell">
+      <AdminSidebar
+        locale={locale}
+        adminName={admin.name || 'Администратор'}
+        adminPhone={admin.phone}
+        counters={{ courses, students, streams, newContacts }}
+      />
 
-        <nav className="tabs" style={{ marginBottom: '1.5rem' }}>
-          {nav.map(item => (
-            <Link key={item.href} href={`/${locale}/admin/${item.href}`} className="tab">
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        {children}
-      </div>
-    </main>
+      <main className="admin-main">
+        <div className="admin-content">{children}</div>
+      </main>
+    </div>
   )
 }

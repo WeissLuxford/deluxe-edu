@@ -58,9 +58,7 @@ export default async function AdminStudents({
       />
 
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
-          Пользователи ({users.length})
-        </h2>
+        <h2 className="admin-page-head__title">Пользователи ({users.length})</h2>
         <form method="get" className="flex items-center gap-2">
           <input
             name="q"
@@ -77,17 +75,15 @@ export default async function AdminStudents({
       </div>
 
       {users.length === 0 ? (
-        <div className="card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>
-          {query ? 'Никого не нашлось.' : 'Пользователей пока нет.'}
-        </div>
+        <div className="admin-empty">{query ? 'Никого не нашлось.' : 'Пользователей пока нет.'}</div>
       ) : (
-        <div className="card" style={{ padding: 0, overflowX: 'auto' }}>
-          <table className="table" style={{ width: '100%' }}>
+        <div className="admin-table-wrap">
+          <table className="admin-table">
             <thead>
               <tr>
-                <th style={{ textAlign: 'left' }}>Пользователь</th>
-                <th style={{ textAlign: 'left' }}>Роль</th>
-                <th style={{ textAlign: 'left' }}>Курсы</th>
+                <th>Пользователь</th>
+                <th>Роль</th>
+                <th>Курсы</th>
                 <th>Уроков пройдено</th>
               </tr>
             </thead>
@@ -128,7 +124,7 @@ export default async function AdminStudents({
                       </div>
                     )}
                   </td>
-                  <td style={{ textAlign: 'center' }}>{u._count.LessonProgress}</td>
+                  <td className="num">{u._count.LessonProgress}</td>
                 </tr>
               ))}
             </tbody>

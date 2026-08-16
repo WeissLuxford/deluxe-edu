@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db'
 import { deleteStream } from '@/features/admin/streamActions'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { statusOf } from '@/features/streams/utils/streamHelpers'
+import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 
 function ru(value: any) {
   if (!value) return '—'
@@ -22,27 +23,26 @@ export default async function AdminStreams({ params }: { params: Promise<{ local
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
-          Трансляции ({streams.length})
-        </h2>
-        <Link href={`/${locale}/admin/streams/new`} className="btn btn-primary">
-          Новый эфир
-        </Link>
-      </div>
+      <AdminPageHead
+        title="Трансляции"
+        subtitle={`Всего ${streams.length}`}
+        action={
+          <Link href={`/${locale}/admin/streams/new`} className="btn btn-primary">
+            Новый эфир
+          </Link>
+        }
+      />
 
       {streams.length === 0 ? (
-        <div className="card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>
-          Эфиров пока нет.
-        </div>
+        <div className="admin-empty">Эфиров пока нет.</div>
       ) : (
-        <div className="card" style={{ padding: 0, overflowX: 'auto' }}>
-          <table className="table" style={{ width: '100%' }}>
+        <div className="admin-table-wrap">
+          <table className="admin-table">
             <thead>
               <tr>
-                <th style={{ textAlign: 'left' }}>Название</th>
-                <th style={{ textAlign: 'left' }}>Тип</th>
-                <th style={{ textAlign: 'left' }}>Начало</th>
+                <th>Название</th>
+                <th>Тип</th>
+                <th>Начало</th>
                 <th>Доступ</th>
                 <th>Статус</th>
                 <th />
@@ -67,16 +67,16 @@ export default async function AdminStreams({ params }: { params: Promise<{ local
                         minute: '2-digit'
                       })}
                     </td>
-                    <td style={{ textAlign: 'center' }}>
+                    <td className="num">
                       <span className="badge">{s.requiredPlan || 'всем'}</span>
                     </td>
-                    <td style={{ textAlign: 'center' }}>
+                    <td className="num">
                       <span className={status === 'live' ? 'badge badge-error' : 'badge'}>
                         {STATUS_LABEL[status]}
                       </span>
                       {!s.published && <span className="badge badge-warning" style={{ marginLeft: '0.25rem' }}>черновик</span>}
                     </td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td className="right">
                       <DeleteButton
                         action={deleteStream.bind(null, s.id)}
                         confirmText={`Удалить эфир «${ru(s.title)}»?`}

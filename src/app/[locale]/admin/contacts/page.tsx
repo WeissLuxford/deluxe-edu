@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db'
 import { ContactRow } from '@/features/admin/components/ContactRow'
+import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 
 export default async function AdminContacts() {
   const requests = await prisma.contactRequest.findMany({
@@ -11,23 +12,22 @@ export default async function AdminContacts() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
-        Заявки с сайта {newCount > 0 && <span className="badge badge-warning">{newCount} новых</span>}
-      </h2>
+      <AdminPageHead
+        title="Заявки с сайта"
+        subtitle={newCount > 0 ? `${newCount} новых` : 'Новых нет'}
+      />
 
       {requests.length === 0 ? (
-        <div className="card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--muted)' }}>
-          Заявок пока нет.
-        </div>
+        <div className="admin-empty">Заявок пока нет.</div>
       ) : (
-        <div className="card" style={{ padding: 0, overflowX: 'auto' }}>
-          <table className="table" style={{ width: '100%' }}>
+        <div className="admin-table-wrap">
+          <table className="admin-table">
             <thead>
               <tr>
-                <th style={{ textAlign: 'left' }}>Кто</th>
-                <th style={{ textAlign: 'left' }}>Телефон</th>
-                <th style={{ textAlign: 'left' }}>Сообщение</th>
-                <th style={{ textAlign: 'left' }}>Когда</th>
+                <th>Кто</th>
+                <th>Телефон</th>
+                <th>Сообщение</th>
+                <th>Когда</th>
                 <th>Статус</th>
               </tr>
             </thead>
