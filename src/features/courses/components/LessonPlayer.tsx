@@ -13,6 +13,7 @@ type Lesson = {
   slug: string
   title: any
   content: any
+  videoUrl?: string | null
   hasVideo: boolean
   hasConspect: boolean
   hasTest: boolean
@@ -133,6 +134,7 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
             <VideoStep
               lessonId={lesson.id}
               locale={locale}
+              videoUrl={lesson.videoUrl}
             />
           )}
 

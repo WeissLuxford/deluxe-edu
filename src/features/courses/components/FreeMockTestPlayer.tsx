@@ -135,7 +135,7 @@ export function FreeMockTestPlayer({ lesson, assignment, nextLesson, locale, tot
                     Browse Courses
                   </Link>
                   <button
-                    onClick={() => alert('Contact us:\nPhone: +998 90 123 45 67\nTelegram: @deluxeedu')}
+                    onClick={() => alert('Contact us:\nPhone: +998 90 123 45 67\nTelegram: @vertexedu')}
                     className="btn btn-primary"
                     style={{ background: 'var(--gold)', color: 'var(--bg)' }}
                   >

@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
-import { updateCourse, deleteLesson } from '@/features/admin/actions'
+import { updateCourse, deleteLesson, moveLesson } from '@/features/admin/actions'
+import { ActionButton } from '@/features/admin/components/ActionButton'
+import { ChevronUp, ChevronDown } from 'lucide-react'
 import { CourseForm } from '@/features/admin/components/CourseForm'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 
@@ -71,9 +73,29 @@ export default async function EditCourse({
                 </tr>
               </thead>
               <tbody>
-                {course.lessons.map(l => (
+                {course.lessons.map((l, i) => (
                   <tr key={l.id}>
-                    <td style={{ textAlign: 'center', color: 'var(--muted)' }}>{l.order}</td>
+                    <td style={{ textAlign: 'center' }}>
+                      <div className="order-controls">
+                        <ActionButton
+                          action={moveLesson.bind(null, l.id, 'up')}
+                          disabled={i === 0}
+                          title="Выше"
+                          className="order-btn"
+                        >
+                          <ChevronUp size={14} />
+                        </ActionButton>
+                        <span className="order-num">{l.order}</span>
+                        <ActionButton
+                          action={moveLesson.bind(null, l.id, 'down')}
+                          disabled={i === course.lessons.length - 1}
+                          title="Ниже"
+                          className="order-btn"
+                        >
+                          <ChevronDown size={14} />
+                        </ActionButton>
+                      </div>
+                    </td>
                     <td>
                       <Link href={`/${locale}/admin/lessons/${l.id}`} style={{ color: 'var(--gold-text)' }}>
                         {ru(l.title)}
@@ -83,7 +105,11 @@ export default async function EditCourse({
                       </div>
                     </td>
                     <td style={{ textAlign: 'center' }}>
-                      {l.hasVideo && <span className="badge">видео</span>}{' '}
+                      {l.hasVideo && (
+                        <span className={l.videoUrl ? 'badge badge-success' : 'badge badge-warning'}>
+                          {l.videoUrl ? 'видео' : 'видео не задано'}
+                        </span>
+                      )}{' '}
                       {l.hasConspect && <span className="badge">конспект</span>}{' '}
                       {l.hasTest && (
                         <span className={l._count.Assignment > 0 ? 'badge badge-success' : 'badge badge-warning'}>

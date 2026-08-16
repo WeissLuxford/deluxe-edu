@@ -82,6 +82,7 @@ model Lesson {
   slug           String
   title          Json
   content        Json
+  videoUrl       String?
   hasVideo       Boolean          @default(true)
   hasConspect    Boolean          @default(false)
   hasTest        Boolean          @default(false)

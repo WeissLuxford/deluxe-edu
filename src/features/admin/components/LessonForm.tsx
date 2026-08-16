@@ -14,6 +14,7 @@ type Lesson = {
   hasVideo: boolean
   hasConspect: boolean
   hasTest: boolean
+  videoUrl: string | null
   zoomMeetingId: string | null
 }
 
@@ -25,6 +26,7 @@ const empty: Lesson = {
   hasVideo: true,
   hasConspect: false,
   hasTest: false,
+  videoUrl: null,
   zoomMeetingId: null
 }
 
@@ -114,6 +116,16 @@ export function LessonForm({
             <label className="label">Порядок</label>
             <input type="number" name="order" defaultValue={lesson.order} className="input" min={0} required />
             <div className="hint">Чем меньше число, тем раньше урок в списке.</div>
+          </div>
+          <div>
+            <label className="label">Ссылка на видео</label>
+            <input
+              name="videoUrl"
+              defaultValue={lesson.videoUrl ?? ''}
+              className="input"
+              placeholder="https://youtu.be/... или прямая ссылка"
+            />
+            <div className="hint">Пока принимаем YouTube и прямые ссылки. Bunny добавим позже.</div>
           </div>
           <div>
             <label className="label">Номер конференции Zoom</label>

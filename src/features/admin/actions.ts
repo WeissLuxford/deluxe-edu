@@ -126,11 +126,13 @@ const lessonSchema = z.object({
   hasVideo: z.boolean(),
   hasConspect: z.boolean(),
   hasTest: z.boolean(),
+  videoUrl: z.string().trim().nullable(),
   zoomMeetingId: z.string().trim().nullable()
 })
 
 function readLesson(form: FormData) {
   const zoom = String(form.get('zoomMeetingId') ?? '').trim()
+  const video = String(form.get('videoUrl') ?? '').trim()
   return {
     slug: String(form.get('slug') ?? ''),
     title: readLocalized(form, 'title'),
@@ -139,6 +141,7 @@ function readLesson(form: FormData) {
     hasVideo: form.get('hasVideo') === 'on',
     hasConspect: form.get('hasConspect') === 'on',
     hasTest: form.get('hasTest') === 'on',
+    videoUrl: video || null,
     zoomMeetingId: zoom || null
   }
 }
@@ -250,5 +253,45 @@ export async function revokeEnrollment(id: string): Promise<ActionResult> {
 
   await prisma.enrollment.update({ where: { id }, data: { status: 'CANCELED' } })
   revalidatePath('/ru/admin/students')
+  return { ok: true }
+}
+
+export async function moveLesson(id: string, direction: 'up' | 'down'): Promise<ActionResult> {
+  await requireAdmin()
+
+  const lesson = await prisma.lesson.findUnique({
+    where: { id },
+    select: { id: true, courseId: true, order: true }
+  })
+  if (!lesson) return { ok: false, error: 'Урок не найден' }
+
+  const neighbour = await prisma.lesson.findFirst({
+    where: {
+      courseId: lesson.courseId,
+      order: direction === 'up' ? { lt: lesson.order } : { gt: lesson.order }
+    },
+    orderBy: { order: direction === 'up' ? 'desc' : 'asc' },
+    select: { id: true, order: true }
+  })
+  if (!neighbour) return { ok: true }
+
+  await prisma.$transaction([
+    prisma.lesson.update({ where: { id: lesson.id }, data: { order: -1 } }),
+    prisma.lesson.update({ where: { id: neighbour.id }, data: { order: lesson.order } }),
+    prisma.lesson.update({ where: { id: lesson.id }, data: { order: neighbour.order } })
+  ])
+
+  revalidatePath(`/ru/admin/courses/${lesson.courseId}`)
+  return { ok: true }
+}
+
+export async function toggleCoursePublished(id: string): Promise<ActionResult> {
+  await requireAdmin()
+
+  const course = await prisma.course.findUnique({ where: { id }, select: { published: true } })
+  if (!course) return { ok: false, error: 'Курс не найден' }
+
+  await prisma.course.update({ where: { id }, data: { published: !course.published } })
+  revalidatePath('/ru/admin/courses')
   return { ok: true }
 }

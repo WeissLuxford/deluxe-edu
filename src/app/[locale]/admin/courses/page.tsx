@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/db'
-import { deleteCourse } from '@/features/admin/actions'
+import { deleteCourse, toggleCoursePublished } from '@/features/admin/actions'
+import { ActionButton } from '@/features/admin/components/ActionButton'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 
 function ru(value: any) {
@@ -62,11 +63,13 @@ export default async function AdminCourses({ params }: { params: Promise<{ local
                   <td style={{ textAlign: 'center' }}>{c._count.lessons}</td>
                   <td style={{ textAlign: 'center' }}>{c._count.Enrollment}</td>
                   <td style={{ textAlign: 'center' }}>
-                    {c.published ? (
-                      <span className="badge badge-success">опубликован</span>
-                    ) : (
-                      <span className="badge badge-warning">черновик</span>
-                    )}
+                    <ActionButton
+                      action={toggleCoursePublished.bind(null, c.id)}
+                      className={c.published ? 'badge badge-success toggle-badge' : 'badge badge-warning toggle-badge'}
+                      title="Переключить публикацию"
+                    >
+                      {c.published ? 'опубликован' : 'черновик'}
+                    </ActionButton>
                     {!c.visible && <span className="badge" style={{ marginLeft: '0.25rem' }}>скрыт</span>}
                   </td>
                   <td style={{ textAlign: 'right' }}>

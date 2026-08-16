@@ -37,6 +37,7 @@ export default async function NewLesson({
           hasVideo: true,
           hasConspect: true,
           hasTest: false,
+          videoUrl: null,
           zoomMeetingId: null
         }}
         submitLabel="Создать урок"

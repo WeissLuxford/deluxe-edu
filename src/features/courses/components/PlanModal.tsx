@@ -74,7 +74,7 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
                 </div>
                 <div>
                   <div className="text-sm font-medium" style={{ color: 'var(--muted)' }}>{t('telegram')}</div>
-                  <a href="https://t.me/deluxeedu" target="_blank" rel="noopener noreferrer" className="text-lg font-semibold" style={{ color: 'var(--gold-text)' }}>@deluxeedu</a>
+                  <a href="https://t.me/vertexedu" target="_blank" rel="noopener noreferrer" className="text-lg font-semibold" style={{ color: 'var(--gold-text)' }}>@vertexedu</a>
                 </div>
               </div>
             </div>

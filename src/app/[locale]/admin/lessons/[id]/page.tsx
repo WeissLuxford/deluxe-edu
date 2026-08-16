@@ -75,6 +75,7 @@ export default async function EditLesson({
           hasVideo: lesson.hasVideo,
           hasConspect: lesson.hasConspect,
           hasTest: lesson.hasTest,
+          videoUrl: lesson.videoUrl,
           zoomMeetingId: lesson.zoomMeetingId
         }}
         submitLabel="Сохранить урок"

@@ -273,8 +273,8 @@ export default function ContactFormSection() {
                   +998 90 123 45 67
                 </a>{' '}
                 |{' '}
-                <a href="https://t.me/deluxeedu" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold-text)', textDecoration: 'underline' }}>
-                  @deluxeedu
+                <a href="https://t.me/vertexedu" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold-text)', textDecoration: 'underline' }}>
+                  @vertexedu
                 </a>
               </p>
             </form>

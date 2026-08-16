@@ -20,8 +20,8 @@ export function ContactMethods() {
     {
       icon: Send,
       title: t('tgCta'),
-      value: '@deluxeedu',
-      link: 'https://t.me/deluxeedu',
+      value: '@vertexedu',
+      link: 'https://t.me/vertexedu',
       desc: t('tgHint'),
       color: '#0088cc',
       action: t('tgTitle'),
@@ -29,8 +29,8 @@ export function ContactMethods() {
     {
       icon: Mail,
       title: 'Email',
-      value: 'hello@deluxeedu.uz',
-      link: 'mailto:hello@deluxeedu.uz',
+      value: 'hello@vertexedu.uz',
+      link: 'mailto:hello@vertexedu.uz',
       desc: t('mailHint'),
       color: '#ef4444',
       action: t('mailCta'),

@@ -1,19 +1,37 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
+import { Video } from 'lucide-react'
 
 type Props = {
   lessonId: string
   locale: string
+  videoUrl?: string | null
 }
 
-export function VideoStep({ lessonId, locale }: Props) {
-  const [videoWatched, setVideoWatched] = useState(false)
+function youtubeId(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([A-Za-z0-9_-]{11})/,
+    /(?:youtu\.be\/)([A-Za-z0-9_-]{11})/,
+    /(?:youtube\.com\/embed\/)([A-Za-z0-9_-]{11})/,
+    /(?:youtube\.com\/live\/)([A-Za-z0-9_-]{11})/
+  ]
+  for (const p of patterns) {
+    const m = url.match(p)
+    if (m) return m[1]
+  }
+  return null
+}
+
+export function VideoStep({ lessonId, locale, videoUrl }: Props) {
+  const t = useTranslations('lesson')
+  const [watched, setWatched] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      if (!videoWatched) {
-        setVideoWatched(true)
+      if (!watched) {
+        setWatched(true)
         await fetch('/api/lessons/watch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -23,43 +41,31 @@ export function VideoStep({ lessonId, locale }: Props) {
     }, 5000)
 
     return () => clearTimeout(timer)
-  }, [lessonId, videoWatched])
+  }, [lessonId, watched])
+
+  if (!videoUrl) {
+    return (
+      <div className="video-empty">
+        <Video size={40} />
+        <p>{t('videoPlaceholder')}</p>
+      </div>
+    )
+  }
+
+  const yt = youtubeId(videoUrl)
 
   return (
-    <div className="space-y-6">
-      <div className="aspect-video rounded-xl overflow-hidden" style={{ background: '#000' }}>
-        <div className="w-full h-full flex items-center justify-center text-white">
-          <div className="text-center">
-            <div className="text-6xl mb-4">🎥</div>
-            <div className="text-lg">Video player placeholder</div>
-            <div className="text-sm opacity-70 mt-2">
-              Integrate with YouTube, Vimeo, or self-hosted video
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="glass-panel" style={{ padding: '1.5rem' }}>
-        <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--fg)' }}>
-          Video Lesson
-        </h3>
-        <p style={{ color: 'var(--muted)', fontSize: '0.875rem' }}>
-          Watch the video carefully. You can pause and replay as needed.
-        </p>
-        
-        {videoWatched && (
-          <div className="mt-4 flex items-center gap-2 text-sm" style={{ color: '#22c55e' }}>
-            <span>✓</span>
-            <span>Video marked as watched</span>
-          </div>
-        )}
-      </div>
-
-      <div className="rounded-lg p-4" style={{ background: 'rgba(199, 164, 90, 0.1)', border: '1px solid var(--border)' }}>
-        <div className="text-sm" style={{ color: 'var(--muted)' }}>
-          💡 <strong style={{ color: 'var(--gold-text)' }}>Tip:</strong> Take notes while watching. You can review them in the next step.
-        </div>
-      </div>
+    <div className="video-stage">
+      {yt ? (
+        <iframe
+          src={`https://www.youtube.com/embed/${yt}?rel=0`}
+          title="lesson video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
+          allowFullScreen
+        />
+      ) : (
+        <video src={videoUrl} controls controlsList="nodownload" playsInline />
+      )}
     </div>
   )
 }
