@@ -2,12 +2,13 @@
 'use client'
 
 import { useState } from 'react'
-import { CheckCircle, RefreshCw } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { CheckCircle2, XCircle, RefreshCw, BookOpen, MessageCircle, FileQuestion } from 'lucide-react'
 
 /**
  * Вопросы приходят из Assignment.prompt в базе. Правильных ответов здесь НЕТ
  * и быть не должно — их знает только сервер (Assignment.answerKey), он же
- * и считает оценку.
+ * считает оценку и сообщает, какие вопросы провалены.
  *
  * Формат Assignment.prompt:
  * {
@@ -25,10 +26,7 @@ import { CheckCircle, RefreshCw } from 'lucide-react'
 
 type LocalizedText = string | Record<string, string>
 
-type Option = {
-  value: string
-  label: LocalizedText
-}
+type Option = { value: string; label: LocalizedText }
 
 type Question = {
   id: string
@@ -37,10 +35,15 @@ type Question = {
   options?: Option[]
 }
 
-type Assignment = {
-  id: string
-  title: any
-  prompt: any
+type Assignment = { id: string; title: any; prompt: any }
+
+type Result = {
+  grade: number
+  passed: boolean
+  passingScore: number
+  correct: number
+  total: number
+  wrongIds: string[]
 }
 
 type Props = {
@@ -49,6 +52,8 @@ type Props = {
   enrollmentPlan: string
   onComplete: () => void
   isCompleted: boolean
+  /** Есть ли у урока шаг с конспектом — тогда после провала предлагаем вернуться к нему */
+  onReviewConspect?: () => void
 }
 
 function getLocalizedText(value: LocalizedText | undefined, locale: string): string {
@@ -60,51 +65,43 @@ function getLocalizedText(value: LocalizedText | undefined, locale: string): str
 }
 
 function readQuestions(prompt: any): Question[] {
-  if (Array.isArray(prompt?.questions)) return prompt.questions
-  return []
+  return Array.isArray(prompt?.questions) ? prompt.questions : []
 }
 
-export function TestStep({ assignment, locale, enrollmentPlan, onComplete, isCompleted }: Props) {
+export function TestStep({
+  assignment,
+  locale,
+  enrollmentPlan,
+  onComplete,
+  isCompleted,
+  onReviewConspect
+}: Props) {
+  const t = useTranslations('test')
   const questions = readQuestions(assignment.prompt)
 
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
   const [answers, setAnswers] = useState<Record<string, any>>({})
-  const [result, setResult] = useState<{ grade: number; passed: boolean; passingScore: number } | null>(null)
+  const [result, setResult] = useState<Result | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Тест ещё не наполнен контентом
   if (questions.length === 0) {
     return (
-      <div className="glass-panel text-center" style={{ padding: '3rem' }}>
-        <div className="text-5xl mb-4">📝</div>
-        <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--fg)' }}>
-          Тест ещё готовится
-        </h3>
-        <p style={{ color: 'var(--muted)' }}>
-          Для этого урока пока не добавлены вопросы.
-        </p>
+      <div className="test-empty">
+        <FileQuestion size={40} />
+        <h3>{t('notReadyTitle')}</h3>
+        <p>{t('notReadyText')}</p>
       </div>
     )
   }
 
-  const currentQuestion = questions[currentQuestionIndex]
-  const totalQuestions = questions.length
-  const isLastQuestion = currentQuestionIndex === totalQuestions - 1
+  const current = questions[currentIndex]
+  const total = questions.length
+  const isLast = currentIndex === total - 1
 
-  const handleAnswer = (answer: any) => {
-    setAnswers(prev => ({ ...prev, [currentQuestion.id]: answer }))
-  }
+  const setAnswer = (answer: any) => setAnswers(prev => ({ ...prev, [current.id]: answer }))
 
-  const handleNext = () => {
-    if (isLastQuestion) {
-      submitTest()
-    } else {
-      setCurrentQuestionIndex(prev => prev + 1)
-    }
-  }
-
-  const submitTest = async () => {
+  const submit = async () => {
     setSubmitting(true)
     setError(null)
     try {
@@ -116,234 +113,185 @@ export function TestStep({ assignment, locale, enrollmentPlan, onComplete, isCom
       const data = await res.json()
 
       if (!res.ok) {
-        setError(data?.error || 'Не удалось отправить тест')
+        setError(data?.error || t('sendError'))
         return
       }
 
-      // Оценку берём с сервера, сами её не считаем
-      setResult({ grade: data.grade, passed: data.passed, passingScore: data.passingScore })
+      setResult(data)
       if (data.passed) onComplete()
     } catch {
-      setError('Не удалось отправить тест. Проверь соединение.')
+      setError(t('sendError'))
     } finally {
       setSubmitting(false)
     }
   }
 
-  const handleRetry = () => {
+  const retry = () => {
     setAnswers({})
-    setCurrentQuestionIndex(0)
+    setCurrentIndex(0)
     setResult(null)
     setError(null)
   }
 
+  // ---------------------------------------------------------- результат
   if (result) {
-    const { grade, passed, passingScore } = result
+    const { grade, passed, passingScore, correct, total: totalQ, wrongIds } = result
+    const missed = questions.filter(q => wrongIds.includes(q.id))
 
     return (
-      <div className="space-y-6">
-        <div className="glass-panel text-center" style={{ padding: '3rem' }}>
-          <div className="text-6xl mb-4">{passed ? '🎉' : '📚'}</div>
-          <h2 className="text-3xl font-bold mb-2" style={{ color: passed ? '#22c55e' : 'var(--gold)' }}>
-            {passed ? 'Congratulations!' : 'Keep Practicing'}
-          </h2>
-          <p className="text-lg mb-4" style={{ color: 'var(--muted)' }}>
-            Your score: <strong style={{ color: 'var(--gold-text)' }}>{grade}%</strong>
-          </p>
-          <p style={{ color: 'var(--muted)' }}>
-            {passed
-              ? 'You passed! You can now proceed to the next lesson.'
-              : `You need ${passingScore}% to pass. Review the material and try again.`}
+      <div className="space-y-4">
+        <div className={`test-result${passed ? ' passed' : ''}`}>
+          <span className="test-result__icon">
+            {passed ? <CheckCircle2 size={40} /> : <RefreshCw size={40} />}
+          </span>
+          <h2 className="test-result__title">{passed ? t('passedTitle') : t('failedTitle')}</h2>
+          <div className="test-result__score">{grade}%</div>
+          <p className="test-result__text">
+            {passed ? t('passedText') : t('failedText', { score: passingScore })}
           </p>
         </div>
 
-        <div className="glass-panel" style={{ padding: '1.5rem' }}>
-          <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--fg)' }}>Test Results</h3>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between text-sm">
-              <span style={{ color: 'var(--muted)' }}>Correct Answers</span>
-              <span style={{ color: '#22c55e', fontWeight: 600 }}>
-                {Math.round((grade / 100) * totalQuestions)} / {totalQuestions}
-              </span>
-            </div>
-            <div className="flex items-center justify-between text-sm">
-              <span style={{ color: 'var(--muted)' }}>Passing Score</span>
-              <span style={{ color: 'var(--gold-text)', fontWeight: 600 }}>{passingScore}%</span>
-            </div>
+        <div className="test-summary">
+          <div className="test-summary__row">
+            <span>{t('correctOf', { correct, total: totalQ })}</span>
+            <strong>{correct}/{totalQ}</strong>
+          </div>
+          <div className="test-summary__row">
+            <span>{t('passingScore')}</span>
+            <strong>{passingScore}%</strong>
           </div>
         </div>
 
-        <div className="flex gap-4">
-          {!passed && (
-            <button onClick={handleRetry} className="btn btn-secondary flex-1 flex items-center justify-center gap-2">
-              <RefreshCw size={16} />
-              Try Again
-            </button>
-          )}
-
-          {(enrollmentPlan === 'PRO' || enrollmentPlan === 'DELUXE') && (
-            <button className="btn btn-secondary flex-1" onClick={() => alert('Contact mentor on Telegram')}>
-              Ask Mentor
-            </button>
-          )}
-        </div>
+        {/* Показываем ЧТО провалено, но не показываем правильные ответы */}
+        {missed.length > 0 && (
+          <div className="test-mistakes">
+            <h3 className="test-mistakes__title">{t('mistakesTitle')}</h3>
+            <ol className="test-mistakes__list">
+              {missed.map(q => (
+                <li key={q.id}>
+                  <XCircle size={15} />
+                  <span>{getLocalizedText(q.question, locale)}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="test-mistakes__hint">{t('mistakesHint')}</p>
+          </div>
+        )}
 
         {!passed && (
-          <div className="rounded-lg p-4" style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-            <div className="text-sm" style={{ color: '#ef4444' }}>
-              💡 Review the video and notes before retrying the test
-            </div>
+          <div className="test-actions">
+            {onReviewConspect && (
+              <button type="button" onClick={onReviewConspect} className="btn btn-secondary">
+                <BookOpen size={16} />
+                {t('reviewConspect')}
+              </button>
+            )}
+            <button type="button" onClick={retry} className="btn btn-primary">
+              <RefreshCw size={16} />
+              {t('retry')}
+            </button>
           </div>
+        )}
+
+        {(enrollmentPlan === 'PRO' || enrollmentPlan === 'DELUXE') && (
+          <button type="button" className="btn btn-secondary w-full" onClick={() => alert('Telegram: @vertexedu')}>
+            <MessageCircle size={16} />
+            {t('askMentor')}
+          </button>
         )}
       </div>
     )
   }
 
-  const currentAnswer = answers[currentQuestion.id]
-  const hasAnswer = Array.isArray(currentAnswer) ? currentAnswer.length > 0 : Boolean(currentAnswer)
+  // ------------------------------------------------------------ вопросы
+  const answer = answers[current.id]
+  const answered = Array.isArray(answer) ? answer.length > 0 : Boolean(answer)
+  const percent = Math.round(((currentIndex + 1) / total) * 100)
 
   return (
-    <div className="space-y-6">
-      {/* Progress */}
-      <div className="glass-panel" style={{ padding: '1rem' }}>
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium" style={{ color: 'var(--fg)' }}>
-            Question {currentQuestionIndex + 1} of {totalQuestions}
-          </span>
-          <span className="text-sm" style={{ color: 'var(--muted)' }}>
-            {Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100)}% complete
-          </span>
+    <div className="space-y-4">
+      <div className="test-progress">
+        <div className="test-progress__head">
+          <span>{t('question', { current: currentIndex + 1, total })}</span>
+          <span className="test-progress__percent">{t('complete', { percent })}</span>
         </div>
         <div className="progress">
-          <div className="progress-bar" style={{ width: `${((currentQuestionIndex + 1) / totalQuestions) * 100}%` }} />
+          <div className="progress-bar" style={{ width: `${percent}%` }} />
         </div>
       </div>
 
-      {/* Question */}
-      <div className="glass-panel" style={{ padding: '2rem' }}>
-        <h3 className="text-xl font-semibold mb-6" style={{ color: 'var(--fg)' }}>
-          {getLocalizedText(currentQuestion.question, locale)}
-        </h3>
+      <div className="test-question">
+        <h3 className="test-question__title">{getLocalizedText(current.question, locale)}</h3>
 
-        {/* Single Choice */}
-        {currentQuestion.type === 'single' && (
-          <div className="space-y-3">
-            {currentQuestion.options?.map(option => {
-              const isSelected = currentAnswer === option.value
-              return (
-                <button
-                  key={option.value}
-                  onClick={() => handleAnswer(option.value)}
-                  className="w-full text-left p-4 rounded-lg transition-all"
-                  style={{
-                    background: isSelected ? 'rgba(199, 164, 90, 0.2)' : 'var(--bg-tertiary)',
-                    border: `1px solid ${isSelected ? 'var(--gold)' : 'var(--border)'}`,
-                    color: 'var(--fg)'
-                  }}
-                >
-                  {getLocalizedText(option.label, locale)}
-                </button>
-              )
-            })}
+        {current.type === 'single' && (
+          <div className="test-options">
+            {current.options?.map(o => (
+              <button
+                key={o.value}
+                type="button"
+                onClick={() => setAnswer(o.value)}
+                className={`test-option${answer === o.value ? ' selected' : ''}`}
+              >
+                {getLocalizedText(o.label, locale)}
+              </button>
+            ))}
           </div>
         )}
 
-        {/* Multiple Choice */}
-        {currentQuestion.type === 'multiple' && (
-          <div className="space-y-3">
-            {currentQuestion.options?.map(option => {
-              const selected: string[] = currentAnswer || []
-              const isSelected = selected.includes(option.value)
+        {current.type === 'multiple' && (
+          <div className="test-options">
+            {current.options?.map(o => {
+              const selected: string[] = answer || []
+              const on = selected.includes(o.value)
               return (
                 <button
-                  key={option.value}
+                  key={o.value}
+                  type="button"
                   onClick={() =>
-                    handleAnswer(
-                      isSelected
-                        ? selected.filter(v => v !== option.value)
-                        : [...selected, option.value]
-                    )
+                    setAnswer(on ? selected.filter(v => v !== o.value) : [...selected, o.value])
                   }
-                  className="w-full text-left p-4 rounded-lg transition-all flex items-center gap-3"
-                  style={{
-                    background: isSelected ? 'rgba(199, 164, 90, 0.2)' : 'var(--bg-tertiary)',
-                    border: `1px solid ${isSelected ? 'var(--gold)' : 'var(--border)'}`,
-                    color: 'var(--fg)'
-                  }}
+                  className={`test-option${on ? ' selected' : ''}`}
                 >
-                  <div
-                    className="w-5 h-5 rounded border flex items-center justify-center"
-                    style={{ borderColor: isSelected ? 'var(--gold)' : 'var(--border)', background: isSelected ? 'var(--gold)' : 'transparent' }}
-                  >
-                    {isSelected && <CheckCircle size={14} style={{ color: 'var(--bg)' }} />}
-                  </div>
-                  {getLocalizedText(option.label, locale)}
+                  <span className={`test-option__box${on ? ' on' : ''}`}>
+                    {on && <CheckCircle2 size={13} />}
+                  </span>
+                  {getLocalizedText(o.label, locale)}
                 </button>
               )
             })}
           </div>
         )}
 
-        {/* Text Input */}
-        {currentQuestion.type === 'text' && (
+        {(current.type === 'text' || current.type === 'code') && (
           <input
             type="text"
-            value={currentAnswer || ''}
-            onChange={e => handleAnswer(e.target.value)}
-            placeholder="Type your answer..."
+            value={answer || ''}
+            onChange={e => setAnswer(e.target.value)}
+            placeholder={t('typeAnswer')}
             className="input"
-            style={{ width: '100%', background: 'var(--bg-tertiary)', border: '1px solid var(--border)', color: 'var(--fg)' }}
-          />
-        )}
-
-        {/* Code Input */}
-        {currentQuestion.type === 'code' && (
-          <textarea
-            value={currentAnswer || ''}
-            onChange={e => handleAnswer(e.target.value)}
-            placeholder="Write your code here..."
-            className="textarea"
-            rows={8}
-            style={{
-              width: '100%',
-              background: 'var(--bg-tertiary)',
-              border: '1px solid var(--border)',
-              color: 'var(--fg)',
-              fontFamily: 'monospace',
-              fontSize: '0.875rem'
-            }}
           />
         )}
       </div>
 
-      {error && (
-        <div className="rounded-lg p-4" style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-          <div className="text-sm" style={{ color: '#ef4444' }}>{error}</div>
-        </div>
-      )}
+      {error && <div className="alert alert-error">{error}</div>}
 
-      {/* Navigation */}
-      <div className="flex gap-4">
+      <div className="test-nav">
         <button
-          onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
-          disabled={currentQuestionIndex === 0}
+          type="button"
+          onClick={() => setCurrentIndex(i => Math.max(0, i - 1))}
+          disabled={currentIndex === 0}
           className="btn btn-secondary"
-          style={{ opacity: currentQuestionIndex === 0 ? 0.5 : 1 }}
         >
-          Previous
+          {t('prev')}
         </button>
 
         <button
-          onClick={handleNext}
-          disabled={!hasAnswer || submitting}
-          className="btn btn-primary flex-1"
-          style={{
-            background: 'var(--gold)',
-            color: 'var(--bg)',
-            opacity: hasAnswer && !submitting ? 1 : 0.5
-          }}
+          type="button"
+          onClick={() => (isLast ? submit() : setCurrentIndex(i => i + 1))}
+          disabled={!answered || submitting}
+          className="btn btn-primary test-nav__next"
         >
-          {submitting ? 'Sending…' : isLastQuestion ? 'Submit Test' : 'Next Question'}
+          {submitting ? t('sending') : isLast ? t('submit') : t('next')}
         </button>
       </div>
     </div>

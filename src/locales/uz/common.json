@@ -277,5 +277,29 @@
     "teacherB": "Yozma tahlil",
     "teacherC": "Konsultatsiya",
     "teacherCta": "Yozilish"
+  },
+  "test": {
+    "question": "{total} dan {current}-savol",
+    "complete": "{percent}% bajarildi",
+    "submit": "Testni yakunlash",
+    "next": "Keyingi savol",
+    "prev": "Orqaga",
+    "sending": "Yuborilmoqda…",
+    "passedTitle": "Test topshirildi",
+    "failedTitle": "Hozircha topshirilmadi",
+    "score": "Natijangiz",
+    "correctOf": "To’g’ri javoblar: {total} dan {correct}",
+    "passingScore": "O’tish chegarasi",
+    "passedText": "Keyingi darsga o’tishingiz mumkin",
+    "failedText": "Topshirish uchun {score}% kerak. Materialni takrorlang va qayta urinib ko’ring",
+    "mistakesTitle": "Xato savollar",
+    "mistakesHint": "To’g’ri javoblarni ataylab ko’rsatmaymiz — harflarni yodlamang, materialni tushuning",
+    "retry": "Qayta topshirish",
+    "reviewConspect": "Konspektni ko’rish",
+    "askMentor": "O’qituvchidan so’rash",
+    "notReadyTitle": "Test tayyorlanmoqda",
+    "notReadyText": "Bu dars uchun savollar hali qo’shilmagan",
+    "sendError": "Testni yuborib bo’lmadi. Aloqani tekshiring",
+    "typeAnswer": "Javobni kiriting"
   }
 }

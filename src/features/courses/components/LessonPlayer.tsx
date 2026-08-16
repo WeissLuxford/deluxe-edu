@@ -70,6 +70,8 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
 
   const currentStep = steps[currentStepIndex]
   const isLastStep = currentStepIndex === steps.length - 1
+  // Провалил тест — предлагаем вернуться к конспекту, если он у урока есть
+  const conspectStepIndex = steps.indexOf('conspect')
   const canGoNext = currentStep === 'video' || currentStep === 'conspect' || testCompleted
 
   const title = getLocalizedText(lesson.title, locale)
@@ -157,6 +159,11 @@ export function LessonPlayer({ lesson, course, assignment, progress, nextLesson,
               enrollmentPlan={enrollmentPlan}
               onComplete={handleTestComplete}
               isCompleted={testCompleted}
+              onReviewConspect={
+                conspectStepIndex >= 0
+                  ? () => setCurrentStepIndex(conspectStepIndex)
+                  : undefined
+              }
             />
           )}
 

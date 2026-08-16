@@ -271,5 +271,29 @@
     "teacherB": "Written breakdown",
     "teacherC": "Consultation",
     "teacherCta": "Book"
+  },
+  "test": {
+    "question": "Question {current} of {total}",
+    "complete": "{percent}% complete",
+    "submit": "Finish test",
+    "next": "Next question",
+    "prev": "Back",
+    "sending": "Sending…",
+    "passedTitle": "Test passed",
+    "failedTitle": "Not passed yet",
+    "score": "Your score",
+    "correctOf": "Correct answers: {correct} of {total}",
+    "passingScore": "Passing score",
+    "passedText": "You can move on to the next lesson",
+    "failedText": "You need {score}% to pass. Review the material and try again",
+    "mistakesTitle": "Questions you missed",
+    "mistakesHint": "We deliberately do not show the correct answers — understand the material instead of memorising letters",
+    "retry": "Try again",
+    "reviewConspect": "Review the notes",
+    "askMentor": "Ask the teacher",
+    "notReadyTitle": "Test is being prepared",
+    "notReadyText": "No questions have been added for this lesson yet",
+    "sendError": "Could not send the test. Check your connection",
+    "typeAnswer": "Type your answer"
   }
 }

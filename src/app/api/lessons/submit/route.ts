@@ -16,24 +16,34 @@ function gradeAnswers(answerKey: Record<string, unknown>, answers: Record<string
   if (questionIds.length === 0) return null
 
   let correct = 0
+  const wrongIds: string[] = []
+
   for (const id of questionIds) {
     const expected = answerKey[id]
     const given = answers?.[id]
+    let ok = false
 
     if (Array.isArray(expected)) {
-      if (
+      ok =
         Array.isArray(given) &&
         given.length === expected.length &&
         given.every(a => expected.includes(a))
-      ) {
-        correct++
-      }
     } else if (typeof expected === 'string' && typeof given === 'string') {
-      if (given.trim().toLowerCase() === expected.trim().toLowerCase()) correct++
+      ok = given.trim().toLowerCase() === expected.trim().toLowerCase()
     }
+
+    if (ok) correct++
+    else wrongIds.push(id)
   }
 
-  return Math.round((correct / questionIds.length) * 100)
+  return {
+    grade: Math.round((correct / questionIds.length) * 100),
+    correct,
+    total: questionIds.length,
+    // Только НОМЕРА проваленных вопросов. Правильные ответы не отдаём:
+    // студент должен понять, что повторить, а не списать ответ
+    wrongIds
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -66,30 +76,38 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Not enrolled' }, { status: 403 })
     }
 
-    const grade = assignment.answerKey
+    const result = assignment.answerKey
       ? gradeAnswers(assignment.answerKey as Record<string, unknown>, answers)
       : null
 
     await prisma.submission.create({
-      data: { assignmentId, userId, answer: answers, grade }
+      data: { assignmentId, userId, answer: answers, grade: result?.grade ?? null }
     })
 
     // Без answerKey оценить нечего — засчитывать прохождение нельзя
-    if (grade === null) {
+    if (result === null) {
       return NextResponse.json(
         { error: 'Assignment has no answer key yet' },
         { status: 409 }
       )
     }
 
-    const passed = grade >= PASSING_SCORE
+    const passed = result.grade >= PASSING_SCORE
     await prisma.lessonProgress.upsert({
       where: { userId_lessonId: { userId, lessonId: assignment.lesson.id } },
       update: { watched: true, passed },
       create: { userId, lessonId: assignment.lesson.id, watched: true, passed }
     })
 
-    return NextResponse.json({ success: true, passed, grade, passingScore: PASSING_SCORE })
+    return NextResponse.json({
+      success: true,
+      passed,
+      grade: result.grade,
+      correct: result.correct,
+      total: result.total,
+      wrongIds: result.wrongIds,
+      passingScore: PASSING_SCORE
+    })
   } catch (error) {
     console.error('Error submitting test:', error)
     return NextResponse.json({ error: 'Failed to submit test' }, { status: 500 })
