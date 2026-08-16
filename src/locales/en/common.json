@@ -81,7 +81,18 @@
   "course": {
     "lessons": "Lessons",
     "price": "Price",
-    "startCourse": "Start the course"
+    "startCourse": "Start the course",
+    "content": "Course content",
+    "progressTitle": "Course progress",
+    "enrolledWith": "Unlocked · {plan} plan",
+    "level": "Level",
+    "plansTitle": "Plans",
+    "plansHint": "Access opens forever, no renewals",
+    "planBasic": "All lessons, notes and tests",
+    "planPro": "Everything in Basic plus the option to ask a teacher",
+    "planDeluxe": "Everything in Pro",
+    "choosePlanCta": "Choose a plan and start",
+    "noLessons": "No lessons in this course yet"
   },
   "lesson": {
     "videoPlaceholder": "The video of this lesson will be here",
@@ -94,7 +105,15 @@
     "backToCourse": "Back to course",
     "stepOf": "Step {current} of {total}",
     "finish": "Finish lesson",
-    "completeCourse": "Complete course"
+    "completeCourse": "Complete course",
+    "number": "Lesson {n}",
+    "video": "Video",
+    "notes": "Notes",
+    "test": "Test",
+    "enrollToAccess": "Course access required",
+    "completePrevious": "Finish the previous lesson first",
+    "startLesson": "Start lesson",
+    "reviewLesson": "Review"
   },
   "assignment": {
     "title": "Assignment",

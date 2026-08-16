@@ -2226,3 +2226,440 @@ html.light .glass-panel {
     flex-direction: column;
   }
 }
+
+/* ================================
+   Страница курса
+   ================================ */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.breadcrumb a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.breadcrumb a:hover {
+  color: var(--gold-text);
+}
+
+.course-hero__badge {
+  display: inline-flex;
+  margin-bottom: 0.75rem;
+}
+
+.course-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.course-hero__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.course-progress__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+.course-progress__head strong {
+  color: var(--gold-text);
+}
+
+/* ---------------------------------------------- тарифы */
+
+.plans-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  transition: var(--transition-slow);
+}
+
+.plan-card:hover {
+  border-color: var(--border-hover);
+}
+
+.plan-card.accent {
+  border-color: var(--gold);
+}
+
+.plan-card__name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+.plan-card__price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.plan-card__includes {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.plan-card__includes svg {
+  color: var(--gold-text);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.plans-cta {
+  margin-top: 1.25rem;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .plans-cta {
+    width: 100%;
+  }
+}
+
+/* ================================
+   Список уроков курса
+   ================================ */
+
+.lesson-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: lesson;
+}
+
+.lesson-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.125rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  transition: var(--transition);
+}
+
+.lesson-row.status-available:hover {
+  border-color: var(--border-hover);
+}
+
+.lesson-row.status-locked {
+  opacity: 0.55;
+}
+
+.lesson-row__icon {
+  display: inline-flex;
+  color: var(--muted);
+}
+
+.lesson-row.status-completed .lesson-row__icon {
+  color: #22c55e;
+}
+
+.lesson-row.status-available .lesson-row__icon {
+  color: var(--gold-text);
+}
+
+.lesson-row__body {
+  min-width: 0;
+}
+
+.lesson-row__number {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lesson-row__title {
+  margin: 0.15rem 0 0.4rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.lesson-row__parts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.lesson-row__parts span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.lesson-row__action .btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.lesson-row__hint {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .lesson-row {
+    grid-template-columns: auto 1fr;
+  }
+
+  .lesson-row__action {
+    grid-column: 1 / -1;
+  }
+
+  .lesson-row__action .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ================================
+   Живые карточки курсов
+   ================================
+   У каждого уровня свой цвет. Это не украшательство: одинаковые серые
+   прямоугольники невозможно различить взглядом, а цвет даёт опору —
+   человек запоминает «мой зелёный» и находит его мгновенно.
+   Художник для этого не нужен, всё считает CSS. */
+
+.course-article {
+  --accent: var(--gold);
+  --accent-soft: rgba(199, 164, 90, 0.14);
+  position: relative;
+  overflow: hidden;
+}
+
+.course-article[data-level="Beginner"] {
+  --accent: #34d399;
+  --accent-soft: rgba(52, 211, 153, 0.14);
+}
+.course-article[data-level="Elementary"] {
+  --accent: #22d3ee;
+  --accent-soft: rgba(34, 211, 238, 0.14);
+}
+.course-article[data-level="Pre-Intermediate"] {
+  --accent: #60a5fa;
+  --accent-soft: rgba(96, 165, 250, 0.14);
+}
+.course-article[data-level="Intermediate"] {
+  --accent: #a78bfa;
+  --accent-soft: rgba(167, 139, 250, 0.14);
+}
+.course-article[data-level="Upper-Intermediate"] {
+  --accent: #fbbf24;
+  --accent-soft: rgba(251, 191, 36, 0.14);
+}
+.course-article[data-level="Advanced"] {
+  --accent: #fb7185;
+  --accent-soft: rgba(251, 113, 133, 0.14);
+}
+
+/* Мягкое пятно цвета в углу — оттуда карточка «оживает» при наведении */
+.course-article::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -25%;
+  width: 65%;
+  height: 90%;
+  background: radial-gradient(circle, var(--accent-soft), transparent 70%);
+  opacity: 0.9;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.course-article:hover::before {
+  opacity: 1;
+  transform: scale(1.35);
+}
+
+.course-article:hover {
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px -12px var(--accent-soft), var(--shadow-lg);
+}
+
+.course-article > * {
+  position: relative;
+}
+
+/* Уровень — не подпись, а метка своего цвета */
+.course-article__level {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+}
+
+.course-article__title a:hover {
+  color: var(--accent);
+}
+
+.course-article__cta {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0b0c0d;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.course-article__cta:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.course-article .progress-bar {
+  background: linear-gradient(90deg, var(--accent), var(--accent));
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.course-article__price {
+  color: var(--fg);
+}
+
+/* Пройденный курс не должен выглядеть как ошибка — приглушаем мягко */
+.course-article.state-completed {
+  opacity: 1;
+  border-style: dashed;
+}
+
+.course-article.state-completed::before {
+  opacity: 0.45;
+}
+
+/* ---- оживление уроков ---- */
+
+.lesson-row {
+  position: relative;
+}
+
+.lesson-row.status-available {
+  border-left: 3px solid var(--gold);
+}
+
+.lesson-row.status-completed {
+  border-left: 3px solid #22c55e;
+}
+
+.lesson-row.status-available:hover {
+  transform: translateX(3px);
+  box-shadow: var(--shadow);
+}
+
+/* ---- появление блоков при прокрутке ---- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .course-article,
+  .offer-card,
+  .plan-card,
+  .lesson-row {
+    animation: rise-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .course-grid > *:nth-child(2),
+  .offers-grid > *:nth-child(2),
+  .plans-grid > *:nth-child(2) { animation-delay: 0.06s }
+  .course-grid > *:nth-child(3),
+  .offers-grid > *:nth-child(3),
+  .plans-grid > *:nth-child(3) { animation-delay: 0.12s }
+  .course-grid > *:nth-child(4),
+  .offers-grid > *:nth-child(4) { animation-delay: 0.18s }
+
+  .lesson-row:nth-child(2) { animation-delay: 0.05s }
+  .lesson-row:nth-child(3) { animation-delay: 0.1s }
+  .lesson-row:nth-child(4) { animation-delay: 0.15s }
+  .lesson-row:nth-child(5) { animation-delay: 0.2s }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Светлая тема: те же цвета уровней, но тёмные.
+   Светлый бирюзовый на белом даёт 1.9:1 — метку уровня было бы
+   не прочитать. Тёмные варианты держат 5:1 и выше. */
+html.light .course-article[data-level="Beginner"] {
+  --accent: #047857;
+  --accent-soft: rgba(4, 120, 87, 0.12);
+}
+html.light .course-article[data-level="Elementary"] {
+  --accent: #0e7490;
+  --accent-soft: rgba(14, 116, 144, 0.12);
+}
+html.light .course-article[data-level="Pre-Intermediate"] {
+  --accent: #1d4ed8;
+  --accent-soft: rgba(29, 78, 216, 0.12);
+}
+html.light .course-article[data-level="Intermediate"] {
+  --accent: #6d28d9;
+  --accent-soft: rgba(109, 40, 217, 0.12);
+}
+html.light .course-article[data-level="Upper-Intermediate"] {
+  --accent: #b45309;
+  --accent-soft: rgba(180, 83, 9, 0.12);
+}
+html.light .course-article[data-level="Advanced"] {
+  --accent: #be123c;
+  --accent-soft: rgba(190, 18, 60, 0.12);
+}
+
+/* На тёмной кнопке нужен светлый текст, иначе надпись пропадает */
+html.light .course-article__cta {
+  color: #fff;
+}

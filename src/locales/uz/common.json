@@ -81,7 +81,18 @@
   "course": {
     "lessons": "Darslar",
     "price": "Narx",
-    "startCourse": "Kursni boshlash"
+    "startCourse": "Kursni boshlash",
+    "content": "Kurs tarkibi",
+    "progressTitle": "Kurs bo’yicha jarayon",
+    "enrolledWith": "Ochiq · {plan} tarifi",
+    "level": "Daraja",
+    "plansTitle": "Tariflar",
+    "plansHint": "Kursga kirish abadiy ochiladi, uzaytirishsiz",
+    "planBasic": "Barcha darslar, konspektlar va testlar",
+    "planPro": "Basic dagi hammasi va o’qituvchiga savol berish imkoni",
+    "planDeluxe": "Pro dagi hammasi",
+    "choosePlanCta": "Tarifni tanlab boshlash",
+    "noLessons": "Kursda hozircha darslar yo’q"
   },
   "lesson": {
     "videoPlaceholder": "Ushbu dars videolari shu yerda bo'ladi",
@@ -94,7 +105,15 @@
     "backToCourse": "Kursga",
     "stepOf": "{total} dan {current}-qadam",
     "finish": "Darsni yakunlash",
-    "completeCourse": "Kursni yakunlash"
+    "completeCourse": "Kursni yakunlash",
+    "number": "{n}-dars",
+    "video": "Video",
+    "notes": "Konspekt",
+    "test": "Test",
+    "enrollToAccess": "Kursga kirish kerak",
+    "completePrevious": "Avval oldingi darsni yakunlang",
+    "startLesson": "Darsni boshlash",
+    "reviewLesson": "Takrorlash"
   },
   "assignment": {
     "title": "Vazifa",

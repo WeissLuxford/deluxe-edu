@@ -2,15 +2,18 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getServerSession } from 'next-auth'
+import { getTranslations } from 'next-intl/server'
+import { BookOpen, GraduationCap, CheckCircle2 } from 'lucide-react'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { LessonsList } from '@/features/courses/components/LessonsList'
+import { CoursePlans } from '@/features/courses/components/CoursePlans'
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>
 }
 
-function getLocalizedText(value: any, locale: string) {
+function localized(value: any, locale: string): string {
   if (!value) return ''
   if (typeof value === 'string') return value
   if (typeof value === 'object') {
@@ -23,101 +26,125 @@ function getLocalizedText(value: any, locale: string) {
 
 export default async function CoursePage({ params }: Props) {
   const { locale, slug } = await params
+
+  const [t, tCourses] = await Promise.all([
+    getTranslations({ locale, namespace: 'course' }),
+    getTranslations({ locale, namespace: 'courses' })
+  ])
+
   const session = await getServerSession(authOptions)
-  const userPhone = session?.user?.phone || null
-  const user = userPhone ? await prisma.user.findUnique({ where: { phone: userPhone } }) : null
+  const userId = session?.user?.id ?? null
 
   const course = await prisma.course.findUnique({
     where: { slug, published: true, visible: true },
-    include: {
-      lessons: { orderBy: { order: 'asc' } }
-    }
+    include: { lessons: { orderBy: { order: 'asc' } } }
   })
 
   if (!course) notFound()
 
-  const enrollment = user
-    ? await prisma.enrollment.findFirst({
-        where: { userId: user.id, courseId: course.id, status: 'ACTIVE' }
-      })
-    : null
-
-  const progress = user
-    ? await prisma.lessonProgress.findMany({
-        where: { userId: user.id, lessonId: { in: course.lessons.map(l => l.id) } }
-      })
-    : []
+  const [enrollment, progress] = await Promise.all([
+    userId
+      ? prisma.enrollment.findFirst({
+          where: { userId, courseId: course.id, status: 'ACTIVE' }
+        })
+      : null,
+    userId
+      ? prisma.lessonProgress.findMany({
+          where: { userId, lessonId: { in: course.lessons.map(l => l.id) } }
+        })
+      : []
+  ])
 
   const progressMap = Object.fromEntries(progress.map(p => [p.lessonId, p]))
+  const total = course.lessons.length
+  const done = progress.filter(p => p.passed).length
+  // Курс без уроков давал деление на ноль и NaN% в полосе прогресса
+  const percent = total > 0 ? Math.round((done / total) * 100) : 0
 
-  const title = getLocalizedText(course.title, locale)
-  const description = getLocalizedText(course.description, locale)
+  const title = localized(course.title, locale)
+  const description = localized(course.description, locale)
 
   return (
-    <main className="page-start" style={{ paddingBlock: '3rem' }}>
-      <div className="mx-auto max-w-5xl">
-        {/* Breadcrumb */}
-        <div className="mb-6 flex items-center gap-2 text-sm">
-          <Link href={`/${locale}/courses`} style={{ color: 'var(--muted)' }}>Courses</Link>
-          <span style={{ color: 'var(--muted)' }}>/</span>
-          <Link href={`/${locale}/courses?level=${course.level}`} style={{ color: 'var(--muted)' }}>{course.level}</Link>
-          <span style={{ color: 'var(--muted)' }}>/</span>
-          <span style={{ color: 'var(--gold-text)', fontWeight: 600 }}>{title}</span>
-        </div>
+    <main className="page-shell">
+      <div className="page-hero">
+        <div className="container">
+          <nav className="breadcrumb">
+            <Link href={`/${locale}/courses`}>{tCourses('title')}</Link>
+            <span>/</span>
+            <Link href={`/${locale}/courses?level=${encodeURIComponent(course.level)}`}>
+              {course.level}
+            </Link>
+          </nav>
 
-        {/* Hero */}
-        <section className="mb-8">
-          <div className="glass-panel" style={{ padding: '2rem' }}>
-            {enrollment && (
-              <div className="badge badge-primary mb-4">Enrolled · {enrollment.plan || 'BASIC'}</div>
-            )}
-            
-            <h1 className="text-4xl font-bold mb-3" style={{ color: 'var(--text-hero)' }}>{title}</h1>
-            <p className="text-lg mb-4" style={{ color: 'var(--muted)' }}>{description}</p>
-            
-            <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--muted)' }}>
-              <div>📚 {course.lessons.length} lessons</div>
-              <div>🏆 {course.level}</div>
-              {enrollment && (
-                <div>
-                  ✅ {progress.filter(p => p.passed).length}/{course.lessons.length} completed
-                </div>
-              )}
-            </div>
+          {enrollment && (
+            <span className="badge badge-primary course-hero__badge">
+              {t('enrolledWith', { plan: enrollment.plan || 'BASIC' })}
+            </span>
+          )}
 
-            {!enrollment && (
-              <div className="mt-6">
-                <Link href={`/${locale}/courses?level=${course.level}`} className="btn btn-primary" style={{ background: 'var(--gold)', color: 'var(--bg)' }}>
-                  Choose Plan to Start
-                </Link>
-              </div>
+          <h1 className="page-hero__title">{title}</h1>
+          <p className="page-hero__sub">{description}</p>
+
+          <div className="course-hero__meta">
+            <span>
+              <BookOpen size={15} />
+              {tCourses('lessonsCount', { count: total })}
+            </span>
+            <span>
+              <GraduationCap size={15} />
+              {course.level}
+            </span>
+            {enrollment && total > 0 && (
+              <span>
+                <CheckCircle2 size={15} />
+                {tCourses('progressOf', { done, total })}
+              </span>
             )}
           </div>
-        </section>
+        </div>
+      </div>
 
-        {/* Progress Bar */}
-        {enrollment && (
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-2 text-sm" style={{ color: 'var(--muted)' }}>
-              <span>Course Progress</span>
-              <span>{Math.round((progress.filter(p => p.passed).length / course.lessons.length) * 100)}%</span>
+      <div className="container page-body">
+        {enrollment && total > 0 && (
+          <section>
+            <div className="course-progress__head">
+              <span>{t('progressTitle')}</span>
+              <strong>{percent}%</strong>
             </div>
             <div className="progress">
-              <div className="progress-bar" style={{ width: `${(progress.filter(p => p.passed).length / course.lessons.length) * 100}%` }} />
+              <div className="progress-bar" style={{ width: `${percent}%` }} />
             </div>
-          </div>
+          </section>
         )}
 
-        {/* Lessons List */}
-        <section>
-          <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--fg)' }}>Course Content</h2>
-          <LessonsList
-            lessons={course.lessons}
-            courseSlug={slug}
+        {!enrollment && (
+          <CoursePlans
+            courseId={course.id}
+            courseSlug={course.slug}
+            courseTitle={title}
+            priceBasic={course.priceBasic}
+            pricePro={course.pricePro}
+            priceDeluxe={course.priceDeluxe}
             locale={locale}
-            progressMap={progressMap}
-            isEnrolled={!!enrollment}
           />
+        )}
+
+        <section>
+          <div className="section-head">
+            <h2 className="section-title">{t('content')}</h2>
+          </div>
+
+          {total === 0 ? (
+            <p className="catalog-empty">{t('noLessons')}</p>
+          ) : (
+            <LessonsList
+              lessons={course.lessons}
+              courseSlug={slug}
+              locale={locale}
+              progressMap={progressMap}
+              isEnrolled={!!enrollment}
+            />
+          )}
         </section>
       </div>
     </main>

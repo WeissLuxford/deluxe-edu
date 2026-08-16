@@ -60,7 +60,9 @@ export function CourseArticle({
 
   return (
     <>
-      <article className={`course-article state-${state}`}>
+      {/* data-level красит карточку в цвет уровня: без него все курсы
+          выглядели одинаковыми серыми прямоугольниками */}
+      <article className={`course-article state-${state}`} data-level={level}>
         <header className="course-article__head">
           <span className="course-article__level">{level}</span>
           {state === 'completed' && (

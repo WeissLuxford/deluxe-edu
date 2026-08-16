@@ -81,7 +81,18 @@
   "course": {
     "lessons": "Уроки",
     "price": "Цена",
-    "startCourse": "Начать курс"
+    "startCourse": "Начать курс",
+    "content": "Содержание курса",
+    "progressTitle": "Прогресс по курсу",
+    "enrolledWith": "Открыт · тариф {plan}",
+    "level": "Уровень",
+    "plansTitle": "Тарифы",
+    "plansHint": "Доступ к курсу открывается навсегда, без продлений",
+    "planBasic": "Все уроки, конспекты и тесты",
+    "planPro": "Всё из Basic и возможность задать вопрос преподавателю",
+    "planDeluxe": "Всё из Pro",
+    "choosePlanCta": "Выбрать тариф и начать",
+    "noLessons": "В курсе пока нет уроков"
   },
   "lesson": {
     "videoPlaceholder": "Видео этого урока будет здесь",
@@ -94,7 +105,15 @@
     "backToCourse": "К курсу",
     "stepOf": "Шаг {current} из {total}",
     "finish": "Завершить урок",
-    "completeCourse": "Завершить курс"
+    "completeCourse": "Завершить курс",
+    "number": "Урок {n}",
+    "video": "Видео",
+    "notes": "Конспект",
+    "test": "Тест",
+    "enrollToAccess": "Нужен доступ к курсу",
+    "completePrevious": "Сначала завершите предыдущий урок",
+    "startLesson": "Начать урок",
+    "reviewLesson": "Повторить"
   },
   "assignment": {
     "title": "Задание",

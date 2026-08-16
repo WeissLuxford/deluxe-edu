@@ -2,7 +2,8 @@
 'use client'
 
 import Link from 'next/link'
-import { Lock, CheckCircle, PlayCircle } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { Lock, CheckCircle2, PlayCircle, Video, FileText, ListChecks } from 'lucide-react'
 
 type Lesson = {
   id: string
@@ -14,10 +15,7 @@ type Lesson = {
   hasTest: boolean
 }
 
-type Progress = {
-  watched: boolean
-  passed: boolean
-}
+type Progress = { watched: boolean; passed: boolean }
 
 type Props = {
   lessons: Lesson[]
@@ -39,109 +37,75 @@ function getLocalizedText(value: any, locale: string) {
 }
 
 export function LessonsList({ lessons, courseSlug, locale, progressMap, isEnrolled }: Props) {
-  const getLessonStatus = (lesson: Lesson, index: number) => {
-    if (!isEnrolled) return 'locked'
-    
-    const progress = progressMap[lesson.id]
-    if (progress?.passed) return 'completed'
-    
-    if (index === 0) return 'available'
-    
-    const prevLesson = lessons[index - 1]
-    const prevProgress = progressMap[prevLesson.id]
-    if (prevProgress?.passed) return 'available'
-    
-    return 'locked'
+  const t = useTranslations('lesson')
+
+  // Та же лестница, что и на сервере: следующий урок открывается,
+  // когда предыдущий пройден
+  const statusOf = (lesson: Lesson, index: number) => {
+    if (!isEnrolled) return 'locked' as const
+    if (progressMap[lesson.id]?.passed) return 'completed' as const
+    if (index === 0) return 'available' as const
+    return progressMap[lessons[index - 1].id]?.passed ? ('available' as const) : ('locked' as const)
   }
 
   return (
-    <div className="space-y-3">
+    <ol className="lesson-list">
       {lessons.map((lesson, index) => {
-        const status = getLessonStatus(lesson, index)
+        const status = statusOf(lesson, index)
         const title = getLocalizedText(lesson.title, locale)
-        const isLocked = status === 'locked'
-        const isCompleted = status === 'completed'
-        const isAvailable = status === 'available'
+        const href = `/${locale}/courses/${courseSlug}/lessons/${lesson.slug}`
 
-        const contentBadges = []
-        if (lesson.hasVideo) contentBadges.push('📹 Video')
-        if (lesson.hasConspect) contentBadges.push('📝 Notes')
-        if (lesson.hasTest) contentBadges.push('✅ Test')
+        const parts = [
+          lesson.hasVideo && { icon: Video, label: t('video') },
+          lesson.hasConspect && { icon: FileText, label: t('notes') },
+          lesson.hasTest && { icon: ListChecks, label: t('test') }
+        ].filter(Boolean) as { icon: typeof Video; label: string }[]
 
         return (
-          <div
-            key={lesson.id}
-            className="glass-panel"
-            style={{
-              padding: '1.25rem',
-              opacity: isLocked ? 0.6 : 1,
-              cursor: isLocked ? 'not-allowed' : 'pointer'
-            }}
-          >
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  {/* Status Icon */}
-                  <div style={{ color: isCompleted ? '#22c55e' : isAvailable ? 'var(--gold)' : 'var(--muted)' }}>
-                    {isCompleted && <CheckCircle size={20} />}
-                    {isAvailable && <PlayCircle size={20} />}
-                    {isLocked && <Lock size={20} />}
-                  </div>
+          <li key={lesson.id} className={`lesson-row status-${status}`}>
+            <span className="lesson-row__icon">
+              {status === 'completed' && <CheckCircle2 size={20} />}
+              {status === 'available' && <PlayCircle size={20} />}
+              {status === 'locked' && <Lock size={18} />}
+            </span>
 
-                  {/* Lesson Number & Title */}
-                  <div>
-                    <div className="text-xs font-medium mb-1" style={{ color: 'var(--muted)' }}>
-                      Lesson {index + 1}
-                    </div>
-                    <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)' }}>
-                      {title}
-                    </h3>
-                  </div>
-                </div>
+            <div className="lesson-row__body">
+              <span className="lesson-row__number">{t('number', { n: index + 1 })}</span>
+              <h3 className="lesson-row__title">{title}</h3>
 
-                {/* Content Badges */}
-                <div className="flex gap-2 text-xs ml-8" style={{ color: 'var(--muted)' }}>
-                  {contentBadges.map((badge, i) => (
-                    <span key={i}>{badge}</span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <div>
-                {isLocked && !isEnrolled && (
-                  <div className="text-sm" style={{ color: 'var(--muted)' }}>
-                    Enroll to access
-                  </div>
-                )}
-                {isLocked && isEnrolled && (
-                  <div className="text-sm" style={{ color: 'var(--muted)' }}>
-                    Complete previous lesson
-                  </div>
-                )}
-                {isAvailable && (
-                  <Link
-                    href={`/${locale}/courses/${courseSlug}/lessons/${lesson.slug}`}
-                    className="btn btn-primary"
-                    style={{ background: 'var(--gold)', color: 'var(--bg)', padding: '0.5rem 1rem', fontSize: '0.875rem' }}
-                  >
-                    Start Lesson
-                  </Link>
-                )}
-                {isCompleted && (
-                  <Link
-                    href={`/${locale}/courses/${courseSlug}/lessons/${lesson.slug}`}
-                    className="btn btn-secondary"
-                    style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
-                  >
-                    Review
-                  </Link>
-                )}
+              <div className="lesson-row__parts">
+                {parts.map(p => {
+                  const Icon = p.icon
+                  return (
+                    <span key={p.label}>
+                      <Icon size={13} />
+                      {p.label}
+                    </span>
+                  )
+                })}
               </div>
             </div>
-          </div>
+
+            <div className="lesson-row__action">
+              {status === 'locked' && (
+                <span className="lesson-row__hint">
+                  {isEnrolled ? t('completePrevious') : t('enrollToAccess')}
+                </span>
+              )}
+              {status === 'available' && (
+                <Link href={href} className="btn btn-primary">
+                  {t('startLesson')}
+                </Link>
+              )}
+              {status === 'completed' && (
+                <Link href={href} className="btn btn-secondary">
+                  {t('reviewLesson')}
+                </Link>
+              )}
+            </div>
+          </li>
         )
       })}
-    </div>
+    </ol>
   )
 }
