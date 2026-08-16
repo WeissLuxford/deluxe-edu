@@ -11,8 +11,8 @@ import MentorIntro from "@/features/home/MentorIntro"
 import FAQSection from "@/features/home/FAQSection"
 import ContactFormSection from '@/features/home/ContactFormSection'
 
-export default async function LocaleHome({ params }: any) {
-  const locale = params.locale
+export default async function LocaleHome({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const t = await getTranslations({ locale })
   const base = `/${locale}`
 
