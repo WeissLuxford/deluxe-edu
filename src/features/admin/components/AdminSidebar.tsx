@@ -17,6 +17,7 @@ import {
   X
 } from 'lucide-react'
 import { Avatar } from '@/features/ui/components/Avatar'
+import ThemeToggle from '@/features/ui/components/ThemeToggle'
 
 type Props = {
   locale: string
@@ -112,15 +113,18 @@ export function AdminSidebar({ locale, adminName, adminPhone, counters }: Props)
             )}
           </div>
 
-          <button
-            type="button"
-            className="admin-sidebar__collapse"
-            onClick={() => setCollapsed(v => !v)}
-            title={collapsed ? 'Развернуть' : 'Свернуть'}
-          >
-            {collapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
-            {!collapsed && <span>Свернуть</span>}
-          </button>
+          <div className="admin-sidebar__tools">
+            <ThemeToggle />
+            <button
+              type="button"
+              className="admin-sidebar__collapse"
+              onClick={() => setCollapsed(v => !v)}
+              title={collapsed ? 'Развернуть' : 'Свернуть'}
+            >
+              {collapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
+              {!collapsed && <span>Свернуть</span>}
+            </button>
+          </div>
         </div>
       </aside>
     </>

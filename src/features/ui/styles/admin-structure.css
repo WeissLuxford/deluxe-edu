@@ -400,3 +400,17 @@
 .student-modules .done {
   color: var(--success);
 }
+
+.admin-sidebar__tools {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.admin-sidebar__tools .admin-sidebar__collapse {
+  flex: 1;
+}
+
+.admin-sidebar.collapsed .admin-sidebar__tools {
+  flex-direction: column;
+}

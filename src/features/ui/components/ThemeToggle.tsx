@@ -1,28 +1,30 @@
 'use client'
+
 import { useEffect, useState } from 'react'
+
+const EVENT = 'vertex:theme-changed'
 
 export default function ThemeToggle() {
   const [isLight, setIsLight] = useState(false)
 
   useEffect(() => {
-    const saved = typeof window !== 'undefined' ? localStorage.getItem('theme') : null
-    const prefersLight = typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: light)').matches : false
-    const useLight = saved ? saved === 'light' : prefersLight ? false : false
-    document.documentElement.classList.toggle('light', useLight)
-    setIsLight(useLight)
+    const sync = () => setIsLight(document.documentElement.classList.contains('light'))
+    sync()
+    window.addEventListener(EVENT, sync)
+    return () => window.removeEventListener(EVENT, sync)
   }, [])
 
+  const toggle = () => {
+    const next = !document.documentElement.classList.contains('light')
+    document.documentElement.classList.toggle('light', next)
+    try {
+      localStorage.setItem('theme', next ? 'light' : 'dark')
+    } catch {}
+    window.dispatchEvent(new Event(EVENT))
+  }
+
   return (
-    <button
-      aria-label="Theme"
-      className="theme-toggle"
-      onClick={() => {
-        const next = !isLight
-        setIsLight(next)
-        document.documentElement.classList.toggle('light', next)
-        localStorage.setItem('theme', next ? 'light' : 'dark')
-      }}
-    >
+    <button aria-label="Theme" className="theme-toggle" onClick={toggle}>
       {isLight ? (
         <svg viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="12" r="5" stroke="var(--fg)" strokeWidth="1.6" />
