@@ -393,6 +393,31 @@ html.light .stat-band__value {
   border-radius: var(--radius-xl);
 }
 
+.media-theme-swap {
+  display: block;
+  width: 100%;
+}
+
+.media-theme-swap .media-image {
+  width: 100%;
+}
+
+.media-theme-swap .media-image.only-light {
+  display: none;
+}
+
+.media-theme-swap .media-image.only-dark {
+  display: block;
+}
+
+html.light .media-theme-swap .media-image.only-light {
+  display: block;
+}
+
+html.light .media-theme-swap .media-image.only-dark {
+  display: none;
+}
+
 .vx-band {
   position: relative;
 }

@@ -5,6 +5,7 @@ import { localized } from '@/lib/localized'
 
 type Entry = {
   src?: string
+  srcLight?: string
   alt?: Record<string, string>
   width?: number
   height?: number
@@ -44,6 +45,32 @@ export function Media({
   }
 
   const alt = entry.decorative ? '' : localized(entry.alt, locale)
+  const srcLight = entry.srcLight?.trim()
+
+  if (srcLight) {
+    return (
+      <span className={`media-theme-swap ${className}`.trim()} style={{ aspectRatio: `${width} / ${height}` }}>
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          sizes={sizes}
+          priority={priority}
+          className="media-image only-dark"
+        />
+        <Image
+          src={srcLight}
+          alt={alt}
+          width={width}
+          height={height}
+          sizes={sizes}
+          priority={priority}
+          className="media-image only-light"
+        />
+      </span>
+    )
+  }
 
   return (
     <Image

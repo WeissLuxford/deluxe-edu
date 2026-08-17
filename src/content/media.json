@@ -49,6 +49,7 @@
   },
   "home.format.preview": {
     "src": "/media/lesson-preview.svg",
+    "srcLight": "/media/lesson-preview-light.svg",
     "alt": {
       "ru": "Как выглядит урок внутри платформы",
       "uz": "Platformada dars qanday ko‘rinadi",
