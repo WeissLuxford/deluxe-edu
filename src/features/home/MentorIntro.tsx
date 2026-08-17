@@ -9,7 +9,7 @@ export default function MentorIntro({ base }: { base: string }) {
   const t = useTranslations('home')
   const locale = useLocale()
   return (
-    <section id="mentor" className="relative py-24" style={{ background: 'var(--bg-secondary)' }}>
+    <section id="mentor" className="relative py-24 vx-band vx-band--raised">
       <div className="container">
         <div className="mentor-grid glass-panel">
           <div className="mentor-media">

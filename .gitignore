@@ -33,3 +33,6 @@ Thumbs.db
 
 # build artifacts
 tsconfig.tsbuildinfo
+
+# локальный конфиг запуска для агента
+.claude

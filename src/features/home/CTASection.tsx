@@ -8,7 +8,7 @@ export default function CTASection({ base }: { base: string }) {
   const t = useTranslations('home')
 
   return (
-    <section className="relative py-28 flex items-center justify-center" style={{ background: 'var(--bg)' }}>
+    <section className="relative py-28 flex items-center justify-center vx-band vx-band--accent">
       <div className="absolute inset-0 hero-gradient opacity-40" />
       <MediaDecor slot="home.cta.side" side="left" size="md" />
       <div className="container relative">

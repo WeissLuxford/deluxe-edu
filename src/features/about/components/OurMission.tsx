@@ -8,7 +8,7 @@ import { DollarSign, Users, Heart, Zap } from 'lucide-react';
 export function OurMission() {
   const t = useTranslations('about');
   return (
-    <section id="mission" style={{ padding: '6rem 0', background: 'var(--bg)' }}>
+    <section id="mission" className="vx-band about-section">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -27,37 +27,27 @@ export function OurMission() {
           </p>
         </motion.div>
 
-        <div
-          style={{
-            display: 'grid',
-            gap: '2rem',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-          }}
-        >
+        <div className="about-grid-4">
           {[
             {
               icon: DollarSign,
               title: t('m1t'),
               desc: t('m1d'),
-              color: '#22c55e',
             },
             {
               icon: Users,
               title: t('m4t'),
               desc: t('m4d'),
-              color: 'var(--gold-text)',
             },
             {
               icon: Heart,
               title: t('m3t'),
               desc: t('m3d'),
-              color: '#ef4444',
             },
             {
               icon: Zap,
               title: t('m2t'),
               desc: t('m2d'),
-              color: '#3b82f6',
             },
           ].map((item, i) => (
             <motion.div
@@ -69,18 +59,8 @@ export function OurMission() {
               className="glass-panel"
               style={{ padding: '2rem', textAlign: 'center' }}
             >
-              <div
-                style={{
-                  width: '64px',
-                  height: '64px',
-                  borderRadius: '50%',
-                  background: `${item.color}20`,
-                  display: 'grid',
-                  placeItems: 'center',
-                  margin: '0 auto 1.5rem',
-                }}
-              >
-                <item.icon size={32} color={item.color} />
+              <div className="about-icon">
+                <item.icon size={30} strokeWidth={1.6} />
               </div>
               <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.75rem', color: 'var(--fg)' }}>
                 {item.title}

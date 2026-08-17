@@ -1,15 +1,54 @@
 {
   "$описание": "Реестр картинок сайта. Файлы кладём в public/media/**, сюда пишем путь от корня сайта. Пустой src — на месте картинки появится подсказка с именем слота, вёрстка не поедет. alt обязателен для всего, что несёт смысл; у декора его можно оставить пустым.",
-
   "home.hero.side": {
-    "src": "",
-    "alt": { "ru": "", "uz": "", "en": "" },
+    "src": "/media/peak-constellation.svg",
+    "alt": {
+      "ru": "",
+      "uz": "",
+      "en": ""
+    },
     "width": 720,
     "height": 900,
     "decorative": true
   },
-  "home.format.preview": {
+  "home.hero.sun": {
+    "$комментарий": "Солнце для светлой темы. PNG с прозрачностью, квадрат, свечение уходит в ноль по краям — иначе будет видна рамка файла. Пока src пустой, солнце рисуется CSS-градиентом.",
     "src": "",
+    "alt": {
+      "ru": "",
+      "uz": "",
+      "en": ""
+    },
+    "width": 900,
+    "height": 900,
+    "decorative": true
+  },
+  "home.hero.cloudsFar": {
+    "$комментарий": "Дальний слой облаков светлой темы. Широкая PNG-полоса с прозрачностью, левый и правый края должны совпадать — слой едет по кругу. Пока оба слоя пустые, облака рисует канвас.",
+    "src": "",
+    "alt": {
+      "ru": "",
+      "uz": "",
+      "en": ""
+    },
+    "width": 2400,
+    "height": 600,
+    "decorative": true
+  },
+  "home.hero.cloudsNear": {
+    "$комментарий": "Ближний слой облаков светлой темы. Крупнее и контрастнее дальнего, едет быстрее.",
+    "src": "",
+    "alt": {
+      "ru": "",
+      "uz": "",
+      "en": ""
+    },
+    "width": 2400,
+    "height": 700,
+    "decorative": true
+  },
+  "home.format.preview": {
+    "src": "/media/lesson-preview.svg",
     "alt": {
       "ru": "Как выглядит урок внутри платформы",
       "uz": "Platformada dars qanday ko‘rinadi",
@@ -19,59 +58,78 @@
     "height": 640
   },
   "home.mentor.portrait": {
-    "src": "",
+    "src": "/media/mentor-portrait.svg",
     "alt": {
       "ru": "Преподаватель Vertex",
       "uz": "Vertex o‘qituvchisi",
       "en": "Vertex teacher"
     },
     "width": 640,
-    "height": 800
+    "height": 800,
+    "$замена": "Временная графика. Нужен настоящий портрет преподавателя: вертикальный кадр 4:5, поясной, взгляд в камеру, ровный свет, спокойный фон."
   },
   "home.cta.side": {
-    "src": "",
-    "alt": { "ru": "", "uz": "", "en": "" },
+    "src": "/media/peak-ascent.svg",
+    "alt": {
+      "ru": "",
+      "uz": "",
+      "en": ""
+    },
     "width": 640,
     "height": 480,
     "decorative": true
   },
-
   "about.hero.side": {
-    "src": "",
-    "alt": { "ru": "", "uz": "", "en": "" },
-    "width": 720,
-    "height": 720,
+    "src": "/media/peak-orbit.svg",
+    "alt": {
+      "ru": "",
+      "uz": "",
+      "en": ""
+    },
+    "width": 640,
+    "height": 640,
     "decorative": true
   },
   "about.team.group": {
-    "src": "",
+    "src": "/media/team-group.svg",
     "alt": {
       "ru": "Команда Vertex",
       "uz": "Vertex jamoasi",
       "en": "The Vertex team"
     },
     "width": 1200,
-    "height": 675
+    "height": 675,
+    "$замена": "Временная графика. Нужен настоящий снимок команды: горизонтальный кадр 16:9, все в кадре целиком, один источник света."
   },
-
   "courses.hero.side": {
-    "src": "",
-    "alt": { "ru": "", "uz": "", "en": "" },
+    "src": "/media/peak-orbit.svg",
+    "alt": {
+      "ru": "",
+      "uz": "",
+      "en": ""
+    },
     "width": 640,
     "height": 640,
     "decorative": true
   },
   "contacts.hero.side": {
-    "src": "",
-    "alt": { "ru": "", "uz": "", "en": "" },
+    "src": "/media/peak-orbit.svg",
+    "alt": {
+      "ru": "",
+      "uz": "",
+      "en": ""
+    },
     "width": 640,
     "height": 640,
     "decorative": true
   },
-
   "course.default.cover": {
-    "src": "",
-    "alt": { "ru": "", "uz": "", "en": "" },
+    "src": "/media/course-cover.svg",
+    "alt": {
+      "ru": "",
+      "uz": "",
+      "en": ""
+    },
     "width": 640,
     "height": 360,
     "decorative": true

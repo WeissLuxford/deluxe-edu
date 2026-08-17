@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img">
+  <defs>
+    <linearGradient id="ccSky" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#16224a"/>
+      <stop offset="0.55" stop-color="#101833"/>
+      <stop offset="1" stop-color="#0a0f22"/>
+    </linearGradient>
+    <linearGradient id="ccPeak" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0d492"/>
+      <stop offset="1" stop-color="#c8901a"/>
+    </linearGradient>
+    <linearGradient id="ccPeakFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dda92f" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0.02"/>
+    </linearGradient>
+    <radialGradient id="ccGlow" cx="0.74" cy="0.2" r="0.55">
+      <stop offset="0" stop-color="#dda92f" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="640" height="360" fill="url(#ccSky)"/>
+  <rect width="640" height="360" fill="url(#ccGlow)"/>
+
+  <g fill="#e8eeff">
+    <circle cx="62" cy="52" r="1.6" opacity="0.8"/>
+    <circle cx="138" cy="96" r="1.1" opacity="0.55"/>
+    <circle cx="212" cy="42" r="1.8" opacity="0.9"/>
+    <circle cx="286" cy="88" r="1" opacity="0.5"/>
+    <circle cx="352" cy="36" r="1.4" opacity="0.7"/>
+    <circle cx="430" cy="74" r="1.1" opacity="0.5"/>
+    <circle cx="508" cy="40" r="1.7" opacity="0.85"/>
+    <circle cx="576" cy="102" r="1.2" opacity="0.6"/>
+    <circle cx="96" cy="146" r="1" opacity="0.45"/>
+    <circle cx="392" cy="140" r="1.2" opacity="0.5"/>
+    <circle cx="602" cy="168" r="1" opacity="0.4"/>
+  </g>
+
+  <path d="M0 300 L118 168 L196 246 L300 122 L404 246 L486 176 L640 300 L640 360 L0 360 Z"
+        fill="url(#ccPeakFill)" stroke="none"/>
+  <path d="M0 300 L118 168 L196 246 L300 122 L404 246 L486 176 L640 300"
+        fill="none" stroke="url(#ccPeak)" stroke-width="2.2" stroke-linejoin="round"/>
+
+  <path d="M300 122 L272 158 L300 172 L328 158 Z" fill="#f7e7bf" opacity="0.9"/>
+  <path d="M118 168 L102 190 L118 198 L134 190 Z" fill="#f7e7bf" opacity="0.6"/>
+
+  <g stroke="#c4d6ff" stroke-width="1" stroke-opacity="0.16" fill="none">
+    <path d="M-10 316 C 90 302, 170 328, 280 314 S 470 296, 650 320"/>
+    <path d="M-10 340 C 110 328, 200 352, 320 338 S 520 322, 650 344"/>
+  </g>
+</svg>

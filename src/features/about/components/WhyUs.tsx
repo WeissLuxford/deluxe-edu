@@ -21,7 +21,7 @@ export function WhyUs() {
   ];
 
   return (
-    <section style={{ padding: '6rem 0', background: 'var(--bg-secondary)' }}>
+    <section className="vx-band vx-band--raised about-section">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

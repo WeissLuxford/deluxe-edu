@@ -1,31 +1,26 @@
 'use client'
 
-const PALETTE = [
-  { bg: '#34d399', fg: '#04241a' },
-  { bg: '#22d3ee', fg: '#052a33' },
-  { bg: '#60a5fa', fg: '#08203f' },
-  { bg: '#a78bfa', fg: '#1e1040' },
-  { bg: '#fbbf24', fg: '#3a2a02' },
-  { bg: '#fb7185', fg: '#3f0714' },
-  { bg: '#f472b6', fg: '#3d0a26' },
-  { bg: '#c7a45a', fg: '#2a1f07' }
+import { Rocket, Sword, Dog, Cat, Bird, Car, Compass, Sailboat, Guitar, Gem } from 'lucide-react'
+
+const AVATARS = [
+  { Icon: Rocket, bg: '#1d4ed8', fg: '#dbeafe' },
+  { Icon: Sword, bg: '#7c3aed', fg: '#ede9fe' },
+  { Icon: Dog, bg: '#b45309', fg: '#fef3c7' },
+  { Icon: Cat, bg: '#be123c', fg: '#ffe4e6' },
+  { Icon: Bird, bg: '#0e7490', fg: '#cffafe' },
+  { Icon: Car, bg: '#c2410c', fg: '#ffedd5' },
+  { Icon: Compass, bg: '#15803d', fg: '#dcfce7' },
+  { Icon: Sailboat, bg: '#0f766e', fg: '#ccfbf1' },
+  { Icon: Guitar, bg: '#a16207', fg: '#fef9c3' },
+  { Icon: Gem, bg: '#6d28d9', fg: '#f3e8ff' }
 ]
 
-function pickColor(seed: string) {
+function pickAvatar(seed: string) {
   let hash = 0
   for (let i = 0; i < seed.length; i++) {
     hash = (hash * 31 + seed.charCodeAt(i)) | 0
   }
-  return PALETTE[Math.abs(hash) % PALETTE.length]
-}
-
-function initials(name: string | null | undefined, fallback: string) {
-  const clean = (name || '').trim()
-  if (!clean) return fallback.slice(-2)
-
-  const words = clean.split(/\s+/).filter(Boolean)
-  if (words.length === 1) return words[0].slice(0, 2).toUpperCase()
-  return (words[0][0] + words[1][0]).toUpperCase()
+  return AVATARS[Math.abs(hash) % AVATARS.length]
 }
 
 export function Avatar({
@@ -52,21 +47,15 @@ export function Avatar({
     )
   }
 
-  const color = pickColor(seed)
+  const { Icon, bg, fg } = pickAvatar(seed)
 
   return (
     <span
-      className={`avatar-initials ${className}`}
-      style={{
-        width: size,
-        height: size,
-        background: color.bg,
-        color: color.fg,
-        fontSize: Math.round(size * 0.38)
-      }}
+      className={`avatar-glyph ${className}`}
+      style={{ width: size, height: size, background: bg, color: fg }}
       aria-hidden="true"
     >
-      {initials(name, seed)}
+      <Icon size={Math.round(size * 0.52)} strokeWidth={1.8} />
     </span>
   )
 }

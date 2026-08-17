@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
+import { Instagram, Youtube, Facebook, Send } from 'lucide-react'
 import { VertexLogo } from './VertexLogo_v2'
 
 export default function SiteFooter() {
@@ -18,10 +19,10 @@ export default function SiteFooter() {
   ]
 
   const socialLinks = [
-    { href: 'https://instagram.com/vertexedu', label: 'Instagram' },
-    { href: 'https://youtube.com/@vertexedu', label: 'YouTube' },
-    { href: 'https://facebook.com/vertexedu', label: 'Facebook' },
-    { href: 'https://t.me/vertexedu', label: 'Telegram' }
+    { href: 'https://instagram.com/vertexedu', label: 'Instagram', Icon: Instagram },
+    { href: 'https://youtube.com/@vertexedu', label: 'YouTube', Icon: Youtube },
+    { href: 'https://facebook.com/vertexedu', label: 'Facebook', Icon: Facebook },
+    { href: 'https://t.me/vertexedu', label: 'Telegram', Icon: Send }
   ]
 
   return (
@@ -52,8 +53,9 @@ export default function SiteFooter() {
                 href={l.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="vx-link vx-bracket"
+                className="vx-link vx-social"
               >
+                <l.Icon size={15} strokeWidth={1.7} />
                 {l.label}
               </a>
             ))}

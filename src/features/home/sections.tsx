@@ -11,6 +11,7 @@ import FAQSection from './FAQSection'
 import ContactFormSection from './ContactFormSection'
 import { LearningFormat } from './LearningFormat'
 import { LevelsLadder } from './LevelsLadder'
+import { PlatformFacts } from './PlatformFacts'
 import { PriceHonesty } from './PriceHonesty'
 import { Reviews, REVIEWS } from './Reviews'
 
@@ -24,17 +25,18 @@ export type HomeSection = {
 
 export const HOME_SECTIONS: HomeSection[] = [
   { key: 'hero', enabled: true, render: () => <HeroVertex /> },
+  { key: 'facts', enabled: true, render: ({ locale }) => <PlatformFacts locale={locale} /> },
   { key: 'tiles', enabled: true, render: () => <TilesCarousel /> },
   { key: 'format', enabled: true, render: ({ locale }) => <LearningFormat locale={locale} /> },
-  { key: 'structure', enabled: true, render: () => <StructurePreview /> },
   { key: 'levels', enabled: true, render: ({ locale }) => <LevelsLadder locale={locale} /> },
-  { key: 'howItWorks', enabled: true, render: () => <HowItWorks /> },
+  { key: 'howItWorks', enabled: true, render: ({ base }) => <HowItWorks base={base} /> },
   { key: 'mentor', enabled: true, render: ({ base }) => <MentorIntro base={base} /> },
-  { key: 'marquee', enabled: true, render: () => <BrandMarquee /> },
   { key: 'tiers', enabled: true, render: ({ base }) => <AccessTiers base={base} /> },
   { key: 'priceHonesty', enabled: true, render: ({ locale }) => <PriceHonesty locale={locale} /> },
   { key: 'reviews', enabled: REVIEWS.length > 0, render: ({ locale }) => <Reviews locale={locale} /> },
   { key: 'faq', enabled: true, render: () => <FAQSection /> },
+  { key: 'marquee', enabled: true, render: () => <BrandMarquee /> },
   { key: 'cta', enabled: true, render: ({ base }) => <CTASection base={base} /> },
-  { key: 'contactForm', enabled: true, render: () => <ContactFormSection /> }
+  { key: 'contactForm', enabled: true, render: () => <ContactFormSection /> },
+  { key: 'structure', enabled: false, render: () => <StructurePreview /> }
 ]

@@ -9,7 +9,7 @@ import { MediaDecor } from '@/features/ui/components/MediaDecor';
 export function AboutHero() {
   const t = useTranslations('about');
   return (
-    <section className="hero-gradient" style={{ padding: '6rem 0 4rem', position: 'relative', overflow: 'hidden' }}>
+    <section className="vx-band vx-band--accent about-hero" style={{ position: 'relative', overflow: 'hidden' }}>
       <MediaDecor slot="about.hero.side" side="right" size="lg" />
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <motion.div
@@ -29,15 +29,7 @@ export function AboutHero() {
           </motion.span>
 
           <h1
-            className="hero-title"
-            style={{
-              fontSize: 'clamp(2.5rem, 7vw, 5rem)',
-              marginBottom: '1.5rem',
-              background: 'linear-gradient(135deg, var(--gold), var(--gold-light))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
+            className="about-hero__title text-gradient"
           >
             {t('heroTitle')}
           </h1>
@@ -52,7 +44,7 @@ export function AboutHero() {
             transition={{ delay: 0.6 }}
             style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}
           >
-            <a href="#mission" className="iridescent">
+            <a href="#mission" className="iridescent vx">
               {t('ctaMission')}
             </a>
             <a href="#team" className="btn-secondary">

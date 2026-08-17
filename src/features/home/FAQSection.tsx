@@ -19,7 +19,7 @@ export default function FAQSection() {
   ]
 
   return (
-    <section id="faq" className="relative py-24" style={{ background: 'var(--bg-secondary)' }}>
+    <section id="faq" className="relative py-24 vx-band vx-band--raised">
       <div className="container">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-extrabold mb-3 text-gradient">{t('faqTitle')}</h2>

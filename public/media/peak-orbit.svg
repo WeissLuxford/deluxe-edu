@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="640" height="640" role="img">
+  <defs>
+    <linearGradient id="poStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0d492"/>
+      <stop offset="1" stop-color="#c8901a"/>
+    </linearGradient>
+    <linearGradient id="poFill" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#dda92f" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="poGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#dda92f" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <circle cx="320" cy="320" r="300" fill="url(#poGlow)"/>
+
+  <g fill="none" stroke="#e8c065" stroke-opacity="0.3" stroke-width="1.4">
+    <ellipse cx="320" cy="320" rx="252" ry="96" transform="rotate(-22 320 320)"/>
+    <ellipse cx="320" cy="320" rx="252" ry="96" transform="rotate(34 320 320)"/>
+    <circle cx="320" cy="320" r="212" stroke-dasharray="3 12" stroke-opacity="0.22"/>
+  </g>
+
+  <g fill="none" stroke="url(#poStroke)" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M130 460 L246 268 L320 384 L410 214 L520 460" fill="url(#poFill)"/>
+  </g>
+
+  <g fill="#f7e7bf">
+    <circle cx="410" cy="214" r="6"/>
+    <circle cx="246" cy="268" r="5"/>
+  </g>
+
+  <g fill="#f7e7bf" opacity="0.6">
+    <circle cx="92" cy="214" r="2.4"/>
+    <circle cx="556" cy="252" r="2.2"/>
+    <circle cx="500" cy="106" r="2.6"/>
+    <circle cx="164" cy="122" r="2"/>
+    <circle cx="592" cy="418" r="1.8"/>
+    <circle cx="60" cy="392" r="2"/>
+  </g>
+
+  <g stroke="#dda92f" stroke-width="1" stroke-opacity="0.28" fill="none">
+    <path d="M70 494 C 180 476, 260 510, 370 492 S 540 470, 578 498"/>
+    <path d="M96 534 C 210 518, 300 548, 410 532 S 552 512, 586 538"/>
+  </g>
+</svg>

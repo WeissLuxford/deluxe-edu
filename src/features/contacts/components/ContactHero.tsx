@@ -9,7 +9,7 @@ import { MediaDecor } from '@/features/ui/components/MediaDecor';
 export function ContactHero() {
   const t = useTranslations('contacts');
   return (
-    <section className="hero-gradient" style={{ padding: '6rem 0 4rem', position: 'relative', overflow: 'hidden' }}>
+    <section className="vx-band vx-band--accent about-hero" style={{ position: 'relative', overflow: 'hidden' }}>
       <MediaDecor slot="contacts.hero.side" side="left" size="md" />
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <motion.div

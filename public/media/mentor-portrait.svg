@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" width="640" height="800" role="img">
+  <defs>
+    <linearGradient id="mpBg" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#18213f"/>
+      <stop offset="0.6" stop-color="#101833"/>
+      <stop offset="1" stop-color="#0a0f22"/>
+    </linearGradient>
+    <linearGradient id="mpFig" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#f0d492" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#c8901a" stop-opacity="0.45"/>
+    </linearGradient>
+    <radialGradient id="mpHalo" cx="0.5" cy="0.34" r="0.42">
+      <stop offset="0" stop-color="#dda92f" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="640" height="800" fill="url(#mpBg)"/>
+  <rect width="640" height="800" fill="url(#mpHalo)"/>
+
+  <g fill="#e8eeff" opacity="0.55">
+    <circle cx="82" cy="94" r="1.8"/>
+    <circle cx="546" cy="132" r="1.4"/>
+    <circle cx="470" cy="62" r="2"/>
+    <circle cx="146" cy="196" r="1.2"/>
+    <circle cx="592" cy="286" r="1.6"/>
+    <circle cx="58" cy="332" r="1.3"/>
+  </g>
+
+  <circle cx="320" cy="270" r="150" fill="none" stroke="#dda92f" stroke-opacity="0.28" stroke-width="1.5"/>
+  <circle cx="320" cy="270" r="182" fill="none" stroke="#dda92f" stroke-opacity="0.14" stroke-width="1.5" stroke-dasharray="4 14"/>
+
+  <g fill="url(#mpFig)">
+    <circle cx="320" cy="252" r="92"/>
+    <path d="M320 372 C 224 372, 148 448, 148 552 L148 800 L492 800 L492 552 C 492 448, 416 372, 320 372 Z"/>
+  </g>
+
+  <path d="M320 372 C 224 372, 148 448, 148 552 L148 800 L492 800 L492 552 C 492 448, 416 372, 320 372 Z"
+        fill="none" stroke="#f7e7bf" stroke-opacity="0.3" stroke-width="2"/>
+  <circle cx="320" cy="252" r="92" fill="none" stroke="#f7e7bf" stroke-opacity="0.35" stroke-width="2"/>
+
+  <g stroke="#c4d6ff" stroke-width="1" stroke-opacity="0.12" fill="none">
+    <path d="M-10 690 C 90 676, 180 704, 300 690 S 520 668, 650 694"/>
+    <path d="M-10 736 C 110 722, 210 750, 330 734 S 540 716, 650 740"/>
+  </g>
+</svg>

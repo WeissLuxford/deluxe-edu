@@ -31,7 +31,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section style={{ padding: '6rem 0', background: 'var(--bg)' }}>
+    <section className="vx-band about-section">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -47,13 +47,7 @@ export function HowItWorks() {
           </p>
         </motion.div>
 
-        <div
-          style={{
-            display: 'grid',
-            gap: '2rem',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-          }}
-        >
+        <div className="about-grid-4">
           {steps.map((step, i) => (
             <motion.div
               key={i}

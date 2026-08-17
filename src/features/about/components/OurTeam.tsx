@@ -8,7 +8,7 @@ import { Award, Heart } from 'lucide-react';
 export function OurTeam() {
   const t = useTranslations('about');
   return (
-    <section id="team" style={{ padding: '6rem 0', background: 'var(--bg-secondary)' }}>
+    <section id="team" className="vx-band vx-band--raised about-section">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -80,13 +80,13 @@ export function OurTeam() {
                 width: '120px',
                 height: '120px',
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                background: 'linear-gradient(135deg, var(--brand-600), var(--brand-300))',
                 margin: '0 auto 1.5rem',
                 display: 'grid',
                 placeItems: 'center',
                 fontSize: '3rem',
                 fontWeight: '800',
-                color: '#fff',
+                color: 'var(--brand-fg)',
               }}
             >
               T
@@ -108,7 +108,7 @@ export function OurTeam() {
                 <p style={{ fontSize: '0.875rem', color: 'var(--muted)' }}>{t('tExpert')}</p>
               </div>
               <div style={{ textAlign: 'center' }}>
-                <Heart size={24} color="#ef4444" style={{ marginBottom: '0.25rem' }} />
+                <Heart size={24} color="var(--brand)" style={{ marginBottom: '0.25rem' }} />
                 <p style={{ fontSize: '0.875rem', color: 'var(--muted)' }}>{t('tCaring')}</p>
               </div>
             </div>

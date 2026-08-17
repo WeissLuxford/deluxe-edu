@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480" role="img">
+  <defs>
+    <linearGradient id="paStroke" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#c8901a"/>
+      <stop offset="1" stop-color="#f7e7bf"/>
+    </linearGradient>
+    <linearGradient id="paFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dda92f" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="paGlow" cx="0.62" cy="0.3" r="0.5">
+      <stop offset="0" stop-color="#dda92f" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="640" height="480" fill="url(#paGlow)"/>
+
+  <g fill="none" stroke="url(#paStroke)" stroke-width="2.2" stroke-linejoin="round">
+    <path d="M40 400 L188 176 L268 292 L372 120 L520 400" fill="url(#paFill)"/>
+  </g>
+
+  <g fill="none" stroke="#e8c065" stroke-width="1.6" stroke-opacity="0.55" stroke-linecap="round" stroke-dasharray="8 9">
+    <path d="M96 396 C 170 344, 168 274, 236 244 S 344 214, 372 132"/>
+  </g>
+
+  <g fill="#f7e7bf">
+    <circle cx="372" cy="120" r="6.5"/>
+    <circle cx="96" cy="396" r="4"/>
+  </g>
+
+  <g fill="#f7e7bf" opacity="0.55">
+    <circle cx="540" cy="96" r="2.4"/>
+    <circle cx="596" cy="196" r="2"/>
+    <circle cx="72" cy="128" r="2.2"/>
+    <circle cx="466" cy="52" r="1.8"/>
+    <circle cx="164" cy="76" r="2"/>
+  </g>
+
+  <g stroke="#dda92f" stroke-width="1" stroke-opacity="0.3" fill="none">
+    <path d="M24 418 C 130 402, 210 432, 320 416 S 500 396, 616 422"/>
+    <path d="M52 450 C 160 436, 250 464, 360 448 S 540 430, 610 454"/>
+  </g>
+</svg>

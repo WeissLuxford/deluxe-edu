@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -8,8 +8,9 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 
 export function JoinMovement() {
   const t = useTranslations('about');
+  const base = `/${useLocale()}`;
   return (
-    <section style={{ padding: '6rem 0', background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
+    <section className="vx-band vx-band--accent about-section" style={{ position: 'relative', overflow: 'hidden' }}>
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -49,10 +50,10 @@ export function JoinMovement() {
           </p>
 
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/courses" className="iridescent" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
-              {t('joinCourses')} <ArrowRight size={20} />
+            <Link href={`${base}/courses`} className="iridescent vx" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+              {t('joinCourses')} <ArrowRight size={18} />
             </Link>
-            <Link href="/trial-lesson" className="btn-secondary">
+            <Link href={`${base}/trial-lesson`} className="btn-secondary">
               {t('joinTrial')}
             </Link>
           </div>

@@ -2478,7 +2478,8 @@ html.light .course-article__cta {
   color: var(--muted);
 }
 
-.avatar-initials {
+.avatar-initials,
+.avatar-glyph {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2487,6 +2488,10 @@ html.light .course-article__cta {
   letter-spacing: 0.02em;
   flex-shrink: 0;
   user-select: none;
+}
+
+.avatar-glyph {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16), inset 0 -40% 60% -30% rgba(0, 0, 0, 0.35);
 }
 
 .avatar-img {

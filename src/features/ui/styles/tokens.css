@@ -7,13 +7,13 @@
   --brand-600: #a87413;
   --brand-700: #855a10;
 
-  --bg: #0c0d0f;
-  --surface-1: #141619;
-  --surface-2: #1c1f23;
-  --surface-3: #24282d;
+  --bg: #070a14;
+  --surface-1: #0d1222;
+  --surface-2: #151b30;
+  --surface-3: #1e2540;
 
-  --fg: #ece8e1;
-  --muted: #a8a49c;
+  --fg: #eef0f7;
+  --muted: #98a1bd;
 
   --brand: var(--brand-400);
   --brand-hover: var(--brand-300);
@@ -31,29 +31,58 @@
   --info: #60a5fa;
   --info-soft: rgba(96, 165, 250, 0.14);
 
-  --border: rgba(255, 255, 255, 0.1);
+  --border: rgba(148, 172, 235, 0.14);
   --border-hover: var(--brand-border);
 
-  --header-bg: rgba(12, 13, 15, 0.9);
+  --header-bg: rgba(7, 10, 20, 0.82);
+
+  --sky-high: #0a1a3d;
+  --sky-mid: #0b1228;
+  --sky-low: var(--bg);
+  --star: #f4f7ff;
+  --cloud: rgba(140, 168, 232, 0.11);
+  --cloud-edge: rgba(198, 216, 255, 0.2);
+
+  --glow-warm: rgba(221, 169, 47, 0.18);
+  --glow-cool: rgba(84, 130, 232, 0.16);
+
+  --veil: rgba(148, 172, 235, 0.05);
+  --veil-strong: rgba(148, 172, 235, 0.09);
+  --hairline: rgba(196, 214, 255, 0.1);
 
   --gradient-gold:
     radial-gradient(120% 120% at 10% 0%, rgba(221, 169, 47, 0.2), transparent 60%),
     radial-gradient(100% 100% at 90% 40%, rgba(232, 192, 101, 0.14), transparent 60%);
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
-  --shadow-gold: 0 4px 20px rgba(221, 169, 47, 0.22);
+  --gradient-sky:
+    radial-gradient(90% 70% at 50% -10%, rgba(38, 74, 158, 0.35), transparent 70%),
+    radial-gradient(60% 50% at 12% 8%, var(--glow-warm), transparent 66%),
+    radial-gradient(70% 60% at 88% 92%, var(--glow-cool), transparent 70%);
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
+  --shadow: 0 4px 14px rgba(2, 5, 15, 0.45);
+  --shadow-lg: 0 18px 44px rgba(2, 5, 15, 0.55);
+  --shadow-gold: 0 6px 26px rgba(221, 169, 47, 0.24);
+  --shadow-lift: 0 20px 50px rgba(2, 5, 15, 0.6), 0 0 0 1px var(--hairline);
 
   --radius-sm: 0.375rem;
   --radius: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
 
   --transition: all 0.2s ease-in-out;
   --transition-slow: all 0.3s ease-in-out;
 
   --header-h: 80px;
+
+  --step-1: clamp(0.78rem, 0.76rem + 0.1vw, 0.84rem);
+  --step0: clamp(0.94rem, 0.9rem + 0.2vw, 1rem);
+  --step1: clamp(1.06rem, 1rem + 0.3vw, 1.19rem);
+  --step2: clamp(1.3rem, 1.2rem + 0.5vw, 1.6rem);
+  --step3: clamp(1.7rem, 1.45rem + 1.2vw, 2.45rem);
+  --step4: clamp(2.15rem, 1.7rem + 2.2vw, 3.4rem);
+  --step5: clamp(2.6rem, 1.9rem + 3.4vw, 4.5rem);
 
   --bg-secondary: var(--surface-1);
   --bg-tertiary: var(--surface-2);
@@ -66,13 +95,13 @@
 }
 
 html.light {
-  --bg: #fafafb;
+  --bg: #f3f6fd;
   --surface-1: #ffffff;
-  --surface-2: #f3f4f6;
-  --surface-3: #e9ebef;
+  --surface-2: #e9eefa;
+  --surface-3: #dbe4f5;
 
-  --fg: #14181f;
-  --muted: #4a5565;
+  --fg: #101728;
+  --muted: #4c5872;
 
   --brand: var(--brand-500);
   --brand-hover: var(--brand-600);
@@ -90,18 +119,38 @@ html.light {
   --info: #1d4ed8;
   --info-soft: rgba(29, 78, 216, 0.12);
 
-  --border: rgba(15, 23, 42, 0.12);
+  --border: rgba(24, 46, 96, 0.13);
 
-  --header-bg: rgba(250, 250, 251, 0.88);
+  --header-bg: rgba(243, 246, 253, 0.86);
+
+  --sky-high: #58a4ec;
+  --sky-mid: #a7cdf3;
+  --sky-low: var(--bg);
+  --star: #ffffff;
+  --cloud: rgba(255, 255, 255, 0.9);
+  --cloud-edge: rgba(255, 255, 255, 1);
+
+  --glow-warm: rgba(221, 169, 47, 0.16);
+  --glow-cool: rgba(96, 148, 232, 0.14);
+
+  --veil: rgba(24, 46, 96, 0.035);
+  --veil-strong: rgba(24, 46, 96, 0.06);
+  --hairline: rgba(24, 46, 96, 0.08);
 
   --gradient-gold:
     radial-gradient(120% 120% at 10% 0%, rgba(200, 144, 26, 0.16), transparent 60%),
     radial-gradient(100% 100% at 90% 40%, rgba(221, 169, 47, 0.12), transparent 60%);
 
-  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
-  --shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.1);
-  --shadow-gold: 0 4px 20px rgba(200, 144, 26, 0.2);
+  --gradient-sky:
+    radial-gradient(90% 70% at 50% -10%, rgba(126, 176, 240, 0.3), transparent 70%),
+    radial-gradient(60% 50% at 12% 8%, var(--glow-warm), transparent 66%),
+    radial-gradient(70% 60% at 88% 92%, var(--glow-cool), transparent 70%);
+
+  --shadow-sm: 0 1px 2px 0 rgba(24, 46, 96, 0.06);
+  --shadow: 0 4px 14px rgba(24, 46, 96, 0.08);
+  --shadow-lg: 0 18px 44px rgba(24, 46, 96, 0.12);
+  --shadow-gold: 0 6px 26px rgba(200, 144, 26, 0.22);
+  --shadow-lift: 0 20px 46px rgba(24, 46, 96, 0.14), 0 0 0 1px var(--hairline);
 
   --gold-light-text: var(--brand-500);
   --text-hero: #6e4b0d;

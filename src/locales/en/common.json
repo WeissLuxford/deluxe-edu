@@ -265,6 +265,8 @@
     },
     "introducing": "Introducing",
     "tagline": "To the highest heights",
+    "heroPrimary": "Free trial lesson",
+    "heroSecondary": "Browse courses",
     "tilesTitle": "What you get",
     "t1": "Live streams",
     "t1d": "Live English lessons",
@@ -679,6 +681,10 @@
     "reviewsEyebrow": "Reviews",
     "reviewsTitle": "What students say",
     "reviewsSub": "Real reviews will appear here — we do not publish invented ones",
-    "reviewsEmpty": "The first reviews will appear once students finish their courses"
+    "reviewsEmpty": "The first reviews will appear once students finish their courses",
+    "factLevels": "levels — from Beginner to Advanced",
+    "factMinutes": "minutes per lesson: fits into a break",
+    "factSteps": "steps in a lesson: video, notes, test, practice",
+    "factPlans": "plans — from self-paced to one-on-one"
   }
 }

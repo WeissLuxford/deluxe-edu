@@ -3,16 +3,17 @@
 import { useTranslations } from 'next-intl'
 
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
+import { Radio, PlayCircle, PenLine, FileDown, GraduationCap, MessagesSquare } from 'lucide-react'
 
 export default function TilesCarousel() {
   const t = useTranslations('home')
   const items = useMemo(() => [
-    { emoji: '📡', title: t('t1'), sub: t('t1d') },
-    { emoji: '📹', title: t('t2'), sub: t('t2d') },
-    { emoji: '📝', title: t('t3'), sub: t('t3d') },
-    { emoji: '🎧', title: t('t4'), sub: t('t4d') },
-    { emoji: '🎬', title: t('t5'), sub: t('t5d') },
-    { emoji: '💬', title: t('t6'), sub: t('t6d') }
+    { Icon: Radio, title: t('t1'), sub: t('t1d') },
+    { Icon: PlayCircle, title: t('t2'), sub: t('t2d') },
+    { Icon: PenLine, title: t('t3'), sub: t('t3d') },
+    { Icon: FileDown, title: t('t4'), sub: t('t4d') },
+    { Icon: GraduationCap, title: t('t5'), sub: t('t5d') },
+    { Icon: MessagesSquare, title: t('t6'), sub: t('t6d') }
   ], [])
 
   const duplicatedItems = useMemo(() => [...items, ...items, ...items], [items])
@@ -139,10 +140,9 @@ export default function TilesCarousel() {
         @media (min-width: 640px){ .tiles-track { grid-auto-columns: calc(50% - .5rem) } }
         @media (min-width: 1024px){ .tiles-track { grid-auto-columns: calc(33.333% - .75rem) } }
         .tile-slide { scroll-snap-align: center; min-width: 0 }
-        .tile-card { display: grid; grid-template-columns: 64px 1fr; gap: 1.25rem; align-items: center; padding: 1.75rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg); transition: var(--transition-slow); cursor: pointer; height: 100% }
-        .tile-card:hover { border-color: var(--gold); box-shadow: var(--shadow-gold); transform: translateY(-4px) }
-        .tile-ico { width: 64px; height: 64px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-secondary); font-size: 28px; transition: var(--transition-slow) }
-        .tile-card:hover .tile-ico { border-color: var(--gold); transform: scale(1.1) rotate(5deg); box-shadow: 0 4px 12px rgba(199,164,90,0.2) }
+        .tile-card { display: grid; grid-template-columns: 60px 1fr; gap: 1.15rem; align-items: center; padding: 1.6rem; cursor: default; height: 100% }
+        .tile-ico { width: 60px; height: 60px; display: grid; place-items: center; border: 1px solid var(--brand-border); border-radius: var(--radius-lg); background: var(--brand-soft); color: var(--brand-text); transition: var(--transition-slow) }
+        .tile-card:hover .tile-ico { transform: scale(1.06); background: var(--brand); color: var(--brand-fg); border-color: var(--brand) }
         .tile-title { font-weight: 700; font-size: 1.1rem; color: var(--fg); margin-bottom: .35rem }
         .tile-sub { font-size: .95rem; color: var(--muted); line-height: 1.4 }
         .tiles-dots { display: flex; justify-content: center; gap: .6rem; margin-top: 2rem; padding-bottom: 1rem }
@@ -171,7 +171,7 @@ export default function TilesCarousel() {
         {duplicatedItems.map((it, i) => (
           <article key={i} className="tile-slide" role="listitem">
             <div className="tile-card">
-              <div className="tile-ico">{it.emoji}</div>
+              <div className="tile-ico"><it.Icon size={26} strokeWidth={1.6} /></div>
               <div>
                 <div className="tile-title">{it.title}</div>
                 <div className="tile-sub">{it.sub}</div>

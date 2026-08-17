@@ -14,33 +14,33 @@ export function QuickLinks() {
       title: t('l1'),
       desc: t('l1d'),
       href: '/courses',
-      color: 'var(--gold-text)',
+      color: 'var(--brand)',
     },
     {
       icon: Video,
       title: t('l3'),
       desc: t('l3d'),
       href: '/streams',
-      color: '#ef4444',
+      color: 'var(--brand)',
     },
     {
       icon: Calendar,
       title: t('l2'),
       desc: t('l2d'),
       href: '/trial-lesson',
-      color: '#22c55e',
+      color: 'var(--brand)',
     },
     {
       icon: HelpCircle,
       title: 'FAQ',
       desc: t('faqTitle'),
       href: '/#faq',
-      color: '#3b82f6',
+      color: 'var(--brand)',
     },
   ];
 
   return (
-    <section style={{ padding: '6rem 0', background: 'var(--bg-secondary)' }}>
+    <section className="vx-band vx-band--raised about-section">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -92,7 +92,7 @@ export function QuickLinks() {
                     width: '64px',
                     height: '64px',
                     borderRadius: '50%',
-                    background: `${link.color}20`,
+                    background: `color-mix(in oklab, ${link.color} 14%, transparent)`,
                     display: 'grid',
                     placeItems: 'center',
                     marginBottom: '1rem',

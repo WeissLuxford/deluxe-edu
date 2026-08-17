@@ -14,7 +14,7 @@ export function ContactMethods() {
       value: '+998 90 123 45 67',
       link: 'tel:+998901234567',
       desc: t('callHint'),
-      color: '#22c55e',
+      color: 'var(--brand)',
       action: t('callCta'),
     },
     {
@@ -32,13 +32,13 @@ export function ContactMethods() {
       value: 'hello@vertexedu.uz',
       link: 'mailto:hello@vertexedu.uz',
       desc: t('mailHint'),
-      color: '#ef4444',
+      color: 'var(--brand)',
       action: t('mailCta'),
     },
   ];
 
   return (
-    <section id="contact-methods" style={{ padding: '6rem 0', background: 'var(--bg)' }}>
+    <section id="contact-methods" className="vx-band about-section">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -85,7 +85,7 @@ export function ContactMethods() {
                   width: '80px',
                   height: '80px',
                   borderRadius: '50%',
-                  background: `${contact.color}20`,
+                  background: `color-mix(in oklab, ${contact.color} 14%, transparent)`,
                   display: 'grid',
                   placeItems: 'center',
                   margin: '0 auto 1.5rem',

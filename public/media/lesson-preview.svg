@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" width="960" height="640" role="img">
+  <defs>
+    <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141b31"/>
+      <stop offset="1" stop-color="#0b1020"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0d492"/>
+      <stop offset="0.55" stop-color="#dda92f"/>
+      <stop offset="1" stop-color="#c8901a"/>
+    </linearGradient>
+    <linearGradient id="video" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b2544"/>
+      <stop offset="1" stop-color="#0e1428"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#dda92f" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="round">
+      <rect x="24" y="24" width="912" height="592" rx="20"/>
+    </clipPath>
+  </defs>
+
+  <rect width="960" height="640" fill="none"/>
+  <rect x="24" y="24" width="912" height="592" rx="20" fill="url(#shell)" stroke="#2a3660" stroke-width="1.5"/>
+
+  <g clip-path="url(#round)">
+    <ellipse cx="760" cy="90" rx="240" ry="170" fill="url(#halo)"/>
+
+    <rect x="24" y="24" width="912" height="52" fill="#0e1428"/>
+    <line x1="24" y1="76" x2="936" y2="76" stroke="#2a3660" stroke-width="1.5"/>
+    <circle cx="58" cy="50" r="5.5" fill="#3a4670"/>
+    <circle cx="78" cy="50" r="5.5" fill="#3a4670"/>
+    <circle cx="98" cy="50" r="5.5" fill="#3a4670"/>
+    <rect x="126" y="38" width="220" height="24" rx="7" fill="#18213c"/>
+    <text x="140" y="55" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="13" fill="#8f9cc4">Урок 4 · Present Perfect</text>
+    <rect x="828" y="38" width="94" height="24" rx="12" fill="#1a2440"/>
+    <text x="843" y="55" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#e8c065">Шаг 1 из 3</text>
+
+    <rect x="56" y="108" width="536" height="302" rx="14" fill="url(#video)" stroke="#2a3660" stroke-width="1.5"/>
+    <circle cx="324" cy="252" r="44" fill="url(#gold)"/>
+    <path d="M312 232 L348 252 L312 272 Z" fill="#17130a"/>
+    <rect x="80" y="368" width="488" height="5" rx="2.5" fill="#26304f"/>
+    <rect x="80" y="368" width="196" height="5" rx="2.5" fill="url(#gold)"/>
+    <circle cx="276" cy="370.5" r="7" fill="#f0d492"/>
+    <text x="80" y="352" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#8f9cc4">04:12</text>
+    <text x="536" y="352" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#8f9cc4">11:30</text>
+
+    <g>
+      <rect x="56" y="432" width="170" height="42" rx="10" fill="#1d2743" stroke="#dda92f" stroke-width="1.5"/>
+      <circle cx="80" cy="453" r="9" fill="url(#gold)"/>
+      <path d="M76 453 l3 3 l6 -6" stroke="#17130a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="99" y="458" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="14" fill="#eef0f7">Видео</text>
+    </g>
+    <g>
+      <rect x="240" y="432" width="170" height="42" rx="10" fill="#151d36" stroke="#2a3660" stroke-width="1.5"/>
+      <circle cx="264" cy="453" r="9" fill="none" stroke="#3a4670" stroke-width="1.5"/>
+      <text x="283" y="458" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="14" fill="#8f9cc4">Конспект</text>
+    </g>
+    <g>
+      <rect x="424" y="432" width="168" height="42" rx="10" fill="#151d36" stroke="#2a3660" stroke-width="1.5"/>
+      <circle cx="448" cy="453" r="9" fill="none" stroke="#3a4670" stroke-width="1.5"/>
+      <text x="467" y="458" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="14" fill="#8f9cc4">Тест</text>
+    </g>
+
+    <rect x="56" y="500" width="536" height="88" rx="14" fill="#111930" stroke="#2a3660" stroke-width="1.5"/>
+    <text x="80" y="530" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="13" fill="#8f9cc4">Разбор ошибки</text>
+    <text x="80" y="556" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="15" fill="#eef0f7">have been → указывает на опыт, а не на момент</text>
+
+    <rect x="624" y="108" width="280" height="180" rx="14" fill="#111930" stroke="#2a3660" stroke-width="1.5"/>
+    <text x="648" y="140" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="13" fill="#8f9cc4">Проверка темы</text>
+    <rect x="648" y="156" width="232" height="34" rx="9" fill="#18213c"/>
+    <circle cx="668" cy="173" r="7" fill="none" stroke="#3a4670" stroke-width="1.5"/>
+    <text x="686" y="178" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="13" fill="#c3cbe4">I have seen it</text>
+    <rect x="648" y="198" width="232" height="34" rx="9" fill="#22301f" stroke="#4ade80" stroke-width="1.5"/>
+    <circle cx="668" cy="215" r="7" fill="#4ade80"/>
+    <path d="M664.5 215 l2.6 2.6 l5 -5.4" stroke="#0b1020" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="686" y="220" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="13" fill="#eef0f7">I have already seen it</text>
+    <rect x="648" y="240" width="232" height="34" rx="9" fill="#18213c"/>
+    <circle cx="668" cy="257" r="7" fill="none" stroke="#3a4670" stroke-width="1.5"/>
+    <text x="686" y="262" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="13" fill="#c3cbe4">I seen it already</text>
+
+    <rect x="624" y="304" width="280" height="284" rx="14" fill="#111930" stroke="#2a3660" stroke-width="1.5"/>
+    <text x="648" y="336" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="13" fill="#8f9cc4">Прогресс модуля</text>
+
+    <circle cx="764" cy="424" r="52" fill="none" stroke="#26304f" stroke-width="10"/>
+    <circle cx="764" cy="424" r="52" fill="none" stroke="url(#gold)" stroke-width="10" stroke-linecap="round"
+            stroke-dasharray="222 327" transform="rotate(-90 764 424)"/>
+    <text x="764" y="418" text-anchor="middle" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#eef0f7">68%</text>
+    <text x="764" y="440" text-anchor="middle" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#8f9cc4">пройдено</text>
+
+    <rect x="648" y="504" width="232" height="8" rx="4" fill="#26304f"/>
+    <rect x="648" y="504" width="176" height="8" rx="4" fill="url(#gold)"/>
+    <text x="648" y="540" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#8f9cc4">Урок 4 из 6</text>
+    <rect x="648" y="552" width="232" height="1.5" fill="#26304f"/>
+    <text x="648" y="576" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#e8c065">Следующий откроется после теста</text>
+  </g>
+</svg>

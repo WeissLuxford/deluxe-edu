@@ -271,6 +271,8 @@
     },
     "introducing": "Tanishtiramiz",
     "tagline": "Yangi choqqilarga",
+    "heroPrimary": "Bepul sinov darsi",
+    "heroSecondary": "Kurslarni ko‘rish",
     "tilesTitle": "Nima olasiz",
     "t1": "Jonli efirlar",
     "t1d": "Jonli ingliz tili darslari",
@@ -685,6 +687,10 @@
     "reviewsEyebrow": "Sharhlar",
     "reviewsTitle": "Talabalar nima deydi",
     "reviewsSub": "Bu yerda haqiqiy sharhlar paydo bo‘ladi — o‘ylab topilganini chop etmaymiz",
-    "reviewsEmpty": "Birinchi sharhlar talabalar kurslarni tugatganda paydo bo‘ladi"
+    "reviewsEmpty": "Birinchi sharhlar talabalar kurslarni tugatganda paydo bo‘ladi",
+    "factLevels": "daraja — Beginner’dan Advanced’gacha",
+    "factMinutes": "daqiqa bir darsga: tanaffusga sig‘adi",
+    "factSteps": "bosqich darsda: video, konspekt, test, amaliyot",
+    "factPlans": "tarif — mustaqildan individualgacha"
   }
 }

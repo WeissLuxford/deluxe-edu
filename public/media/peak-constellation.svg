@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 900" width="720" height="900" role="img">
+  <defs>
+    <linearGradient id="pcStroke" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0d492"/>
+      <stop offset="0.6" stop-color="#dda92f"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="pcFill" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#dda92f" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="pcGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#dda92f" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#dda92f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse cx="360" cy="330" rx="300" ry="300" fill="url(#pcGlow)"/>
+
+  <g fill="none" stroke="url(#pcStroke)" stroke-width="2" stroke-linejoin="round">
+    <path d="M60 720 L250 380 L360 560 L470 300 L660 720" fill="url(#pcFill)"/>
+    <path d="M250 380 L316 496" stroke-opacity="0.5"/>
+    <path d="M470 300 L404 424" stroke-opacity="0.5"/>
+  </g>
+
+  <g stroke="#e8c065" stroke-width="1.2" stroke-opacity="0.45" fill="none">
+    <path d="M250 380 L470 300"/>
+    <path d="M470 300 L560 168"/>
+    <path d="M250 380 L146 236"/>
+    <path d="M560 168 L146 236" stroke-opacity="0.2"/>
+    <path d="M360 560 L560 168" stroke-opacity="0.18"/>
+  </g>
+
+  <g fill="#f7e7bf">
+    <circle cx="250" cy="380" r="6"/>
+    <circle cx="470" cy="300" r="7"/>
+    <circle cx="360" cy="560" r="5"/>
+    <circle cx="560" cy="168" r="5.5"/>
+    <circle cx="146" cy="236" r="4.5"/>
+  </g>
+
+  <g fill="#f7e7bf" opacity="0.55">
+    <circle cx="118" cy="470" r="2.4"/>
+    <circle cx="612" cy="452" r="2"/>
+    <circle cx="330" cy="132" r="2.6"/>
+    <circle cx="668" cy="286" r="1.8"/>
+    <circle cx="86" cy="120" r="2.2"/>
+    <circle cx="520" cy="606" r="2"/>
+    <circle cx="196" cy="616" r="1.8"/>
+    <circle cx="424" cy="80" r="1.6"/>
+  </g>
+
+  <g stroke="#dda92f" stroke-width="1" stroke-opacity="0.25" fill="none">
+    <path d="M40 748 C 150 726, 240 766, 350 744 S 570 720, 690 750"/>
+    <path d="M40 790 C 170 770, 260 806, 380 786 S 590 764, 690 792"/>
+    <path d="M80 832 C 200 814, 300 846, 420 828 S 600 810, 660 834"/>
+  </g>
+</svg>
