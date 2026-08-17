@@ -4,11 +4,13 @@ import { useTranslations } from 'next-intl';
 
 import { motion } from 'framer-motion';
 import { MessageCircle, Mail, Phone } from 'lucide-react';
+import { MediaDecor } from '@/features/ui/components/MediaDecor';
 
 export function ContactHero() {
   const t = useTranslations('contacts');
   return (
     <section className="hero-gradient" style={{ padding: '6rem 0 4rem', position: 'relative', overflow: 'hidden' }}>
+      <MediaDecor slot="contacts.hero.side" side="left" size="md" />
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}

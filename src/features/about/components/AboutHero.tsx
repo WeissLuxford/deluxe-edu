@@ -4,11 +4,13 @@ import { useTranslations } from 'next-intl';
 
 import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
+import { MediaDecor } from '@/features/ui/components/MediaDecor';
 
 export function AboutHero() {
   const t = useTranslations('about');
   return (
     <section className="hero-gradient" style={{ padding: '6rem 0 4rem', position: 'relative', overflow: 'hidden' }}>
+      <MediaDecor slot="about.hero.side" side="right" size="lg" />
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}

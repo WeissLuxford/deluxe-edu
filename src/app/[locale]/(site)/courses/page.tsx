@@ -9,6 +9,7 @@ import { SpecialOffersSection } from '@/features/courses/components/SpecialOffer
 import { getEnrolledCourseIds } from '@/features/learn/progress'
 import { localized } from '@/lib/localized'
 import { resolvePublicAsset } from '@/lib/publicAsset'
+import { MediaDecor } from '@/features/ui/components/MediaDecor'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -63,6 +64,7 @@ export default async function CoursesPage({ params, searchParams }: Props) {
   return (
     <main className="page-shell">
       <div className="page-hero">
+        <MediaDecor slot="courses.hero.side" side="right" size="md" />
         <div className="container">
           <h1 className="page-hero__title">{t('title')}</h1>
           <p className="page-hero__sub">{t('subtitle')}</p>

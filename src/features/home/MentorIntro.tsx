@@ -1,32 +1,20 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 import Link from "next/link"
+import { Media } from '@/features/ui/components/Media'
 
 export default function MentorIntro({ base }: { base: string }) {
   const t = useTranslations('home')
+  const locale = useLocale()
   return (
     <section id="mentor" className="relative py-24" style={{ background: 'var(--bg-secondary)' }}>
       <div className="container">
         <div className="mentor-grid glass-panel">
           <div className="mentor-media">
             <div className="mentor-photo-wrap">
-              <div 
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  background: 'linear-gradient(135deg, var(--gold), var(--gold-light))',
-                  display: 'grid',
-                  placeItems: 'center',
-                  fontSize: '8rem',
-                  fontWeight: '800',
-                  color: 'var(--bg)',
-                  borderRadius: 'var(--radius-xl)'
-                }}
-              >
-                T
-              </div>
+              <Media slot="home.mentor.portrait" locale={locale} className="mentor-photo" sizes="(max-width: 900px) 100vw, 420px" />
               <div className="mentor-glow" />
             </div>
           </div>
