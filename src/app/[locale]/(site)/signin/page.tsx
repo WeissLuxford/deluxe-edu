@@ -72,7 +72,7 @@ export default function SignInPage() {
     const session = await getSession()
     const isAdmin = session?.user?.role === 'ADMIN'
     const destination =
-      requestedNext || (isAdmin ? `/${validLocale}/admin` : `/${validLocale}/dashboard`)
+      requestedNext || (isAdmin ? `/${validLocale}/admin` : `/${validLocale}/learn`)
 
     window.location.href = destination
   }

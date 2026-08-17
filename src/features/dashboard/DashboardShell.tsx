@@ -1,12 +1,12 @@
 'use client'
 
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { BookOpen, CheckCircle2, Loader, GraduationCap } from 'lucide-react'
+import { BookOpen, CheckCircle2, GraduationCap, ArrowRight } from 'lucide-react'
 import { Avatar } from '@/features/ui/components/Avatar'
 import TabsNav from './TabsNav'
 import ProfileSection from './sections/ProfileSection'
-import CoursesSection from './sections/CoursesSection'
 import PaymentsSection from './sections/PaymentsSection'
 import ProgressSection from './sections/ProgressSection'
 import SubmissionsSection from './sections/SubmissionsSection'
@@ -27,51 +27,32 @@ type User = {
   passwordTail?: string | null
 }
 
-export type DashboardCourse = {
-  enrollmentId: string
-  plan: string
-  id: string
-  slug: string
-  title: any
-  description: any
-  level: string
-  priceBasic: number
-  pricePro: number
-  priceDeluxe: number
-  total: number
-  done: number
-  completed: boolean
-  resumeSlug: string | null
-}
-
 export default function DashboardShell({
   user,
-  courses,
+  coursesCount,
   payments,
   progress,
   submissions,
   locale
 }: {
   user: User
-  courses: DashboardCourse[]
+  coursesCount: number
   payments: any[]
   progress: any[]
   submissions: any[]
   locale: string
 }) {
   const t = useTranslations('dashboard')
+  const tLearn = useTranslations('learn')
   const search = useSearchParams()
   const tab = search.get('tab') || 'profile'
 
   const lessonsDone = progress.filter(p => p.passed).length
-  const inProgress = courses.filter(c => !c.completed).length
-  const completed = courses.filter(c => c.completed).length
 
   const stats = [
-    { icon: BookOpen, label: t('statCourses'), value: courses.length },
+    { icon: BookOpen, label: t('statCourses'), value: coursesCount },
     { icon: CheckCircle2, label: t('statLessonsDone'), value: lessonsDone },
-    { icon: Loader, label: t('statInProgress'), value: inProgress },
-    { icon: GraduationCap, label: t('statCompleted'), value: completed }
+    { icon: GraduationCap, label: t('tabSubmissions'), value: submissions.length }
   ]
 
   return (
@@ -79,12 +60,7 @@ export default function DashboardShell({
       <div className="page-hero">
         <div className="container">
           <div className="dash-head">
-            <Avatar
-              name={user.name}
-              seed={user.phone || user.id}
-              image={user.image}
-              size={72}
-            />
+            <Avatar name={user.name} seed={user.phone || user.id} image={user.image} size={72} />
             <div>
               <h1 className="page-hero__title dash-head__title">
                 {t('welcome', { name: user.firstName || user.name || '' })}
@@ -106,6 +82,13 @@ export default function DashboardShell({
                 </div>
               )
             })}
+
+            <Link href={`/${locale}/learn`} className="dash-stat dash-stat--link">
+              <span className="dash-stat__icon">
+                <ArrowRight size={16} />
+              </span>
+              <span className="dash-stat__label">{tLearn('backToLearning')}</span>
+            </Link>
           </div>
         </div>
       </div>
@@ -114,7 +97,6 @@ export default function DashboardShell({
         <TabsNav />
 
         {tab === 'profile' && <ProfileSection />}
-        {tab === 'courses' && <CoursesSection courses={courses} locale={locale} />}
         {tab === 'payments' && <PaymentsSection payments={payments} />}
         {tab === 'progress' && <ProgressSection rows={progress} locale={locale} />}
         {tab === 'submissions' && <SubmissionsSection rows={submissions} />}

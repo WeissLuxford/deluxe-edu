@@ -934,3 +934,133 @@
     width: 100%;
   }
 }
+
+.lesson-player {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.lesson-player__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.lesson-player__module {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  margin-bottom: 0.3rem;
+}
+
+.lesson-player__title {
+  font-size: clamp(1.35rem, 3.2vw, 1.9rem);
+}
+
+.lesson-player__number {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.lesson-steps {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.lesson-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.lesson-step:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.lesson-step:not(:disabled):hover {
+  border-color: var(--border-hover);
+  color: var(--fg);
+}
+
+.lesson-step.done {
+  color: var(--gold-text);
+  border-color: var(--border-hover);
+}
+
+.lesson-step.current {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.lesson-step__icon {
+  display: grid;
+  place-items: center;
+}
+
+.lesson-player__body {
+  min-height: 40vh;
+}
+
+.lesson-player__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.lesson-player__forward {
+  gap: 0.5rem;
+}
+
+.dash-stat--link {
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.dash-stat--link:hover {
+  border-color: var(--border-hover);
+}
+
+@media (max-width: 560px) {
+  .lesson-player__head {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .lesson-step__label {
+    display: none;
+  }
+
+  .lesson-step {
+    padding: 0.5rem 0.7rem;
+  }
+}

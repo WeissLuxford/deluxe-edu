@@ -15,7 +15,7 @@ export default function SignUpPage() {
   const search = useSearchParams()
   
   const validLocale = ['ru', 'uz', 'en'].includes(locale) ? locale : 'ru'
-  const next = search.get('next') || `/${validLocale}/dashboard`
+  const next = search.get('next') || `/${validLocale}/learn`
   
   const [step, setStep] = useState<'phone' | 'otp' | 'details'>('phone')
   const [phone, setPhone] = useState('+998 ') // ← Дефолтное значение

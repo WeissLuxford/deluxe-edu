@@ -90,9 +90,17 @@ export default function UserMenu() {
         className={`menu-panel ${open ? 'open' : ''}`}
       >
         <Link
-          href={`${base}/dashboard`}
+          href={`${base}/learn`}
           role="menuitem"
           className="menu-item menu-first"
+          onClick={() => setOpen(false)}
+        >
+          {t('learn.backToLearning')}
+        </Link>
+        <Link
+          href={`${base}/account`}
+          role="menuitem"
+          className="menu-item"
           onClick={() => setOpen(false)}
         >
           {t('nav.dashboard')}
