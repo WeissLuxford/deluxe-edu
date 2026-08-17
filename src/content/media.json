@@ -1,0 +1,79 @@
+{
+  "$описание": "Реестр картинок сайта. Файлы кладём в public/media/**, сюда пишем путь от корня сайта. Пустой src — на месте картинки появится подсказка с именем слота, вёрстка не поедет. alt обязателен для всего, что несёт смысл; у декора его можно оставить пустым.",
+
+  "home.hero.side": {
+    "src": "",
+    "alt": { "ru": "", "uz": "", "en": "" },
+    "width": 720,
+    "height": 900,
+    "decorative": true
+  },
+  "home.format.preview": {
+    "src": "",
+    "alt": {
+      "ru": "Как выглядит урок внутри платформы",
+      "uz": "Platformada dars qanday ko‘rinadi",
+      "en": "What a lesson looks like inside the platform"
+    },
+    "width": 960,
+    "height": 640
+  },
+  "home.mentor.portrait": {
+    "src": "",
+    "alt": {
+      "ru": "Преподаватель Vertex",
+      "uz": "Vertex o‘qituvchisi",
+      "en": "Vertex teacher"
+    },
+    "width": 640,
+    "height": 800
+  },
+  "home.cta.side": {
+    "src": "",
+    "alt": { "ru": "", "uz": "", "en": "" },
+    "width": 640,
+    "height": 480,
+    "decorative": true
+  },
+
+  "about.hero.side": {
+    "src": "",
+    "alt": { "ru": "", "uz": "", "en": "" },
+    "width": 720,
+    "height": 720,
+    "decorative": true
+  },
+  "about.team.group": {
+    "src": "",
+    "alt": {
+      "ru": "Команда Vertex",
+      "uz": "Vertex jamoasi",
+      "en": "The Vertex team"
+    },
+    "width": 1200,
+    "height": 675
+  },
+
+  "courses.hero.side": {
+    "src": "",
+    "alt": { "ru": "", "uz": "", "en": "" },
+    "width": 640,
+    "height": 640,
+    "decorative": true
+  },
+  "contacts.hero.side": {
+    "src": "",
+    "alt": { "ru": "", "uz": "", "en": "" },
+    "width": 640,
+    "height": 640,
+    "decorative": true
+  },
+
+  "course.default.cover": {
+    "src": "",
+    "alt": { "ru": "", "uz": "", "en": "" },
+    "width": 640,
+    "height": 360,
+    "decorative": true
+  }
+}
