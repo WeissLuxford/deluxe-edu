@@ -187,13 +187,14 @@ a:hover {
 }
 
 .only-dark { display: block }
-.only-light { display: block }
+.only-light { display: none }
 
-html.dark .only-light { display: none }
 html.light .only-dark { display: none }
+html.light .only-light { display: block }
 
 .theme-fade { transition: opacity .25s ease, visibility .25s ease }
-html.dark .only-light.theme-fade { opacity: 0; visibility: hidden }
+.only-light.theme-fade { opacity: 0; visibility: hidden }
+html.light .only-light.theme-fade { opacity: 1; visibility: visible }
 html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
 
 .input,
@@ -1013,7 +1014,7 @@ html.light .lang-item:hover{background:rgba(0,0,0,.04)}
 .verify-banner.open{
   transform:translateY(0);
   opacity:1;
-  max-height:4rem;
+  max-height:12rem;
 }
 
 .verify-banner-inner{
@@ -1024,15 +1025,14 @@ html.light .lang-item:hover{background:rgba(0,0,0,.04)}
   padding:.5rem .75rem;
   border:1px solid var(--border);
   border-radius: var(--radius-lg);
-  background:rgba(255,255,255,.9);
-  color:#92400e;
+  background:var(--surface-2);
+  color:var(--warning);
   box-shadow:var(--shadow);
 }
 
-html.dark .verify-banner-inner{
-  background:rgba(120,53,15,.9);
-  color:#fde68a;
-  box-shadow:var(--shadow-gold);
+html.light .verify-banner-inner{
+  background:var(--warning-soft);
+  border-color:var(--warning);
 }
 
 .verify-banner-text{
@@ -1058,10 +1058,10 @@ html.dark .verify-banner-inner{
 }
 .verify-banner-close:hover{
   border-color:var(--border-hover);
-  background:rgba(0,0,0,.04);
-}
-html.dark .verify-banner-close:hover{
   background:rgba(255,255,255,.08);
+}
+html.light .verify-banner-close:hover{
+  background:rgba(0,0,0,.06);
 }
 
 .avatar { display: flex; justify-content: center; align-items: center; border-color: var(--border); background: var(--bg-secondary); color: var(--gold-text); font-weight: 700; border-radius: 50%; box-shadow: 0px 0px 2px var(--fg);}
@@ -1085,9 +1085,7 @@ th,td { border-color: var(--border) }
 @media (min-width: 640px) { .page-start { padding-inline: 1.5rem } }
 @media (min-width: 1024px) { .page-start { padding-inline: 2rem } }
 
-.vx-footer{background:var(--bg-secondary);color:var(--fg)}
-html.dark .vx-footer{background:#111}
-html.light .vx-footer{background:#fff}
+.vx-footer{background:var(--surface-1);color:var(--fg)}
 
 .vx-footer__top{display: grid; grid-template-columns: 5fr 1fr 1fr 1.4fr; gap: 2rem 3rem; }
 

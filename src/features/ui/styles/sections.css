@@ -480,3 +480,19 @@ html.light .course-article__cta {
 .course-article__cover.has-image {
   background-image: none;
 }
+
+@media (max-width: 640px) {
+  html .verify-banner-container {
+    position: static;
+    padding: 0 0.75rem 0.5rem;
+  }
+
+  .verify-banner-inner {
+    flex-wrap: wrap;
+    row-gap: 0.4rem;
+  }
+
+  .verify-banner-actions {
+    margin-left: auto;
+  }
+}
