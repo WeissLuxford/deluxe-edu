@@ -18,6 +18,9 @@ type Lesson = {
   hasTest: boolean
   videoUrl: string | null
   zoomMeetingId: string | null
+  moduleId: string | null
+  coverUrl: string | null
+  durationMin: number | null
 }
 
 const empty: Lesson = {
@@ -29,17 +32,22 @@ const empty: Lesson = {
   hasConspect: false,
   hasTest: false,
   videoUrl: null,
-  zoomMeetingId: null
+  zoomMeetingId: null,
+  moduleId: null,
+  coverUrl: null,
+  durationMin: null
 }
 
 export function LessonForm({
   action,
   lesson = empty,
+  modules = [],
   submitLabel,
   redirectTo
 }: {
   action: (prev: ActionResult | null, form: FormData) => Promise<ActionResult>
   lesson?: Lesson
+  modules?: { id: string; label: string }[]
   submitLabel: string
   redirectTo: string
 }) {
@@ -84,6 +92,39 @@ export function LessonForm({
             <div className="hint">Меняется стрелками в списке уроков</div>
           </div>
         </div>
+
+        <div className="admin-grid">
+          <div>
+            <label className="label">Модуль</label>
+            <select name="moduleId" defaultValue={lesson.moduleId ?? ''} className="input">
+              <option value="">Вне модулей</option>
+              {modules.map(m => (
+                <option key={m.id} value={m.id}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
+            <div className="hint">
+              {modules.length === 0
+                ? 'В курсе ещё нет модулей — создайте их на странице курса'
+                : 'Раздел программы, в котором студент увидит этот урок'}
+            </div>
+          </div>
+
+          <div>
+            <label className="label">Длительность, минут</label>
+            <input
+              type="number"
+              name="durationMin"
+              defaultValue={lesson.durationMin ?? ''}
+              className="input"
+              min={0}
+              max={600}
+              placeholder="необязательно"
+            />
+            <div className="hint">Показывается на карточке урока</div>
+          </div>
+        </div>
       </section>
 
       <section className="admin-panel">
@@ -98,6 +139,19 @@ export function LessonForm({
             placeholder="https://youtu.be/... или прямая ссылка"
           />
           <div className="hint">Пока принимаем YouTube и прямые ссылки. Bunny добавим позже</div>
+        </div>
+
+        <div>
+          <label className="label">Обложка урока</label>
+          <input
+            name="coverUrl"
+            defaultValue={lesson.coverUrl ?? ''}
+            className="input"
+            placeholder="/media/lessons/present-simple.webp"
+          />
+          <div className="hint">
+            Путь к файлу из папки public. Без обложки карточка урока покажет однотонную плашку
+          </div>
         </div>
 
         <div>

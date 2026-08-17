@@ -42,7 +42,14 @@ export default async function EditLesson({
   const lesson = await prisma.lesson.findUnique({
     where: { id },
     include: {
-      course: { select: { id: true, title: true, slug: true } },
+      course: {
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          modules: { orderBy: { order: 'asc' }, select: { id: true, title: true, order: true } }
+        }
+      },
       Assignment: true
     }
   })
@@ -67,6 +74,10 @@ export default async function EditLesson({
 
       <LessonForm
         action={updateLesson.bind(null, id)}
+        modules={lesson.course.modules.map(m => ({
+          id: m.id,
+          label: `${m.order + 1}. ${toLocalized(m.title).ru || 'без названия'}`
+        }))}
         lesson={{
           slug: lesson.slug,
           title: toLocalized(lesson.title),
@@ -76,7 +87,10 @@ export default async function EditLesson({
           hasConspect: lesson.hasConspect,
           hasTest: lesson.hasTest,
           videoUrl: lesson.videoUrl,
-          zoomMeetingId: lesson.zoomMeetingId
+          zoomMeetingId: lesson.zoomMeetingId,
+          moduleId: lesson.moduleId,
+          coverUrl: lesson.coverUrl,
+          durationMin: lesson.durationMin
         }}
         submitLabel="Сохранить урок"
         redirectTo={`/${locale}/admin/courses/${lesson.course.id}`}

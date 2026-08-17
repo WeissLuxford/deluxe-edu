@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
-import { updateCourse, deleteLesson, moveLesson } from '@/features/admin/actions'
-import { ActionButton } from '@/features/admin/components/ActionButton'
-import { ChevronUp, ChevronDown } from 'lucide-react'
+import { updateCourse } from '@/features/admin/actions'
+import { createModule } from '@/features/admin/moduleActions'
 import { CourseForm } from '@/features/admin/components/CourseForm'
-import { DeleteButton } from '@/features/admin/components/DeleteButton'
+import { CourseStructure } from '@/features/admin/components/CourseStructure'
+import { ModuleForm } from '@/features/admin/components/ModuleForm'
 import { localized } from '@/lib/localized'
 
 function ru(value: unknown) {
@@ -19,17 +19,35 @@ export default async function EditCourse({
 }) {
   const { locale, id } = await params
 
+  const lessonSelect = {
+    id: true,
+    slug: true,
+    title: true,
+    order: true,
+    hasVideo: true,
+    hasConspect: true,
+    hasTest: true,
+    videoUrl: true,
+    durationMin: true,
+    moduleId: true,
+    _count: { select: { Assignment: true } }
+  } as const
+
   const course = await prisma.course.findUnique({
     where: { id },
     include: {
-      lessons: {
+      modules: {
         orderBy: { order: 'asc' },
-        include: { _count: { select: { Assignment: true } } }
-      }
+        include: { lessons: { orderBy: { order: 'asc' }, select: lessonSelect } }
+      },
+      lessons: { where: { moduleId: null }, orderBy: { order: 'asc' }, select: lessonSelect }
     }
   })
 
   if (!course) notFound()
+
+  const lessonCount =
+    course.modules.reduce((sum, m) => sum + m.lessons.length, 0) + course.lessons.length
 
   return (
     <div className="space-y-6">
@@ -41,7 +59,11 @@ export default async function EditCourse({
         <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
           {ru(course.title)}
         </h2>
-        <Link href={`/${locale}/courses/${course.slug}`} className="btn btn-secondary" target="_blank">
+        <Link
+          href={`/${locale}/courses/${course.slug}`}
+          className="btn btn-secondary"
+          target="_blank"
+        >
           Посмотреть на сайте
         </Link>
       </div>
@@ -49,88 +71,35 @@ export default async function EditCourse({
       <div className="card" style={{ padding: '1.5rem' }}>
         <div className="flex items-center justify-between" style={{ marginBottom: '1rem' }}>
           <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)' }}>
-            Уроки ({course.lessons.length})
+            Программа: {course.modules.length} модуль(ей), {lessonCount} урок(ов)
           </h3>
-          <Link href={`/${locale}/admin/courses/${id}/lessons/new`} className="btn btn-primary">
-            Добавить урок
-          </Link>
         </div>
 
-        {course.lessons.length === 0 ? (
+        {course.modules.length === 0 && course.lessons.length === 0 ? (
           <div style={{ color: 'var(--muted)', textAlign: 'center', padding: '1.5rem 0' }}>
-            В курсе пока нет уроков.
+            В курсе пока нет ни модулей, ни уроков. Начните с модуля — это раздел программы,
+            внутри которого лежат уроки.
           </div>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table className="table" style={{ width: '100%' }}>
-              <thead>
-                <tr>
-                  <th style={{ width: '3rem' }}>#</th>
-                  <th style={{ textAlign: 'left' }}>Урок</th>
-                  <th>Шаги</th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>
-                {course.lessons.map((l, i) => (
-                  <tr key={l.id}>
-                    <td style={{ textAlign: 'center' }}>
-                      <div className="order-controls">
-                        <ActionButton
-                          action={moveLesson.bind(null, l.id, 'up')}
-                          disabled={i === 0}
-                          title="Выше"
-                          className="order-btn"
-                        >
-                          <ChevronUp size={14} />
-                        </ActionButton>
-                        <span className="order-num">{l.order}</span>
-                        <ActionButton
-                          action={moveLesson.bind(null, l.id, 'down')}
-                          disabled={i === course.lessons.length - 1}
-                          title="Ниже"
-                          className="order-btn"
-                        >
-                          <ChevronDown size={14} />
-                        </ActionButton>
-                      </div>
-                    </td>
-                    <td>
-                      <Link href={`/${locale}/admin/lessons/${l.id}`} style={{ color: 'var(--gold-text)' }}>
-                        {ru(l.title)}
-                      </Link>
-                      <div className="text-xs" style={{ color: 'var(--muted)', fontFamily: 'monospace' }}>
-                        {l.slug}
-                      </div>
-                    </td>
-                    <td style={{ textAlign: 'center' }}>
-                      {l.hasVideo && (
-                        <span className={l.videoUrl ? 'badge badge-success' : 'badge badge-warning'}>
-                          {l.videoUrl ? 'видео' : 'видео не задано'}
-                        </span>
-                      )}{' '}
-                      {l.hasConspect && <span className="badge">конспект</span>}{' '}
-                      {l.hasTest && (
-                        <span className={l._count.Assignment > 0 ? 'badge badge-success' : 'badge badge-warning'}>
-                          {l._count.Assignment > 0 ? 'тест' : 'тест без вопросов'}
-                        </span>
-                      )}
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <DeleteButton
-                        action={deleteLesson.bind(null, l.id)}
-                        confirmText={`Удалить урок «${ru(l.title)}» вместе с тестом и прогрессом студентов?`}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <CourseStructure
+            locale={locale}
+            courseId={id}
+            modules={course.modules}
+            orphans={course.lessons}
+          />
         )}
       </div>
 
-      <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)' }}>Настройки курса</h3>
+      <div className="card" style={{ padding: '1.5rem' }}>
+        <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)', marginBottom: '1rem' }}>
+          Новый модуль
+        </h3>
+        <ModuleForm action={createModule.bind(null, id)} submitLabel="Создать модуль" />
+      </div>
+
+      <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)' }}>
+        Настройки курса
+      </h3>
       <CourseForm
         action={updateCourse.bind(null, id)}
         course={{

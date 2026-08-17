@@ -127,12 +127,19 @@ const lessonSchema = z.object({
   hasConspect: z.boolean(),
   hasTest: z.boolean(),
   videoUrl: z.string().trim().nullable(),
-  zoomMeetingId: z.string().trim().nullable()
+  zoomMeetingId: z.string().trim().nullable(),
+  moduleId: z.string().trim().nullable(),
+  coverUrl: z.string().trim().nullable(),
+  durationMin: z.number().int().min(0).max(600).nullable()
 })
 
 function readLesson(form: FormData) {
   const zoom = String(form.get('zoomMeetingId') ?? '').trim()
   const video = String(form.get('videoUrl') ?? '').trim()
+  const cover = String(form.get('coverUrl') ?? '').trim()
+  const moduleId = String(form.get('moduleId') ?? '').trim()
+  const duration = String(form.get('durationMin') ?? '').trim()
+
   return {
     slug: String(form.get('slug') ?? ''),
     title: readLocalized(form, 'title'),
@@ -142,7 +149,10 @@ function readLesson(form: FormData) {
     hasConspect: form.get('hasConspect') === 'on',
     hasTest: form.get('hasTest') === 'on',
     videoUrl: video || null,
-    zoomMeetingId: zoom || null
+    zoomMeetingId: zoom || null,
+    moduleId: moduleId || null,
+    coverUrl: cover || null,
+    durationMin: duration ? Number(duration) : null
   }
 }
 
@@ -261,13 +271,14 @@ export async function moveLesson(id: string, direction: 'up' | 'down'): Promise<
 
   const lesson = await prisma.lesson.findUnique({
     where: { id },
-    select: { id: true, courseId: true, order: true }
+    select: { id: true, courseId: true, order: true, moduleId: true }
   })
   if (!lesson) return { ok: false, error: 'Урок не найден' }
 
   const neighbour = await prisma.lesson.findFirst({
     where: {
       courseId: lesson.courseId,
+      moduleId: lesson.moduleId,
       order: direction === 'up' ? { lt: lesson.order } : { gt: lesson.order }
     },
     orderBy: { order: direction === 'up' ? 'desc' : 'asc' },

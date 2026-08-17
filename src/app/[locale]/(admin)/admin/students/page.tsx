@@ -90,7 +90,12 @@ export default async function AdminStudents({
               {users.map(u => (
                 <tr key={u.id}>
                   <td>
-                    <div style={{ color: 'var(--fg)' }}>{u.name || 'без имени'}</div>
+                    <Link
+                      href={`/${locale}/admin/students/${u.id}`}
+                      style={{ color: 'var(--brand-text)', fontWeight: 600 }}
+                    >
+                      {u.name || 'без имени'}
+                    </Link>
                     <div className="text-xs" style={{ color: 'var(--muted)' }}>+{u.phone}</div>
                   </td>
                   <td>
