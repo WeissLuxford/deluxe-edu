@@ -1,3 +1,4 @@
+import "@/features/ui/styles/tokens.css"
 import "@/features/ui/styles/globals.css"
 import type { ReactNode } from 'react'
 

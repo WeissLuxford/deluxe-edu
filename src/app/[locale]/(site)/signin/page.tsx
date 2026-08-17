@@ -86,8 +86,8 @@ export default function SignInPage() {
           <p
             className="auth-error"
             style={{
-              background: 'rgba(239,68,68,0.1)',
-              color: '#ef4444',
+              background: 'var(--danger-soft)',
+              color: 'var(--danger)',
               padding: '0.75rem',
               borderRadius: 'var(--radius)'
             }}

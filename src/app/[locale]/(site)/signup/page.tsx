@@ -177,7 +177,7 @@ export default function SignUpPage() {
         </h1>
         
         {error && (
-          <div className="auth-error" style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', padding: '0.75rem', borderRadius: 'var(--radius)' }}>
+          <div className="auth-error" style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '0.75rem', borderRadius: 'var(--radius)' }}>
             {error}
           </div>
         )}
@@ -317,7 +317,7 @@ export default function SignUpPage() {
                   required
                 />
               </div>
-              {weak && <p className="auth-hint" style={{ color: '#ef4444', marginTop: '0.5rem' }}>{tSignup('passwordHint')}</p>}
+              {weak && <p className="auth-hint" style={{ color: 'var(--danger)', marginTop: '0.5rem' }}>{tSignup('passwordHint')}</p>}
             </div>
 
             <div>
@@ -334,7 +334,7 @@ export default function SignUpPage() {
                   required
                 />
               </div>
-              {mismatch && <p className="auth-hint" style={{ color: '#ef4444', marginTop: '0.5rem' }}>{tSignup('mismatch')}</p>}
+              {mismatch && <p className="auth-hint" style={{ color: 'var(--danger)', marginTop: '0.5rem' }}>{tSignup('mismatch')}</p>}
             </div>
 
             <button 
