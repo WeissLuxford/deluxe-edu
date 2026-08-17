@@ -3,10 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { BookOpen, CheckCircle2, ArrowRight } from 'lucide-react'
+import { BookOpen, Clock, ArrowRight } from 'lucide-react'
 import { PlanModal } from './PlanModal'
-
-export type CourseArticleState = 'enrolled' | 'completed' | 'available'
 
 type Props = {
   id: string
@@ -15,13 +13,13 @@ type Props = {
   description: string
   level: string
   lessonsCount: number
-  lessonsDone: number
+  totalMinutes?: number
+  coverUrl?: string | null
+  badge?: string | null
   priceBasic: number
   pricePro: number
   priceDeluxe: number
   locale: string
-  state: CourseArticleState
-  resumeLessonSlug?: string
 }
 
 export function CourseArticle({
@@ -31,91 +29,79 @@ export function CourseArticle({
   description,
   level,
   lessonsCount,
-  lessonsDone,
+  totalMinutes = 0,
+  coverUrl,
+  badge,
   priceBasic,
   pricePro,
   priceDeluxe,
-  locale,
-  state,
-  resumeLessonSlug
+  locale
 }: Props) {
   const t = useTranslations('courses')
   const [planOpen, setPlanOpen] = useState(false)
 
   const minPrice = Math.min(priceBasic, pricePro, priceDeluxe)
   const isFree = minPrice === 0
-  const percent = lessonsCount > 0 ? Math.round((lessonsDone / lessonsCount) * 100) : 0
-
   const courseHref = `/${locale}/courses/${slug}`
-  const resumeHref = resumeLessonSlug ? `${courseHref}/lessons/${resumeLessonSlug}` : courseHref
-
-  const cta =
-    state === 'available'
-      ? { label: t('choosePlan'), onClick: () => setPlanOpen(true), href: null }
-      : state === 'completed'
-        ? { label: t('review'), onClick: null, href: courseHref }
-        : { label: lessonsDone > 0 ? t('continue') : t('start'), onClick: null, href: resumeHref }
+  const hours = totalMinutes > 0 ? Math.round(totalMinutes / 60) : 0
 
   return (
     <>
-      <article className={`course-article state-${state}`} data-level={level}>
-        <header className="course-article__head">
+      <article className="course-article" data-level={level}>
+        <div
+          className={`course-article__cover${coverUrl ? ' has-image' : ''}`}
+          style={coverUrl ? { backgroundImage: `url(${coverUrl})` } : undefined}
+        >
+          {badge && <span className="course-article__badge">{badge}</span>}
           <span className="course-article__level">{level}</span>
-          {state === 'completed' && (
-            <span className="badge badge-success course-article__done">
-              <CheckCircle2 size={13} />
-              {t('completedBadge')}
+        </div>
+
+        <div className="course-article__body">
+          <h3 className="course-article__title">
+            <Link href={courseHref}>{title}</Link>
+          </h3>
+
+          <p className="course-article__desc">{description}</p>
+
+          <div className="course-article__meta">
+            <span>
+              <BookOpen size={14} />
+              {t('lessonsCount', { count: lessonsCount })}
             </span>
-          )}
-        </header>
+            {hours > 0 && (
+              <span>
+                <Clock size={14} />
+                {hours} ч
+              </span>
+            )}
+          </div>
 
-        <h3 className="course-article__title">
-          <Link href={courseHref}>{title}</Link>
-        </h3>
-
-        <p className="course-article__desc">{description}</p>
-
-        <div className="course-article__meta">
-          <span className="course-article__lessons">
-            <BookOpen size={14} />
-            {t('lessonsCount', { count: lessonsCount })}
-          </span>
-
-          {state === 'available' && (
+          <div className="course-article__foot">
             <span className="course-article__price">
-              {isFree
-                ? t('free')
-                : new Intl.NumberFormat(locale, {
+              {isFree ? (
+                t('free')
+              ) : (
+                <>
+                  <em>{t('from')}</em>
+                  {new Intl.NumberFormat(locale, {
                     style: 'currency',
                     currency: 'UZS',
                     maximumFractionDigits: 0
                   }).format(minPrice)}
+                </>
+              )}
             </span>
-          )}
-        </div>
 
-        {state !== 'available' && lessonsCount > 0 && (
-          <div className="course-article__progress">
-            <div className="progress">
-              <div className="progress-bar" style={{ width: `${percent}%` }} />
-            </div>
-            <span className="course-article__progress-text">
-              {t('progressOf', { done: lessonsDone, total: lessonsCount })}
-            </span>
+            <button
+              type="button"
+              onClick={() => setPlanOpen(true)}
+              className="btn btn-primary course-article__cta"
+            >
+              {t('choosePlan')}
+              <ArrowRight size={15} />
+            </button>
           </div>
-        )}
-
-        {cta.href ? (
-          <Link href={cta.href} className="btn btn-primary course-article__cta">
-            {cta.label}
-            <ArrowRight size={15} />
-          </Link>
-        ) : (
-          <button type="button" onClick={cta.onClick!} className="btn btn-primary course-article__cta">
-            {cta.label}
-            <ArrowRight size={15} />
-          </button>
-        )}
+        </div>
       </article>
 
       {planOpen && (

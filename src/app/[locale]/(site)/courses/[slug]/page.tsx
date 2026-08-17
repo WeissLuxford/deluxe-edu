@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
-import { BookOpen, GraduationCap, CheckCircle2 } from 'lucide-react'
+import { BookOpen, GraduationCap, Layers } from 'lucide-react'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { LessonsList } from '@/features/courses/components/LessonsList'
@@ -26,29 +26,23 @@ export default async function CoursePage({ params }: Props) {
 
   const course = await prisma.course.findUnique({
     where: { slug, published: true, visible: true },
-    include: { lessons: { orderBy: { order: 'asc' } } }
+    include: {
+      lessons: { orderBy: { order: 'asc' } },
+      modules: { orderBy: { order: 'asc' }, select: { id: true } }
+    }
   })
 
   if (!course) notFound()
 
-  const [enrollment, progress] = await Promise.all([
-    userId
-      ? prisma.enrollment.findFirst({
-          where: { userId, courseId: course.id, status: 'ACTIVE' }
-        })
-      : null,
-    userId
-      ? prisma.lessonProgress.findMany({
-          where: { userId, lessonId: { in: course.lessons.map(l => l.id) } }
-        })
-      : []
-  ])
+  if (userId) {
+    const enrollment = await prisma.enrollment.findFirst({
+      where: { userId, courseId: course.id, status: 'ACTIVE' },
+      select: { id: true }
+    })
+    if (enrollment) redirect(`/${locale}/learn/${slug}`)
+  }
 
-  const progressMap = Object.fromEntries(progress.map(p => [p.lessonId, p]))
   const total = course.lessons.length
-  const done = progress.filter(p => p.passed).length
-  const percent = total > 0 ? Math.round((done / total) * 100) : 0
-
   const title = localized(course.title, locale)
   const description = localized(course.description, locale)
 
@@ -64,12 +58,6 @@ export default async function CoursePage({ params }: Props) {
             </Link>
           </nav>
 
-          {enrollment && (
-            <span className="badge badge-primary course-hero__badge">
-              {t('enrolledWith', { plan: enrollment.plan || 'BASIC' })}
-            </span>
-          )}
-
           <h1 className="page-hero__title">{title}</h1>
           <p className="page-hero__sub">{description}</p>
 
@@ -78,44 +66,30 @@ export default async function CoursePage({ params }: Props) {
               <BookOpen size={15} />
               {tCourses('lessonsCount', { count: total })}
             </span>
+            {course.modules.length > 0 && (
+              <span>
+                <Layers size={15} />
+                {course.modules.length}
+              </span>
+            )}
             <span>
               <GraduationCap size={15} />
               {course.level}
             </span>
-            {enrollment && total > 0 && (
-              <span>
-                <CheckCircle2 size={15} />
-                {tCourses('progressOf', { done, total })}
-              </span>
-            )}
           </div>
         </div>
       </div>
 
       <div className="container page-body">
-        {enrollment && total > 0 && (
-          <section>
-            <div className="course-progress__head">
-              <span>{t('progressTitle')}</span>
-              <strong>{percent}%</strong>
-            </div>
-            <div className="progress">
-              <div className="progress-bar" style={{ width: `${percent}%` }} />
-            </div>
-          </section>
-        )}
-
-        {!enrollment && (
-          <CoursePlans
-            courseId={course.id}
-            courseSlug={course.slug}
-            courseTitle={title}
-            priceBasic={course.priceBasic}
-            pricePro={course.pricePro}
-            priceDeluxe={course.priceDeluxe}
-            locale={locale}
-          />
-        )}
+        <CoursePlans
+          courseId={course.id}
+          courseSlug={course.slug}
+          courseTitle={title}
+          priceBasic={course.priceBasic}
+          pricePro={course.pricePro}
+          priceDeluxe={course.priceDeluxe}
+          locale={locale}
+        />
 
         <section>
           <div className="section-head">
@@ -129,8 +103,8 @@ export default async function CoursePage({ params }: Props) {
               lessons={course.lessons}
               courseSlug={slug}
               locale={locale}
-              progressMap={progressMap}
-              isEnrolled={!!enrollment}
+              progressMap={{}}
+              isEnrolled={false}
             />
           )}
         </section>

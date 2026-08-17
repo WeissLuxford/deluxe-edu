@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
+import { ArrowRight, GraduationCap } from 'lucide-react'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
-import { CourseArticle, type CourseArticleState } from '@/features/courses/components/CourseArticle'
+import { CourseArticle } from '@/features/courses/components/CourseArticle'
 import { SpecialOffersSection } from '@/features/courses/components/SpecialOffersSection'
+import { getEnrolledCourseIds } from '@/features/learn/progress'
 import { localized } from '@/lib/localized'
 
 type Props = {
@@ -29,85 +31,33 @@ export default async function CoursesPage({ params, searchParams }: Props) {
   const resolved = await searchParams
   const selectedLevel = resolved?.level || null
 
-  const t = await getTranslations({ locale, namespace: 'courses' })
+  const [t, tLearn] = await Promise.all([
+    getTranslations({ locale, namespace: 'courses' }),
+    getTranslations({ locale, namespace: 'learn' })
+  ])
+
   const session = await getServerSession(authOptions)
   const userId = session?.user?.id ?? null
 
   const courses = await prisma.course.findMany({
     where: { published: true, visible: true },
     orderBy: { createdAt: 'desc' },
-    include: { lessons: { orderBy: { order: 'asc' }, select: { id: true, slug: true } } }
+    include: {
+      lessons: { orderBy: { order: 'asc' }, select: { id: true, durationMin: true } }
+    }
   })
 
   const hasLevelTest = courses.some(c => c.slug === 'level-test')
   const hasFreeMockTest = courses.some(c => c.slug.includes('mock-test') && c.priceBasic === 0)
 
-  const regular = courses.filter(c => !isSpecial(c.slug) && c.lessons.length > 0)
+  const enrolledIds = userId ? await getEnrolledCourseIds(userId) : new Set<string>()
 
-  const progressByLesson = new Map<string, boolean>()
-  const enrolledCourseIds = new Set<string>()
-
-  if (userId) {
-    const [enrollments, progress] = await Promise.all([
-      prisma.enrollment.findMany({
-        where: { userId, status: 'ACTIVE' },
-        select: { courseId: true }
-      }),
-      prisma.lessonProgress.findMany({
-        where: { userId },
-        select: { lessonId: true, passed: true }
-      })
-    ])
-    enrollments.forEach(e => enrolledCourseIds.add(e.courseId))
-    progress.forEach(p => progressByLesson.set(p.lessonId, p.passed))
-  }
-
-  const decorate = (course: (typeof regular)[number]) => {
-    const total = course.lessons.length
-    const done = course.lessons.filter(l => progressByLesson.get(l.id)).length
-    const enrolled = enrolledCourseIds.has(course.id)
-    const completed = enrolled && total > 0 && done === total
-    const resume = course.lessons.find(l => !progressByLesson.get(l.id)) ?? course.lessons[0]
-
-    const state: CourseArticleState = !enrolled ? 'available' : completed ? 'completed' : 'enrolled'
-
-    return {
-      course,
-      total,
-      done,
-      state,
-      resumeSlug: resume?.slug
-    }
-  }
-
-  const decorated = regular.map(decorate)
-  const active = decorated.filter(d => d.state === 'enrolled')
-  const completed = decorated.filter(d => d.state === 'completed')
-  const available = decorated.filter(d => d.state === 'available')
-
-  const levelsWithCourses = LEVELS.filter(l => available.some(d => d.course.level === l))
-  const availableFiltered = selectedLevel
-    ? available.filter(d => d.course.level === selectedLevel)
-    : available
-
-  const render = (d: (typeof decorated)[number]) => (
-    <CourseArticle
-      key={d.course.id}
-      id={d.course.id}
-      slug={d.course.slug}
-      title={localized(d.course.title, locale) || d.course.slug}
-      description={localized(d.course.description, locale)}
-      level={d.course.level}
-      lessonsCount={d.total}
-      lessonsDone={d.done}
-      priceBasic={d.course.priceBasic}
-      pricePro={d.course.pricePro}
-      priceDeluxe={d.course.priceDeluxe}
-      locale={locale}
-      state={d.state}
-      resumeLessonSlug={d.resumeSlug}
-    />
+  const catalogue = courses.filter(
+    c => !isSpecial(c.slug) && c.lessons.length > 0 && !enrolledIds.has(c.id)
   )
+
+  const levelsWithCourses = LEVELS.filter(l => catalogue.some(c => c.level === l))
+  const filtered = selectedLevel ? catalogue.filter(c => c.level === selectedLevel) : catalogue
 
   return (
     <main className="page-shell">
@@ -119,24 +69,17 @@ export default async function CoursesPage({ params, searchParams }: Props) {
       </div>
 
       <div className="container page-body">
-        {active.length > 0 && (
-          <section className="catalog-section">
-            <div className="section-head">
-              <h2 className="section-title">{t('myCourses')}</h2>
-              <p className="section-sub">{t('myCoursesHint')}</p>
-            </div>
-            <div className="course-grid">{active.map(render)}</div>
-          </section>
-        )}
-
-        {completed.length > 0 && (
-          <section className="catalog-section">
-            <div className="section-head">
-              <h2 className="section-title">{t('completedTitle')}</h2>
-              <p className="section-sub">{t('completedHint')}</p>
-            </div>
-            <div className="course-grid">{completed.map(render)}</div>
-          </section>
+        {enrolledIds.size > 0 && (
+          <Link href={`/${locale}/learn`} className="learn-strip">
+            <GraduationCap size={18} />
+            <span>
+              {t('myCourses')}: {enrolledIds.size}
+            </span>
+            <strong>
+              {tLearn('resumeAction')}
+              <ArrowRight size={15} />
+            </strong>
+          </Link>
         )}
 
         <section className="catalog-section">
@@ -165,8 +108,27 @@ export default async function CoursesPage({ params, searchParams }: Props) {
             </div>
           )}
 
-          {availableFiltered.length > 0 ? (
-            <div className="course-grid">{availableFiltered.map(render)}</div>
+          {filtered.length > 0 ? (
+            <div className="course-grid">
+              {filtered.map(course => (
+                <CourseArticle
+                  key={course.id}
+                  id={course.id}
+                  slug={course.slug}
+                  title={localized(course.title, locale) || course.slug}
+                  description={localized(course.description, locale)}
+                  level={course.level}
+                  lessonsCount={course.lessons.length}
+                  totalMinutes={course.lessons.reduce((sum, l) => sum + (l.durationMin ?? 0), 0)}
+                  coverUrl={course.coverUrl}
+                  badge={course.badge}
+                  priceBasic={course.priceBasic}
+                  pricePro={course.pricePro}
+                  priceDeluxe={course.priceDeluxe}
+                  locale={locale}
+                />
+              ))}
+            </div>
           ) : (
             <p className="catalog-empty">{selectedLevel ? t('emptyLevel') : t('empty')}</p>
           )}
