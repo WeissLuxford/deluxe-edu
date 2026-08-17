@@ -13,7 +13,10 @@ type Props = {
   pricePro: number
   priceDeluxe: number
   locale: string
+  currentPlan?: string | null
 }
+
+const PLAN_RANK: Record<string, number> = { FREE: 0, BASIC: 1, PRO: 2, DELUXE: 3 }
 
 export function CoursePlans({
   courseId,
@@ -22,11 +25,14 @@ export function CoursePlans({
   priceBasic,
   pricePro,
   priceDeluxe,
-  locale
+  locale,
+  currentPlan = null
 }: Props) {
   const t = useTranslations('course')
   const tCourses = useTranslations('courses')
+  const tLearn = useTranslations('learn')
   const [open, setOpen] = useState(false)
+  const ownedRank = currentPlan ? (PLAN_RANK[currentPlan] ?? -1) : -1
 
   const money = (value: number) =>
     value === 0
@@ -71,23 +77,38 @@ export function CoursePlans({
       </div>
 
       <div className="plans-grid">
-        {plans.map(p => (
-          <div key={p.key} className={`plan-card${p.accent ? ' accent' : ''}`}>
-            {p.badge && <span className="plan-card__badge">{p.badge}</span>}
-            <div className="plan-card__name">{p.name}</div>
-            <div className="plan-card__kind">{p.kind}</div>
-            <div className="plan-card__price">{money(p.price)}</div>
-            <p className="plan-card__includes">
-              <Check size={15} />
-              <span>{p.includes}</span>
-            </p>
-          </div>
-        ))}
+        {plans.map(p => {
+          const rank = PLAN_RANK[p.key] ?? 0
+          const owned = ownedRank === rank
+          const below = ownedRank >= 0 && rank < ownedRank
+
+          return (
+            <div
+              key={p.key}
+              className={`plan-card${p.accent && !below ? ' accent' : ''}${owned ? ' owned' : ''}${below ? ' muted' : ''}`}
+            >
+              {owned ? (
+                <span className="plan-card__badge">{tLearn('yourPlan')}</span>
+              ) : (
+                p.badge && !below && <span className="plan-card__badge">{p.badge}</span>
+              )}
+              <div className="plan-card__name">{p.name}</div>
+              <div className="plan-card__kind">{p.kind}</div>
+              <div className="plan-card__price">{money(p.price)}</div>
+              <p className="plan-card__includes">
+                <Check size={15} />
+                <span>{p.includes}</span>
+              </p>
+            </div>
+          )
+        })}
       </div>
 
-      <button type="button" onClick={() => setOpen(true)} className="btn btn-primary plans-cta">
-        {t('choosePlanCta')}
-      </button>
+      {ownedRank < PLAN_RANK.DELUXE && (
+        <button type="button" onClick={() => setOpen(true)} className="btn btn-primary plans-cta">
+          {ownedRank >= 0 ? tLearn('upgradePlan') : t('choosePlanCta')}
+        </button>
+      )}
 
       {open && (
         <PlanModal
