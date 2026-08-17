@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db'
 import { localized } from '@/lib/localized'
+import { resolvePublicAsset } from '@/lib/publicAsset'
 
 export type LessonStep = 'video' | 'conspect' | 'test'
 export type LessonStatus = 'done' | 'current' | 'locked'
@@ -130,7 +131,7 @@ export async function getCourseTree(
         id: lesson.id,
         slug: lesson.slug,
         title: localized(lesson.title, locale),
-        coverUrl: lesson.coverUrl ?? null,
+        coverUrl: resolvePublicAsset(lesson.coverUrl),
         durationMin: lesson.durationMin ?? null,
         index: position + 1,
         status,
@@ -165,7 +166,7 @@ export async function getCourseTree(
     title: localized(course.title, locale),
     description: localized(course.description, locale),
     level: course.level,
-    coverUrl: course.coverUrl ?? null,
+    coverUrl: resolvePublicAsset(course.coverUrl),
     plan: enrollment.plan || 'BASIC',
     enrollmentId: enrollment.id,
     modules,

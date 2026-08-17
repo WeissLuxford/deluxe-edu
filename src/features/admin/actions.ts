@@ -34,10 +34,15 @@ const courseSchema = z.object({
   pricePro: z.number().int().min(0),
   priceDeluxe: z.number().int().min(0),
   published: z.boolean(),
-  visible: z.boolean()
+  visible: z.boolean(),
+  coverUrl: z.string().trim().nullable(),
+  badge: z.string().trim().max(40).nullable()
 })
 
 function readCourse(form: FormData) {
+  const cover = String(form.get('coverUrl') ?? '').trim()
+  const badge = String(form.get('badge') ?? '').trim()
+
   return {
     slug: String(form.get('slug') ?? ''),
     title: readLocalized(form, 'title'),
@@ -47,7 +52,9 @@ function readCourse(form: FormData) {
     pricePro: Number(form.get('pricePro') ?? 0),
     priceDeluxe: Number(form.get('priceDeluxe') ?? 0),
     published: form.get('published') === 'on',
-    visible: form.get('visible') === 'on'
+    visible: form.get('visible') === 'on',
+    coverUrl: cover || null,
+    badge: badge || null
   }
 }
 

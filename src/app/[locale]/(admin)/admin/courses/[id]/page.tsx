@@ -111,7 +111,9 @@ export default async function EditCourse({
           pricePro: course.pricePro,
           priceDeluxe: course.priceDeluxe,
           published: course.published,
-          visible: course.visible
+          visible: course.visible,
+          coverUrl: course.coverUrl,
+          badge: course.badge
         }}
         submitLabel="Сохранить"
         redirectTo={`/${locale}/admin/courses`}

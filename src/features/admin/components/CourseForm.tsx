@@ -18,7 +18,11 @@ type Course = {
   priceDeluxe: number
   published: boolean
   visible: boolean
+  coverUrl: string | null
+  badge: string | null
 }
+
+const BADGES = ['', 'Хит продаж', 'Новинка', 'Со скидкой', 'С преподавателем']
 
 const LEVELS = [
   'Beginner',
@@ -39,7 +43,9 @@ const empty: Course = {
   pricePro: 400000,
   priceDeluxe: 800000,
   published: false,
-  visible: true
+  visible: true,
+  coverUrl: null,
+  badge: null
 }
 
 export function CourseForm({
@@ -116,6 +122,38 @@ export function CourseForm({
           <div>
             <label className="label">Deluxe, сум</label>
             <input type="number" name="priceDeluxe" defaultValue={course.priceDeluxe} className="input" min={0} step={1000} required />
+          </div>
+        </div>
+      </section>
+
+      <section className="admin-panel">
+        <h2 className="admin-panel__title">Вид в каталоге</h2>
+
+        <div className="admin-grid">
+          <div>
+            <label className="label">Обложка курса</label>
+            <input
+              name="coverUrl"
+              defaultValue={course.coverUrl ?? ''}
+              className="input"
+              placeholder="/media/courses/beginner-grammar.webp"
+            />
+            <div className="hint">
+              Путь к файлу из папки public. Если файла нет, карточка покажет плашку с цветом
+              уровня — сломанной картинки не будет
+            </div>
+          </div>
+
+          <div>
+            <label className="label">Бейдж</label>
+            <select name="badge" defaultValue={course.badge ?? ''} className="select">
+              {BADGES.map(b => (
+                <option key={b || 'none'} value={b}>
+                  {b || 'без бейджа'}
+                </option>
+              ))}
+            </select>
+            <div className="hint">Плашка в углу карточки в каталоге</div>
           </div>
         </div>
       </section>

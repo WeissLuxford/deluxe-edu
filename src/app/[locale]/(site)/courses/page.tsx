@@ -8,6 +8,7 @@ import { CourseArticle } from '@/features/courses/components/CourseArticle'
 import { SpecialOffersSection } from '@/features/courses/components/SpecialOffersSection'
 import { getEnrolledCourseIds } from '@/features/learn/progress'
 import { localized } from '@/lib/localized'
+import { resolvePublicAsset } from '@/lib/publicAsset'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -120,7 +121,7 @@ export default async function CoursesPage({ params, searchParams }: Props) {
                   level={course.level}
                   lessonsCount={course.lessons.length}
                   totalMinutes={course.lessons.reduce((sum, l) => sum + (l.durationMin ?? 0), 0)}
-                  coverUrl={course.coverUrl}
+                  coverUrl={resolvePublicAsset(course.coverUrl)}
                   badge={course.badge}
                   priceBasic={course.priceBasic}
                   pricePro={course.pricePro}

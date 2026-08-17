@@ -79,32 +79,45 @@ export default async function AdminHome({ params }: { params: Promise<{ locale: 
     { label: 'Новых заявок', value: newContacts, hint: 'с формы на сайте', href: `${base}/contacts` }
   ]
 
-  const warnings = [
-    ...publishedNoLessons.map(c => ({
-      key: `course-${c.id}`,
-      text: `Курс «${ru(c.title)}» опубликован, но в нём нет уроков`,
-      href: `${base}/courses/${c.id}`
-    })),
-    ...emptyModules.map(m => ({
-      key: `module-${m.id}`,
-      text: `Модуль «${ru(m.title)}» пустой — студенту он не показывается`,
-      href: `${base}/courses/${m.courseId}`
-    })),
-    ...testsWithoutKey.map(a => ({
-      key: `assignment-${a.id}`,
-      text: `У теста «${ru(a.title)}» нет правильных ответов — сервер не сможет его проверить`,
-      href: `${base}/lessons/${a.lessonId}`
-    })),
-    ...(orphanLessons > 0
-      ? [
-          {
-            key: 'orphans',
-            text: `${orphanLessons} урок(ов) не привязаны к модулю`,
-            href: `${base}/courses`
-          }
-        ]
-      : [])
-  ]
+  const groups = [
+    {
+      key: 'empty-courses',
+      count: publishedNoLessons.length,
+      text: 'опубликованных курсов без единого урока',
+      hint: 'для витрины это нормально, для запуска — нет',
+      items: publishedNoLessons.map(c => ({
+        id: c.id,
+        label: ru(c.title),
+        href: `${base}/courses/${c.id}`
+      }))
+    },
+    {
+      key: 'empty-modules',
+      count: emptyModules.length,
+      text: 'пустых модулей — студенту они не показываются',
+      items: emptyModules.map(m => ({
+        id: m.id,
+        label: ru(m.title),
+        href: `${base}/courses/${m.courseId}`
+      }))
+    },
+    {
+      key: 'tests',
+      count: testsWithoutKey.length,
+      text: 'тестов без правильных ответов — сервер не сможет их проверить',
+      items: testsWithoutKey.map(a => ({
+        id: a.id,
+        label: ru(a.title),
+        href: `${base}/lessons/${a.lessonId}`
+      }))
+    },
+    {
+      key: 'orphans',
+      count: orphanLessons,
+      text: 'уроков не привязаны к модулю',
+      items: []
+    }
+  ].filter(g => g.count > 0)
 
   return (
     <div className="space-y-6">
@@ -144,15 +157,33 @@ export default async function AdminHome({ params }: { params: Promise<{ locale: 
         </div>
       )}
 
-      {warnings.length > 0 && (
+      {groups.length > 0 && (
         <section className="admin-card">
           <h3 className="admin-card__title">
-            <AlertTriangle size={16} /> Требует внимания ({warnings.length})
+            <AlertTriangle size={16} /> Требует внимания
           </h3>
           <ul className="admin-warnings">
-            {warnings.map(w => (
-              <li key={w.key}>
-                <Link href={w.href}>{w.text}</Link>
+            {groups.map(group => (
+              <li key={group.key}>
+                {group.items.length > 0 ? (
+                  <details>
+                    <summary>
+                      <strong>{group.count}</strong> {group.text}
+                      {group.hint && <em> — {group.hint}</em>}
+                    </summary>
+                    <ul className="admin-warnings__items">
+                      {group.items.map(item => (
+                        <li key={item.id}>
+                          <Link href={item.href}>{item.label}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                ) : (
+                  <p className="admin-warnings__plain">
+                    <strong>{group.count}</strong> {group.text}
+                  </p>
+                )}
               </li>
             ))}
           </ul>
