@@ -143,7 +143,9 @@
     "enrollToAccess": "Kursga kirish kerak",
     "completePrevious": "Avval oldingi darsni yakunlang",
     "startLesson": "Darsni boshlash",
-    "reviewLesson": "Takrorlash"
+    "reviewLesson": "Takrorlash",
+    "notesEmptyTitle": "Konspekt tayyorlanmoqda",
+    "notesEmptyText": "Bu darsga hozircha matn qo’shilmagan"
   },
   "assignment": {
     "title": "Vazifa",
@@ -593,7 +595,10 @@
     "instantResults": "Natija darhol",
     "detailedReport": "Batafsil tahlil",
     "courseAdvice": "Kurs tanlash",
-    "contactUs": "Biz bilan bog’laning"
+    "contactUs": "Biz bilan bog’laning",
+    "testDone": "Test yakunlandi",
+    "testDoneText": "Barcha kurslardagi testlar shunday: nima o’zlashtirilgani va nimani takrorlash kerakligi darhol ko’rinadi",
+    "whatsNextText": "Sinov darsi formatni to’liq ko’rsatadi. Kurslarda ham xuddi shunday, faqat dastur bo’yicha va o’qituvchi tekshiruvi bilan"
   },
   "contacts": {
     "methodsTitle": "Biz bilan qanday bog’lanish",
@@ -784,5 +789,37 @@
     "addPhone": "Raqam qoʻshish",
     "changePhone": "Raqamni oʻzgartirish",
     "notSet": "Raqam koʻrsatilmagan"
+  },
+  "levelTest": {
+    "badge": "Daraja testi",
+    "mockBadge": "Bepul mock test",
+    "start": "Testni boshlash",
+    "sectionOf": "{total} bo’limdan {current}-si",
+    "hint": "Lug’at va tarjimonsiz, o’zingiz javob bering — aks holda daraja noto’g’ri aniqlanadi",
+    "completeSection": "Bo’limni yakunlash",
+    "finish": "Natijani ko’rsatish",
+    "sectionDone": "Bo’lim yakunlandi",
+    "sectionDoneText": "Keyingisi — «{section}» bo’limi",
+    "nextSection": "Keyingi bo’lim",
+    "resultTitle": "Sizning darajangiz",
+    "cefr": "CEFR shkalasi bo’yicha — {code}",
+    "totalScore": "To’g’ri javoblar: {total} tadan {correct} ta ({percent}%)",
+    "breakdown": "Bo’limlar bo’yicha",
+    "partial": "Barcha bo’limlar o’tilmadi — daraja o’tilganlari bo’yicha hisoblandi",
+    "adviceTitle": "Nimadan boshlash kerak",
+    "adviceText": "{level} darajasidagi kurslarni oling: dastur siz bilgan narsadan boshlanadi va o’tilganini qayta takrorlash shart bo’lmaydi",
+    "toCourses": "Kurslarni ko’rish",
+    "restart": "Qaytadan o’tish",
+    "leadLead": "Raqamingizni qoldiring — o’qituvchi natijani tahlil qilib, nimani mustahkamlash kerakligini aytadi",
+    "factQuestions": "savol",
+    "factSections": "bo’lim",
+    "factMinutes": "daqiqa",
+    "questionsCount": "{count, plural, one {# savol} other {# savol}}",
+    "noSignup": "Ro’yxatdan o’tish shart emas. Natija oxirgi bo’limdan keyin darhol ko’rinadi",
+    "emptyTitle": "Test tayyorlanmoqda",
+    "emptyText": "Bu bo’lim uchun savollar hali qo’shilmagan",
+    "mockResultTitle": "Mock test natijasi",
+    "mockAdviceTitle": "Keyin nima",
+    "mockAdviceText": "Mock test imtihon formatiga tayyorlikni ko’rsatadi. Xatolarni o’qituvchi bilan tahlil qilish nazariyani qayta o’qishdan ko’ra tezroq natija beradi"
   }
 }

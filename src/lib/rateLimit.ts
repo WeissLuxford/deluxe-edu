@@ -21,7 +21,8 @@ export const RATE_LIMITS = {
   signinIdentifier: { action: 'signin:identifier', limit: 10, windowMs: 15 * 60 * 1000 },
   contactIp: { action: 'contact:ip', limit: 5, windowMs: 60 * 60 * 1000 },
   forgotIdentifier: { action: 'forgot:identifier', limit: 3, windowMs: 60 * 60 * 1000 },
-  resendEmail: { action: 'resend:email', limit: 3, windowMs: 60 * 60 * 1000 }
+  resendEmail: { action: 'resend:email', limit: 3, windowMs: 60 * 60 * 1000 },
+  freeTestIp: { action: 'freetest:ip', limit: 120, windowMs: 60 * 60 * 1000 }
 } satisfies Record<string, RateLimitRule>
 
 const CLEANUP_CHANCE = 0.02

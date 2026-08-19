@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { FreeMockTestPlayer } from '@/features/courses/components/FreeMockTestPlayer'
@@ -10,63 +11,68 @@ type Props = {
 
 export default async function FreeMockTestLessonPage({ params }: Props) {
   const { locale, lesson: lessonSlug } = await params
+  const t = await getTranslations({ locale, namespace: 'levelTest' })
+  const tFree = await getTranslations({ locale, namespace: 'free' })
 
   const course = await prisma.course.findUnique({
     where: { slug: 'free-mock-test-online' },
     include: {
-      lessons: { 
+      lessons: {
         orderBy: { order: 'asc' },
-        include: {
-          Assignment: true
-        }
+        // На страницу уходит только prompt: ключ ответов остаётся в базе,
+        // иначе правильные ответы видно в исходнике страницы.
+        include: { Assignment: { take: 1, select: { prompt: true } } }
       }
     }
   })
 
   if (!course) notFound()
 
-  const lesson = course.lessons.find(l => l.slug === lessonSlug)
-  if (!lesson) notFound()
+  const index = course.lessons.findIndex(l => l.slug === lessonSlug)
+  if (index === -1) notFound()
 
-  const lessonIndex = course.lessons.findIndex(l => l.id === lesson.id)
-  const nextLesson = course.lessons[lessonIndex + 1]
-  const assignment = lesson.Assignment[0] || null
-
-  const title = localized(lesson.title, locale)
+  const lesson = course.lessons[index]
+  const sections = course.lessons.map(l => ({
+    slug: l.slug,
+    title: localized(l.title, locale)
+  }))
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <header className="sticky top-0 z-10" style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border)' }}>
+      <header className="level-test__head">
         <div className="page-start">
-          <div className="flex items-center justify-between py-4">
-            <Link href={`/${locale}/courses`} className="text-sm" style={{ color: 'var(--muted)' }}>
-              ← Back to courses
+          <div className="level-test__bar">
+            <Link href={`/${locale}/courses`} className="level-test__back">
+              ← {tFree('backToCourses')}
             </Link>
 
-            <div className="text-center flex-1">
-              <div className="badge badge-success mb-1">FREE MOCK TEST</div>
-              <h1 className="text-lg font-bold" style={{ color: 'var(--fg)' }}>{title}</h1>
-              <div className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
-                Section {lessonIndex + 1} of {course.lessons.length}
-              </div>
+            <div className="level-test__title">
+              <span className="badge badge-success">{t('mockBadge')}</span>
+              <h1>{sections[index].title}</h1>
+              <span className="level-test__step">
+                {t('sectionOf', { current: index + 1, total: sections.length })}
+              </span>
             </div>
 
-            <div className="w-32" />
+            <div className="level-test__spacer" />
           </div>
 
           <div className="progress" style={{ height: '4px', marginBottom: 0 }}>
-            <div className="progress-bar" style={{ width: `${((lessonIndex + 1) / course.lessons.length) * 100}%` }} />
+            <div
+              className="progress-bar"
+              style={{ width: `${((index + 1) / sections.length) * 100}%` }}
+            />
           </div>
         </div>
       </header>
 
       <FreeMockTestPlayer
-        lesson={lesson}
-        assignment={assignment}
-        nextLesson={nextLesson}
+        lessonSlug={lesson.slug}
+        assignment={lesson.Assignment[0] ?? null}
+        content={localized(lesson.content, locale)}
+        sections={sections}
+        currentIndex={index}
         locale={locale}
-        totalLessons={course.lessons.length}
-        currentIndex={lessonIndex}
       />
     </main>
   )

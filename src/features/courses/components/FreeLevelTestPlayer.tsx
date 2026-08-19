@@ -2,200 +2,216 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, CheckCircle } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { ArrowRight, CheckCircle2, RotateCcw } from 'lucide-react'
+import LeadForm from '@/features/leads/LeadForm'
+import { RichText } from '@/features/ui/components/RichText'
+import { FreeTest, type FreeTestResult } from './FreeTest'
+
+type Section = { slug: string; title: string }
 
 type Props = {
-  lesson: any
-  assignment: any
-  nextLesson: any
-  locale: string
-  totalLessons: number
+  lessonSlug: string
+  assignment: { prompt: unknown } | null
+  // Текст раздела: в чтении здесь лежит сам отрывок, без него вопросы бессмысленны.
+  content: string
+  sections: Section[]
   currentIndex: number
+  locale: string
 }
 
-const mockQuestions = [
-  {
-    id: '1',
-    type: 'single' as const,
-    question: 'Choose the correct form: She ___ to school every day.',
-    options: ['go', 'goes', 'going', 'is going'],
-    correctAnswer: 'goes'
-  },
-  {
-    id: '2',
-    type: 'single' as const,
-    question: 'What is the past form of "write"?',
-    options: ['writed', 'wrote', 'written', 'writing'],
-    correctAnswer: 'wrote'
-  },
-  {
-    id: '3',
-    type: 'single' as const,
-    question: 'Choose the correct article: I saw ___ elephant.',
-    options: ['a', 'an', 'the', '-'],
-    correctAnswer: 'an'
+const STORAGE_KEY = 'vertex:level-test'
+
+// Разделы теста лежат на отдельных страницах, поэтому промежуточный результат
+// живёт в sessionStorage: закрыл вкладку — начал заново, и это честно.
+type Saved = Record<string, { correct: number; total: number }>
+
+function readSaved(): Saved {
+  if (typeof window === 'undefined') return {}
+  try {
+    const raw = window.sessionStorage.getItem(STORAGE_KEY)
+    const parsed = raw ? JSON.parse(raw) : {}
+    return parsed && typeof parsed === 'object' ? (parsed as Saved) : {}
+  } catch {
+    return {}
   }
-]
+}
 
-export function FreeLevelTestPlayer({ lesson, assignment, nextLesson, locale, totalLessons, currentIndex }: Props) {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const [answers, setAnswers] = useState<Record<string, string>>({})
-  const [sectionComplete, setSectionComplete] = useState(false)
+function writeSaved(saved: Saved) {
+  try {
+    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(saved))
+  } catch {
+    return
+  }
+}
 
-  const currentQuestion = mockQuestions[currentQuestionIndex]
-  const isLastQuestion = currentQuestionIndex === mockQuestions.length - 1
+// Границы подобраны под банк вопросов: он идёт по нарастающей сложности,
+// поэтому 60% верных — это уверенный Intermediate, а не половина знаний.
+const BANDS = [
+  { min: 90, level: 'Advanced', cefr: 'C1' },
+  { min: 75, level: 'Upper-Intermediate', cefr: 'B2' },
+  { min: 60, level: 'Intermediate', cefr: 'B1' },
+  { min: 40, level: 'Pre-Intermediate', cefr: 'A2+' },
+  { min: 20, level: 'Elementary', cefr: 'A2' },
+  { min: 0, level: 'Beginner', cefr: 'A1' }
+] as const
 
-  const handleAnswer = (answer: string) => {
-    setAnswers(prev => ({ ...prev, [currentQuestion.id]: answer }))
+function bandFor(percent: number) {
+  return BANDS.find(band => percent >= band.min) ?? BANDS[BANDS.length - 1]
+}
+
+export function FreeLevelTestPlayer({
+  lessonSlug,
+  assignment,
+  content,
+  sections,
+  currentIndex,
+  locale
+}: Props) {
+  const t = useTranslations('levelTest')
+  const tLead = useTranslations('lead')
+  const [result, setResult] = useState<FreeTestResult | null>(null)
+
+  const nextSection = sections[currentIndex + 1]
+  const isLastSection = !nextSection
+
+  const onScored = (scored: FreeTestResult) => {
+    const saved = readSaved()
+    saved[lessonSlug] = { correct: scored.correct, total: scored.total }
+    writeSaved(saved)
+    setResult(scored)
   }
 
-  const handleNext = () => {
-    if (isLastQuestion) {
-      setSectionComplete(true)
-    } else {
-      setCurrentQuestionIndex(prev => prev + 1)
+  const restart = () => {
+    try {
+      window.sessionStorage.removeItem(STORAGE_KEY)
+    } catch {
+      // приватный режим браузера — начнём заново и без очистки
     }
+    window.location.href = `/${locale}/level-test`
   }
 
-  const calculateScore = () => {
-    let correct = 0
-    mockQuestions.forEach(q => {
-      if (answers[q.id] === q.correctAnswer) correct++
-    })
-    return Math.round((correct / mockQuestions.length) * 100)
-  }
-
-  if (sectionComplete) {
-    const score = calculateScore()
-    const isLastSection = !nextLesson
-
+  if (!result) {
     return (
       <div className="page-start py-8">
-        <div className="mx-auto max-w-2xl">
-          <div className="glass-panel text-center" style={{ padding: '3rem' }}>
-            <div className="text-6xl mb-4">✅</div>
-            <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--fg)' }}>
-              Section Complete!
-            </h2>
-            <p className="text-lg mb-6" style={{ color: 'var(--muted)' }}>
-              Your score: <strong style={{ color: 'var(--gold-text)' }}>{score}%</strong>
-            </p>
+        <div className="mx-auto max-w-3xl space-y-4">
+          <p className="level-test__hint">{t('hint')}</p>
 
-            {isLastSection ? (
-              <>
-                <p className="mb-6" style={{ color: 'var(--muted)' }}>
-                  You've completed all sections of the level test!
-                </p>
-                <div className="glass-panel mb-6" style={{ padding: '1.5rem' }}>
-                  <h3 className="text-lg font-semibold mb-3" style={{ color: 'var(--fg)' }}>
-                    Your Recommended Level
-                  </h3>
-                  <div className="text-3xl font-bold mb-2" style={{ color: 'var(--gold-text)' }}>
-                    {score >= 80 ? 'Upper-Intermediate' : score >= 60 ? 'Intermediate' : score >= 40 ? 'Pre-Intermediate' : 'Elementary'}
-                  </div>
-                  <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                    Based on your test results
-                  </p>
-                </div>
+          {content.trim() && (
+            <div className="conspect">
+              <RichText text={content} />
+            </div>
+          )}
 
-                <Link
-                  href={`/${locale}/courses`}
-                  className="btn btn-primary"
-                  style={{ background: 'var(--gold)', color: 'var(--bg)' }}
-                >
-                  Browse Courses
-                </Link>
-              </>
-            ) : (
-              <>
-                <p className="mb-6" style={{ color: 'var(--muted)' }}>
-                  Continue to the next section
-                </p>
-                <Link
-                  href={`/${locale}/level-test/${nextLesson.slug}`}
-                  className="btn btn-primary flex items-center justify-center gap-2 mx-auto"
-                  style={{ background: 'var(--gold)', color: 'var(--bg)' }}
-                >
-                  Next Section
-                  <ArrowRight size={16} />
-                </Link>
-              </>
-            )}
-          </div>
+          {assignment ? (
+            <FreeTest
+              courseSlug="level-test"
+              lessonSlug={lessonSlug}
+              prompt={assignment.prompt}
+              locale={locale}
+              submitLabel={isLastSection ? t('finish') : t('completeSection')}
+              onScored={onScored}
+            />
+          ) : (
+            <div className="test-empty">
+              <h3>{t('emptyTitle')}</h3>
+              <p>{t('emptyText')}</p>
+            </div>
+          )}
         </div>
       </div>
     )
   }
 
+  if (!isLastSection) {
+    return (
+      <div className="page-start py-8">
+        <div className="mx-auto max-w-2xl space-y-4">
+          <div className="test-result passed">
+            <span className="test-result__icon">
+              <CheckCircle2 size={40} />
+            </span>
+            <h2 className="test-result__title">{t('sectionDone')}</h2>
+            <div className="test-result__score">
+              {result.correct}/{result.total}
+            </div>
+            <p className="test-result__text">
+              {t('sectionDoneText', { section: sections[currentIndex + 1].title })}
+            </p>
+          </div>
+
+          <Link
+            href={`/${locale}/level-test/${nextSection.slug}`}
+            className="btn btn-primary w-full justify-center"
+          >
+            {t('nextSection')}
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  const saved = readSaved()
+  const breakdown = sections.map(section => ({
+    title: section.title,
+    ...(saved[section.slug] ?? { correct: 0, total: 0 })
+  }))
+
+  const answered = breakdown.filter(row => row.total > 0)
+  const correct = answered.reduce((sum, row) => sum + row.correct, 0)
+  const total = answered.reduce((sum, row) => sum + row.total, 0)
+  const percent = total ? Math.round((correct / total) * 100) : 0
+  const band = bandFor(percent)
+  const partial = answered.length < sections.length
+
   return (
     <div className="page-start py-8">
-      <div className="mx-auto max-w-3xl">
-        <div className="mb-6 rounded-lg p-4" style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
-          <div className="text-sm" style={{ color: 'var(--muted)' }}>
-            💡 Answer all questions in this section. There's no time limit!
+      <div className="mx-auto max-w-2xl space-y-4">
+        <div className="level-result">
+          <span className="level-result__label">{t('resultTitle')}</span>
+          <div className="level-result__level">{band.level}</div>
+          <div className="level-result__cefr">{t('cefr', { code: band.cefr })}</div>
+          <p className="level-result__score">
+            {t('totalScore', { correct, total, percent })}
+          </p>
+        </div>
+
+        <div className="test-summary">
+          <div className="test-summary__row">
+            <strong>{t('breakdown')}</strong>
+          </div>
+          {breakdown.map(row => (
+            <div key={row.title} className="test-summary__row">
+              <span>{row.title}</span>
+              <strong>{row.total ? `${row.correct}/${row.total}` : '—'}</strong>
+            </div>
+          ))}
+        </div>
+
+        {partial && <div className="alert alert-warning">{t('partial')}</div>}
+
+        <div className="level-advice">
+          <h3 className="level-advice__title">{t('adviceTitle')}</h3>
+          <p className="level-advice__text">{t('adviceText', { level: band.level })}</p>
+          <div className="level-advice__actions">
+            <Link
+              href={`/${locale}/courses?level=${encodeURIComponent(band.level)}`}
+              className="btn btn-primary"
+            >
+              {t('toCourses')}
+            </Link>
+            <button type="button" onClick={restart} className="btn btn-secondary">
+              <RotateCcw size={16} />
+              {t('restart')}
+            </button>
           </div>
         </div>
 
-        <div className="glass-panel mb-6" style={{ padding: '1rem' }}>
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium" style={{ color: 'var(--fg)' }}>
-              Question {currentQuestionIndex + 1} of {mockQuestions.length}
-            </span>
-            <span className="text-sm" style={{ color: 'var(--muted)' }}>
-              {Math.round(((currentQuestionIndex + 1) / mockQuestions.length) * 100)}%
-            </span>
-          </div>
-          <div className="progress">
-            <div className="progress-bar" style={{ width: `${((currentQuestionIndex + 1) / mockQuestions.length) * 100}%` }} />
-          </div>
-        </div>
-
-        <div className="glass-panel" style={{ padding: '2rem' }}>
-          <h3 className="text-xl font-semibold mb-6" style={{ color: 'var(--fg)' }}>
-            {currentQuestion.question}
-          </h3>
-
-          <div className="space-y-3">
-            {currentQuestion.options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleAnswer(option)}
-                className="w-full text-left p-4 rounded-lg transition-all"
-                style={{
-                  background: answers[currentQuestion.id] === option ? 'rgba(199, 164, 90, 0.2)' : 'var(--bg-tertiary)',
-                  border: `1px solid ${answers[currentQuestion.id] === option ? 'var(--gold)' : 'var(--border)'}`,
-                  color: 'var(--fg)'
-                }}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-6 flex gap-4">
-          <button
-            onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
-            disabled={currentQuestionIndex === 0}
-            className="btn btn-secondary"
-            style={{ opacity: currentQuestionIndex === 0 ? 0.5 : 1 }}
-          >
-            Previous
-          </button>
-
-          <button
-            onClick={handleNext}
-            disabled={!answers[currentQuestion.id]}
-            className="btn btn-primary flex-1 flex items-center justify-center gap-2"
-            style={{
-              background: 'var(--gold)',
-              color: 'var(--bg)',
-              opacity: answers[currentQuestion.id] ? 1 : 0.5
-            }}
-          >
-            {isLastQuestion ? 'Complete Section' : 'Next Question'}
-            <ArrowRight size={16} />
-          </button>
+        <div className="level-lead">
+          <h3 className="level-advice__title">{tLead('title')}</h3>
+          <p className="level-advice__text">{t('leadLead')}</p>
+          <LeadForm source="LEVEL_TEST" />
         </div>
       </div>
     </div>

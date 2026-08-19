@@ -8,6 +8,8 @@ type Props = {
   lessonId: string
   locale: string
   videoUrl?: string | null
+  // В открытой зоне прогресс писать некуда: пользователь не вошёл.
+  track?: boolean
 }
 
 function youtubeId(url: string): string | null {
@@ -24,11 +26,13 @@ function youtubeId(url: string): string | null {
   return null
 }
 
-export function VideoStep({ lessonId, locale, videoUrl }: Props) {
+export function VideoStep({ lessonId, locale, videoUrl, track = true }: Props) {
   const t = useTranslations('lesson')
   const [watched, setWatched] = useState(false)
 
   useEffect(() => {
+    if (!track) return
+
     const timer = setTimeout(async () => {
       if (!watched) {
         setWatched(true)
@@ -41,7 +45,7 @@ export function VideoStep({ lessonId, locale, videoUrl }: Props) {
     }, 5000)
 
     return () => clearTimeout(timer)
-  }, [lessonId, watched])
+  }, [lessonId, watched, track])
 
   if (!videoUrl) {
     return (

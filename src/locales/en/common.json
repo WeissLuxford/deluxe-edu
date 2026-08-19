@@ -143,7 +143,9 @@
     "enrollToAccess": "Course access required",
     "completePrevious": "Finish the previous lesson first",
     "startLesson": "Start lesson",
-    "reviewLesson": "Review"
+    "reviewLesson": "Review",
+    "notesEmptyTitle": "Notes are not ready yet",
+    "notesEmptyText": "No text has been added to this lesson yet"
   },
   "assignment": {
     "title": "Assignment",
@@ -587,7 +589,10 @@
     "instantResults": "Instant result",
     "detailedReport": "Detailed breakdown",
     "courseAdvice": "Course suggestion",
-    "contactUs": "Contact us"
+    "contactUs": "Contact us",
+    "testDone": "Test completed",
+    "testDoneText": "Tests work the same way in every course: you immediately see what stuck and what to review",
+    "whatsNextText": "The trial lesson shows the full format. Courses work the same way, only along a programme and with teacher feedback"
   },
   "contacts": {
     "methodsTitle": "How to reach us",
@@ -778,5 +783,37 @@
     "addPhone": "Add a number",
     "changePhone": "Change number",
     "notSet": "No number yet"
+  },
+  "levelTest": {
+    "badge": "Level test",
+    "mockBadge": "Free mock test",
+    "start": "Start the test",
+    "sectionOf": "Section {current} of {total}",
+    "hint": "Answer on your own, without a dictionary or translator — otherwise the level will be wrong",
+    "completeSection": "Finish section",
+    "finish": "Show my result",
+    "sectionDone": "Section completed",
+    "sectionDoneText": "Next up — the “{section}” section",
+    "nextSection": "Next section",
+    "resultTitle": "Your level",
+    "cefr": "On the CEFR scale — {code}",
+    "totalScore": "Correct answers: {correct} of {total} ({percent}%)",
+    "breakdown": "By section",
+    "partial": "Not every section was completed — the level is based on the ones you finished",
+    "adviceTitle": "Where to start",
+    "adviceText": "Take {level} courses: the programme starts from what you already know, so you will not repeat covered ground",
+    "toCourses": "Browse courses",
+    "restart": "Take it again",
+    "leadLead": "Leave your number — a teacher will go through the result and tell you what to work on",
+    "factQuestions": "questions",
+    "factSections": "sections",
+    "factMinutes": "minutes",
+    "questionsCount": "{count, plural, one {# question} other {# questions}}",
+    "noSignup": "No registration needed. The result appears right after the last section",
+    "emptyTitle": "The test is not ready yet",
+    "emptyText": "No questions have been added to this section yet",
+    "mockResultTitle": "Mock test result",
+    "mockAdviceTitle": "What is next",
+    "mockAdviceText": "A mock test shows how ready you are for the exam format. Going through mistakes with a teacher moves the score faster than rereading theory"
   }
 }

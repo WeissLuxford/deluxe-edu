@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
-import { FreeTrialPlayer } from '@/features/courses/components/FreeTrialPlayer'
+import { FreeTrialPlayer, type TrialLesson } from '@/features/courses/components/FreeTrialPlayer'
 import { localized } from '@/lib/localized'
 
 type Props = {
@@ -16,43 +16,48 @@ export default async function TrialLessonPage({ params }: Props) {
   const course = await prisma.course.findUnique({
     where: { slug: 'trial-lesson' },
     include: {
-      lessons: { orderBy: { order: 'asc' } }
+      lessons: {
+        orderBy: { order: 'asc' },
+        include: { Assignment: { take: 1, select: { prompt: true } } }
+      }
     }
   })
 
   if (!course || course.lessons.length === 0) notFound()
 
-  const lesson = course.lessons[0]
-  const title = localized(lesson.title, locale)
-  const content = localized(lesson.content, locale)
   const courseTitle = localized(course.title, locale)
+  const lessons: TrialLesson[] = course.lessons.map(lesson => ({
+    id: lesson.id,
+    slug: lesson.slug,
+    title: localized(lesson.title, locale),
+    content: localized(lesson.content, locale),
+    videoUrl: lesson.videoUrl,
+    hasVideo: lesson.hasVideo,
+    hasConspect: lesson.hasConspect,
+    hasTest: lesson.hasTest,
+    prompt: lesson.Assignment[0]?.prompt ?? null
+  }))
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <header className="sticky top-0 z-10" style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border)' }}>
+      <header className="level-test__head">
         <div className="page-start">
-          <div className="flex items-center justify-between py-4">
-            <Link href={`/${locale}/courses`} className="text-sm" style={{ color: 'var(--muted)' }}>
+          <div className="level-test__bar">
+            <Link href={`/${locale}/courses`} className="level-test__back">
               ← {tFree('backToCourses')}
             </Link>
 
-            <div className="text-center flex-1">
-              <div className="badge badge-success mb-1">{tFree('badge')}</div>
-              <h1 className="text-lg font-bold" style={{ color: 'var(--fg)' }}>{title}</h1>
+            <div className="level-test__title">
+              <span className="badge badge-success">{tFree('badge')}</span>
+              <h1>{courseTitle}</h1>
             </div>
 
-            <div className="w-32" />
+            <div className="level-test__spacer" />
           </div>
         </div>
       </header>
 
-      <FreeTrialPlayer
-        lesson={lesson}
-        courseTitle={courseTitle}
-        title={title}
-        content={content}
-        locale={locale}
-      />
+      <FreeTrialPlayer lessons={lessons} courseTitle={courseTitle} locale={locale} />
     </main>
   )
 }

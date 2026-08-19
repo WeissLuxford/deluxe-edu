@@ -2,41 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
+import { gradeAnswers } from '@/features/courses/grading'
 
 const PASSING_SCORE = 70
-
-function gradeAnswers(answerKey: Record<string, unknown>, answers: Record<string, unknown>) {
-  const questionIds = Object.keys(answerKey)
-  if (questionIds.length === 0) return null
-
-  let correct = 0
-  const wrongIds: string[] = []
-
-  for (const id of questionIds) {
-    const expected = answerKey[id]
-    const given = answers?.[id]
-    let ok = false
-
-    if (Array.isArray(expected)) {
-      ok =
-        Array.isArray(given) &&
-        given.length === expected.length &&
-        given.every(a => expected.includes(a))
-    } else if (typeof expected === 'string' && typeof given === 'string') {
-      ok = given.trim().toLowerCase() === expected.trim().toLowerCase()
-    }
-
-    if (ok) correct++
-    else wrongIds.push(id)
-  }
-
-  return {
-    grade: Math.round((correct / questionIds.length) * 100),
-    correct,
-    total: questionIds.length,
-    wrongIds
-  }
-}
 
 export async function POST(req: NextRequest) {
   try {
