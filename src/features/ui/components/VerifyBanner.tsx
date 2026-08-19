@@ -16,7 +16,7 @@ export default function VerifyBanner() {
   const [open, setOpen] = useState(false)
 
   const hasAccount = status === 'authenticated' && !!session?.user
-  const unverified = hasAccount && !(session?.user as any)?.emailVerified
+  const unverified = hasAccount && Boolean(session?.user?.email) && !session?.user?.emailVerified
 
   useEffect(() => {
     setMounted(true)

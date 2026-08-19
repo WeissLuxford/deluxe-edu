@@ -1,7 +1,5 @@
 import { ReactNode } from 'react'
-import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { requireVerifiedPhone } from '@/features/auth/guards'
 
 export const metadata = {
   robots: { index: false, follow: false }
@@ -15,11 +13,7 @@ export default async function LearnLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const session = await getServerSession(authOptions)
-
-  if (!session?.user?.id) {
-    redirect(`/${locale}/signin?next=/${locale}/learn`)
-  }
+  await requireVerifiedPhone(locale, `/${locale}/learn`)
 
   return <div className="learn-shell">{children}</div>
 }

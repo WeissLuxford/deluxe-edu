@@ -24,7 +24,6 @@ type User = {
   lastName?: string | null
   phone?: string | null
   emailVerified?: string | Date | null
-  passwordTail?: string | null
 }
 
 export default function DashboardShell({

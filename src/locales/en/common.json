@@ -34,9 +34,7 @@
     "email": "Email",
     "firstName": "First name",
     "lastName": "Last name",
-    "displayName": "Display name",
     "password": "Password",
-    "confirmPassword": "Confirm password",
     "haveAccount": "Already have an account?",
     "phone": "Phone number",
     "codeSent": "We will send a verification code",
@@ -54,7 +52,18 @@
     "verifying": "Verifying…",
     "create": "Create account",
     "creating": "Creating…",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "detailsTitle": "A little about you",
+    "emailLabel": "Email address",
+    "back": "Back",
+    "changeNumber": "Change number",
+    "resendCode": "Resend code",
+    "resendIn": "Resend in {seconds}s",
+    "codeSentTo": "Code sent to {phone}",
+    "verifyEmailSent": "We sent a message to {email}",
+    "verifyEmailHint": "Open the link in the email — then you can sign in",
+    "verifyEmailFailed": "Account created, but the email could not be sent",
+    "verifyEmailFailedHint": "Email is not configured on the server. Contact us and we will open access manually"
   },
   "auth": {
     "passwordHint": "Password must contain letters and numbers",
@@ -193,7 +202,6 @@
     "lastName": "Last name",
     "email": "Email",
     "phone": "Phone",
-    "passwordTail": "Last 4 of password",
     "locale": "Locale",
     "role": "Role",
     "joined": "Joined",
@@ -205,16 +213,18 @@
   "signin": {
     "title": "Welcome back",
     "email": "Email",
-    "name": "Name",
     "password": "Password",
     "noAccount": "Don’t have an account?",
-    "emailOrName": "Email or username",
     "phone": "Phone number",
     "passwordPlaceholder": "Enter password",
     "submit": "Sign in",
     "submitting": "Signing in…",
     "signUp": "Sign up",
-    "wrongCredentials": "Wrong phone number or password"
+    "wrongCredentials": "Wrong phone number or password",
+    "identifier": "Phone or email",
+    "identifierPlaceholder": "+998 90 123 45 67 or name@example.com",
+    "identifierHint": "Enter your number if you signed up by phone",
+    "forgot": "Forgot your password?"
   },
   "payments": {
     "successTitle": "Payment successful",
@@ -528,6 +538,28 @@
     "sendError": "Could not send the test. Check your connection",
     "typeAnswer": "Type your answer"
   },
+  "lead": {
+    "title": "Request a call back",
+    "lead": "We will call you and help you pick the right level",
+    "courseTitle": "Join this course",
+    "courseLead": "Leave your number and we will walk you through the programme, schedule and payment",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone",
+    "emailOptional": "Email (optional)",
+    "submit": "Send request",
+    "sending": "Sending…",
+    "sent": "Request received",
+    "sentHint": "We will get in touch within one business day",
+    "noAccountNeeded": "No account needed — just a number to reach you",
+    "errors": {
+      "invalid_input": "Check your name, surname and phone number",
+      "rate_limited": "Too many requests in a row. Please try later",
+      "captcha_failed": "We could not verify that you are human",
+      "server": "Something went wrong. Please try again",
+      "network": "No connection to the server. Check your internet"
+    }
+  },
   "plans": {
     "choose": "Choose your plan",
     "popular": "Popular",
@@ -686,5 +718,65 @@
     "factMinutes": "minutes per lesson: fits into a break",
     "factSteps": "steps in a lesson: video, notes, test, practice",
     "factPlans": "plans — from self-paced to one-on-one"
+  },
+  "authMethod": {
+    "hint": "Choose how you would like to create your account",
+    "phone": "With a phone number",
+    "email": "With an email address",
+    "or": "or",
+    "google": "Continue with Google"
+  },
+  "forgot": {
+    "title": "Reset your password",
+    "lead": "Choose where to send the confirmation",
+    "byPhone": "By phone",
+    "byEmail": "By email",
+    "send": "Send",
+    "sent": "If that account exists, a message has been sent",
+    "sentEmailHint": "The link is valid for 30 minutes. Only the newest one works",
+    "newPassword": "New password",
+    "save": "Save password",
+    "back": "Back to sign in"
+  },
+  "reset": {
+    "title": "New password",
+    "invalidLink": "This link is not valid",
+    "usedLink": "This link has already been used",
+    "expiredLink": "This link has expired",
+    "requestAgain": "Request a new link"
+  },
+  "authErrors": {
+    "phone_taken": "This number is already registered",
+    "email_taken": "This email is already registered",
+    "weak_password": "At least 6 characters, letters and digits",
+    "password_mismatch": "Passwords do not match",
+    "invalid_code": "Wrong code",
+    "code_expired": "The code expired, request a new one",
+    "code_locked": "Too many attempts. Request a new code",
+    "invalid_ticket": "Confirmation expired, please start again",
+    "ticket_expired": "Confirmation expired, please start again",
+    "invalid_token": "This link is not valid",
+    "used_token": "This link has already been used",
+    "expired_token": "This link has expired",
+    "captcha_failed": "We could not verify that you are human",
+    "captcha_required": "Please confirm you are human",
+    "rate_limited": "Too many attempts. Please try later",
+    "sms_failed": "Could not send the SMS. Please try later",
+    "email_unverified": "Confirm your email using the link we sent first",
+    "unauthorized": "You need to sign in",
+    "invalid_input": "Please check the details you entered",
+    "signin_after_register": "Account created, but sign-in failed. Please sign in manually",
+    "server": "Something went wrong. Please try again",
+    "network": "No connection to the server. Check your internet"
+  },
+  "phoneBind": {
+    "title": "Confirm your phone number",
+    "why": "We need your number so your teacher and support can reach you about your studies",
+    "send": "Send code",
+    "verify": "Confirm number",
+    "bound": "Number confirmed",
+    "addPhone": "Add a number",
+    "changePhone": "Change number",
+    "notSet": "No number yet"
   }
 }

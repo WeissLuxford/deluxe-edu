@@ -5,76 +5,53 @@ import { useState } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Phone, Lock } from 'lucide-react'
+import { AtSign, Lock } from 'lucide-react'
+import { safeNext } from '@/features/auth/identity'
+import GoogleButton, { googleEnabled } from '@/features/auth/components/GoogleButton'
 
 export default function SignInPage() {
   const t = useTranslations('signin')
+  const tErrors = useTranslations('authErrors')
+  const tMethod = useTranslations('authMethod')
   const locale = useLocale()
   const search = useSearchParams()
   const validLocale = ['ru', 'uz', 'en'].includes(locale) ? locale : 'ru'
 
   const requestedNext = search.get('next')
 
-  const [phone, setPhone] = useState('+998 ')
+  const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
-  const formatPhone = (value: string) => {
-    let digits = value.replace(/\D/g, '')
-    if (digits.startsWith('998')) {
-      digits = digits.slice(3, 12)
-    } else if (digits.length > 0) {
-      digits = digits.slice(0, 9)
-    }
-    if (digits.length === 0) return '+998 '
-    if (digits.length <= 2) return `+998 ${digits}`
-    if (digits.length <= 5) return `+998 ${digits.slice(0, 2)} ${digits.slice(2)}`
-    if (digits.length <= 7) return `+998 ${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`
-    return `+998 ${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5, 7)} ${digits.slice(7, 9)}`
-  }
+  const providerError = search.get('error')
+  const knownProviderError =
+    providerError === 'google_unverified' || providerError === 'link_required' ? providerError : null
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    if (value.length < 5) {
-      setPhone('+998 ')
-      return
-    }
-    setPhone(formatPhone(value))
-  }
-
-  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace' && phone === '+998 ') {
-      e.preventDefault()
-    }
-  }
+  const [error, setError] = useState<string | null>(knownProviderError ? tErrors(knownProviderError) : null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
 
-    const cleanPhone = phone.replace(/\D/g, '')
-
     const res = await signIn('credentials', {
-      action: 'signin',
-      phone: cleanPhone,
+      identifier: identifier.trim(),
       password,
       redirect: false
     })
 
     if (!res?.ok) {
-      setError(t('wrongCredentials'))
+      const code = res?.error === 'rate_limited' || res?.error === 'email_unverified' ? res.error : null
+      setError(code ? tErrors(code) : t('wrongCredentials'))
       setLoading(false)
       return
     }
 
     const session = await getSession()
     const isAdmin = session?.user?.role === 'ADMIN'
-    const destination =
-      requestedNext || (isAdmin ? `/${validLocale}/admin` : `/${validLocale}/learn`)
+    const fallback = isAdmin ? 'admin' : 'learn'
 
-    window.location.href = destination
+    window.location.href = safeNext(requestedNext, validLocale, fallback)
   }
 
   return (
@@ -97,34 +74,36 @@ export default function SignInPage() {
         )}
 
         <div>
-          <label className="label">{t('phone')}</label>
+          <label className="label" htmlFor="identifier">{t('identifier')}</label>
           <div style={{ position: 'relative' }}>
-            <Phone
+            <AtSign
               size={20}
               style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }}
             />
             <input
-              type="tel"
-              placeholder="+998 90 123 45 67"
-              value={phone}
-              onChange={handlePhoneChange}
-              onKeyDown={handlePhoneKeyDown}
+              id="identifier"
+              type="text"
+              placeholder={t('identifierPlaceholder')}
+              value={identifier}
+              onChange={e => setIdentifier(e.target.value)}
               className="input"
-              style={{ paddingLeft: '3rem', fontSize: '1rem', letterSpacing: '0.02em' }}
+              style={{ paddingLeft: '3rem' }}
               autoFocus
               required
             />
           </div>
+          <p className="auth-hint" style={{ marginTop: '0.5rem' }}>{t('identifierHint')}</p>
         </div>
 
         <div>
-          <label className="label">{t('password')}</label>
+          <label className="label" htmlFor="password">{t('password')}</label>
           <div style={{ position: 'relative' }}>
             <Lock
               size={20}
               style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }}
             />
             <input
+              id="password"
               type="password"
               placeholder={t('passwordPlaceholder')}
               value={password}
@@ -140,6 +119,19 @@ export default function SignInPage() {
           {loading ? t('submitting') : t('submit')}
           <span className="drop-shadow" />
         </button>
+
+        {googleEnabled() && (
+          <>
+            <p className="auth-hint" style={{ textAlign: 'center' }}>{tMethod('or')}</p>
+            <GoogleButton callbackUrl={safeNext(requestedNext, validLocale)} />
+          </>
+        )}
+
+        <p className="auth-note">
+          <Link href={`/${validLocale}/forgot-password`} className="auth-link">
+            {t('forgot')}
+          </Link>
+        </p>
 
         <p className="auth-note">
           {t('noAccount')}{' '}

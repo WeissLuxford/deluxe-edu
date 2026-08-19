@@ -2,11 +2,16 @@
 
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { useTranslations, useLocale } from 'next-intl'
+import Link from 'next/link'
 import { User, Phone, Mail, Save, Loader2 } from 'lucide-react'
 
 export default function ProfileSection() {
   const { data: session, update } = useSession()
   const user = session?.user
+  const tProfile = useTranslations('profile')
+  const tPhone = useTranslations('phoneBind')
+  const locale = useLocale()
 
   const [firstName, setFirstName] = useState(user?.firstName || '')
   const [lastName, setLastName] = useState(user?.lastName || '')
@@ -26,29 +31,22 @@ export default function ProfileSection() {
     setSuccess(false)
 
     try {
-      const res = await fetch('/api/user/profile', {
+      const res = await fetch('/api/me', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName: firstName.trim(),
           lastName: lastName.trim(),
-          email: email.trim() || null // null если пустой
+          email: email.trim()
         })
       })
 
       if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || 'Failed to update profile')
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.error || 'server')
       }
 
-      await update({
-        user: {
-          ...user,
-          firstName: firstName.trim(),
-          lastName: lastName.trim(),
-          name: `${firstName.trim()} ${lastName.trim()}`
-        }
-      })
+      await update()
 
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)
@@ -80,21 +78,23 @@ export default function ProfileSection() {
           <div>
             <label className="label">
               <Phone size={16} />
-              Phone Number
+              {tProfile('phone')}
             </label>
             <input
               type="tel"
-              value={user?.phone || ''}
+              value={user?.phone ? `+${user.phone}` : tPhone('notSet')}
               className="input"
               disabled
-              style={{ 
-                background: 'var(--surface-2)', 
+              style={{
+                background: 'var(--surface-2)',
                 cursor: 'not-allowed',
                 opacity: 0.7
               }}
             />
-            <p className="hint" style={{ marginTop: '0.5rem', color: 'var(--muted)' }}>
-              Phone number cannot be changed
+            <p className="hint" style={{ marginTop: '0.5rem' }}>
+              <Link href={`/${locale}/account/phone`} className="auth-link">
+                {user?.phone ? tPhone('changePhone') : tPhone('addPhone')}
+              </Link>
             </p>
           </div>
 

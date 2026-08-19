@@ -1,188 +1,129 @@
-const ESKIZ_EMAIL = process.env.ESKIZ_EMAIL!
-const ESKIZ_PASSWORD = process.env.ESKIZ_PASSWORD!
 const ESKIZ_API = 'https://notify.eskiz.uz/api'
+const TOKEN_TTL_MS = 29 * 24 * 60 * 60 * 1000
 
 interface EskizAuthResponse {
   message: string
-  data: {
-    token: string
-  }
+  data: { token: string }
   token_type?: string
 }
 
 interface EskizSendResponse {
-  status: string
-  message: string
+  status?: string
+  message?: string
   id?: string
 }
 
 interface EskizBalanceResponse {
   status: string
-  data?: {
-    balance: number
-  }
+  data?: { balance: number }
 }
 
 let cachedToken: string | null = null
-let tokenExpiresAt: number = 0
+let tokenExpiresAt = 0
 
-async function getToken(): Promise<string> {
-  if (cachedToken && Date.now() < tokenExpiresAt) {
-    console.log('✅ Using cached token')
-    return cachedToken
-  }
+export function isTestMode(): boolean {
+  return process.env.ESKIZ_TEST_MODE === 'true'
+}
 
-  console.log('🔑 Requesting new token from Eskiz...')
+function credentials() {
+  const email = process.env.ESKIZ_EMAIL
+  const password = process.env.ESKIZ_PASSWORD
+  if (!email || !password) throw new Error('eskiz_not_configured')
+  return { email, password }
+}
 
-  try {
-    const res = await fetch(`${ESKIZ_API}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: ESKIZ_EMAIL,
-        password: ESKIZ_PASSWORD
-      })
+async function getToken(force = false): Promise<string> {
+  if (!force && cachedToken && Date.now() < tokenExpiresAt) return cachedToken
+
+  const res = await fetch(`${ESKIZ_API}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(credentials())
+  })
+
+  if (!res.ok) throw new Error(`eskiz_auth_failed_${res.status}`)
+
+  const data = (await res.json()) as EskizAuthResponse
+  if (!data.data?.token) throw new Error('eskiz_auth_no_token')
+
+  cachedToken = data.data.token
+  tokenExpiresAt = Date.now() + TOKEN_TTL_MS
+  return cachedToken
+}
+
+async function postMessage(phone: string, message: string, token: string) {
+  return fetch(`${ESKIZ_API}/message/sms/send`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      mobile_phone: phone,
+      message,
+      from: '4546',
+      callback_url: `${process.env.NEXTAUTH_URL}/api/sms/callback`
     })
-
-    const responseText = await res.text()
-    console.log('📥 Eskiz auth response:', responseText)
-
-    if (!res.ok) {
-      throw new Error(`Eskiz auth failed: ${res.status} - ${responseText}`)
-    }
-
-    const data: EskizAuthResponse = JSON.parse(responseText)
-    
-    if (!data.data?.token) {
-      throw new Error('No token in response')
-    }
-
-    cachedToken = data.data.token
-    tokenExpiresAt = Date.now() + 29 * 24 * 60 * 60 * 1000 // 29 дней
-    
-    console.log('✅ Token obtained successfully')
-    return cachedToken
-  } catch (error) {
-    console.error('❌ Eskiz auth error:', error)
-    throw error
-  }
+  })
 }
 
 export async function sendSMS(phone: string, message: string): Promise<void> {
-  try {
-    if (!phone.startsWith('998') || phone.length !== 12) {
-      throw new Error(`Invalid phone format: ${phone}. Expected: 998901234567`)
-    }
+  if (!/^998\d{9}$/.test(phone)) throw new Error('invalid_phone')
 
-    let finalMessage = message
-    const IS_TEST = process.env.ESKIZ_TEST_MODE === 'true'
-    
-    if (IS_TEST) {
-      console.log('⚠️ Test mode enabled, using approved message')
-      finalMessage = 'This is test from Eskiz'
-    }
+  const finalMessage = isTestMode() ? 'This is test from Eskiz' : message
 
-    console.log(`📤 Sending SMS to: ${phone}`)
-    console.log(`💬 Message: ${finalMessage}`)
+  let token = await getToken()
+  let res = await postMessage(phone, finalMessage, token)
 
-    const authToken = await getToken()
-
-    const res = await fetch(`${ESKIZ_API}/message/sms/send`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${authToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        mobile_phone: phone,
-        message: finalMessage,
-        from: '4546',
-        callback_url: `${process.env.NEXTAUTH_URL}/api/sms/callback`
-      })
-    })
-
-    const responseText = await res.text()
-    console.log('📥 Eskiz send response:', responseText)
-
-    if (!res.ok && res.status !== 400) {
-      if (res.status === 401) {
-        console.log('🔄 Token expired, refreshing...')
-        cachedToken = null
-        tokenExpiresAt = 0
-        return sendSMS(phone, message)
-      }
-      
-      throw new Error(`Eskiz SMS send failed: ${res.status} - ${responseText}`)
-    }
-
-    const data: EskizSendResponse = JSON.parse(responseText)
-    
-    const isSuccess = 
-      data.id !== undefined ||  // Если есть ID - SMS отправлена
-      data.status === 'success' || 
-      data.message.toLowerCase().includes('success') ||
-      data.message.toLowerCase().includes('waiting')
-
-    if (isSuccess) {
-      console.log('✅ SMS sent successfully, ID:', data.id)
-      if (IS_TEST) {
-        console.log('⚠️ Test mode: SMS sent with standard test message')
-      }
-    } else {
-      throw new Error(`SMS send failed: ${data.message}`)
-    }
-  } catch (error) {
-    console.error('❌ SMS send error:', error)
-    throw error
+  if (res.status === 401) {
+    token = await getToken(true)
+    res = await postMessage(phone, finalMessage, token)
   }
+
+  if (!res.ok && res.status !== 400) {
+    throw new Error(`eskiz_send_failed_${res.status}`)
+  }
+
+  const raw = await res.text()
+  let data: EskizSendResponse = {}
+  try {
+    data = JSON.parse(raw) as EskizSendResponse
+  } catch {
+    throw new Error('eskiz_bad_response')
+  }
+
+  const note = (data.message || '').toLowerCase()
+  const ok = data.id !== undefined || data.status === 'success' || note.includes('success') || note.includes('waiting')
+
+  if (!ok) throw new Error('eskiz_send_rejected')
 }
 
 export async function checkBalance(): Promise<number> {
   try {
-    console.log('💰 Checking SMS balance...')
-    
-    const authToken = await getToken()
-    
+    const token = await getToken()
     const res = await fetch(`${ESKIZ_API}/user/get-limit`, {
       method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${authToken}`
-      }
+      headers: { Authorization: `Bearer ${token}` }
     })
 
-    const responseText = await res.text()
-    console.log('📥 Balance response:', responseText)
+    if (!res.ok) return 0
 
-    if (!res.ok) {
-      throw new Error(`Balance check failed: ${res.status}`)
-    }
-
-    const data: EskizBalanceResponse = JSON.parse(responseText)
-    const balance = data.data?.balance || 0
-    
-    console.log(`✅ Balance: ${balance} SMS`)
-    return balance
-  } catch (error) {
-    console.error('❌ Balance check error:', error)
+    const data = (await res.json()) as EskizBalanceResponse
+    return data.data?.balance || 0
+  } catch {
     return 0
   }
 }
 
 export async function sendOTP(phone: string, code: string): Promise<void> {
-  const IS_TEST = process.env.ESKIZ_TEST_MODE === 'true'
-  
-  if (IS_TEST) {
-    await sendSMS(phone, 'This is test from Eskiz')
-    
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-    console.log('🔐 TEST MODE - OTP CODE')
-    console.log(`📱 Phone: ${phone}`)
-    console.log(`🔑 Code:  ${code}`)
-    console.log('⚠️  SMS sent with test message')
-    console.log('💡 Use this code for verification')
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-  } else {
-    const message = `Your Vertex Edu verification code: ${code}\n\nDo not share this code with anyone.`
-    await sendSMS(phone, message)
+  if (isTestMode() && process.env.NODE_ENV !== 'production') {
+    console.log(`[eskiz test mode] код для ${phone}: ${code}`)
   }
+
+  if (isTestMode()) {
+    await sendSMS(phone, 'This is test from Eskiz')
+    return
+  }
+
+  await sendSMS(phone, `Your Vertex Edu verification code: ${code}\n\nDo not share this code with anyone.`)
 }

@@ -34,9 +34,7 @@
     "email": "Email",
     "firstName": "Ism",
     "lastName": "Familiya",
-    "displayName": "Ko'rsatiladigan ism",
     "password": "Parol",
-    "confirmPassword": "Parolni tasdiqlang",
     "haveAccount": "Hisobingiz bormi?",
     "phone": "Telefon raqami",
     "codeSent": "Tasdiqlash kodini yuboramiz",
@@ -54,7 +52,18 @@
     "verifying": "Tekshirilmoqda…",
     "create": "Hisob yaratish",
     "creating": "Yaratilmoqda…",
-    "signIn": "Kirish"
+    "signIn": "Kirish",
+    "detailsTitle": "Oʻzingiz haqingizda",
+    "emailLabel": "Elektron pochta",
+    "back": "Orqaga",
+    "changeNumber": "Raqamni oʻzgartirish",
+    "resendCode": "Kodni qayta yuborish",
+    "resendIn": "{seconds} s dan keyin qayta yuborish",
+    "codeSentTo": "Kod {phone} raqamiga yuborildi",
+    "verifyEmailSent": "Xat {email} manziliga yuborildi",
+    "verifyEmailHint": "Xatdagi havolani oching — shundan soʻng kirish mumkin",
+    "verifyEmailFailed": "Akkaunt yaratildi, lekin xat yuborilmadi",
+    "verifyEmailFailedHint": "Serverda pochta sozlanmagan. Bizga yozing, kirishni qoʻlda ochamiz"
   },
   "auth": {
     "passwordHint": "Parolda harflar va raqamlar bo'lishi kerak",
@@ -193,7 +202,6 @@
     "lastName": "Familiya",
     "email": "Email",
     "phone": "Telefon",
-    "passwordTail": "Oxirgi 4 belgi",
     "locale": "Til",
     "role": "Rol",
     "joined": "Roʻyxatdan oʻtgan sana",
@@ -205,16 +213,18 @@
   "signin": {
     "title": "Xush kelibsiz",
     "email": "Email",
-    "name": "Ism",
     "password": "Parol",
     "noAccount": "Hisobingiz yo’qmi?",
-    "emailOrName": "Email yoki foydalanuvchi nomi",
     "phone": "Telefon raqami",
     "passwordPlaceholder": "Parolni kiriting",
     "submit": "Kirish",
     "submitting": "Kirilmoqda…",
     "signUp": "Ro’yxatdan o’tish",
-    "wrongCredentials": "Telefon raqami yoki parol noto’g’ri"
+    "wrongCredentials": "Telefon raqami yoki parol noto’g’ri",
+    "identifier": "Telefon yoki pochta",
+    "identifierPlaceholder": "+998 90 123 45 67 yoki name@example.com",
+    "identifierHint": "Telefon orqali roʻyxatdan oʻtgan boʻlsangiz, raqamni kiriting",
+    "forgot": "Parolni unutdingizmi?"
   },
   "payments": {
     "successTitle": "To'lov muvaffaqiyatli",
@@ -534,6 +544,28 @@
     "sendError": "Testni yuborib bo’lmadi. Aloqani tekshiring",
     "typeAnswer": "Javobni kiriting"
   },
+  "lead": {
+    "title": "Ariza qoldiring",
+    "lead": "Qoʻngʻiroq qilamiz va mos darajani tanlashga yordam beramiz",
+    "courseTitle": "Kursga yozilish",
+    "courseLead": "Raqamingizni qoldiring — dastur, jadval va toʻlov haqida gaplashamiz",
+    "firstName": "Ism",
+    "lastName": "Familiya",
+    "phone": "Telefon",
+    "emailOptional": "Email (majburiy emas)",
+    "submit": "Arizani yuborish",
+    "sending": "Yuborilmoqda…",
+    "sent": "Ariza qabul qilindi",
+    "sentHint": "Bir ish kuni ichida siz bilan bogʻlanamiz",
+    "noAccountNeeded": "Roʻyxatdan oʻtish shart emas — faqat bogʻlanish uchun raqam",
+    "errors": {
+      "invalid_input": "Ism, familiya va telefon raqamini tekshiring",
+      "rate_limited": "Ketma-ket juda koʻp ariza. Keyinroq urinib koʻring",
+      "captcha_failed": "Siz robot emasligingizni tasdiqlab boʻlmadi",
+      "server": "Nimadir xato ketdi. Yana urinib koʻring",
+      "network": "Server bilan aloqa yoʻq. Internetni tekshiring"
+    }
+  },
   "plans": {
     "choose": "Tarifni tanlang",
     "popular": "Ommabop",
@@ -692,5 +724,65 @@
     "factMinutes": "daqiqa bir darsga: tanaffusga sig‘adi",
     "factSteps": "bosqich darsda: video, konspekt, test, amaliyot",
     "factPlans": "tarif — mustaqildan individualgacha"
+  },
+  "authMethod": {
+    "hint": "Akkaunt yaratish usulini tanlang",
+    "phone": "Telefon raqami orqali",
+    "email": "Elektron pochta orqali",
+    "or": "yoki",
+    "google": "Google orqali"
+  },
+  "forgot": {
+    "title": "Parolni tiklash",
+    "lead": "Tasdiqni qayerga yuborishni tanlang",
+    "byPhone": "Telefonga",
+    "byEmail": "Pochtaga",
+    "send": "Yuborish",
+    "sent": "Agar bunday akkaunt boʻlsa, xat yuborildi",
+    "sentEmailHint": "Havola 30 daqiqa amal qiladi. Faqat eng soʻnggisi ishlaydi",
+    "newPassword": "Yangi parol",
+    "save": "Parolni saqlash",
+    "back": "Kirishga qaytish"
+  },
+  "reset": {
+    "title": "Yangi parol",
+    "invalidLink": "Havola yaroqsiz",
+    "usedLink": "Havola allaqachon ishlatilgan",
+    "expiredLink": "Havola muddati tugagan",
+    "requestAgain": "Yangi havola soʻrash"
+  },
+  "authErrors": {
+    "phone_taken": "Bu raqam allaqachon roʻyxatdan oʻtgan",
+    "email_taken": "Bu pochta allaqachon roʻyxatdan oʻtgan",
+    "weak_password": "Kamida 6 belgi, harflar va raqamlar",
+    "password_mismatch": "Parollar mos kelmadi",
+    "invalid_code": "Kod notoʻgʻri",
+    "code_expired": "Kod muddati tugadi, yangisini soʻrang",
+    "code_locked": "Juda koʻp urinish. Yangi kod soʻrang",
+    "invalid_ticket": "Tasdiq eskirgan, qaytadan boshlang",
+    "ticket_expired": "Tasdiq eskirgan, qaytadan boshlang",
+    "invalid_token": "Havola yaroqsiz",
+    "used_token": "Havola allaqachon ishlatilgan",
+    "expired_token": "Havola muddati tugagan",
+    "captcha_failed": "Siz robot emasligingizni tasdiqlab boʻlmadi",
+    "captcha_required": "Robot emasligingizni tasdiqlang",
+    "rate_limited": "Juda koʻp urinish. Keyinroq urinib koʻring",
+    "sms_failed": "SMS yuborilmadi. Keyinroq urinib koʻring",
+    "email_unverified": "Avval xatdagi havola orqali pochtani tasdiqlang",
+    "unauthorized": "Akkauntga kirish kerak",
+    "invalid_input": "Kiritilgan maʼlumotlarni tekshiring",
+    "signin_after_register": "Akkaunt yaratildi, lekin kirib boʻlmadi. Qoʻlda kirib koʻring",
+    "server": "Nimadir xato ketdi. Yana urinib koʻring",
+    "network": "Server bilan aloqa yoʻq. Internetni tekshiring"
+  },
+  "phoneBind": {
+    "title": "Telefon raqamini tasdiqlang",
+    "why": "Raqam oʻqituvchi va qoʻllab-quvvatlash xizmati siz bilan bogʻlanishi uchun kerak",
+    "send": "Kod olish",
+    "verify": "Raqamni tasdiqlash",
+    "bound": "Raqam tasdiqlandi",
+    "addPhone": "Raqam qoʻshish",
+    "changePhone": "Raqamni oʻzgartirish",
+    "notSet": "Raqam koʻrsatilmagan"
   }
 }

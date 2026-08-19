@@ -37,8 +37,7 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
         firstName: user.firstName,
         lastName: user.lastName,
         phone: user.phone,
-        emailVerified: user.emailVerified,
-        passwordTail: user.passwordTail
+        emailVerified: user.emailVerified
       }}
       coursesCount={user._count.enrollments}
       payments={user.Payment ?? []}

@@ -8,75 +8,110 @@ datasource db {
 }
 
 model User {
-  id             String           @id @default(cuid())
-  phone          String           @unique
-  name           String?
-  image          String?
-  role           Role             @default(STUDENT)
-  locale         String           @default("ru")
-  passwordHash   String?
-  passwordTail   String?
-  firstName      String?
-  lastName       String?
-  email          String?          @unique
-  emailVerified  DateTime?
-  phoneVerified  DateTime?
-  enrollments    Enrollment[]
-  submissions    Submission[]
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  Payment        Payment[]
-  LessonProgress LessonProgress[]
-  tokens         VerificationToken[]
-  
+  id                String              @id @default(cuid())
+  phone             String?             @unique
+  name              String?
+  image             String?
+  role              Role                @default(STUDENT)
+  locale            String              @default("ru")
+  passwordHash      String?
+  passwordChangedAt DateTime?
+  firstName         String?
+  lastName          String?
+  email             String?             @unique
+  emailVerified     DateTime?
+  phoneVerified     DateTime?
+  enrollments       Enrollment[]
+  submissions       Submission[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  Payment           Payment[]
+  LessonProgress    LessonProgress[]
+  tokens            VerificationToken[]
+  oauthAccounts     OAuthAccount[]
+
   @@index([phone])
   @@index([email])
 }
 
-model OTPCode {
-  id        String   @id @default(cuid())
-  phone     String
-  code      String
-  used      Boolean  @default(false)
-  expiresAt DateTime
-  createdAt DateTime @default(now())
+model OAuthAccount {
+  id                String   @id @default(cuid())
+  userId            String
+  provider          String
+  providerAccountId String
+  createdAt         DateTime @default(now())
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([phone])
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model PhoneCode {
+  id          String           @id @default(cuid())
+  phone       String
+  purpose     PhoneCodePurpose
+  codeHash    String
+  attempts    Int              @default(0)
+  maxAttempts Int              @default(5)
+  verifiedAt  DateTime?
+  consumedAt  DateTime?
+  userId      String?
+  ip          String?
+  expiresAt   DateTime
+  createdAt   DateTime         @default(now())
+
+  @@index([phone, purpose, createdAt])
   @@index([expiresAt])
+}
+
+model RateLimit {
+  id      String   @id @default(cuid())
+  bucket  String   @unique
+  count   Int      @default(0)
+  resetAt DateTime
+
+  @@index([resetAt])
 }
 
 model VerificationToken {
-  id        String    @id @default(cuid())
-  token     String    @unique
+  id        String            @id @default(cuid())
+  token     String            @unique
+  purpose   EmailTokenPurpose @default(EMAIL_VERIFY)
   userId    String
   expiresAt DateTime
   usedAt    DateTime?
-  createdAt DateTime  @default(now())
-  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime          @default(now())
+  user      User              @relation(fields: [userId], references: [id])
 
-  @@index([userId])
+  @@index([userId, purpose])
   @@index([expiresAt])
 }
 
+enum EmailTokenPurpose {
+  EMAIL_VERIFY
+  PASSWORD_RESET
+}
+
 model Course {
-  id          String       @id @default(cuid())
-  slug        String       @unique
+  id          String           @id @default(cuid())
+  slug        String           @unique
   title       Json
   description Json
-  priceBasic  Int          @default(200000)
-  pricePro    Int          @default(400000)
-  priceDeluxe Int          @default(800000)
+  priceBasic  Int              @default(200000)
+  pricePro    Int              @default(400000)
+  priceDeluxe Int              @default(800000)
   lessons     Lesson[]
   modules     Module[]
-  level       String       @default("Beginner")
+  level       String           @default("Beginner")
   coverUrl    String?
   badge       String?
-  published   Boolean      @default(false)
-  visible     Boolean      @default(true)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  published   Boolean          @default(false)
+  visible     Boolean          @default(true)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
   Enrollment  Enrollment[]
   Payment     Payment[]
+  leads       ContactRequest[]
 }
 
 model Module {
@@ -186,11 +221,11 @@ model Stream {
   description Json
   kind        StreamKind @default(YOUTUBE)
 
-  youtubeId String?
+  youtubeId   String?
   zoomJoinUrl String?
 
   startsAt    DateTime
-  durationMin Int       @default(60)
+  durationMin Int      @default(60)
 
   recordingUrl String?
 
@@ -241,12 +276,19 @@ model ContactRequest {
   phone     String
   email     String?
   message   String?
+  source    LeadSource    @default(HOME_FORM)
+  courseId  String?
+  plan      Plan?
+  locale    String        @default("ru")
+  ip        String?
   status    ContactStatus @default(NEW)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+  course    Course?       @relation(fields: [courseId], references: [id], onDelete: SetNull)
 
   @@index([status])
   @@index([createdAt])
+  @@index([courseId])
 }
 
 enum Role {
@@ -272,4 +314,18 @@ enum ContactStatus {
   CONTACTED
   RESOLVED
   SPAM
+}
+
+enum PhoneCodePurpose {
+  REGISTER
+  BIND
+  RESET
+}
+
+enum LeadSource {
+  HOME_FORM
+  COURSE_PAGE
+  CONTACTS_PAGE
+  TRIAL_LESSON
+  LEVEL_TEST
 }
