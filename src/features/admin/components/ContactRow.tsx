@@ -13,6 +13,20 @@ const STATUSES = [
 
 type Status = (typeof STATUSES)[number]['value']
 
+const SOURCES: Record<string, string> = {
+  HOME_FORM: 'Форма на главной',
+  COURSE_PAGE: 'Страница курса',
+  CONTACTS_PAGE: 'Страница контактов',
+  TRIAL_LESSON: 'Пробный урок',
+  LEVEL_TEST: 'Тест уровня'
+}
+
+const LOCALES: Record<string, string> = {
+  ru: 'RU',
+  uz: 'UZ',
+  en: 'EN'
+}
+
 export function ContactRow({
   id,
   name,
@@ -20,7 +34,11 @@ export function ContactRow({
   email,
   message,
   createdAt,
-  status
+  status,
+  source,
+  courseTitle,
+  plan,
+  locale
 }: {
   id: string
   name: string
@@ -29,6 +47,10 @@ export function ContactRow({
   message: string | null
   createdAt: string
   status: string
+  source: string
+  courseTitle: string | null
+  plan: string | null
+  locale: string
 }) {
   const router = useRouter()
   const [current, setCurrent] = useState<Status>(status as Status)
@@ -52,8 +74,18 @@ export function ContactRow({
       </td>
       <td>
         <a href={`tel:+${phone}`} style={{ color: 'var(--gold-text)' }}>+{phone}</a>
+        <div className="text-xs" style={{ color: 'var(--muted)' }}>{LOCALES[locale] || locale.toUpperCase()}</div>
       </td>
-      <td style={{ maxWidth: '22rem', color: 'var(--muted)', fontSize: '0.9rem' }}>
+      <td style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>
+        <div style={{ color: 'var(--fg)' }}>{SOURCES[source] || source}</div>
+        {courseTitle && (
+          <div className="text-xs">
+            {courseTitle}
+            {plan && ` · ${plan}`}
+          </div>
+        )}
+      </td>
+      <td style={{ maxWidth: '18rem', color: 'var(--muted)', fontSize: '0.9rem' }}>
         {message || '—'}
       </td>
       <td style={{ color: 'var(--muted)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>

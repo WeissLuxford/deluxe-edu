@@ -4,7 +4,8 @@ import { useTranslations } from 'next-intl'
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, X } from 'lucide-react'
+import LeadForm from '@/features/leads/LeadForm'
 
 type Props = {
   lesson: any
@@ -16,7 +17,9 @@ type Props = {
 
 export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }: Props) {
   const tFree = useTranslations('free')
+  const tLead = useTranslations('lead')
   const [currentStep, setCurrentStep] = useState<'video' | 'conspect'>('video')
+  const [showLead, setShowLead] = useState(false)
 
   return (
     <div className="page-start py-8">
@@ -31,13 +34,14 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
                 {tFree('trialLead')}
               </p>
             </div>
-            <Link
-              href={`/${locale}/signup`}
+            <button
+              type="button"
+              onClick={() => setShowLead(true)}
               className="btn btn-primary whitespace-nowrap"
               style={{ background: '#22c55e', color: '#fff', fontSize: '0.875rem' }}
             >
-              Sign Up Free
-            </Link>
+              {tLead('submit')}
+            </button>
           </div>
         </div>
 
@@ -136,25 +140,26 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
 
             <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center' }}>
               <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--fg)' }}>
-                Ready to Start Your Journey?
+                {tLead('title')}
               </h3>
               <p className="mb-6" style={{ color: 'var(--muted)' }}>
-                Create a free account to take the level test and access courses
+                {tLead('lead')}
               </p>
-              
+
               <div className="flex gap-4 justify-center">
-                <Link
-                  href={`/${locale}/signup`}
+                <button
+                  type="button"
+                  onClick={() => setShowLead(true)}
                   className="btn btn-primary"
                   style={{ background: 'var(--gold)', color: 'var(--bg)' }}
                 >
-                  Create Free Account
-                </Link>
+                  {tLead('submit')}
+                </button>
                 <Link
                   href={`/${locale}/courses`}
                   className="btn btn-secondary"
                 >
-                  Browse Courses
+                  {tFree('backToCourses')}
                 </Link>
               </div>
             </div>
@@ -193,6 +198,37 @@ export function FreeTrialPlayer({ lesson, courseTitle, title, content, locale }:
           </div>
         </div>
       </div>
+
+      {showLead && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4"
+          style={{ background: 'rgba(0, 0, 0, 0.7)' }}
+          onClick={() => setShowLead(false)}
+        >
+          <div
+            className="w-full max-w-md rounded-2xl p-6"
+            style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-gold)' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="mb-4 flex items-start justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-bold" style={{ color: 'var(--brand-text)' }}>{tLead('title')}</h3>
+                <p className="mt-1 text-sm" style={{ color: 'var(--muted)' }}>{courseTitle}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowLead(false)}
+                className="rounded-lg p-2 transition-colors"
+                style={{ border: '1px solid var(--border)', color: 'var(--fg)' }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <LeadForm source="TRIAL_LESSON" />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

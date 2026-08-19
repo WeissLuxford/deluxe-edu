@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 
 import { useState } from 'react'
 import { X } from 'lucide-react'
+import LeadForm from '@/features/leads/LeadForm'
 
 type Plan = {
   id: 'FREE' | 'BASIC' | 'PRO' | 'DELUXE'
@@ -26,6 +27,7 @@ type PlanModalProps = {
 
 export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, pricePro, priceDeluxe, locale, onClose }: PlanModalProps) {
   const t = useTranslations('plans')
+  const tLead = useTranslations('lead')
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showContactModal, setShowContactModal] = useState(false)
 
@@ -54,37 +56,21 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={onClose}>
         <div className="w-full max-w-md rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-gold)' }} onClick={(e) => e.stopPropagation()}>
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-xl font-bold" style={{ color: 'var(--gold-text)' }}>{t('contactToEnroll')}</h3>
+          <div className="mb-4 flex items-start justify-between gap-4">
+            <div>
+              <h3 className="text-xl font-bold" style={{ color: 'var(--brand-text)' }}>{tLead('courseTitle')}</h3>
+              <p className="mt-1 text-sm" style={{ color: 'var(--muted)' }}>
+                {courseTitle} · {plans.find(p => p.id === selectedPlan)?.name}
+              </p>
+            </div>
             <button onClick={onClose} className="rounded-lg p-2 transition-colors" style={{ border: '1px solid var(--border)', color: 'var(--fg)' }}>
               <X size={20} />
             </button>
           </div>
 
-          <div className="space-y-4">
-            <p style={{ color: 'var(--muted)' }}>
-              To enroll in the <strong style={{ color: 'var(--gold-text)' }}>{plans.find(p => p.id === selectedPlan)?.name}</strong> plan, please contact us via:
-            </p>
+          <p className="mb-5 text-sm" style={{ color: 'var(--muted)' }}>{tLead('courseLead')}</p>
 
-            <div className="rounded-lg p-4" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border)' }}>
-              <div className="space-y-3">
-                <div>
-                  <div className="text-sm font-medium" style={{ color: 'var(--muted)' }}>{t('phone')}</div>
-                  <a href="tel:+998901234567" className="text-lg font-semibold" style={{ color: 'var(--gold-text)' }}>+998 90 123 45 67</a>
-                </div>
-                <div>
-                  <div className="text-sm font-medium" style={{ color: 'var(--muted)' }}>{t('telegram')}</div>
-                  <a href="https://t.me/vertexedu" target="_blank" rel="noopener noreferrer" className="text-lg font-semibold" style={{ color: 'var(--gold-text)' }}>@vertexedu</a>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-lg p-3 text-sm" style={{ background: 'rgba(199, 164, 90, 0.1)', color: 'var(--muted)' }}>
-              💡 Payment is currently accepted in cash only. Our team will help you with enrollment.
-            </div>
-          </div>
-
-          <button onClick={onClose} className="btn btn-primary mt-6 w-full" style={{ background: 'var(--gold)', color: 'var(--bg)' }}>{t('gotIt')}</button>
+          <LeadForm source="COURSE_PAGE" courseId={courseId} plan={selectedPlan ?? undefined} />
         </div>
       </div>
     )

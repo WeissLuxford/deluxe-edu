@@ -1,24 +1,40 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 import { useState } from 'react'
-import { Phone, User, Mail, MessageCircle, Send } from 'lucide-react'
+import { User, Mail, MessageCircle, Send } from 'lucide-react'
+import PhoneField, { isPhoneComplete } from '@/features/auth/components/PhoneField'
+import { PHONE_PREFIX, normalizePhone } from '@/features/auth/identity'
+import Turnstile, { turnstileEnabled } from '@/features/auth/components/Turnstile'
 
 export default function ContactFormSection() {
   const t = useTranslations('home')
+  const tLead = useTranslations('lead')
+  const locale = useLocale()
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    phone: '',
     email: '',
     message: ''
   })
+  const [phone, setPhone] = useState(PHONE_PREFIX)
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
 
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+
+  const captchaReady = !turnstileEnabled() || Boolean(turnstileToken)
+  const ready =
+    formData.firstName.trim().length > 0 &&
+    formData.lastName.trim().length > 0 &&
+    isPhoneComplete(phone) &&
+    captchaReady
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!ready) return
+
     setStatus('loading')
     setErrorMessage('')
 
@@ -26,20 +42,31 @@ export default function ContactFormSection() {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          phone: normalizePhone(phone),
+          source: 'HOME_FORM',
+          locale,
+          turnstileToken
+        })
       })
 
+      const data = await response.json().catch(() => ({}))
+
       if (!response.ok) {
-        throw new Error('Failed to send message')
+        setErrorMessage(tLead(`errors.${data.error || 'server'}`))
+        setStatus('error')
+        return
       }
 
       setStatus('success')
-      setFormData({ firstName: '', lastName: '', phone: '', email: '', message: '' })
-      
-      setTimeout(() => setStatus('idle'), 5000)
-    } catch (error) {
+      setFormData({ firstName: '', lastName: '', email: '', message: '' })
+      setPhone(PHONE_PREFIX)
+
+      setTimeout(() => setStatus('idle'), 8000)
+    } catch {
       setStatus('error')
-      setErrorMessage('Failed to send message. Please try again or contact us directly.')
+      setErrorMessage(tLead('errors.network'))
     }
   }
 
@@ -51,7 +78,7 @@ export default function ContactFormSection() {
   }
 
   return (
-    <section className="relative py-24" style={{ background: 'var(--bg)' }}>
+    <section className="relative py-24 vx-band vx-band--raised">
       <div className="container">
         <div className="mx-auto max-w-4xl">
           <div className="text-center mb-12">
@@ -102,7 +129,7 @@ export default function ContactFormSection() {
                       value={formData.firstName}
                       onChange={handleChange}
                       className="input"
-                      placeholder="John"
+                      
                       style={{ paddingLeft: '3rem' }}
                     />
                   </div>
@@ -131,7 +158,7 @@ export default function ContactFormSection() {
                       value={formData.lastName}
                       onChange={handleChange}
                       className="input"
-                      placeholder="Doe"
+                      
                       style={{ paddingLeft: '3rem' }}
                     />
                   </div>
@@ -139,34 +166,7 @@ export default function ContactFormSection() {
               </div>
 
               <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))' }}>
-                <div>
-                  <label htmlFor="phone" className="label">
-                    {t('fPhone')}
-                  </label>
-                  <div style={{ position: 'relative' }}>
-                    <Phone
-                      size={20}
-                      style={{
-                        position: 'absolute',
-                        left: '1rem',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        color: 'var(--muted)',
-                      }}
-                    />
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      required
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="input"
-                      placeholder="+998 90 123 45 67"
-                      style={{ paddingLeft: '3rem' }}
-                    />
-                  </div>
-                </div>
+                <PhoneField value={phone} onChange={setPhone} label={t('fPhone')} />
 
                 <div>
                   <label htmlFor="email" className="label">
@@ -207,10 +207,12 @@ export default function ContactFormSection() {
                   value={formData.message}
                   onChange={handleChange}
                   className="textarea"
-                  placeholder="Tell us what you're interested in learning..."
+                  placeholder={t('fMessage')}
                   rows={4}
                 />
               </div>
+
+              <Turnstile onToken={setTurnstileToken} />
 
               {status === 'success' && (
                 <div
@@ -222,7 +224,7 @@ export default function ContactFormSection() {
                     textAlign: 'center',
                   }}
                 >
-                  ✓ Message sent! We'll contact you within 24 hours.
+                  {tLead('sent')}. {tLead('sentHint')}
                 </div>
               )}
 
@@ -236,13 +238,13 @@ export default function ContactFormSection() {
                     textAlign: 'center',
                   }}
                 >
-                  ✗ {errorMessage}
+                  {errorMessage}
                 </div>
               )}
 
               <button
                 type="submit"
-                disabled={status === 'loading'}
+                disabled={status === 'loading' || !ready}
                 className="btn-primary"
                 style={{
                   width: '100%',
@@ -257,7 +259,7 @@ export default function ContactFormSection() {
                 {status === 'loading' ? (
                   <>
                     <div className="spinner" />
-                    Sending...
+                    {tLead('sending')}
                   </>
                 ) : (
                   <>

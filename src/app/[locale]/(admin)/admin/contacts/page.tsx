@@ -1,11 +1,13 @@
 import { prisma } from '@/lib/db'
 import { ContactRow } from '@/features/admin/components/ContactRow'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
+import { localized } from '@/lib/localized'
 
 export default async function AdminContacts() {
   const requests = await prisma.contactRequest.findMany({
     orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
-    take: 200
+    take: 200,
+    include: { course: { select: { title: true } } }
   })
 
   const newCount = requests.filter(r => r.status === 'NEW').length
@@ -26,6 +28,7 @@ export default async function AdminContacts() {
               <tr>
                 <th>Кто</th>
                 <th>Телефон</th>
+                <th>Откуда</th>
                 <th>Сообщение</th>
                 <th>Когда</th>
                 <th>Статус</th>
@@ -42,6 +45,10 @@ export default async function AdminContacts() {
                   message={r.message}
                   createdAt={r.createdAt.toISOString()}
                   status={r.status}
+                  source={r.source}
+                  courseTitle={r.course ? localized(r.course.title, 'ru') : null}
+                  plan={r.plan}
+                  locale={r.locale}
                 />
               ))}
             </tbody>
