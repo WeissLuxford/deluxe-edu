@@ -3,7 +3,15 @@ import { prisma } from '@/lib/db'
 import { revokeEnrollment } from '@/features/admin/actions'
 import { EnrollForm } from '@/features/admin/components/EnrollForm'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
+import { RoleSelect } from '@/features/admin/components/RoleSelect'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 import { localized } from '@/lib/localized'
+
+// Телефона может не быть: аккаунт заводят и по почте, и через Google.
+function contact(user: { phone: string | null; email: string | null }) {
+  if (user.phone) return `+${user.phone}`
+  return user.email || 'без контакта'
+}
 
 function ru(value: unknown) {
   return localized(value, 'ru') || '—'
@@ -19,6 +27,7 @@ export default async function AdminStudents({
   const { locale } = await params
   const { q = '' } = await searchParams
   const query = q.trim()
+  const admin = await requireAdmin(locale)
 
   const where = query
     ? {
@@ -44,7 +53,7 @@ export default async function AdminStudents({
     prisma.user.findMany({
       orderBy: { createdAt: 'desc' },
       take: 300,
-      select: { id: true, name: true, phone: true }
+      select: { id: true, name: true, phone: true, email: true }
     }),
     prisma.course.findMany({ orderBy: { createdAt: 'desc' }, select: { id: true, title: true } })
   ])
@@ -52,7 +61,7 @@ export default async function AdminStudents({
   return (
     <div className="space-y-6">
       <EnrollForm
-        users={allUsers.map(u => ({ id: u.id, label: `${u.name || 'без имени'} · +${u.phone}` }))}
+        users={allUsers.map(u => ({ id: u.id, label: `${u.name || 'без имени'} · ${contact(u)}` }))}
         courses={courses.map(c => ({ id: c.id, label: ru(c.title) }))}
       />
 
@@ -96,12 +105,15 @@ export default async function AdminStudents({
                     >
                       {u.name || 'без имени'}
                     </Link>
-                    <div className="text-xs" style={{ color: 'var(--muted)' }}>+{u.phone}</div>
+                    <div className="text-xs" style={{ color: 'var(--muted)' }}>{contact(u)}</div>
                   </td>
                   <td>
-                    <span className={u.role === 'ADMIN' ? 'badge badge-primary' : 'badge'}>
-                      {u.role}
-                    </span>
+                    <RoleSelect
+                      userId={u.id}
+                      role={u.role}
+                      name={u.name || u.phone || 'без имени'}
+                      self={u.id === admin.id}
+                    />
                   </td>
                   <td>
                     {u.enrollments.length === 0 ? (

@@ -228,6 +228,35 @@ export async function setContactStatus(
   return { ok: true }
 }
 
+const ROLES = ['STUDENT', 'MENTOR', 'ADMIN'] as const
+type Role = (typeof ROLES)[number]
+
+// Права выдаются уже зарегистрированному человеку, а не заводятся отдельной
+// учёткой с паролем: пароль, который придумал администратор, всё равно
+// пришлось бы передавать в мессенджере.
+export async function setUserRole(userId: string, role: Role): Promise<ActionResult> {
+  const admin = await requireAdmin()
+
+  if (!ROLES.includes(role)) return { ok: false, error: 'Неизвестная роль' }
+  if (userId === admin.id) return { ok: false, error: 'Свою роль менять нельзя' }
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { id: true, role: true }
+  })
+  if (!user) return { ok: false, error: 'Пользователь не найден' }
+  if (user.role === role) return { ok: true }
+
+  if (user.role === 'ADMIN') {
+    const admins = await prisma.user.count({ where: { role: 'ADMIN' } })
+    if (admins <= 1) return { ok: false, error: 'Это последний администратор' }
+  }
+
+  await prisma.user.update({ where: { id: userId }, data: { role } })
+  revalidatePath('/ru/admin/students')
+  return { ok: true }
+}
+
 const PLANS = ['FREE', 'BASIC', 'PRO', 'DELUXE'] as const
 type Plan = (typeof PLANS)[number]
 
