@@ -10,7 +10,8 @@
     "about": "Biz haqimizda",
     "contacts": "Aloqa",
     "signout": "Chiqish",
-    "news": "Yangiliklar"
+    "news": "Yangiliklar",
+    "headerCta": "Ariza qoldirish"
   },
   "buttons": {
     "start": "Boshlash",
@@ -517,7 +518,10 @@
     "joinLead": "Ingliz tili uchun haddan tashqari ko’p so’raydigan tizimni birga buzaylik. Oqilona narxda o’qishni boshlang",
     "joinCourses": "Kurslarni ko’rish",
     "joinTrial": "Sinov darsi",
-    "joinNote": "Karta kerak emas. Shartlarsiz. Shunchaki o’qing"
+    "joinNote": "Karta kerak emas. Shartlarsiz. Shunchaki o’qing",
+    "midCtaTitle": "Savollaringiz bormi?",
+    "midCtaLead": "Ariza qoldiring — batafsil aytib beramiz va kursni tanlashga yordam beramiz",
+    "midCtaButton": "Ariza qoldirish"
   },
   "offers": {
     "title": "Sotib olishdan oldin sinab ko’ring",
@@ -579,6 +583,7 @@
     "lead": "Qoʻngʻiroq qilamiz va mos darajani tanlashga yordam beramiz",
     "courseTitle": "Kursga yozilish",
     "courseLead": "Raqamingizni qoldiring — dastur, jadval va toʻlov haqida gaplashamiz",
+    "headerLead": "Raqamingizni qoldiring — qoʻngʻiroq qilamiz va kursni tanlashga yordam beramiz",
     "firstName": "Ism",
     "lastName": "Familiya",
     "phone": "Telefon",
@@ -660,6 +665,8 @@
     "heroLead": "Savollar, fikrlar yoki shunchaki yozmoqchimisiz? Biz aloqadamiz va haqiqatan javob beramiz. Botlarsiz",
     "ctaContact": "Bizga yozish",
     "ctaTrial": "Sinov darsi",
+    "formTitle": "Yoki shu yerda ariza qoldiring",
+    "formLead": "Formani toʻldiring — qoʻngʻiroq qilamiz va barcha savollarga javob beramiz",
     "hours": "Ish vaqti",
     "location": "Qayerdamiz",
     "locationValue": "Toshkent, O’zbekiston",

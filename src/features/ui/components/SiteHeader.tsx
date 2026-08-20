@@ -4,12 +4,13 @@ import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
-import { Menu, X } from 'lucide-react'
+import { Menu, Send, X } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 import LangSwitcher from './LangDropdown'
 import VerifyBanner from './VerifyBanner'
 import { VertexLogo } from './VertexLogo'
 import UserMenu from './UserMenu'
+import { HeaderLeadModal } from './HeaderLeadModal'
 import { useEffect, useState } from 'react'
 
 export default function SiteHeader() {
@@ -21,6 +22,7 @@ export default function SiteHeader() {
   const base = `/${locale}`
   const [bannerVisible, setBannerVisible] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [leadModalOpen, setLeadModalOpen] = useState(false)
 
   const navItems = [
     { href: `${base}/courses`, label: t('nav.courses') },
@@ -89,6 +91,10 @@ export default function SiteHeader() {
         </ul>
 
         <div className="header-actions flex items-center gap-4">
+          <button type="button" className="header-cta" onClick={() => setLeadModalOpen(true)}>
+            <Send size={16} />
+            {t('nav.headerCta')}
+          </button>
           <ThemeToggle />
           <LangSwitcher />
           <UserMenu />
@@ -141,12 +147,26 @@ export default function SiteHeader() {
           })}
         </ul>
 
+        <button
+          type="button"
+          className="header-cta header-cta--mobile"
+          onClick={() => {
+            setMenuOpen(false)
+            setLeadModalOpen(true)
+          }}
+        >
+          <Send size={16} />
+          {t('nav.headerCta')}
+        </button>
+
         <div className="mobile-menu-actions">
           <ThemeToggle />
           <LangSwitcher />
           <UserMenu />
         </div>
       </div>
+
+      {leadModalOpen && <HeaderLeadModal onClose={() => setLeadModalOpen(false)} />}
     </>
   )
 }

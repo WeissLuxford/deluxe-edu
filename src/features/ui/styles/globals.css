@@ -653,6 +653,28 @@ html.light .theme-toggle:hover { background: rgba(0,0,0,0.03) }
   gap: 0.5rem;
 }
 
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--brand-200), var(--brand-400) 55%, var(--brand-500));
+  color: #1a1405;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.header-cta:hover {
+  transform: translateY(-1px);
+}
+
+.header-cta--mobile {
+  display: none;
+}
+
 .hero-video {
   aspect-ratio: 16 / 9;
   width: 100%;
@@ -1449,6 +1471,13 @@ html.light .glass-panel {
   .mobile-menu-link.active {
     color: var(--gold-text);
     background: var(--bg-tertiary);
+  }
+
+  .header-cta--mobile {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
   }
 
   .mobile-menu-actions {

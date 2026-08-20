@@ -10,7 +10,8 @@
     "about": "About",
     "contacts": "Contacts",
     "signout": "Sign out",
-    "news": "News"
+    "news": "News",
+    "headerCta": "Leave a request"
   },
   "buttons": {
     "start": "Start",
@@ -511,7 +512,10 @@
     "joinLead": "Let us break the system that overcharges for English. Start learning at a sane price",
     "joinCourses": "Browse courses",
     "joinTrial": "Trial lesson",
-    "joinNote": "No card needed. No conditions. Just learn"
+    "joinNote": "No card needed. No conditions. Just learn",
+    "midCtaTitle": "Still have questions?",
+    "midCtaLead": "Leave a request — we will tell you more and help you pick a course",
+    "midCtaButton": "Leave a request"
   },
   "offers": {
     "title": "Try before you buy",
@@ -573,6 +577,7 @@
     "lead": "We will call you and help you pick the right level",
     "courseTitle": "Join this course",
     "courseLead": "Leave your number and we will walk you through the programme, schedule and payment",
+    "headerLead": "Leave your number and we will call you back to help pick a course",
     "firstName": "First name",
     "lastName": "Last name",
     "phone": "Phone",
@@ -654,6 +659,8 @@
     "heroLead": "Questions, feedback or just want to say hi? We are here and we actually reply. No bots",
     "ctaContact": "Write to us",
     "ctaTrial": "Trial lesson",
+    "formTitle": "Or leave a request right here",
+    "formLead": "Fill in the form — we will call you back and answer any questions",
     "hours": "Working hours",
     "location": "Where we are",
     "locationValue": "Tashkent, Uzbekistan",

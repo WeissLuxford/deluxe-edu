@@ -2,6 +2,7 @@
 
 import { useTranslations, useLocale } from 'next-intl'
 import Link from 'next/link'
+import { Mouse } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { mediaSrc } from '@/features/ui/components/Media'
 
@@ -680,6 +681,29 @@ export default function HeroVertex() {
           50% { transform: translateX(-3rem) }
           100% { transform: translateX(3rem) }
         }
+        .vx-scroll-cue {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 1.5rem;
+          z-index: 8;
+          display: flex;
+          justify-content: center;
+          color: #f2f5ff;
+          opacity: 0;
+          animation: vx-load 1.4s ease-out 3s forwards, vx-scroll-bob 2s ease-in-out 3s infinite;
+          pointer-events: none;
+        }
+        html.light .vx-scroll-cue {
+          color: #12305a;
+        }
+        @keyframes vx-scroll-bob {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(8px); }
+        }
+        @media (max-width: 768px) {
+          .vx-scroll-cue { bottom: 1rem; }
+        }
         .vx-hero-spacer {
           height: 52rem;
           pointer-events: none;
@@ -919,6 +943,10 @@ body .bg .aur_cont .aur.aur_10 {
         <span />
         <span />
         <span />
+      </div>
+
+      <div className="vx-scroll-cue" aria-hidden="true">
+        <Mouse size={28} strokeWidth={1.5} />
       </div>
 
       <div className="vx-hero-spacer " />

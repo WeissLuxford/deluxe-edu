@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { motion } from 'framer-motion';
-import { MessageCircle, Mail, Phone } from 'lucide-react';
+import { ArrowDown, MessageCircle, Mail, Phone } from 'lucide-react';
 import { MediaDecor } from '@/features/ui/components/MediaDecor';
 
 export function ContactHero() {
@@ -61,6 +61,15 @@ export function ContactHero() {
               {t('ctaTrial')}
             </a>
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y: [0, 10, 0] }}
+          transition={{ delay: 1, repeat: Infinity, duration: 2 }}
+          style={{ marginTop: '4rem', display: 'flex', justifyContent: 'center' }}
+        >
+          <ArrowDown size={32} color="var(--gold)" />
         </motion.div>
       </div>
 
