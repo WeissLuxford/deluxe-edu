@@ -6,6 +6,7 @@ import { authOptions } from '@/lib/auth'
 import { getEnrolledCourses, resumeFromTree } from '@/features/learn/progress'
 import { getStudentGroups, getUpcomingEvents, getRecentAttendance } from '@/features/learn/schedule'
 import { LearnTopbar } from '@/features/learn/components/LearnTopbar'
+import { LearnHomeSidebar } from '@/features/learn/components/LearnHomeSidebar'
 import { ResumeCard } from '@/features/learn/components/ResumeCard'
 import { CourseTile } from '@/features/learn/components/CourseTile'
 import { GroupScheduleCard } from '@/features/learn/components/GroupScheduleCard'
@@ -34,52 +35,56 @@ export default async function LearnHome({ params }: { params: Promise<{ locale: 
     <>
       <LearnTopbar locale={locale} />
 
-      <main className="learn-main">
-        <div className="learn-container">
-          <header className="learn-head">
-            <h1 className="learn-head__title">{t('title')}</h1>
-            <p className="learn-head__sub">{t('subtitle')}</p>
-          </header>
+      <div className="learn-course">
+        <LearnHomeSidebar locale={locale} courses={trees} />
 
-          {resume && <ResumeCard locale={locale} resume={resume} />}
+        <main className="learn-content">
+          <div className="learn-container">
+            <header className="learn-head">
+              <h1 className="learn-head__title">{t('title')}</h1>
+              <p className="learn-head__sub">{t('subtitle')}</p>
+            </header>
 
-          {groups.length > 0 && (
-            <GroupScheduleCard locale={locale} groups={groups} upcoming={upcomingEvents} attendance={attendance} />
-          )}
+            {resume && <ResumeCard locale={locale} resume={resume} />}
 
-          {trees.length === 0 && (
-            <div className="empty-state">
-              <h3>{t('noCourses')}</h3>
-              <p>{t('noCoursesHint')}</p>
-              <Link href={`/${locale}/courses`} className="btn btn-primary">
-                {t('browseCourses')}
-              </Link>
-            </div>
-          )}
+            {groups.length > 0 && (
+              <GroupScheduleCard locale={locale} groups={groups} upcoming={upcomingEvents} attendance={attendance} />
+            )}
 
-          {active.length > 0 && (
-            <section className="learn-section">
-              <h2 className="learn-section__title">{t('activeSection')}</h2>
-              <div className="learn-grid">
-                {active.map(tree => (
-                  <CourseTile key={tree.courseId} locale={locale} tree={tree} />
-                ))}
+            {trees.length === 0 && (
+              <div className="empty-state">
+                <h3>{t('noCourses')}</h3>
+                <p>{t('noCoursesHint')}</p>
+                <Link href={`/${locale}/courses`} className="btn btn-primary">
+                  {t('browseCourses')}
+                </Link>
               </div>
-            </section>
-          )}
+            )}
 
-          {completed.length > 0 && (
-            <section className="learn-section">
-              <h2 className="learn-section__title">{t('completedSection')}</h2>
-              <div className="learn-grid">
-                {completed.map(tree => (
-                  <CourseTile key={tree.courseId} locale={locale} tree={tree} />
-                ))}
-              </div>
-            </section>
-          )}
-        </div>
-      </main>
+            {active.length > 0 && (
+              <section className="learn-section">
+                <h2 className="learn-section__title">{t('activeSection')}</h2>
+                <div className="learn-grid">
+                  {active.map(tree => (
+                    <CourseTile key={tree.courseId} locale={locale} tree={tree} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {completed.length > 0 && (
+              <section className="learn-section">
+                <h2 className="learn-section__title">{t('completedSection')}</h2>
+                <div className="learn-grid">
+                  {completed.map(tree => (
+                    <CourseTile key={tree.courseId} locale={locale} tree={tree} />
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+        </main>
+      </div>
     </>
   )
 }

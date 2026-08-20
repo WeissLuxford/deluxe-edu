@@ -14,9 +14,9 @@ export default function GoogleButton({ callbackUrl }: { callbackUrl: string }) {
   return (
     <button
       type="button"
-      className="btn-ghost"
+      className="btn btn-secondary w-full"
       onClick={() => signIn('google', { callbackUrl })}
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem' }}
+      style={{ gap: '0.6rem' }}
     >
       <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
         <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.4 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.2 17.7 9.5 24 9.5z" />

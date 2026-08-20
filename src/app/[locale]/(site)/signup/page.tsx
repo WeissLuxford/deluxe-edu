@@ -201,7 +201,7 @@ export default function SignUpPage() {
             {showEmail && (
               <button
                 type="button"
-                className="btn-ghost"
+                className="btn btn-secondary w-full"
                 onClick={() => {
                   setMethod('email')
                   setStep('details')
