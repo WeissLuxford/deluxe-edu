@@ -662,6 +662,7 @@
     "backToLearning": "My learning",
     "overview": "Programme",
     "aboutCourse": "About the course",
+    "personalAccount": "Personal account",
     "moduleLabel": "Module {n}",
     "lessonsOf": "{done} of {total} lessons",
     "lessonsLeft": "{count} left",

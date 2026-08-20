@@ -12,7 +12,8 @@ import {
   PanelLeftOpen,
   Menu,
   X,
-  Info
+  Info,
+  User
 } from 'lucide-react'
 import type { CourseTree } from '@/features/learn/progress'
 
@@ -156,6 +157,11 @@ export function LearnSidebar({ locale, tree }: { locale: string; tree: CourseTre
           <Link href={`${base}/about`} className="learn-sidebar__about">
             <Info size={16} />
             {!collapsed && <span>{t('aboutCourse')}</span>}
+          </Link>
+
+          <Link href={`/${locale}/learn/account`} className="learn-sidebar__about">
+            <User size={16} />
+            {!collapsed && <span>{t('personalAccount')}</span>}
           </Link>
 
           <button

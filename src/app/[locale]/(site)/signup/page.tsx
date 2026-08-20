@@ -284,8 +284,8 @@ export default function SignUpPage() {
                 placeholder={t('codePlaceholder')}
                 value={code}
                 onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="input"
-                style={{ textAlign: 'center', fontSize: '1.5rem', letterSpacing: '0.5rem' }}
+                className="input auth-code-input"
+                style={{ textAlign: 'center' }}
                 maxLength={6}
                 autoFocus
                 required

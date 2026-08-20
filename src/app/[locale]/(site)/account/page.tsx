@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/db'
+import { getDashboardUser } from '@/features/dashboard/getDashboardUser'
 import DashboardShell from '@/features/dashboard/DashboardShell'
 
 export default async function AccountPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -9,18 +9,7 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
   const session = await getServerSession(authOptions)
   if (!session?.user?.id) redirect(`/${locale}/signin?next=/${locale}/account`)
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    include: {
-      Payment: { include: { course: true }, orderBy: { createdAt: 'desc' } },
-      LessonProgress: {
-        include: { lesson: { include: { course: { select: { slug: true, title: true } } } } },
-        orderBy: { updatedAt: 'desc' }
-      },
-      submissions: true,
-      _count: { select: { enrollments: true } }
-    }
-  })
+  const user = await getDashboardUser(session.user.id)
 
   if (!user) redirect(`/${locale}/signin`)
 

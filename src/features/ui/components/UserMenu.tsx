@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { useSession, signOut } from 'next-auth/react'
 import { Avatar } from './Avatar'
@@ -10,7 +11,9 @@ export default function UserMenu() {
   const locale = useLocale()
   const t = useTranslations()
   const { data: session, status } = useSession()
+  const pathname = usePathname() || ''
   const base = `/${locale}`
+  const accountHref = pathname.startsWith(`${base}/learn`) ? `${base}/learn/account` : `${base}/account`
   const [open, setOpen] = useState(false)
   const [hydrated, setHydrated] = useState(false)
   const [override, setOverride] = useState<{ name?: string; phone?: string } | null>(null)
@@ -98,7 +101,7 @@ export default function UserMenu() {
           {t('learn.backToLearning')}
         </Link>
         <Link
-          href={`${base}/account`}
+          href={accountHref}
           role="menuitem"
           className="menu-item"
           onClick={() => setOpen(false)}

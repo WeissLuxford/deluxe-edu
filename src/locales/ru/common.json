@@ -662,6 +662,7 @@
     "backToLearning": "Моё обучение",
     "overview": "Программа",
     "aboutCourse": "О курсе",
+    "personalAccount": "Личный кабинет",
     "moduleLabel": "Модуль {n}",
     "lessonsOf": "{done} из {total} уроков",
     "lessonsLeft": "осталось {count}",
