@@ -302,6 +302,30 @@ export async function revokeEnrollment(id: string): Promise<ActionResult> {
   return { ok: true }
 }
 
+// Удалять можно только STUDENT: у преподавателей и админов есть группы,
+// расписание и другие завязки, которые так просто не подчистить.
+export async function deleteUser(userId: string): Promise<ActionResult> {
+  const admin = await requireAdmin()
+
+  if (userId === admin.id) return { ok: false, error: 'Себя удалить нельзя' }
+
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { id: true, role: true } })
+  if (!user) return { ok: false, error: 'Пользователь не найден' }
+  if (user.role !== 'STUDENT') return { ok: false, error: 'Удалять можно только студентов' }
+
+  await prisma.$transaction([
+    prisma.submission.deleteMany({ where: { userId } }),
+    prisma.payment.deleteMany({ where: { userId } }),
+    prisma.lessonProgress.deleteMany({ where: { userId } }),
+    prisma.enrollment.deleteMany({ where: { userId } }),
+    prisma.verificationToken.deleteMany({ where: { userId } }),
+    prisma.user.delete({ where: { id: userId } })
+  ])
+
+  revalidatePath('/ru/admin/students')
+  return { ok: true }
+}
+
 export async function moveLesson(id: string, direction: 'up' | 'down'): Promise<ActionResult> {
   await requireAdmin()
 

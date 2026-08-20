@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { History } from 'lucide-react'
 import { prisma } from '@/lib/db'
-import { revokeEnrollment } from '@/features/admin/actions'
+import { revokeEnrollment, deleteUser } from '@/features/admin/actions'
 import { EnrollForm } from '@/features/admin/components/EnrollForm'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { RoleSelect } from '@/features/admin/components/RoleSelect'
@@ -153,13 +153,23 @@ export default async function AdminStudents({
                     </td>
                     <td className="num">{u._count.LessonProgress}</td>
                     <td className="right">
-                      <Link
-                        href={`/${locale}/admin/students/${u.id}/history`}
-                        className="row-icon-btn"
-                        title="Журнал: курсы, платежи, тесты"
-                      >
-                        <History size={14} />
-                      </Link>
+                      <div className="flex items-center gap-1" style={{ justifyContent: 'flex-end' }}>
+                        <Link
+                          href={`/${locale}/admin/students/${u.id}/history`}
+                          className="row-icon-btn"
+                          title="Журнал: курсы, платежи, тесты"
+                        >
+                          <History size={14} />
+                        </Link>
+                        {u.role === 'STUDENT' && u.id !== admin.id && (
+                          <DeleteButton
+                            action={deleteUser.bind(null, u.id)}
+                            confirmText={`Удалить пользователя «${u.name || 'без имени'}»? Это удалит его записи на курсы, платежи и прогресс без возможности восстановления.`}
+                            label="Удалить"
+                            variant="icon"
+                          />
+                        )}
+                      </div>
                     </td>
                   </tr>
                 )

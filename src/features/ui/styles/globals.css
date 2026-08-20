@@ -3084,8 +3084,9 @@ html.light .course-article__cta {
 
 .dash-stat {
   display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
   padding: 0.9rem 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -3100,7 +3101,14 @@ html.light .course-article__cta {
 
 .dash-stat__icon {
   display: inline-flex;
+  flex-shrink: 0;
   color: var(--gold-text);
+}
+
+.dash-stat__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
 }
 
 .dash-stat__value {

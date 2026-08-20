@@ -119,6 +119,16 @@ export default function UserMenu() {
             Админка
           </Link>
         )}
+        {session.user.role === 'MENTOR' && (
+          <Link
+            href={`${base}/teacher`}
+            role="menuitem"
+            className="menu-item"
+            onClick={() => setOpen(false)}
+          >
+            Кабинет учителя
+          </Link>
+        )}
         <button
           role="menuitem"
           className="menu-item menu-last"

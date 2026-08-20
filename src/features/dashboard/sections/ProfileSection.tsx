@@ -16,7 +16,7 @@ export default function ProfileSection() {
 
   const [firstName, setFirstName] = useState(user?.firstName || '')
   const [lastName, setLastName] = useState(user?.lastName || '')
-  const [email, setEmail] = useState('') // Email опциональный
+  const [email, setEmail] = useState(user?.email || '') // Email опциональный
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
@@ -60,7 +60,9 @@ export default function ProfileSection() {
 
   return (
     <section className="dashboard-section">
-      <h2 className="section-title">{tProfile('title')}</h2>
+      <div className="section-head">
+        <h2 className="section-title">{tProfile('title')}</h2>
+      </div>
 
       {err && (
         <div className="alert alert-error">

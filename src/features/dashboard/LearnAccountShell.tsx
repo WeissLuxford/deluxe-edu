@@ -61,8 +61,10 @@ export async function LearnAccountShell({
                   <span className="dash-stat__icon">
                     <Icon size={16} />
                   </span>
-                  <span className="dash-stat__value">{s.value}</span>
-                  <span className="dash-stat__label">{s.label}</span>
+                  <span className="dash-stat__text">
+                    <span className="dash-stat__value">{s.value}</span>
+                    <span className="dash-stat__label">{s.label}</span>
+                  </span>
                 </div>
               )
             })}
