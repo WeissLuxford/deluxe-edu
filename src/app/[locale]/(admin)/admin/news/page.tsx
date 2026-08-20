@@ -5,25 +5,17 @@ import { deleteNews, toggleNewsPublished } from '@/features/admin/newsActions'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { ActionButton } from '@/features/admin/components/ActionButton'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
-
-const LOCALE_LABEL: Record<string, string> = { ru: 'RU', uz: 'UZ', en: 'EN' }
+import { localized } from '@/lib/localized'
 
 export default async function AdminNews({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const items = await prisma.news.findMany({ orderBy: { publishedAt: 'desc' } })
 
-  const groups = new Map<string, typeof items>()
-  for (const n of items) {
-    const list = groups.get(n.groupId) ?? []
-    list.push(n)
-    groups.set(n.groupId, list)
-  }
-
   return (
     <div className="space-y-4">
       <AdminPageHead
         title="Новости"
-        subtitle={`${items.length} записей в ${groups.size} новостях`}
+        subtitle={`${items.length} записей`}
         action={
           <Link href={`/${locale}/admin/news/new`} className="btn btn-primary">
             Новая новость
@@ -39,7 +31,6 @@ export default async function AdminNews({ params }: { params: Promise<{ locale: 
             <thead>
               <tr>
                 <th>Заголовок</th>
-                <th>Язык</th>
                 <th>Адрес</th>
                 <th>Публикация</th>
                 <th className="num">Статус</th>
@@ -47,71 +38,54 @@ export default async function AdminNews({ params }: { params: Promise<{ locale: 
               </tr>
             </thead>
             <tbody>
-              {[...groups.values()].map(group =>
-                group.map((n, i) => (
-                  <tr key={n.id}>
-                    <td>
-                      <Link href={`/${locale}/admin/news/${n.id}`} style={{ color: 'var(--gold-text)' }}>
-                        {n.title}
-                      </Link>
-                      {i === 0 && group.length < 3 && (
-                        <div className="text-xs" style={{ color: 'var(--muted)' }}>
-                          переводов: {group.length} из 3
-                        </div>
-                      )}
-                    </td>
-                    <td><span className="badge">{LOCALE_LABEL[n.locale] ?? n.locale}</span></td>
-                    <td style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--muted)' }}>
-                      {n.slug}
-                    </td>
-                    <td style={{ color: 'var(--muted)', whiteSpace: 'nowrap' }}>
-                      {n.publishedAt
-                        ? n.publishedAt.toLocaleDateString('ru-RU', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: '2-digit'
-                          })
-                        : '—'}
-                    </td>
-                    <td className="num">
-                      <ActionButton
-                        action={toggleNewsPublished.bind(null, n.id)}
-                        className={n.published ? 'badge badge-success toggle-badge' : 'badge badge-warning toggle-badge'}
-                        title="Переключить публикацию"
+              {items.map(n => (
+                <tr key={n.id}>
+                  <td>
+                    <Link href={`/${locale}/admin/news/${n.id}`} style={{ color: 'var(--gold-text)' }}>
+                      {localized(n.title, 'ru')}
+                    </Link>
+                  </td>
+                  <td style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--muted)' }}>
+                    {n.slug}
+                  </td>
+                  <td style={{ color: 'var(--muted)', whiteSpace: 'nowrap' }}>
+                    {n.publishedAt
+                      ? n.publishedAt.toLocaleDateString('ru-RU', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: '2-digit'
+                        })
+                      : '—'}
+                  </td>
+                  <td className="num">
+                    <ActionButton
+                      action={toggleNewsPublished.bind(null, n.id)}
+                      className={n.published ? 'badge badge-success toggle-badge' : 'badge badge-warning toggle-badge'}
+                      title="Переключить публикацию"
+                    >
+                      {n.published ? 'опубликована' : 'черновик'}
+                    </ActionButton>
+                  </td>
+                  <td className="right">
+                    <div className="row-actions">
+                      <Link
+                        href={`/ru/news/${n.slug}`}
+                        target="_blank"
+                        className="row-icon-btn"
+                        title="Посмотреть на сайте"
                       >
-                        {n.published ? 'опубликована' : 'черновик'}
-                      </ActionButton>
-                    </td>
-                    <td className="right">
-                      <div className="row-actions">
-                        {i === 0 && group.length < 3 && (
-                          <Link
-                            href={`/${locale}/admin/news/new?group=${n.groupId}`}
-                            className="btn btn-ghost"
-                            title="Добавить перевод"
-                          >
-                            + перевод
-                          </Link>
-                        )}
-                        <Link
-                          href={`/${n.locale}/news/${n.slug}`}
-                          target="_blank"
-                          className="row-icon-btn"
-                          title="Посмотреть на сайте"
-                        >
-                          <Eye size={14} />
-                        </Link>
-                        <DeleteButton
-                          action={deleteNews.bind(null, n.id)}
-                          confirmText={`Удалить «${n.title}» (${LOCALE_LABEL[n.locale]})?`}
-                          variant="icon"
-                          title="Удалить новость"
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
+                        <Eye size={14} />
+                      </Link>
+                      <DeleteButton
+                        action={deleteNews.bind(null, n.id)}
+                        confirmText={`Удалить «${localized(n.title, 'ru')}»?`}
+                        variant="icon"
+                        title="Удалить новость"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -29,6 +29,10 @@ model User {
   LessonProgress    LessonProgress[]
   tokens            VerificationToken[]
   oauthAccounts     OAuthAccount[]
+  groups            Group[]             @relation("TeacherGroups")
+  groupMemberships  GroupMembership[]   @relation("GroupMemberships")
+  attendanceRecords Attendance[]        @relation("AttendanceRecords")
+  devices           UserDevice[]
 
   @@index([phone])
   @@index([email])
@@ -44,6 +48,20 @@ model OAuthAccount {
 
   @@unique([provider, providerAccountId])
   @@index([userId])
+}
+
+model UserDevice {
+  id          String    @id @default(cuid())
+  userId      String
+  userAgent   String?
+  ip          String?
+  firstSeenAt DateTime  @default(now())
+  lastSeenAt  DateTime  @default(now())
+  revokedAt   DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, revokedAt])
 }
 
 model PhoneCode {
@@ -246,17 +264,15 @@ enum StreamKind {
 }
 
 model News {
-  id      String @id @default(cuid())
-  groupId String
-  locale  String
+  id   String @id @default(cuid())
+  slug String @unique
 
-  slug  String
-  title String
-  lead  String
-  body  String
+  title Json
+  lead  Json
+  body  Json
 
-  metaTitle       String?
-  metaDescription String?
+  metaTitle       Json?
+  metaDescription Json?
   coverUrl        String?
 
   published   Boolean   @default(false)
@@ -265,9 +281,7 @@ model News {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([locale, slug])
-  @@index([groupId])
-  @@index([locale, published, publishedAt])
+  @@index([published, publishedAt])
 }
 
 model ContactRequest {
@@ -296,6 +310,84 @@ enum Role {
   ADMIN
   MENTOR
   STUDENT
+}
+
+// --- Teacher panel: groups, schedule, attendance -----------------------
+
+model Group {
+  id        String   @id @default(cuid())
+  teacherId String
+  name      String
+  archived  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  teacher User              @relation("TeacherGroups", fields: [teacherId], references: [id])
+  members GroupMembership[]
+  events  ScheduleEvent[]
+
+  @@index([teacherId, archived])
+}
+
+model GroupMembership {
+  id       String    @id @default(cuid())
+  groupId  String
+  userId   String
+  joinedAt DateTime  @default(now())
+  leftAt   DateTime?
+
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user  User  @relation("GroupMemberships", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, userId])
+  @@index([userId, leftAt])
+}
+
+enum ScheduleEventType {
+  LESSON
+  MOCK_TEST
+  EXAM
+  SPEAKING_PRACTICE
+  OTHER
+}
+
+model ScheduleEvent {
+  id          String            @id @default(cuid())
+  groupId     String
+  type        ScheduleEventType @default(LESSON)
+  title       String?
+  notes       String?
+  startsAt    DateTime
+  durationMin Int               @default(60)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  group      Group        @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  attendance Attendance[]
+
+  @@index([groupId, startsAt])
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+model Attendance {
+  id        String           @id @default(cuid())
+  eventId   String
+  userId    String
+  status    AttendanceStatus
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  event ScheduleEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user  User          @relation("AttendanceRecords", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, userId])
+  @@index([userId])
 }
 
 enum Plan {

@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { LocalizedField } from './LocalizedField'
 import type { ActionResult } from '../actions'
 
 type Localized = { ru?: string; uz?: string; en?: string }
@@ -56,43 +57,11 @@ export function StreamForm({
       {state && !state.ok && <div className="alert alert-error">{state.error}</div>}
 
       <div className="card" style={{ padding: '1.5rem' }}>
-        <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)', marginBottom: '1rem' }}>
-          Название
-        </h3>
-        <div className="space-y-3">
-          <div>
-            <label className="label">Русский *</label>
-            <input name="title_ru" defaultValue={stream.title.ru} className="input" required />
-          </div>
-          <div>
-            <label className="label">O‘zbekcha</label>
-            <input name="title_uz" defaultValue={stream.title.uz} className="input" />
-          </div>
-          <div>
-            <label className="label">English</label>
-            <input name="title_en" defaultValue={stream.title.en} className="input" />
-          </div>
-        </div>
+        <LocalizedField name="title" label="Название" value={stream.title} required />
       </div>
 
       <div className="card" style={{ padding: '1.5rem' }}>
-        <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)', marginBottom: '1rem' }}>
-          Описание
-        </h3>
-        <div className="space-y-3">
-          <div>
-            <label className="label">Русский *</label>
-            <textarea name="description_ru" defaultValue={stream.description.ru} className="textarea" rows={3} required />
-          </div>
-          <div>
-            <label className="label">O‘zbekcha</label>
-            <textarea name="description_uz" defaultValue={stream.description.uz} className="textarea" rows={2} />
-          </div>
-          <div>
-            <label className="label">English</label>
-            <textarea name="description_en" defaultValue={stream.description.en} className="textarea" rows={2} />
-          </div>
-        </div>
+        <LocalizedField name="description" label="Описание" value={stream.description} textarea rows={3} required />
       </div>
 
       <div className="card" style={{ padding: '1.5rem' }}>

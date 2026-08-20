@@ -8,18 +8,16 @@ type Entry = {
 }
 
 type NewsSeed = {
-  groupId: string
   daysAgo: number
   ru: Entry
   uz: Entry
   en: Entry
 }
 
-// Новости лежат отдельной записью на каждый язык, их связывает groupId —
-// так в админке видно, какие переводы уже готовы, а какие нет.
+// Каждая новость — одна запись с полями title/lead/body в виде {ru,uz,en}.
+// Адрес (slug) общий для всех языков — берём ru-вариант как канонический.
 const NEWS: NewsSeed[] = [
   {
-    groupId: 'autumn-intake',
     daysAgo: 3,
     ru: {
       slug: 'osenniy-nabor',
@@ -53,7 +51,6 @@ Students who studied with us last term keep their place in the continuing group 
     }
   },
   {
-    groupId: 'ielts-results',
     daysAgo: 12,
     ru: {
       slug: 'rezultaty-ielts-letney-gruppy',
@@ -87,7 +84,6 @@ Listening improved the least. For the new term we have added short daily listeni
     }
   },
   {
-    groupId: 'speaking-club',
     daysAgo: 21,
     ru: {
       slug: 'razgovornyy-klub-po-chetvergam',
@@ -121,7 +117,6 @@ Elementary and above. Below that it is hard going: without basic vocabulary an h
     }
   },
   {
-    groupId: 'platform-progress',
     daysAgo: 34,
     ru: {
       slug: 'progress-i-konspekty-na-platforme',
@@ -161,26 +156,23 @@ export async function seedNews() {
 
   for (const item of NEWS) {
     const publishedAt = new Date(now - item.daysAgo * 24 * 60 * 60 * 1000)
+    const slug = item.ru.slug
 
-    for (const locale of ['ru', 'uz', 'en'] as const) {
-      const entry = item[locale]
-      const data = {
-        groupId: item.groupId,
-        title: entry.title,
-        lead: entry.lead,
-        body: entry.body,
-        metaTitle: entry.title,
-        metaDescription: entry.lead,
-        published: true,
-        publishedAt
-      }
-
-      await prisma.news.upsert({
-        where: { locale_slug: { locale, slug: entry.slug } },
-        update: data,
-        create: { locale, slug: entry.slug, ...data }
-      })
+    const data = {
+      title: { ru: item.ru.title, uz: item.uz.title, en: item.en.title },
+      lead: { ru: item.ru.lead, uz: item.uz.lead, en: item.en.lead },
+      body: { ru: item.ru.body, uz: item.uz.body, en: item.en.body },
+      metaTitle: { ru: item.ru.title, uz: item.uz.title, en: item.en.title },
+      metaDescription: { ru: item.ru.lead, uz: item.uz.lead, en: item.en.lead },
+      published: true,
+      publishedAt
     }
+
+    await prisma.news.upsert({
+      where: { slug },
+      update: data,
+      create: { slug, ...data }
+    })
   }
 
   console.log(`новости: ${NEWS.length} штуки на трёх языках`)

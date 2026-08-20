@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/db'
+import { localized } from '@/lib/localized'
 
 const SUPPORTED = ['ru', 'uz', 'en']
 
@@ -27,7 +28,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ locale:
   const site = (process.env.NEXTAUTH_URL || 'https://vertexedu.uz').replace(/\/$/, '')
 
   const items = await prisma.news.findMany({
-    where: { locale, published: true, publishedAt: { lte: new Date() } },
+    where: { published: true, publishedAt: { lte: new Date() } },
     orderBy: { publishedAt: 'desc' },
     take: 50
   })
@@ -38,10 +39,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ locale:
     .map(n => {
       const url = `${site}/${locale}/news/${n.slug}`
       return `    <item>
-      <title>${escapeXml(n.title)}</title>
+      <title>${escapeXml(localized(n.title, locale))}</title>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
-      <description>${escapeXml(n.lead)}</description>
+      <description>${escapeXml(localized(n.lead, locale))}</description>
       <pubDate>${(n.publishedAt ?? n.createdAt).toUTCString()}</pubDate>
     </item>`
     })

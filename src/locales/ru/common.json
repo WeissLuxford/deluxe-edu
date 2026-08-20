@@ -682,7 +682,22 @@
     "menu": "Меню курса",
     "emptyModule": "В этом модуле пока нет уроков",
     "emptyCourse": "Уроки этого курса ещё готовятся",
-    "modulesCount": "модулей"
+    "modulesCount": "модулей",
+    "myGroupTitle": "Моя группа",
+    "myGroupTeacher": "Учитель: {name}",
+    "upcomingEventsTitle": "Ближайшие занятия",
+    "noUpcomingEvents": "Занятий пока не запланировано",
+    "attendanceTitle": "Посещаемость",
+    "noAttendance": "Отметок пока нет",
+    "attendancePresent": "Был",
+    "attendanceAbsent": "Не был",
+    "attendanceLate": "Опоздал",
+    "attendanceExcused": "Уважительная причина",
+    "eventTypeLesson": "Урок",
+    "eventTypeMockTest": "Мок-тест",
+    "eventTypeExam": "Контрольная",
+    "eventTypeSpeaking": "Спикинг",
+    "eventTypeOther": "Другое"
   },
   "blocks": {
     "formatEyebrow": "Как устроен урок",

@@ -3,6 +3,8 @@ import { prisma } from '@/lib/db'
 import { updateNews } from '@/features/admin/newsActions'
 import { NewsForm } from '@/features/admin/components/NewsForm'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
+import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
+import { localized } from '@/lib/localized'
 
 function localInput(date: Date) {
   const pad = (n: number) => String(n).padStart(2, '0')
@@ -18,43 +20,32 @@ export default async function EditNews({
   const item = await prisma.news.findUnique({ where: { id } })
   if (!item) notFound()
 
-  const siblings = await prisma.news.findMany({
-    where: { groupId: item.groupId, id: { not: id } },
-    select: { locale: true }
-  })
-
   return (
     <div className="space-y-4">
       <AdminPageHead
-        title={item.title}
-        subtitle={
-          siblings.length > 0
-            ? `Переводы: ${siblings.map(s => s.locale.toUpperCase()).join(', ')}`
-            : 'Переводов пока нет'
-        }
+        title={localized(item.title, 'ru')}
         backHref={`/${locale}/admin/news`}
         backLabel="К новостям"
       />
 
-      <NewsForm
-        action={updateNews.bind(null, id)}
-        news={{
-          groupId: item.groupId,
-          locale: item.locale,
-          slug: item.slug,
-          title: item.title,
-          lead: item.lead,
-          body: item.body,
-          metaTitle: item.metaTitle ?? '',
-          metaDescription: item.metaDescription ?? '',
-          coverUrl: item.coverUrl ?? '',
-          published: item.published,
-          publishedAt: localInput(item.publishedAt ?? item.createdAt)
-        }}
-        submitLabel="Сохранить"
-        redirectTo={`/${locale}/admin/news`}
-        lockLocale
-      />
+      <LocaleTabsProvider>
+        <NewsForm
+          action={updateNews.bind(null, id)}
+          news={{
+            slug: item.slug,
+            title: item.title as any,
+            lead: item.lead as any,
+            body: item.body as any,
+            metaTitle: (item.metaTitle as any) ?? {},
+            metaDescription: (item.metaDescription as any) ?? {},
+            coverUrl: item.coverUrl ?? '',
+            published: item.published,
+            publishedAt: localInput(item.publishedAt ?? item.createdAt)
+          }}
+          submitLabel="Сохранить"
+          redirectTo={`/${locale}/admin/news`}
+        />
+      </LocaleTabsProvider>
     </div>
   )
 }

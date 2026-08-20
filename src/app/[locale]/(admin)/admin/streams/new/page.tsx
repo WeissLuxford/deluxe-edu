@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createStream } from '@/features/admin/streamActions'
 import { StreamForm } from '@/features/admin/components/StreamForm'
+import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 
 export default async function NewStream({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -11,11 +12,13 @@ export default async function NewStream({ params }: { params: Promise<{ locale: 
         ← К списку эфиров
       </Link>
       <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>Новый эфир</h2>
-      <StreamForm
-        action={createStream}
-        submitLabel="Создать"
-        redirectTo={`/${locale}/admin/streams`}
-      />
+      <LocaleTabsProvider>
+        <StreamForm
+          action={createStream}
+          submitLabel="Создать"
+          redirectTo={`/${locale}/admin/streams`}
+        />
+      </LocaleTabsProvider>
     </div>
   )
 }

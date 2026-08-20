@@ -6,18 +6,43 @@ import { prisma } from '@/lib/db'
 import { requireAdmin } from './requireAdmin'
 import type { ActionResult } from './actions'
 
+const localized = z.object({
+  ru: z.string().trim().min(1, 'Русский текст обязателен'),
+  uz: z.string().trim().default(''),
+  en: z.string().trim().default('')
+})
+
+const optionalLocalized = z.object({
+  ru: z.string().trim().default(''),
+  uz: z.string().trim().default(''),
+  en: z.string().trim().default('')
+})
+
+function readLocalized(form: FormData, prefix: string) {
+  return {
+    ru: String(form.get(`${prefix}_ru`) ?? ''),
+    uz: String(form.get(`${prefix}_uz`) ?? ''),
+    en: String(form.get(`${prefix}_en`) ?? '')
+  }
+}
+
+function pruneEmpty(value: { ru: string; uz: string; en: string }): Record<string, string> | null {
+  const entries = Object.entries(value).filter(([, v]) => v.trim().length > 0)
+  if (entries.length === 0) return null
+  return Object.fromEntries(entries)
+}
+
 const newsSchema = z.object({
-  locale: z.enum(['ru', 'uz', 'en']),
   slug: z
     .string()
     .trim()
     .min(2)
     .regex(/^[a-z0-9-]+$/, 'Только латиница в нижнем регистре, цифры и дефис'),
-  title: z.string().trim().min(3, 'Заголовок обязателен'),
-  lead: z.string().trim().min(10, 'Анонс обязателен'),
-  body: z.string().trim().min(20, 'Текст обязателен'),
-  metaTitle: z.string().trim().max(70).nullable(),
-  metaDescription: z.string().trim().max(170).nullable(),
+  title: localized,
+  lead: localized.extend({ ru: z.string().trim().min(10, 'Анонс обязателен') }),
+  body: localized.extend({ ru: z.string().trim().min(20, 'Текст обязателен') }),
+  metaTitle: optionalLocalized,
+  metaDescription: optionalLocalized,
   coverUrl: z.string().trim().nullable(),
   published: z.boolean(),
   publishedAt: z.date()
@@ -31,16 +56,29 @@ function read(form: FormData) {
   const dateRaw = String(form.get('publishedAt') ?? '')
 
   return {
-    locale: String(form.get('locale') ?? 'ru') as 'ru' | 'uz' | 'en',
     slug: String(form.get('slug') ?? ''),
-    title: String(form.get('title') ?? ''),
-    lead: String(form.get('lead') ?? ''),
-    body: String(form.get('body') ?? ''),
-    metaTitle: clean('metaTitle'),
-    metaDescription: clean('metaDescription'),
+    title: readLocalized(form, 'title'),
+    lead: readLocalized(form, 'lead'),
+    body: readLocalized(form, 'body'),
+    metaTitle: readLocalized(form, 'metaTitle'),
+    metaDescription: readLocalized(form, 'metaDescription'),
     coverUrl: clean('coverUrl'),
     published: form.get('published') === 'on',
     publishedAt: dateRaw ? new Date(dateRaw) : new Date()
+  }
+}
+
+function toData(parsed: z.infer<typeof newsSchema>) {
+  return {
+    slug: parsed.slug,
+    title: parsed.title,
+    lead: parsed.lead,
+    body: parsed.body,
+    metaTitle: pruneEmpty(parsed.metaTitle) ?? undefined,
+    metaDescription: pruneEmpty(parsed.metaDescription) ?? undefined,
+    coverUrl: parsed.coverUrl,
+    published: parsed.published,
+    publishedAt: parsed.publishedAt
   }
 }
 
@@ -56,14 +94,12 @@ export async function createNews(_prev: unknown, form: FormData): Promise<Action
   if (!parsed.success) return { ok: false, error: parsed.error.issues[0].message }
 
   const clash = await prisma.news.findFirst({
-    where: { locale: parsed.data.locale, slug: parsed.data.slug },
+    where: { slug: parsed.data.slug },
     select: { id: true }
   })
-  if (clash) return { ok: false, error: 'Новость с таким адресом на этом языке уже есть' }
+  if (clash) return { ok: false, error: 'Новость с таким адресом уже есть' }
 
-  const groupId = String(form.get('groupId') ?? '').trim() || crypto.randomUUID()
-
-  await prisma.news.create({ data: { ...parsed.data, groupId } })
+  await prisma.news.create({ data: toData(parsed.data) })
   revalidatePath('/ru/admin/news')
   return { ok: true }
 }
@@ -80,12 +116,12 @@ export async function updateNews(id: string, _prev: unknown, form: FormData): Pr
   if (!parsed.success) return { ok: false, error: parsed.error.issues[0].message }
 
   const clash = await prisma.news.findFirst({
-    where: { locale: parsed.data.locale, slug: parsed.data.slug, id: { not: id } },
+    where: { slug: parsed.data.slug, id: { not: id } },
     select: { id: true }
   })
-  if (clash) return { ok: false, error: 'Новость с таким адресом на этом языке уже есть' }
+  if (clash) return { ok: false, error: 'Новость с таким адресом уже есть' }
 
-  await prisma.news.update({ where: { id }, data: parsed.data })
+  await prisma.news.update({ where: { id }, data: toData(parsed.data) })
   revalidatePath('/ru/admin/news')
   return { ok: true }
 }

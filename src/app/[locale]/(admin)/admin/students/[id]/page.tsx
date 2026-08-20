@@ -1,11 +1,14 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { CheckCircle2, Phone, Mail, CalendarDays, History } from 'lucide-react'
+import { CheckCircle2, Phone, Mail, CalendarDays, History, Smartphone } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { revokeEnrollment } from '@/features/admin/actions'
+import { revokeDevice } from '@/features/admin/deviceActions'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { Avatar } from '@/features/ui/components/Avatar'
 import { localized } from '@/lib/localized'
+import { summarizeUserAgent } from '@/lib/userAgent'
+import { DEVICE_LIMIT } from '@/lib/devices'
 
 const ru = (value: unknown) => localized(value, 'ru') || '—'
 
@@ -13,6 +16,14 @@ const dateFmt = new Intl.DateTimeFormat('ru-RU', {
   day: '2-digit',
   month: '2-digit',
   year: 'numeric'
+})
+
+const dateTimeFmt = new Intl.DateTimeFormat('ru-RU', {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
 })
 
 export default async function StudentCard({
@@ -47,11 +58,15 @@ export default async function StudentCard({
         orderBy: { createdAt: 'desc' },
         include: { assignment: { select: { title: true, lessonId: true } } }
       },
-      Payment: { orderBy: { createdAt: 'desc' }, include: { course: { select: { title: true } } } }
+      Payment: { orderBy: { createdAt: 'desc' }, include: { course: { select: { title: true } } } },
+      devices: { orderBy: { lastSeenAt: 'desc' } }
     }
   })
 
   if (!user) notFound()
+
+  const activeDevices = user.devices.filter(d => !d.revokedAt)
+  const atDeviceLimit = activeDevices.length >= DEVICE_LIMIT
 
   const passed = new Set(user.LessonProgress.filter(p => p.passed).map(p => p.lessonId))
   const activeEnrollments = user.enrollments.filter(e => e.status === 'ACTIVE')
@@ -162,6 +177,50 @@ export default async function StudentCard({
               )
             })}
           </div>
+        )}
+      </section>
+
+      <section className="admin-card">
+        <div className="flex items-center justify-between" style={{ marginBottom: '0.5rem' }}>
+          <h3 className="admin-card__title" style={{ marginBottom: 0 }}>
+            Устройства ({activeDevices.length} активных из {DEVICE_LIMIT})
+          </h3>
+          {atDeviceLimit && (
+            <span className="badge badge-warning" title="Похоже на доступ с нескольких устройств одновременно">
+              лимит устройств достигнут
+            </span>
+          )}
+        </div>
+
+        {user.devices.length === 0 ? (
+          <p className="admin-empty">Входов ещё не было.</p>
+        ) : (
+          <ul className="admin-feed">
+            {user.devices.map(d => (
+              <li key={d.id}>
+                <span>
+                  <strong>
+                    <Smartphone size={13} style={{ verticalAlign: '-2px', marginRight: '0.25rem' }} />
+                    {summarizeUserAgent(d.userAgent)}
+                  </strong>
+                  <span>
+                    {d.ip ?? 'IP неизвестен'} · первый вход {dateTimeFmt.format(d.firstSeenAt)} · активность{' '}
+                    {dateTimeFmt.format(d.lastSeenAt)}
+                    {d.revokedAt && ` · разлогинен ${dateTimeFmt.format(d.revokedAt)}`}
+                  </span>
+                </span>
+                {d.revokedAt ? (
+                  <span className="badge">неактивно</span>
+                ) : (
+                  <DeleteButton
+                    action={revokeDevice.bind(null, d.id)}
+                    confirmText="Разлогинить это устройство? Понадобится войти заново."
+                    label="Разлогинить"
+                  />
+                )}
+              </li>
+            ))}
+          </ul>
         )}
       </section>
 

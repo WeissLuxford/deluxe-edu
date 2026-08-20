@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { Calendar } from 'lucide-react'
 import { prisma } from '@/lib/db'
+import { localized } from '@/lib/localized'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,7 +11,7 @@ export default async function NewsListPage({ params }: { params: Promise<{ local
   const t = await getTranslations({ locale, namespace: 'news' })
 
   const items = await prisma.news.findMany({
-    where: { locale, published: true, publishedAt: { lte: new Date() } },
+    where: { published: true, publishedAt: { lte: new Date() } },
     orderBy: { publishedAt: 'desc' },
     take: 50
   })
@@ -49,9 +50,9 @@ export default async function NewsListPage({ params }: { params: Promise<{ local
                     })}
                   </time>
                   <h2 className="news-card__title">
-                    <Link href={`/${locale}/news/${n.slug}`}>{n.title}</Link>
+                    <Link href={`/${locale}/news/${n.slug}`}>{localized(n.title, locale)}</Link>
                   </h2>
-                  <p className="news-card__lead">{n.lead}</p>
+                  <p className="news-card__lead">{localized(n.lead, locale)}</p>
                   <Link href={`/${locale}/news/${n.slug}`} className="news-card__more">
                     {t('readMore')}
                   </Link>

@@ -10,6 +10,7 @@ import {
   Radio,
   Newspaper,
   Inbox,
+  GraduationCap,
   ExternalLink,
   PanelLeftClose,
   PanelLeftOpen,
@@ -23,7 +24,14 @@ type Props = {
   locale: string
   adminName: string
   adminPhone: string
-  counters: { courses: number; students: number; streams: number; news: number; newContacts: number }
+  counters: {
+    courses: number
+    students: number
+    streams: number
+    news: number
+    newContacts: number
+    teachers: number
+  }
 }
 
 export function AdminSidebar({ locale, adminName, adminPhone, counters }: Props) {
@@ -37,6 +45,7 @@ export function AdminSidebar({ locale, adminName, adminPhone, counters }: Props)
     { href: base, icon: LayoutDashboard, label: 'Обзор', exact: true },
     { href: `${base}/courses`, icon: BookOpen, label: 'Курсы', count: counters.courses },
     { href: `${base}/students`, icon: Users, label: 'Студенты', count: counters.students },
+    { href: `${base}/teachers`, icon: GraduationCap, label: 'Учителя', count: counters.teachers },
     { href: `${base}/streams`, icon: Radio, label: 'Эфиры', count: counters.streams },
     { href: `${base}/news`, icon: Newspaper, label: 'Новости', count: counters.news },
     { href: `${base}/contacts`, icon: Inbox, label: 'Заявки', count: counters.newContacts, accent: true }

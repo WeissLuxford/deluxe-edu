@@ -2,10 +2,12 @@ import { NextAuthOptions, User as NextAuthUser } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 import bcrypt from 'bcryptjs'
+import { headers } from 'next/headers'
 import { prisma } from './db'
 import { resolveGoogleUser, type GoogleProfile } from '@/features/auth/google'
 import { normalizePhone, normalizeEmail, isEmailIdentifier, isValidUzPhone } from '@/features/auth/identity'
-import { RATE_LIMITS, consumeRateLimit, peekRateLimit } from './rateLimit'
+import { RATE_LIMITS, consumeRateLimit, peekRateLimit, clientIp } from './rateLimit'
+import { registerDevice, touchDevice } from './devices'
 
 type Role = 'ADMIN' | 'MENTOR' | 'STUDENT'
 
@@ -55,6 +57,7 @@ declare module 'next-auth/jwt' {
     phoneVerified?: Date | null
     refreshedAt?: number
     invalid?: boolean
+    deviceId?: string
   }
 }
 
@@ -73,6 +76,11 @@ const SESSION_FIELDS = {
 } as const
 
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000
+
+async function assignDevice(userId: string): Promise<string> {
+  const h = await headers()
+  return registerDevice(userId, h.get('user-agent') ?? undefined, clientIp(h))
+}
 
 async function findUserByIdentifier(raw: string) {
   const value = raw.trim()
@@ -183,6 +191,7 @@ export const authOptions: NextAuthOptions = {
         token.image = fresh.image
         token.phoneVerified = fresh.phoneVerified
         token.refreshedAt = Date.now()
+        token.deviceId = await assignDevice(fresh.id)
         return token
       }
 
@@ -199,6 +208,7 @@ export const authOptions: NextAuthOptions = {
         token.image = user.image ?? null
         token.phoneVerified = user.phoneVerified ?? null
         token.refreshedAt = Date.now()
+        token.deviceId = await assignDevice(user.id)
         return token
       }
 
@@ -217,6 +227,11 @@ export const authOptions: NextAuthOptions = {
 
         const issuedAt = Number(token.iat ?? 0) * 1000
         if (fresh.passwordChangedAt && issuedAt && fresh.passwordChangedAt.getTime() > issuedAt) {
+          token.invalid = true
+          return token
+        }
+
+        if (token.deviceId && !(await touchDevice(token.deviceId))) {
           token.invalid = true
           return token
         }

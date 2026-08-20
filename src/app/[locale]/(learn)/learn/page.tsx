@@ -4,9 +4,11 @@ import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import { authOptions } from '@/lib/auth'
 import { getEnrolledCourses, resumeFromTree } from '@/features/learn/progress'
+import { getStudentGroups, getUpcomingEvents, getRecentAttendance } from '@/features/learn/schedule'
 import { LearnTopbar } from '@/features/learn/components/LearnTopbar'
 import { ResumeCard } from '@/features/learn/components/ResumeCard'
 import { CourseTile } from '@/features/learn/components/CourseTile'
+import { GroupScheduleCard } from '@/features/learn/components/GroupScheduleCard'
 
 export default async function LearnHome({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -15,6 +17,13 @@ export default async function LearnHome({ params }: { params: Promise<{ locale: 
 
   const t = await getTranslations({ locale, namespace: 'learn' })
   const trees = await getEnrolledCourses(session.user.id, locale)
+  const groups = await getStudentGroups(session.user.id)
+  const [upcomingEvents, attendance] = groups.length
+    ? await Promise.all([
+        getUpcomingEvents(groups.map(g => g.groupId)),
+        getRecentAttendance(session.user.id)
+      ])
+    : [[], []]
 
   const active = trees.filter(tree => !tree.completed)
   const completed = trees.filter(tree => tree.completed)
@@ -33,6 +42,10 @@ export default async function LearnHome({ params }: { params: Promise<{ locale: 
           </header>
 
           {resume && <ResumeCard locale={locale} resume={resume} />}
+
+          {groups.length > 0 && (
+            <GroupScheduleCard locale={locale} groups={groups} upcoming={upcomingEvents} attendance={attendance} />
+          )}
 
           {trees.length === 0 && (
             <div className="empty-state">
