@@ -96,25 +96,22 @@ export default async function EditLesson({
           }}
           submitLabel="Сохранить урок"
           redirectTo={`/${locale}/admin/courses/${lesson.course.id}`}
+          testsSlot={
+            <>
+              <div className="hint" style={{ marginBottom: '1rem' }}>
+                Студент проходит к следующему уроку, только набрав 70% и выше.
+              </div>
+              <AssignmentBuilder
+                save={saveAssignment.bind(null, id)}
+                remove={deleteAssignment.bind(null, id)}
+                initialTitle={toLocalized(assignment?.title)}
+                initialQuestions={toBuilderQuestions(assignment?.prompt, assignment?.answerKey)}
+                hasExisting={Boolean(assignment)}
+              />
+            </>
+          }
         />
       </LocaleTabsProvider>
-
-      <div>
-        <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)', marginBottom: '0.5rem' }}>
-          Тест
-        </h3>
-        <div className="hint" style={{ marginBottom: '1rem' }}>
-          Студент проходит к следующему уроку, только набрав 70% и выше.
-        </div>
-
-        <AssignmentBuilder
-          save={saveAssignment.bind(null, id)}
-          remove={deleteAssignment.bind(null, id)}
-          initialTitle={toLocalized(assignment?.title)}
-          initialQuestions={toBuilderQuestions(assignment?.prompt, assignment?.answerKey)}
-          hasExisting={Boolean(assignment)}
-        />
-      </div>
     </div>
   )
 }

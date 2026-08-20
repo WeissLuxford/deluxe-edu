@@ -2,7 +2,8 @@
 
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, ChevronUp, ChevronDown, ChevronRight } from 'lucide-react'
+import { useLocaleTab } from './LocaleTabs'
 import type { ActionResult } from '../actions'
 
 type Localized = { ru: string; uz: string; en: string }
@@ -16,6 +17,12 @@ type Question = {
   question: Localized
   options: Option[]
   correct: string | string[]
+}
+
+const TYPE_LABEL: Record<QuestionType, string> = {
+  single: 'Один ответ',
+  multiple: 'Несколько ответов',
+  text: 'Ввод текста'
 }
 
 const uid = () => Math.random().toString(36).slice(2, 9)
@@ -36,46 +43,36 @@ function LocalizedField({
   onChange,
   label,
   placeholder,
-  textarea = false
+  textarea = false,
+  compact = false
 }: {
   value: Localized
   onChange: (v: Localized) => void
-  label: string
+  label?: string
   placeholder?: string
   textarea?: boolean
+  compact?: boolean
 }) {
+  const [active] = useLocaleTab()
   const Input: any = textarea ? 'textarea' : 'input'
+
+  const field = (
+    <Input
+      className={textarea ? 'textarea' : 'input'}
+      style={compact ? { flex: 1 } : undefined}
+      value={value[active] ?? ''}
+      placeholder={placeholder}
+      rows={textarea ? 2 : undefined}
+      onChange={(e: any) => onChange({ ...value, [active]: e.target.value })}
+    />
+  )
+
+  if (compact) return field
+
   return (
     <div>
-      <label className="label">{label}</label>
-      <Input
-        className={textarea ? 'textarea' : 'input'}
-        value={value.ru}
-        placeholder={placeholder}
-        rows={textarea ? 2 : undefined}
-        onChange={(e: any) => onChange({ ...value, ru: e.target.value })}
-      />
-      <details style={{ marginTop: '0.35rem' }}>
-        <summary style={{ cursor: 'pointer', fontSize: '0.8rem', color: 'var(--muted)' }}>
-          переводы
-        </summary>
-        <div className="space-y-2" style={{ marginTop: '0.5rem' }}>
-          <Input
-            className={textarea ? 'textarea' : 'input'}
-            value={value.uz}
-            placeholder="O‘zbekcha"
-            rows={textarea ? 2 : undefined}
-            onChange={(e: any) => onChange({ ...value, uz: e.target.value })}
-          />
-          <Input
-            className={textarea ? 'textarea' : 'input'}
-            value={value.en}
-            placeholder="English"
-            rows={textarea ? 2 : undefined}
-            onChange={(e: any) => onChange({ ...value, en: e.target.value })}
-          />
-        </div>
-      </details>
+      {label && <label className="label">{label}</label>}
+      {field}
     </div>
   )
 }
@@ -97,6 +94,9 @@ export function AssignmentBuilder({
   const [title, setTitle] = useState<Localized>(initialTitle)
   const [questions, setQuestions] = useState<Question[]>(
     initialQuestions.length > 0 ? initialQuestions : [newQuestion()]
+  )
+  const [expandedId, setExpandedId] = useState<string | null>(
+    initialQuestions.length <= 1 ? (initialQuestions[0]?.id ?? questions[0]?.id ?? null) : null
   )
   const [error, setError] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
@@ -123,6 +123,28 @@ export function AssignmentBuilder({
     const current = Array.isArray(q.correct) ? q.correct : []
     patch(idx, {
       correct: current.includes(value) ? current.filter(v => v !== value) : [...current, value]
+    })
+  }
+
+  const addQuestion = () => {
+    const q = newQuestion()
+    setQuestions(qs => [...qs, q])
+    setExpandedId(q.id)
+  }
+
+  const removeQuestion = (idx: number) => {
+    const id = questions[idx].id
+    setQuestions(qs => qs.filter((_, i) => i !== idx))
+    setExpandedId(current => (current === id ? null : current))
+  }
+
+  const moveQuestion = (idx: number, direction: 'up' | 'down') => {
+    const target = direction === 'up' ? idx - 1 : idx + 1
+    if (target < 0 || target >= questions.length) return
+    setQuestions(qs => {
+      const next = [...qs]
+      ;[next[idx], next[target]] = [next[target], next[idx]]
+      return next
     })
   }
 
@@ -177,126 +199,157 @@ export function AssignmentBuilder({
         />
       </div>
 
-      {questions.map((q, idx) => (
-        <div key={q.id} className="card" style={{ padding: '1.5rem' }}>
-          <div className="flex items-center justify-between" style={{ marginBottom: '1rem' }}>
-            <strong style={{ color: 'var(--fg)' }}>Вопрос {idx + 1}</strong>
-            <button
-              type="button"
-              className="btn btn-ghost"
-              onClick={() => setQuestions(qs => qs.filter((_, i) => i !== idx))}
-              disabled={questions.length === 1}
-              title={questions.length === 1 ? 'Нужен хотя бы один вопрос' : 'Удалить вопрос'}
+      {questions.map((q, idx) => {
+        const expanded = expandedId === q.id
+        const preview = q.question.ru.trim() || 'без текста вопроса'
+
+        return (
+          <div key={q.id} className="card" style={{ padding: 0, overflow: 'hidden' }}>
+            <div
+              className={`assignment-q__head${expanded ? ' open' : ''}`}
+              onClick={() => setExpandedId(expanded ? null : q.id)}
             >
-              <Trash2 size={16} />
-            </button>
-          </div>
+              <ChevronRight size={16} className={`assignment-q__chevron${expanded ? ' open' : ''}`} />
+              <span className="assignment-q__num">{idx + 1}</span>
+              <span className="assignment-q__preview">
+                <strong>{TYPE_LABEL[q.type]}</strong>
+                {!expanded && <span> — {preview}</span>}
+              </span>
 
-          <div className="space-y-3">
-            <div>
-              <label className="label">Тип</label>
-              <select
-                className="select"
-                value={q.type}
-                onChange={e => changeType(idx, e.target.value as QuestionType)}
-              >
-                <option value="single">Один правильный ответ</option>
-                <option value="multiple">Несколько правильных</option>
-                <option value="text">Ввод текста</option>
-              </select>
-            </div>
-
-            <LocalizedField
-              value={q.question}
-              onChange={v => patch(idx, { question: v })}
-              label="Вопрос *"
-              textarea
-            />
-
-            {q.type === 'text' ? (
-              <div>
-                <label className="label">Правильный ответ *</label>
-                <input
-                  className="input"
-                  value={typeof q.correct === 'string' ? q.correct : ''}
-                  onChange={e => patch(idx, { correct: e.target.value })}
-                  placeholder="London"
-                />
-                <div className="hint">Регистр и пробелы по краям не учитываются.</div>
-              </div>
-            ) : (
-              <div>
-                <label className="label">
-                  Варианты ответа — отметьте {q.type === 'single' ? 'правильный' : 'все правильные'}
-                </label>
-                <div className="space-y-2">
-                  {q.options.map((opt, oi) => {
-                    const checked =
-                      q.type === 'single'
-                        ? q.correct === opt.value
-                        : Array.isArray(q.correct) && q.correct.includes(opt.value)
-
-                    return (
-                      <div key={opt.value} className="flex items-center gap-2">
-                        <input
-                          type={q.type === 'single' ? 'radio' : 'checkbox'}
-                          name={`correct-${q.id}`}
-                          checked={checked}
-                          onChange={() => toggleCorrect(idx, opt.value)}
-                        />
-                        <input
-                          className="input"
-                          style={{ flex: 1 }}
-                          value={opt.label.ru}
-                          placeholder={`Вариант ${oi + 1}`}
-                          onChange={e =>
-                            patch(idx, {
-                              options: q.options.map((o, i) =>
-                                i === oi ? { ...o, label: { ...o.label, ru: e.target.value } } : o
-                              )
-                            })
-                          }
-                        />
-                        <button
-                          type="button"
-                          className="btn btn-ghost"
-                          disabled={q.options.length <= 2}
-                          onClick={() =>
-                            patch(idx, {
-                              options: q.options.filter((_, i) => i !== oi),
-                              correct: Array.isArray(q.correct)
-                                ? q.correct.filter(v => v !== opt.value)
-                                : q.correct === opt.value
-                                  ? ''
-                                  : q.correct
-                            })
-                          }
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    )
-                  })}
-                </div>
+              <div className="assignment-q__actions" onClick={e => e.stopPropagation()}>
                 <button
                   type="button"
-                  className="btn btn-secondary"
-                  style={{ marginTop: '0.75rem' }}
-                  onClick={() => patch(idx, { options: [...q.options, newOption()] })}
+                  className="order-btn"
+                  disabled={idx === 0}
+                  title="Выше"
+                  onClick={() => moveQuestion(idx, 'up')}
                 >
-                  <Plus size={14} /> Вариант
+                  <ChevronUp size={13} />
                 </button>
+                <button
+                  type="button"
+                  className="order-btn"
+                  disabled={idx === questions.length - 1}
+                  title="Ниже"
+                  onClick={() => moveQuestion(idx, 'down')}
+                >
+                  <ChevronDown size={13} />
+                </button>
+                <button
+                  type="button"
+                  className="row-icon-btn row-icon-btn--danger"
+                  onClick={() => removeQuestion(idx)}
+                  disabled={questions.length === 1}
+                  title={questions.length === 1 ? 'Нужен хотя бы один вопрос' : 'Удалить вопрос'}
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            </div>
+
+            {expanded && (
+              <div style={{ padding: '1.25rem 1.5rem 1.5rem' }}>
+                <div className="space-y-3">
+                  <div>
+                    <label className="label">Тип</label>
+                    <select
+                      className="select"
+                      value={q.type}
+                      onChange={e => changeType(idx, e.target.value as QuestionType)}
+                    >
+                      <option value="single">Один правильный ответ</option>
+                      <option value="multiple">Несколько правильных</option>
+                      <option value="text">Ввод текста</option>
+                    </select>
+                  </div>
+
+                  <LocalizedField
+                    value={q.question}
+                    onChange={v => patch(idx, { question: v })}
+                    label="Вопрос *"
+                    textarea
+                  />
+
+                  {q.type === 'text' ? (
+                    <div>
+                      <label className="label">Правильный ответ *</label>
+                      <input
+                        className="input"
+                        value={typeof q.correct === 'string' ? q.correct : ''}
+                        onChange={e => patch(idx, { correct: e.target.value })}
+                        placeholder="London"
+                      />
+                      <div className="hint">Регистр и пробелы по краям не учитываются.</div>
+                    </div>
+                  ) : (
+                    <div>
+                      <label className="label">
+                        Варианты ответа — отметьте {q.type === 'single' ? 'правильный' : 'все правильные'}
+                      </label>
+                      <div className="space-y-2">
+                        {q.options.map((opt, oi) => {
+                          const checked =
+                            q.type === 'single'
+                              ? q.correct === opt.value
+                              : Array.isArray(q.correct) && q.correct.includes(opt.value)
+
+                          return (
+                            <div key={opt.value} className="flex items-center gap-2">
+                              <input
+                                type={q.type === 'single' ? 'radio' : 'checkbox'}
+                                name={`correct-${q.id}`}
+                                checked={checked}
+                                onChange={() => toggleCorrect(idx, opt.value)}
+                              />
+                              <LocalizedField
+                                compact
+                                value={opt.label}
+                                placeholder={`Вариант ${oi + 1}`}
+                                onChange={v =>
+                                  patch(idx, {
+                                    options: q.options.map((o, i) => (i === oi ? { ...o, label: v } : o))
+                                  })
+                                }
+                              />
+                              <button
+                                type="button"
+                                className="btn btn-ghost"
+                                disabled={q.options.length <= 2}
+                                onClick={() =>
+                                  patch(idx, {
+                                    options: q.options.filter((_, i) => i !== oi),
+                                    correct: Array.isArray(q.correct)
+                                      ? q.correct.filter(v => v !== opt.value)
+                                      : q.correct === opt.value
+                                        ? ''
+                                        : q.correct
+                                  })
+                                }
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          )
+                        })}
+                      </div>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        style={{ marginTop: '0.75rem' }}
+                        onClick={() => patch(idx, { options: [...q.options, newOption()] })}
+                      >
+                        <Plus size={14} /> Вариант
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
-        </div>
-      ))}
+        )
+      })}
 
-      <button
-        type="button"
-        className="btn btn-secondary"
-        onClick={() => setQuestions(qs => [...qs, newQuestion()])}
-      >
+      <button type="button" className="btn btn-secondary" onClick={addQuestion}>
         <Plus size={16} /> Добавить вопрос
       </button>
 

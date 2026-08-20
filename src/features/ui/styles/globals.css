@@ -3811,6 +3811,98 @@ html.light .course-article__cta {
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 }
 
+.assignment-q__head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.25rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.assignment-q__head.open {
+  border-bottom: 1px solid var(--border);
+}
+
+.assignment-q__head:hover {
+  background: var(--surface-2);
+}
+
+.assignment-q__chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 0.15s ease;
+}
+
+.assignment-q__chevron.open {
+  transform: rotate(90deg);
+}
+
+.assignment-q__num {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.assignment-q__preview {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg);
+  font-size: 0.9rem;
+}
+
+.assignment-q__preview span {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.assignment-q__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.lesson-tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.lesson-tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.lesson-tabs__tab:hover {
+  color: var(--fg);
+}
+
+.lesson-tabs__tab.active {
+  color: var(--gold-text);
+  border-bottom-color: var(--gold-text);
+}
+
 .lf-global {
   display: flex;
   align-items: center;

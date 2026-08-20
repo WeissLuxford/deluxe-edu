@@ -46,20 +46,34 @@ export default async function StudentHistory({
   type Event = { date: Date; href?: string; title: ReactNode; meta: ReactNode }
 
   const events: Event[] = [
-    ...user.enrollments.map((e): Event => ({
-      date: e.createdAt,
-      href: `/${locale}/admin/courses/${e.course.id}`,
-      title: (
-        <>
-          <GraduationCap size={13} /> Запись на курс «{ru(e.course.title)}»
-        </>
-      ),
-      meta: (
-        <span className={`badge${e.status === 'ACTIVE' ? ' badge-success' : ' badge-warning'}`}>
-          {e.status === 'ACTIVE' ? e.plan || 'BASIC' : 'доступ отозван'}
-        </span>
-      )
-    })),
+    ...user.enrollments.flatMap((e): Event[] => {
+      const granted: Event = {
+        date: e.createdAt,
+        href: `/${locale}/admin/courses/${e.course.id}`,
+        title: (
+          <>
+            <GraduationCap size={13} /> Запись на курс «{ru(e.course.title)}»
+          </>
+        ),
+        meta: <span className="badge badge-success">{e.plan || 'BASIC'}</span>
+      }
+
+      if (e.status === 'ACTIVE') return [granted]
+
+      return [
+        granted,
+        {
+          date: e.updatedAt,
+          href: `/${locale}/admin/courses/${e.course.id}`,
+          title: (
+            <>
+              <GraduationCap size={13} /> Доступ к курсу «{ru(e.course.title)}» отозван
+            </>
+          ),
+          meta: <span className="badge badge-warning">отозван</span>
+        }
+      ]
+    }),
     ...user.Payment.map((p): Event => ({
       date: p.createdAt,
       title: (
@@ -97,9 +111,7 @@ export default async function StudentHistory({
         Журнал: {name}
       </h2>
       <p className="hint">
-        Записи на курсы, платежи и сданные тесты — в порядке времени. Дата у записи на курс —
-        это момент выдачи доступа; точный момент отзыва система пока не хранит, только текущий
-        статус.
+        Записи на курсы, платежи и сданные тесты — в порядке времени.
       </p>
 
       {events.length === 0 ? (
