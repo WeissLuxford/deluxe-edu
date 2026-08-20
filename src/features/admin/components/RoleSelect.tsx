@@ -60,7 +60,7 @@ export function RoleSelect({
   return (
     <div>
       <select
-        className="input"
+        className="select"
         value={role}
         disabled={pending}
         onChange={event => onChange(event.target.value as Role)}

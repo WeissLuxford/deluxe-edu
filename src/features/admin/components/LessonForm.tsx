@@ -99,7 +99,7 @@ export function LessonForm({
           <div className="admin-grid">
             <div>
               <label className="label">Модуль</label>
-              <select name="moduleId" defaultValue={lesson.moduleId ?? ''} className="input">
+              <select name="moduleId" defaultValue={lesson.moduleId ?? ''} className="select">
                 <option value="">Вне модулей</option>
                 {modules.map(m => (
                   <option key={m.id} value={m.id}>
