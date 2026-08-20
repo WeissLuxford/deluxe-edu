@@ -1027,7 +1027,7 @@
 }
 
 .lesson-step:disabled {
-  opacity: 0.45;
+  color: color-mix(in oklab, var(--muted) 50%, var(--bg));
   cursor: not-allowed;
 }
 

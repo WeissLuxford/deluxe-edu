@@ -44,7 +44,7 @@ export default function BuyButton({
     <button
       onClick={onClick}
       disabled={loading}
-      className="px-4 py-2 rounded bg-yellow-400 text-black disabled:opacity-60"
+      className="px-4 py-2 rounded bg-yellow-400 text-black disabled:bg-yellow-200 disabled:text-yellow-700 disabled:cursor-not-allowed"
     >
       {loading ? '...' : label}
     </button>

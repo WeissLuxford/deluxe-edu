@@ -129,7 +129,7 @@ a:hover {
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  color: var(--muted);
   cursor: not-allowed;
 }
 
@@ -149,10 +149,15 @@ a:hover {
   white-space: nowrap;
 }
 
-.btn-primary:disabled,
+.btn-primary:disabled {
+  background: color-mix(in oklab, var(--gold) 45%, var(--surface-3));
+  color: var(--bg);
+  cursor: not-allowed;
+}
+
 .btn-secondary:disabled,
 .btn-ghost:disabled {
-  opacity: 0.5;
+  color: var(--muted);
   cursor: not-allowed;
 }
 
@@ -1877,7 +1882,7 @@ html.light .glass-panel {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3642,7 +3647,8 @@ html.light .course-article__cta {
 }
 
 .order-btn:disabled {
-  opacity: 0.3;
+  color: color-mix(in oklab, var(--muted) 30%, var(--bg-secondary));
+  border-color: color-mix(in oklab, var(--border) 30%, transparent);
   cursor: default;
 }
 

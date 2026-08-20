@@ -9,7 +9,7 @@ export function HeaderLeadModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
       style={{ background: 'rgba(0, 0, 0, 0.7)' }}
       onClick={onClose}
     >

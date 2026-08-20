@@ -196,7 +196,7 @@
 }
 
 .row-icon-btn:disabled {
-  opacity: 0.5;
+  color: color-mix(in oklab, var(--muted) 55%, var(--surface-2));
   cursor: default;
 }
 

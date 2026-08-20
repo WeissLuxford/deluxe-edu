@@ -54,7 +54,7 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
 
   if (showContactModal) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={onClose}>
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={onClose}>
         <div className="w-full max-w-md rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-gold)' }} onClick={(e) => e.stopPropagation()}>
           <div className="mb-4 flex items-start justify-between gap-4">
             <div>
@@ -77,7 +77,7 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={onClose}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto p-4" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={onClose}>
       <div className="w-full max-w-5xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-gold)' }} onClick={(e) => e.stopPropagation()}>
         <div className="mb-6 flex items-start justify-between">
           <div>
