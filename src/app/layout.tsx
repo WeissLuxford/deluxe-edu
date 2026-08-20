@@ -4,6 +4,7 @@ import "@/features/ui/styles/sections.css"
 import "@/features/ui/styles/atmosphere.css"
 import "@/features/ui/styles/admin-structure.css"
 import type { ReactNode } from 'react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeScript } from '@/features/ui/components/ThemeScript'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -12,7 +13,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <ThemeScript />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <SpeedInsights />
+      </body>
     </html>
   )
 }
