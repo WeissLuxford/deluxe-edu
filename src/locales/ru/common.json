@@ -658,6 +658,8 @@
     "completedSection": "Пройденные курсы",
     "noCourses": "У вас пока нет курсов",
     "noCoursesHint": "Выберите курс в каталоге — он появится здесь сразу после оплаты",
+    "searchPlaceholder": "Поиск по курсам",
+    "searchNoResults": "Ничего не найдено",
     "browseCourses": "Смотреть каталог",
     "backToLearning": "Моё обучение",
     "overview": "Программа",

@@ -664,6 +664,8 @@
     "completedSection": "Tugatilgan kurslar",
     "noCourses": "Sizda hali kurslar yo‘q",
     "noCoursesHint": "Katalogdan kurs tanlang — to‘lovdan so‘ng u shu yerda paydo bo‘ladi",
+    "searchPlaceholder": "Kurslarni qidirish",
+    "searchNoResults": "Hech narsa topilmadi",
     "browseCourses": "Katalogni ko‘rish",
     "backToLearning": "Mening ta’limim",
     "overview": "Dastur",

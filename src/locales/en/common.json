@@ -658,6 +658,8 @@
     "completedSection": "Completed courses",
     "noCourses": "You have no courses yet",
     "noCoursesHint": "Pick a course in the catalogue — it shows up here right after payment",
+    "searchPlaceholder": "Search courses",
+    "searchNoResults": "Nothing found",
     "browseCourses": "Browse catalogue",
     "backToLearning": "My learning",
     "overview": "Programme",

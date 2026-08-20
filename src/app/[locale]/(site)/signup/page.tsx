@@ -193,8 +193,10 @@ export default function SignUpPage() {
                 setStep('phone')
               }}
             >
-              <Phone size={18} style={{ marginRight: '0.5rem' }} />
-              {tMethod('phone')}
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Phone size={18} />
+                {tMethod('phone')}
+              </span>
               <span className="drop-shadow" />
             </button>
 

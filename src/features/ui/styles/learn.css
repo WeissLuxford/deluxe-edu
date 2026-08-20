@@ -403,6 +403,36 @@
   cursor: pointer;
 }
 
+.learn-sidebar__search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 1rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  transition: var(--transition);
+}
+
+.learn-sidebar__search:focus-within {
+  border-color: var(--gold-text);
+}
+
+.learn-sidebar__search-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: var(--fg);
+  font-size: 0.8125rem;
+  outline: none;
+}
+
+.learn-sidebar__search-input::placeholder {
+  color: var(--muted);
+}
+
 .learn-sidebar__progress {
   padding: 0.9rem 1rem;
   border-bottom: 1px solid var(--border);
