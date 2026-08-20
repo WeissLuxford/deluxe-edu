@@ -264,6 +264,7 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
 .textarea:disabled,
 .select:disabled {
   color: var(--muted);
+  -webkit-text-fill-color: var(--muted);
   cursor: not-allowed;
 }
 
@@ -273,7 +274,9 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
 }
 
 .label {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.875rem;
   font-weight: 500;
   margin-bottom: 0.5rem;

@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/db'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
+import { DeleteButton } from '@/features/admin/components/DeleteButton'
+import { deleteUser } from '@/features/admin/actions'
 import { requireAdmin } from '@/features/admin/requireAdmin'
 
 function contact(user: { phone: string | null; email: string | null }) {
@@ -52,13 +54,21 @@ export default async function AdminTeachers({ params }: { params: Promise<{ loca
                     <td className="num">{t._count.groups}</td>
                     <td className="num">{students}</td>
                     <td className="right">
-                      <Link
-                        href={`/${locale}/admin/teachers/${t.id}`}
-                        className="row-icon-btn"
-                        title="Группы учителя"
-                      >
-                        Группы
-                      </Link>
+                      <div className="flex items-center gap-1" style={{ justifyContent: 'flex-end' }}>
+                        <Link
+                          href={`/${locale}/admin/teachers/${t.id}`}
+                          className="row-icon-btn"
+                          title="Группы учителя"
+                        >
+                          Группы
+                        </Link>
+                        <DeleteButton
+                          action={deleteUser.bind(null, t.id)}
+                          confirmText={`Удалить учителя «${t.name || 'без имени'}»? Возможно только если за ним не закреплено групп.`}
+                          label="Удалить"
+                          variant="icon"
+                        />
+                      </div>
                     </td>
                   </tr>
                 )

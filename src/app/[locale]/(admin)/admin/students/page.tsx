@@ -161,7 +161,7 @@ export default async function AdminStudents({
                         >
                           <History size={14} />
                         </Link>
-                        {u.role === 'STUDENT' && u.id !== admin.id && (
+                        {(u.role === 'STUDENT' || u.role === 'MENTOR') && u.id !== admin.id && (
                           <DeleteButton
                             action={deleteUser.bind(null, u.id)}
                             confirmText={`Удалить пользователя «${u.name || 'без имени'}»? Это удалит его записи на курсы, платежи и прогресс без возможности восстановления.`}
