@@ -133,14 +133,39 @@ a:hover {
   cursor: not-allowed;
 }
 
+.btn-primary,
+.btn-secondary,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-ghost:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn-primary {
   background: var(--gold);
   color: var(--bg);
+  border: none;
   padding: .75rem 1.5rem;
 }
 
 .btn-primary:hover:not(:disabled) {
   background: var(--gold-light);
+  color: var(--bg);
   box-shadow: var(--shadow-gold);
 }
 
@@ -154,15 +179,18 @@ a:hover {
 .btn-secondary:hover:not(:disabled) {
   border-color: var(--border-hover);
   background: rgba(255, 255, 255, 0.05);
+  color: var(--fg);
 }
 
 .btn-ghost {
   background: transparent;
+  border: none;
   color: var(--fg);
 }
 
 .btn-ghost:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.05);
+  color: var(--fg);
 }
 
 .card {
