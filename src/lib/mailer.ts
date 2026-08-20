@@ -43,7 +43,8 @@ async function send(to: string, subject: string, html: string): Promise<boolean>
       html
     })
     return true
-  } catch {
+  } catch (error) {
+    console.error('[mailer] sendMail failed:', error)
     return false
   }
 }

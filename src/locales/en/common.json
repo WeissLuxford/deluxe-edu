@@ -42,7 +42,7 @@
     "code": "Code from SMS",
     "codePlaceholder": "6 digits",
     "passwordPlaceholder": "Create a password",
-    "passwordHint": "At least 6 characters, letters and digits",
+    "passwordHint": "At least 6 characters, Latin letters and digits",
     "confirm": "Repeat password",
     "confirmPlaceholder": "Once more",
     "mismatch": "Passwords do not match",
@@ -67,7 +67,7 @@
     "verifyEmailFailedHint": "Email is not configured on the server. Contact us and we will open access manually"
   },
   "auth": {
-    "passwordHint": "Password must contain letters and numbers",
+    "passwordHint": "Password must contain Latin letters and numbers",
     "mismatch": "Passwords do not match",
     "error": "Sign in failed. Check your email and password.",
     "verified": "Email verified. You can now sign in.",
@@ -806,7 +806,7 @@
   "authErrors": {
     "phone_taken": "This number is already registered",
     "email_taken": "This email is already registered",
-    "weak_password": "At least 6 characters, letters and digits",
+    "weak_password": "At least 6 characters, Latin letters and digits",
     "password_mismatch": "Passwords do not match",
     "invalid_code": "Wrong code",
     "code_expired": "The code expired, request a new one",

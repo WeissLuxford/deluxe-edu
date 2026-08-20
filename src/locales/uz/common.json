@@ -42,7 +42,7 @@
     "code": "SMS dagi kod",
     "codePlaceholder": "6 raqam",
     "passwordPlaceholder": "Parol o’ylab toping",
-    "passwordHint": "Kamida 6 belgi, harflar va raqamlar",
+    "passwordHint": "Kamida 6 belgi, lotin harflari va raqamlar",
     "confirm": "Parolni takrorlang",
     "confirmPlaceholder": "Yana bir bor",
     "mismatch": "Parollar mos kelmadi",
@@ -67,7 +67,7 @@
     "verifyEmailFailedHint": "Serverda pochta sozlanmagan. Bizga yozing, kirishni qoʻlda ochamiz"
   },
   "auth": {
-    "passwordHint": "Parolda harflar va raqamlar bo'lishi kerak",
+    "passwordHint": "Parolda lotin harflari va raqamlar bo'lishi kerak",
     "mismatch": "Parollar mos kelmaydi",
     "error": "Kirishda xatolik. Email va parolni tekshiring.",
     "verified": "Email tasdiqlandi. Endi tizimga kirishingiz mumkin.",
@@ -812,7 +812,7 @@
   "authErrors": {
     "phone_taken": "Bu raqam allaqachon roʻyxatdan oʻtgan",
     "email_taken": "Bu pochta allaqachon roʻyxatdan oʻtgan",
-    "weak_password": "Kamida 6 belgi, harflar va raqamlar",
+    "weak_password": "Kamida 6 belgi, lotin harflari va raqamlar",
     "password_mismatch": "Parollar mos kelmadi",
     "invalid_code": "Kod notoʻgʻri",
     "code_expired": "Kod muddati tugadi, yangisini soʻrang",

@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 import { prisma } from '@/lib/db'
 
-export const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/
+export const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?!.*[Ѐ-ӿ]).{6,}$/
 
 export const passwordSchema = z.string().regex(PASSWORD_PATTERN)
 
