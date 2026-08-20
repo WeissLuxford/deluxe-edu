@@ -5,6 +5,7 @@ import { updateLesson } from '@/features/admin/actions'
 import { saveAssignment, deleteAssignment } from '@/features/admin/assignmentActions'
 import { LessonForm } from '@/features/admin/components/LessonForm'
 import { AssignmentBuilder } from '@/features/admin/components/AssignmentBuilder'
+import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 
 type Localized = { ru: string; uz: string; en: string }
 
@@ -72,29 +73,31 @@ export default async function EditLesson({
         {toLocalized(lesson.title).ru || lesson.slug}
       </h2>
 
-      <LessonForm
-        action={updateLesson.bind(null, id)}
-        modules={lesson.course.modules.map(m => ({
-          id: m.id,
-          label: `${m.order + 1}. ${toLocalized(m.title).ru || 'без названия'}`
-        }))}
-        lesson={{
-          slug: lesson.slug,
-          title: toLocalized(lesson.title),
-          content: toLocalized(lesson.content),
-          order: lesson.order,
-          hasVideo: lesson.hasVideo,
-          hasConspect: lesson.hasConspect,
-          hasTest: lesson.hasTest,
-          videoUrl: lesson.videoUrl,
-          zoomMeetingId: lesson.zoomMeetingId,
-          moduleId: lesson.moduleId,
-          coverUrl: lesson.coverUrl,
-          durationMin: lesson.durationMin
-        }}
-        submitLabel="Сохранить урок"
-        redirectTo={`/${locale}/admin/courses/${lesson.course.id}`}
-      />
+      <LocaleTabsProvider>
+        <LessonForm
+          action={updateLesson.bind(null, id)}
+          modules={lesson.course.modules.map(m => ({
+            id: m.id,
+            label: `${m.order + 1}. ${toLocalized(m.title).ru || 'без названия'}`
+          }))}
+          lesson={{
+            slug: lesson.slug,
+            title: toLocalized(lesson.title),
+            content: toLocalized(lesson.content),
+            order: lesson.order,
+            hasVideo: lesson.hasVideo,
+            hasConspect: lesson.hasConspect,
+            hasTest: lesson.hasTest,
+            videoUrl: lesson.videoUrl,
+            zoomMeetingId: lesson.zoomMeetingId,
+            moduleId: lesson.moduleId,
+            coverUrl: lesson.coverUrl,
+            durationMin: lesson.durationMin
+          }}
+          submitLabel="Сохранить урок"
+          redirectTo={`/${locale}/admin/courses/${lesson.course.id}`}
+        />
+      </LocaleTabsProvider>
 
       <div>
         <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)', marginBottom: '0.5rem' }}>

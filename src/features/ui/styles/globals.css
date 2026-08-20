@@ -3811,6 +3811,29 @@ html.light .course-article__cta {
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 }
 
+.lf-global {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  margin-left: auto;
+  margin-bottom: 1rem;
+  padding: 0.4rem 0.6rem;
+  position: sticky;
+  top: 0.75rem;
+  z-index: 30;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+}
+
+.lf-global__label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
 .lf__head {
   display: flex;
   align-items: center;

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { CheckCircle2, Phone, Mail, CalendarDays } from 'lucide-react'
+import { CheckCircle2, Phone, Mail, CalendarDays, History } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { revokeEnrollment } from '@/features/admin/actions'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
@@ -54,12 +54,23 @@ export default async function StudentCard({
   if (!user) notFound()
 
   const passed = new Set(user.LessonProgress.filter(p => p.passed).map(p => p.lessonId))
+  const activeEnrollments = user.enrollments.filter(e => e.status === 'ACTIVE')
+  const archivedCount = user.enrollments.length - activeEnrollments.length
 
   return (
     <div className="space-y-6">
-      <Link href={`/${locale}/admin/students`} className="text-sm" style={{ color: 'var(--muted)' }}>
-        ← К списку студентов
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href={`/${locale}/admin/students`} className="text-sm" style={{ color: 'var(--muted)' }}>
+          ← К списку студентов
+        </Link>
+        <Link
+          href={`/${locale}/admin/students/${id}/history`}
+          className="row-icon-btn"
+          title="Журнал: курсы, платежи, тесты"
+        >
+          <History size={14} />
+        </Link>
+      </div>
 
       <div className="admin-card student-head">
         <Avatar name={user.name} seed={user.phone} image={user.image} size={64} />
@@ -87,13 +98,26 @@ export default async function StudentCard({
       </div>
 
       <section className="admin-card">
-        <h3 className="admin-card__title">Курсы ({user.enrollments.length})</h3>
+        <div className="flex items-center justify-between" style={{ marginBottom: '0.5rem' }}>
+          <h3 className="admin-card__title" style={{ marginBottom: 0 }}>
+            Курсы ({activeEnrollments.length})
+          </h3>
+          {archivedCount > 0 && (
+            <Link
+              href={`/${locale}/admin/students/${id}/history`}
+              className="text-xs"
+              style={{ color: 'var(--muted)' }}
+            >
+              + {archivedCount} в архиве (отозванные) — журнал
+            </Link>
+          )}
+        </div>
 
-        {user.enrollments.length === 0 ? (
+        {activeEnrollments.length === 0 ? (
           <p className="admin-empty">Студент никуда не записан.</p>
         ) : (
           <div className="student-courses">
-            {user.enrollments.map(e => {
+            {activeEnrollments.map(e => {
               const total = e.course.lessons.length
               const done = e.course.lessons.filter(l => passed.has(l.id)).length
               const percent = total > 0 ? Math.round((done / total) * 100) : 0
@@ -104,16 +128,12 @@ export default async function StudentCard({
                     <Link href={`/${locale}/admin/courses/${e.course.id}`}>
                       {ru(e.course.title)}
                     </Link>
-                    <span className={`badge${e.status === 'ACTIVE' ? ' badge-success' : ''}`}>
-                      {e.status === 'ACTIVE' ? e.plan || 'BASIC' : 'доступ отозван'}
-                    </span>
-                    {e.status === 'ACTIVE' && (
-                      <DeleteButton
-                        action={revokeEnrollment.bind(null, e.id)}
-                        confirmText={`Отозвать доступ к курсу «${ru(e.course.title)}»? Прогресс сохранится.`}
-                        label="Отозвать"
-                      />
-                    )}
+                    <span className="badge badge-success">{e.plan || 'BASIC'}</span>
+                    <DeleteButton
+                      action={revokeEnrollment.bind(null, e.id)}
+                      confirmText={`Отозвать доступ к курсу «${ru(e.course.title)}»? Прогресс сохранится.`}
+                      label="Отозвать"
+                    />
                   </header>
 
                   <div className="student-course__progress">

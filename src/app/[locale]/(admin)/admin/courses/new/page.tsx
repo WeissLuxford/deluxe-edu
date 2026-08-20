@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createCourse } from '@/features/admin/actions'
 import { CourseForm } from '@/features/admin/components/CourseForm'
+import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 
 export default async function NewCourse({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -13,11 +14,13 @@ export default async function NewCourse({ params }: { params: Promise<{ locale: 
 
       <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>Новый курс</h2>
 
-      <CourseForm
-        action={createCourse}
-        submitLabel="Создать курс"
-        redirectTo={`/${locale}/admin/courses`}
-      />
+      <LocaleTabsProvider>
+        <CourseForm
+          action={createCourse}
+          submitLabel="Создать курс"
+          redirectTo={`/${locale}/admin/courses`}
+        />
+      </LocaleTabsProvider>
     </div>
   )
 }

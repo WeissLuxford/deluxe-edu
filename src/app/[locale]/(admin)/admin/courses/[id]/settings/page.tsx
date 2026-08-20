@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { updateCourse } from '@/features/admin/actions'
 import { CourseForm } from '@/features/admin/components/CourseForm'
+import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { localized } from '@/lib/localized'
 
 function ru(value: unknown) {
@@ -54,24 +55,26 @@ export default async function CourseSettings({
         </Link>
       </div>
 
-      <CourseForm
-        action={updateCourse.bind(null, id)}
-        course={{
-          slug: course.slug,
-          title: course.title as any,
-          description: course.description as any,
-          level: course.level,
-          priceBasic: course.priceBasic,
-          pricePro: course.pricePro,
-          priceDeluxe: course.priceDeluxe,
-          published: course.published,
-          visible: course.visible,
-          coverUrl: course.coverUrl,
-          badge: course.badge
-        }}
-        submitLabel="Сохранить"
-        redirectTo={`/${locale}/admin/courses`}
-      />
+      <LocaleTabsProvider>
+        <CourseForm
+          action={updateCourse.bind(null, id)}
+          course={{
+            slug: course.slug,
+            title: course.title as any,
+            description: course.description as any,
+            level: course.level,
+            priceBasic: course.priceBasic,
+            pricePro: course.pricePro,
+            priceDeluxe: course.priceDeluxe,
+            published: course.published,
+            visible: course.visible,
+            coverUrl: course.coverUrl,
+            badge: course.badge
+          }}
+          submitLabel="Сохранить"
+          redirectTo={`/${locale}/admin/courses`}
+        />
+      </LocaleTabsProvider>
     </div>
   )
 }

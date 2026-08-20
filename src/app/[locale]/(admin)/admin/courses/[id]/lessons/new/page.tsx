@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { createLesson } from '@/features/admin/actions'
 import { LessonForm } from '@/features/admin/components/LessonForm'
+import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { localized } from '@/lib/localized'
 
 export default async function NewLesson({
@@ -47,29 +48,31 @@ export default async function NewLesson({
         Новый урок
       </h2>
 
-      <LessonForm
-        action={createLesson.bind(null, id)}
-        modules={course.modules.map(m => ({
-          id: m.id,
-          label: `${m.order + 1}. ${localized(m.title, 'ru') || 'без названия'}`
-        }))}
-        lesson={{
-          slug: '',
-          title: {},
-          content: {},
-          order: (last?.order ?? -1) + 1,
-          hasVideo: true,
-          hasConspect: true,
-          hasTest: false,
-          videoUrl: null,
-          zoomMeetingId: null,
-          moduleId: targetModule,
-          coverUrl: null,
-          durationMin: null
-        }}
-        submitLabel="Создать урок"
-        redirectTo={`/${locale}/admin/courses/${id}`}
-      />
+      <LocaleTabsProvider>
+        <LessonForm
+          action={createLesson.bind(null, id)}
+          modules={course.modules.map(m => ({
+            id: m.id,
+            label: `${m.order + 1}. ${localized(m.title, 'ru') || 'без названия'}`
+          }))}
+          lesson={{
+            slug: '',
+            title: {},
+            content: {},
+            order: (last?.order ?? -1) + 1,
+            hasVideo: true,
+            hasConspect: true,
+            hasTest: false,
+            videoUrl: null,
+            zoomMeetingId: null,
+            moduleId: targetModule,
+            coverUrl: null,
+            durationMin: null
+          }}
+          submitLabel="Создать урок"
+          redirectTo={`/${locale}/admin/courses/${id}`}
+        />
+      </LocaleTabsProvider>
     </div>
   )
 }

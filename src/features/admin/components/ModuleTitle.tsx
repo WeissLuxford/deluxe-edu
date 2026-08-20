@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Pencil } from 'lucide-react'
 import { ModuleForm } from './ModuleForm'
+import { LocaleTabsProvider } from './LocaleTabs'
 import { updateModule } from '../moduleActions'
 import { localized } from '@/lib/localized'
 
@@ -18,15 +19,17 @@ export function ModuleTitle({
   if (editing) {
     return (
       <div className="struct-module__edit">
-        <ModuleForm
-          action={updateModule.bind(null, module.id)}
-          module={{
-            title: module.title as Record<string, string>,
-            description: module.description as Record<string, string> | null
-          }}
-          submitLabel="Сохранить"
-          onSuccess={() => setEditing(false)}
-        />
+        <LocaleTabsProvider>
+          <ModuleForm
+            action={updateModule.bind(null, module.id)}
+            module={{
+              title: module.title as Record<string, string>,
+              description: module.description as Record<string, string> | null
+            }}
+            submitLabel="Сохранить"
+            onSuccess={() => setEditing(false)}
+          />
+        </LocaleTabsProvider>
         <button type="button" className="btn btn-ghost btn-sm" onClick={() => setEditing(false)}>
           Отмена
         </button>

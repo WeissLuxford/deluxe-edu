@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useLocaleTab } from './LocaleTabs'
 
 type Localized = { ru?: string; uz?: string; en?: string }
 
@@ -31,7 +32,7 @@ export function LocalizedField({
   maxLength?: number
   onRuChange?: (value: string) => void
 }) {
-  const [active, setActive] = useState<'ru' | 'uz' | 'en'>('ru')
+  const [active, setActive] = useLocaleTab()
   const [values, setValues] = useState<Localized>({
     ru: value.ru ?? '',
     uz: value.uz ?? '',

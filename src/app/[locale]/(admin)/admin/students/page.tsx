@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { History } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { revokeEnrollment } from '@/features/admin/actions'
 import { EnrollForm } from '@/features/admin/components/EnrollForm'
@@ -93,56 +94,76 @@ export default async function AdminStudents({
                 <th>Роль</th>
                 <th>Курсы</th>
                 <th>Уроков пройдено</th>
+                <th />
               </tr>
             </thead>
             <tbody>
-              {users.map(u => (
-                <tr key={u.id}>
-                  <td>
-                    <Link
-                      href={`/${locale}/admin/students/${u.id}`}
-                      style={{ color: 'var(--brand-text)', fontWeight: 600 }}
-                    >
-                      {u.name || 'без имени'}
-                    </Link>
-                    <div className="text-xs" style={{ color: 'var(--muted)' }}>{contact(u)}</div>
-                  </td>
-                  <td>
-                    <RoleSelect
-                      userId={u.id}
-                      role={u.role}
-                      name={u.name || u.phone || 'без имени'}
-                      self={u.id === admin.id}
-                    />
-                  </td>
-                  <td>
-                    {u.enrollments.length === 0 ? (
-                      <span style={{ color: 'var(--muted)' }}>—</span>
-                    ) : (
-                      <div className="space-y-1">
-                        {u.enrollments.map(e => (
-                          <div key={e.id} className="flex items-center gap-2">
-                            <span style={{ color: 'var(--fg)', fontSize: '0.9rem' }}>
-                              {ru(e.course.title)}
-                            </span>
-                            <span className="badge">{e.plan || 'BASIC'}</span>
-                            {e.status === 'ACTIVE' ? (
+              {users.map(u => {
+                const activeEnrollments = u.enrollments.filter(e => e.status === 'ACTIVE')
+                const archivedCount = u.enrollments.length - activeEnrollments.length
+
+                return (
+                  <tr key={u.id}>
+                    <td>
+                      <Link
+                        href={`/${locale}/admin/students/${u.id}`}
+                        style={{ color: 'var(--brand-text)', fontWeight: 600 }}
+                      >
+                        {u.name || 'без имени'}
+                      </Link>
+                      <div className="text-xs" style={{ color: 'var(--muted)' }}>{contact(u)}</div>
+                    </td>
+                    <td>
+                      <RoleSelect
+                        userId={u.id}
+                        role={u.role}
+                        name={u.name || u.phone || 'без имени'}
+                        self={u.id === admin.id}
+                      />
+                    </td>
+                    <td>
+                      {activeEnrollments.length === 0 ? (
+                        <span style={{ color: 'var(--muted)' }}>—</span>
+                      ) : (
+                        <div className="space-y-1">
+                          {activeEnrollments.map(e => (
+                            <div key={e.id} className="flex items-center gap-2">
+                              <span style={{ color: 'var(--fg)', fontSize: '0.9rem' }}>
+                                {ru(e.course.title)}
+                              </span>
+                              <span className="badge">{e.plan || 'BASIC'}</span>
                               <DeleteButton
                                 action={revokeEnrollment.bind(null, e.id)}
                                 confirmText={`Отозвать доступ к курсу «${ru(e.course.title)}»? Прогресс сохранится.`}
                                 label="Отозвать"
                               />
-                            ) : (
-                              <span className="badge badge-warning">отозван</span>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </td>
-                  <td className="num">{u._count.LessonProgress}</td>
-                </tr>
-              ))}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {archivedCount > 0 && (
+                        <Link
+                          href={`/${locale}/admin/students/${u.id}/history`}
+                          className="text-xs"
+                          style={{ color: 'var(--muted)' }}
+                        >
+                          + {archivedCount} в архиве
+                        </Link>
+                      )}
+                    </td>
+                    <td className="num">{u._count.LessonProgress}</td>
+                    <td className="right">
+                      <Link
+                        href={`/${locale}/admin/students/${u.id}/history`}
+                        className="row-icon-btn"
+                        title="Журнал: курсы, платежи, тесты"
+                      >
+                        <History size={14} />
+                      </Link>
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>

@@ -5,6 +5,7 @@ import { prisma } from '@/lib/db'
 import { createModule } from '@/features/admin/moduleActions'
 import { CourseStructure } from '@/features/admin/components/CourseStructure'
 import { ModuleForm } from '@/features/admin/components/ModuleForm'
+import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { localized } from '@/lib/localized'
 
 function ru(value: unknown) {
@@ -101,7 +102,9 @@ export default async function EditCourse({
         <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)', marginBottom: '1rem' }}>
           Новый модуль
         </h3>
-        <ModuleForm action={createModule.bind(null, id)} submitLabel="Создать модуль" />
+        <LocaleTabsProvider>
+          <ModuleForm action={createModule.bind(null, id)} submitLabel="Создать модуль" />
+        </LocaleTabsProvider>
       </div>
     </div>
   )
