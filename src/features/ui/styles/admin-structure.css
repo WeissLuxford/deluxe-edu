@@ -328,7 +328,7 @@
 }
 
 .admin-warnings summary::before {
-  content: 'B8';
+  content: '▸';
   display: inline-block;
   width: 1em;
   transition: transform 0.15s ease-in-out;
