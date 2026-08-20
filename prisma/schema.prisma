@@ -53,17 +53,28 @@ model OAuthAccount {
 }
 
 model UserDevice {
-  id          String    @id @default(cuid())
-  userId      String
-  userAgent   String?
-  ip          String?
-  firstSeenAt DateTime  @default(now())
-  lastSeenAt  DateTime  @default(now())
-  revokedAt   DateTime?
+  id                    String         @id @default(cuid())
+  userId                String
+  userAgent             String?
+  ip                    String?
+  platform              DevicePlatform @default(WEB)
+  clientDeviceId        String?
+  refreshTokenHash      String?
+  refreshTokenExpiresAt DateTime?
+  firstSeenAt           DateTime       @default(now())
+  lastSeenAt            DateTime       @default(now())
+  revokedAt             DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@unique([userId, clientDeviceId])
   @@index([userId, revokedAt])
+}
+
+enum DevicePlatform {
+  WEB
+  IOS
+  ANDROID
 }
 
 model UserAchievement {

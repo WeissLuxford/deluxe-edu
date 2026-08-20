@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { authenticateRequest } from '@/lib/apiAuth'
 import { prisma } from '@/lib/db'
 import { canWatch, getUserPlanRank, statusOf } from '@/features/streams/utils/streamHelpers'
 
-export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
   const stream = await prisma.stream.findFirst({
@@ -26,13 +25,10 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
   }
 
   if (stream.requiredPlan) {
-    const session = await getServerSession(authOptions)
-    const userId = session?.user?.id ?? null
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await authenticateRequest(req)
+    if (auth.ok === false) return auth.response
 
-    const rank = await getUserPlanRank(userId)
+    const rank = await getUserPlanRank(auth.principal.userId)
     if (!canWatch(stream.requiredPlan, rank)) {
       return NextResponse.json({ error: 'Plan required' }, { status: 403 })
     }

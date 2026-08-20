@@ -1,12 +1,11 @@
 import { NextAuthOptions, User as NextAuthUser } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
-import bcrypt from 'bcryptjs'
 import { headers } from 'next/headers'
 import { prisma } from './db'
 import { resolveGoogleUser, type GoogleProfile } from '@/features/auth/google'
-import { normalizePhone, normalizeEmail, isEmailIdentifier, isValidUzPhone } from '@/features/auth/identity'
-import { RATE_LIMITS, consumeRateLimit, peekRateLimit, clientIp } from './rateLimit'
+import { SESSION_FIELDS, verifyIdentifierPassword } from '@/features/auth/credentials'
+import { clientIp } from './rateLimit'
 import { registerDevice, touchDevice } from './devices'
 
 type Role = 'ADMIN' | 'MENTOR' | 'STUDENT'
@@ -65,46 +64,11 @@ declare module 'next-auth/jwt' {
   }
 }
 
-const SESSION_FIELDS = {
-  id: true,
-  phone: true,
-  email: true,
-  emailVerified: true,
-  name: true,
-  firstName: true,
-  lastName: true,
-  role: true,
-  locale: true,
-  image: true,
-  phoneVerified: true,
-  avatarSkinId: true
-} as const
-
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000
 
 async function assignDevice(userId: string): Promise<string> {
   const h = await headers()
   return registerDevice(userId, h.get('user-agent') ?? undefined, clientIp(h))
-}
-
-async function findUserByIdentifier(raw: string) {
-  const value = raw.trim()
-  if (!value) return null
-
-  if (isEmailIdentifier(value)) {
-    return prisma.user.findUnique({
-      where: { email: normalizeEmail(value) },
-      select: { ...SESSION_FIELDS, passwordHash: true }
-    })
-  }
-
-  const phone = normalizePhone(value)
-  if (!isValidUzPhone(phone)) return null
-
-  return prisma.user.findUnique({
-    where: { phone },
-    select: { ...SESSION_FIELDS, passwordHash: true }
-  })
 }
 
 export const authOptions: NextAuthOptions = {
@@ -132,30 +96,12 @@ export const authOptions: NextAuthOptions = {
 
         if (!identifier || !password) return null
 
-        const scope = isEmailIdentifier(identifier) ? normalizeEmail(identifier) : normalizePhone(identifier)
-
-        const gate = await peekRateLimit(RATE_LIMITS.signinIdentifier, scope)
-        if (!gate.allowed) throw new Error('rate_limited')
-
-        const user = await findUserByIdentifier(identifier)
-
-        if (!user || !user.passwordHash) {
-          await consumeRateLimit(RATE_LIMITS.signinIdentifier, scope)
-          return null
+        const result = await verifyIdentifierPassword(identifier, password)
+        if (result.ok === false) {
+          if (result.reason === 'invalid') return null
+          throw new Error(result.reason)
         }
-
-        const matches = await bcrypt.compare(password, user.passwordHash)
-        if (!matches) {
-          await consumeRateLimit(RATE_LIMITS.signinIdentifier, scope)
-          return null
-        }
-
-        if (user.email && !user.emailVerified && !user.phone) {
-          throw new Error('email_unverified')
-        }
-
-        const { passwordHash, ...safe } = user
-        return safe as NextAuthUser
+        return result.user as NextAuthUser
       }
     })
   ],

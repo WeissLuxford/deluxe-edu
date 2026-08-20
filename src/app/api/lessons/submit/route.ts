@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { authenticateRequest } from '@/lib/apiAuth'
 import { prisma } from '@/lib/db'
 import { gradeAnswers } from '@/features/courses/grading'
 
@@ -8,11 +7,9 @@ const PASSING_SCORE = 70
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    const userId = session?.user?.id
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await authenticateRequest(req)
+    if (auth.ok === false) return auth.response
+    const userId = auth.principal.userId
 
     const { assignmentId, answers } = await req.json()
     if (!assignmentId || typeof answers !== 'object' || answers === null) {

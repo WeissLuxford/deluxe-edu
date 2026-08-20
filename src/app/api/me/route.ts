@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { authenticateRequest } from '@/lib/apiAuth'
 import { prisma } from '@/lib/db'
 import { Prisma } from '@prisma/client'
 import { normalizeEmail } from '@/features/auth/identity'
+import { SESSION_FIELDS } from '@/features/auth/credentials'
 import avatarSkins from '@/content/avatars.json'
 
 export const dynamic = 'force-dynamic'
@@ -11,9 +11,20 @@ export const dynamic = 'force-dynamic'
 const LOCALES = ['ru', 'uz', 'en']
 const AVATAR_SKIN_IDS = new Set((avatarSkins as { id: string }[]).map(a => a.id))
 
+export async function GET(req: Request) {
+  const auth = await authenticateRequest(req)
+  if (auth.ok === false) return auth.response
+
+  const user = await prisma.user.findUnique({ where: { id: auth.principal.userId }, select: SESSION_FIELDS })
+  if (!user) return NextResponse.json({ ok: false, error: 'not_found' }, { status: 404 })
+
+  return NextResponse.json({ ok: true, user })
+}
+
 export async function PATCH(req: Request) {
-  const session = await getServerSession(authOptions)
-  if (!session?.user?.id) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+  const auth = await authenticateRequest(req)
+  if (auth.ok === false) return auth.response
+  const userId = auth.principal.userId
 
   const body = await req.json().catch(() => null)
   if (!body) return NextResponse.json({ ok: false, error: 'bad_json' }, { status: 400 })
@@ -42,7 +53,7 @@ export async function PATCH(req: Request) {
   }
 
   try {
-    await prisma.user.update({ where: { id: session.user.id }, data })
+    await prisma.user.update({ where: { id: userId }, data })
     return NextResponse.json({ ok: true, emailChanged })
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') {
