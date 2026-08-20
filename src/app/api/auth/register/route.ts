@@ -93,6 +93,7 @@ export async function POST(request: NextRequest) {
     }
 
     let delivered = false
+    let mailError: string | undefined
 
     if (mailerConfigured()) {
       const token = crypto.randomBytes(32).toString('base64url')
@@ -105,14 +106,23 @@ export async function POST(request: NextRequest) {
         }
       })
       const base = process.env.NEXTAUTH_URL || ''
-      delivered = await sendVerificationEmail(
+      const result = await sendVerificationEmail(
         email,
         `${base}/api/verify?token=${encodeURIComponent(token)}`,
         locale
       )
+      delivered = result.delivered
+      mailError = result.error
     }
 
-    return NextResponse.json({ ok: true, identifier: email, canSignIn: false, emailDelivered: delivered })
+    // TODO(temp-debug): убрать mailError из ответа после диагностики прод-SMTP
+    return NextResponse.json({
+      ok: true,
+      identifier: email,
+      canSignIn: false,
+      emailDelivered: delivered,
+      ...(mailError ? { mailError } : {})
+    })
   }
 
   return fail('invalid_input', 400)

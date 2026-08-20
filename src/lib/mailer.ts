@@ -31,9 +31,11 @@ function getTransport(): Transport | null {
   return transport
 }
 
-async function send(to: string, subject: string, html: string): Promise<boolean> {
+type SendResult = { delivered: boolean; error?: string }
+
+async function send(to: string, subject: string, html: string): Promise<SendResult> {
   const mailer = getTransport()
-  if (!mailer) return false
+  if (!mailer) return { delivered: false, error: 'not_configured' }
 
   try {
     await mailer.sendMail({
@@ -42,10 +44,10 @@ async function send(to: string, subject: string, html: string): Promise<boolean>
       subject,
       html
     })
-    return true
+    return { delivered: true }
   } catch (error) {
     console.error('[mailer] sendMail failed:', error)
-    return false
+    return { delivered: false, error: error instanceof Error ? error.message : String(error) }
   }
 }
 
@@ -93,12 +95,12 @@ function layout(body: string, action: string, url: string, ignore: string): stri
 </div>`
 }
 
-export async function sendVerificationEmail(to: string, url: string, locale: string): Promise<boolean> {
+export async function sendVerificationEmail(to: string, url: string, locale: string): Promise<SendResult> {
   const copy = pick(locale)
   return send(to, copy.verifySubject, layout(copy.verifyBody, copy.verifyAction, url, copy.ignore))
 }
 
-export async function sendPasswordResetEmail(to: string, url: string, locale: string): Promise<boolean> {
+export async function sendPasswordResetEmail(to: string, url: string, locale: string): Promise<SendResult> {
   const copy = pick(locale)
   return send(to, copy.resetSubject, layout(copy.resetBody, copy.resetAction, url, copy.ignore))
 }
