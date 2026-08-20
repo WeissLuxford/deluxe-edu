@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useEffect } from 'react'
 import { Plus } from 'lucide-react'
 import { LocalizedField } from './LocalizedField'
 import type { ActionResult } from '../actions'
@@ -12,10 +12,15 @@ type Props = {
     description?: Record<string, string> | null
   }
   submitLabel: string
+  onSuccess?: () => void
 }
 
-export function ModuleForm({ action, module, submitLabel }: Props) {
+export function ModuleForm({ action, module, submitLabel, onSuccess }: Props) {
   const [state, formAction, pending] = useActionState<ActionResult, FormData>(action, { ok: false })
+
+  useEffect(() => {
+    if (state?.ok) onSuccess?.()
+  }, [state, onSuccess])
 
   return (
     <form action={formAction} className="admin-module-form">

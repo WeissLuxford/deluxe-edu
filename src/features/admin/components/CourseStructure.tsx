@@ -8,6 +8,7 @@ import {
 } from '@/features/admin/moduleActions'
 import { ActionButton } from './ActionButton'
 import { DeleteButton } from './DeleteButton'
+import { ModuleTitle } from './ModuleTitle'
 import { localized } from '@/lib/localized'
 
 type Lesson = {
@@ -27,6 +28,7 @@ type Lesson = {
 type Module = {
   id: string
   title: unknown
+  description?: unknown
   order: number
   lessons: Lesson[]
 }
@@ -116,6 +118,8 @@ function LessonRow({
         <DeleteButton
           action={deleteLesson.bind(null, lesson.id)}
           confirmText={`Удалить урок «${ru(lesson.title)}» вместе с тестом и прогрессом студентов?`}
+          variant="icon"
+          title="Удалить урок"
         />
       </div>
     </li>
@@ -158,7 +162,7 @@ export function CourseStructure({
               </ActionButton>
             </div>
 
-            <h4 className="struct-module__title">{ru(module.title)}</h4>
+            <ModuleTitle module={module} />
 
             <span className="struct-module__count">{module.lessons.length} урок(ов)</span>
 
@@ -172,6 +176,8 @@ export function CourseStructure({
               <DeleteButton
                 action={deleteModule.bind(null, module.id)}
                 confirmText={`Удалить модуль «${ru(module.title)}»?`}
+                variant="icon"
+                title="Удалить модуль"
               />
             </div>
           </header>

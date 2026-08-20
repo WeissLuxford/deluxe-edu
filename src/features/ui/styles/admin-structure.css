@@ -57,6 +57,20 @@
   flex-shrink: 0;
 }
 
+.struct-module__edit {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.struct-module__edit .admin-module-form {
+  flex: 1;
+  min-width: 0;
+}
+
 .struct-empty {
   padding: 0.85rem 1rem;
   margin: 0;
