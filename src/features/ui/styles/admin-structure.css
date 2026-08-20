@@ -150,6 +150,42 @@
   color: var(--brand-text);
 }
 
+.row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.row-icon-btn {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--muted);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.row-icon-btn:hover {
+  border-color: var(--brand-border);
+  color: var(--brand-text);
+}
+
+.row-icon-btn--danger:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.row-icon-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 .admin-module-form {
   display: flex;
   flex-direction: column;

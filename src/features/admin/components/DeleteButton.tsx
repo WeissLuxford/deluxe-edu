@@ -2,16 +2,21 @@
 
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { Trash2 } from 'lucide-react'
 import type { ActionResult } from '../actions'
 
 export function DeleteButton({
   action,
   confirmText,
-  label = 'Удалить'
+  label = 'Удалить',
+  variant = 'text',
+  title
 }: {
   action: () => Promise<ActionResult>
   confirmText: string
   label?: string
+  variant?: 'text' | 'icon'
+  title?: string
 }) {
   const [pending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
@@ -29,9 +34,21 @@ export function DeleteButton({
 
   return (
     <>
-      <button type="button" onClick={onClick} disabled={pending} className="btn btn-ghost">
-        {pending ? '…' : label}
-      </button>
+      {variant === 'icon' ? (
+        <button
+          type="button"
+          onClick={onClick}
+          disabled={pending}
+          className="row-icon-btn row-icon-btn--danger"
+          title={title ?? label}
+        >
+          {pending ? '…' : <Trash2 size={14} />}
+        </button>
+      ) : (
+        <button type="button" onClick={onClick} disabled={pending} className="btn btn-ghost">
+          {pending ? '…' : label}
+        </button>
+      )}
       {error && <div className="alert alert-error" style={{ marginTop: '0.5rem' }}>{error}</div>}
     </>
   )

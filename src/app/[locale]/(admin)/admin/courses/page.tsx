@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Eye, BookOpen, Pencil } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { deleteCourse, toggleCoursePublished } from '@/features/admin/actions'
 import { ActionButton } from '@/features/admin/components/ActionButton'
@@ -51,9 +52,7 @@ export default async function AdminCourses({ params }: { params: Promise<{ local
               {courses.map(c => (
                 <tr key={c.id}>
                   <td>
-                    <Link href={`/${locale}/admin/courses/${c.id}`} style={{ color: 'var(--gold-text)' }}>
-                      {ru(c.title)}
-                    </Link>
+                    <span style={{ color: 'var(--fg)' }}>{ru(c.title)}</span>
                     <div className="text-xs" style={{ color: 'var(--muted)' }}>{c.level}</div>
                   </td>
                   <td style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--muted)' }}>
@@ -72,10 +71,36 @@ export default async function AdminCourses({ params }: { params: Promise<{ local
                     {!c.visible && <span className="badge" style={{ marginLeft: '0.25rem' }}>скрыт</span>}
                   </td>
                   <td className="right">
-                    <DeleteButton
-                      action={deleteCourse.bind(null, c.id)}
-                      confirmText={`Удалить курс «${ru(c.title)}» вместе со всеми уроками и тестами? Это необратимо.`}
-                    />
+                    <div className="row-actions">
+                      <Link
+                        href={`/${locale}/courses/${c.slug}`}
+                        target="_blank"
+                        className="row-icon-btn"
+                        title="Посмотреть на сайте"
+                      >
+                        <Eye size={14} />
+                      </Link>
+                      <Link
+                        href={`/${locale}/admin/courses/${c.id}`}
+                        className="row-icon-btn"
+                        title="Контент курса: модули, уроки, тесты"
+                      >
+                        <BookOpen size={14} />
+                      </Link>
+                      <Link
+                        href={`/${locale}/admin/courses/${c.id}/settings`}
+                        className="row-icon-btn"
+                        title="Карточка курса на маркетинговых страницах"
+                      >
+                        <Pencil size={14} />
+                      </Link>
+                      <DeleteButton
+                        action={deleteCourse.bind(null, c.id)}
+                        confirmText={`Удалить курс «${ru(c.title)}» вместе со всеми уроками и тестами? Это необратимо.`}
+                        variant="icon"
+                        title="Удалить курс"
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}

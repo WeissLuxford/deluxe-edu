@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Eye } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { deleteNews, toggleNewsPublished } from '@/features/admin/newsActions'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
@@ -82,7 +83,7 @@ export default async function AdminNews({ params }: { params: Promise<{ locale: 
                       </ActionButton>
                     </td>
                     <td className="right">
-                      <div className="flex items-center gap-2 justify-end">
+                      <div className="row-actions">
                         {i === 0 && group.length < 3 && (
                           <Link
                             href={`/${locale}/admin/news/new?group=${n.groupId}`}
@@ -92,9 +93,19 @@ export default async function AdminNews({ params }: { params: Promise<{ locale: 
                             + перевод
                           </Link>
                         )}
+                        <Link
+                          href={`/${n.locale}/news/${n.slug}`}
+                          target="_blank"
+                          className="row-icon-btn"
+                          title="Посмотреть на сайте"
+                        >
+                          <Eye size={14} />
+                        </Link>
                         <DeleteButton
                           action={deleteNews.bind(null, n.id)}
                           confirmText={`Удалить «${n.title}» (${LOCALE_LABEL[n.locale]})?`}
+                          variant="icon"
+                          title="Удалить новость"
                         />
                       </div>
                     </td>

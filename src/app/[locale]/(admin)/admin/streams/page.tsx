@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Eye } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { deleteStream } from '@/features/admin/streamActions'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
@@ -76,10 +77,22 @@ export default async function AdminStreams({ params }: { params: Promise<{ local
                       {!s.published && <span className="badge badge-warning" style={{ marginLeft: '0.25rem' }}>черновик</span>}
                     </td>
                     <td className="right">
-                      <DeleteButton
-                        action={deleteStream.bind(null, s.id)}
-                        confirmText={`Удалить эфир «${ru(s.title)}»?`}
-                      />
+                      <div className="row-actions">
+                        <Link
+                          href={`/${locale}/streams/${s.id}`}
+                          target="_blank"
+                          className="row-icon-btn"
+                          title="Посмотреть на сайте"
+                        >
+                          <Eye size={14} />
+                        </Link>
+                        <DeleteButton
+                          action={deleteStream.bind(null, s.id)}
+                          confirmText={`Удалить эфир «${ru(s.title)}»?`}
+                          variant="icon"
+                          title="Удалить эфир"
+                        />
+                      </div>
                     </td>
                   </tr>
                 )

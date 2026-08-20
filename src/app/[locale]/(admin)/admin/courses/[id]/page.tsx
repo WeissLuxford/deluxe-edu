@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Pencil } from 'lucide-react'
 import { prisma } from '@/lib/db'
-import { updateCourse } from '@/features/admin/actions'
 import { createModule } from '@/features/admin/moduleActions'
-import { CourseForm } from '@/features/admin/components/CourseForm'
 import { CourseStructure } from '@/features/admin/components/CourseStructure'
 import { ModuleForm } from '@/features/admin/components/ModuleForm'
 import { localized } from '@/lib/localized'
@@ -35,7 +34,10 @@ export default async function EditCourse({
 
   const course = await prisma.course.findUnique({
     where: { id },
-    include: {
+    select: {
+      id: true,
+      slug: true,
+      title: true,
       modules: {
         orderBy: { order: 'asc' },
         include: { lessons: { orderBy: { order: 'asc' }, select: lessonSelect } }
@@ -59,13 +61,18 @@ export default async function EditCourse({
         <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
           {ru(course.title)}
         </h2>
-        <Link
-          href={`/${locale}/courses/${course.slug}`}
-          className="btn btn-secondary"
-          target="_blank"
-        >
-          Посмотреть на сайте
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href={`/${locale}/admin/courses/${id}/settings`} className="btn btn-secondary">
+            <Pencil size={15} /> Карточка курса
+          </Link>
+          <Link
+            href={`/${locale}/courses/${course.slug}`}
+            className="btn btn-secondary"
+            target="_blank"
+          >
+            Посмотреть на сайте
+          </Link>
+        </div>
       </div>
 
       <div className="card" style={{ padding: '1.5rem' }}>
@@ -96,28 +103,6 @@ export default async function EditCourse({
         </h3>
         <ModuleForm action={createModule.bind(null, id)} submitLabel="Создать модуль" />
       </div>
-
-      <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)' }}>
-        Настройки курса
-      </h3>
-      <CourseForm
-        action={updateCourse.bind(null, id)}
-        course={{
-          slug: course.slug,
-          title: course.title as any,
-          description: course.description as any,
-          level: course.level,
-          priceBasic: course.priceBasic,
-          pricePro: course.pricePro,
-          priceDeluxe: course.priceDeluxe,
-          published: course.published,
-          visible: course.visible,
-          coverUrl: course.coverUrl,
-          badge: course.badge
-        }}
-        submitLabel="Сохранить"
-        redirectTo={`/${locale}/admin/courses`}
-      />
     </div>
   )
 }
