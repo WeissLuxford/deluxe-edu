@@ -21,6 +21,7 @@ model User {
   email             String?             @unique
   emailVerified     DateTime?
   phoneVerified     DateTime?
+  avatarSkinId      String?
   enrollments       Enrollment[]
   submissions       Submission[]
   createdAt         DateTime            @default(now())
@@ -33,6 +34,7 @@ model User {
   groupMemberships  GroupMembership[]   @relation("GroupMemberships")
   attendanceRecords Attendance[]        @relation("AttendanceRecords")
   devices           UserDevice[]
+  achievements      UserAchievement[]
 
   @@index([phone])
   @@index([email])
@@ -62,6 +64,18 @@ model UserDevice {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, revokedAt])
+}
+
+model UserAchievement {
+  id            String   @id @default(cuid())
+  userId        String
+  achievementId String
+  earnedAt      DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@index([userId])
 }
 
 model PhoneCode {

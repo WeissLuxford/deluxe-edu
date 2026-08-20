@@ -1,0 +1,12 @@
+[
+  { "id": "rocket", "src": "", "alt": { "ru": "Ракета", "uz": "Raketa", "en": "Rocket" } },
+  { "id": "sword", "src": "", "alt": { "ru": "Меч", "uz": "Qilich", "en": "Sword" } },
+  { "id": "dog", "src": "", "alt": { "ru": "Пёс", "uz": "It", "en": "Dog" } },
+  { "id": "cat", "src": "", "alt": { "ru": "Кот", "uz": "Mushuk", "en": "Cat" } },
+  { "id": "bird", "src": "", "alt": { "ru": "Птица", "uz": "Qush", "en": "Bird" } },
+  { "id": "car", "src": "", "alt": { "ru": "Машина", "uz": "Mashina", "en": "Car" } },
+  { "id": "compass", "src": "", "alt": { "ru": "Компас", "uz": "Kompas", "en": "Compass" } },
+  { "id": "sailboat", "src": "", "alt": { "ru": "Яхта", "uz": "Yaxta", "en": "Sailboat" } },
+  { "id": "guitar", "src": "", "alt": { "ru": "Гитара", "uz": "Gitara", "en": "Guitar" } },
+  { "id": "gem", "src": "", "alt": { "ru": "Кристалл", "uz": "Kristall", "en": "Gem" } }
+]

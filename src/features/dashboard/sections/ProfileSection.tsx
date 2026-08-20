@@ -11,6 +11,7 @@ export default function ProfileSection() {
   const user = session?.user
   const tProfile = useTranslations('profile')
   const tPhone = useTranslations('phoneBind')
+  const tDashboard = useTranslations('dashboard')
   const locale = useLocale()
 
   const [firstName, setFirstName] = useState(user?.firstName || '')
@@ -59,17 +60,17 @@ export default function ProfileSection() {
 
   return (
     <section className="dashboard-section">
-      <h2 className="section-title">Profile Settings</h2>
+      <h2 className="section-title">{tProfile('title')}</h2>
 
       {err && (
         <div className="alert alert-error">
-          {err}
+          {tProfile('error')}
         </div>
       )}
 
       {success && (
         <div className="alert alert-success">
-          Profile updated successfully!
+          {tProfile('updateSuccess')}
         </div>
       )}
 
@@ -102,11 +103,11 @@ export default function ProfileSection() {
             <div>
               <label className="label">
                 <User size={16} />
-                First Name
+                {tProfile('firstName')}
               </label>
               <input
                 type="text"
-                placeholder="Enter first name"
+                placeholder={tProfile('firstName')}
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 className="input"
@@ -116,11 +117,11 @@ export default function ProfileSection() {
             <div>
               <label className="label">
                 <User size={16} />
-                Last Name
+                {tProfile('lastName')}
               </label>
               <input
                 type="text"
-                placeholder="Enter last name"
+                placeholder={tProfile('lastName')}
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 className="input"
@@ -131,7 +132,7 @@ export default function ProfileSection() {
           <div>
             <label className="label">
               <Mail size={16} />
-              Email Address (Optional)
+              {tProfile('emailOptional')}
             </label>
             <input
               type="email"
@@ -141,7 +142,7 @@ export default function ProfileSection() {
               className="input"
             />
             <p className="hint" style={{ marginTop: '0.5rem', color: 'var(--muted)' }}>
-              Add email for notifications and account recovery
+              {tProfile('emailHint')}
             </p>
           </div>
 
@@ -154,12 +155,12 @@ export default function ProfileSection() {
             {loading ? (
               <>
                 <Loader2 size={18} className="animate-spin" />
-                Saving...
+                {tProfile('saving')}
               </>
             ) : (
               <>
                 <Save size={18} />
-                Save Changes
+                {tProfile('save')}
               </>
             )}
           </button>
@@ -169,24 +170,24 @@ export default function ProfileSection() {
       <div className="card" style={{ marginTop: '1.5rem' }}>
         <div className="card-content">
           <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '1rem' }}>
-            Account Information
+            {tProfile('accountInfo')}
           </h3>
           <div style={{ display: 'grid', gap: '0.75rem', color: 'var(--muted)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>Role:</span>
-              <span style={{ fontWeight: 500, color: 'var(--foreground)' }}>
+              <span>{tDashboard('roleLabel')}</span>
+              <span style={{ fontWeight: 500, color: 'var(--fg)' }}>
                 {user?.role || 'STUDENT'}
               </span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>Phone Verified:</span>
-              <span style={{ fontWeight: 500, color: 'var(--foreground)' }}>
-                {user?.phoneVerified ? '✅ Yes' : '❌ No'}
+              <span>{tProfile('phoneVerifiedLabel')}</span>
+              <span style={{ fontWeight: 500, color: 'var(--fg)' }}>
+                {user?.phoneVerified ? tDashboard('yes') : tDashboard('no')}
               </span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>User ID:</span>
-              <span style={{ fontWeight: 500, color: 'var(--foreground)', fontFamily: 'monospace', fontSize: '0.875rem' }}>
+              <span>{tProfile('userId')}</span>
+              <span style={{ fontWeight: 500, color: 'var(--fg)', fontFamily: 'monospace', fontSize: '0.875rem' }}>
                 {user?.id?.slice(0, 12)}...
               </span>
             </div>

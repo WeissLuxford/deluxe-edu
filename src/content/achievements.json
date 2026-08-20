@@ -1,0 +1,84 @@
+{
+  "$описание": "Каталог ачивок личного кабинета. Пустой src — бейдж рисуется как заглушка (замок/трофей), вёрстка не поедет. Картинки квадратные, ~256x256, PNG с прозрачностью.",
+  "first_lesson_watched": {
+    "src": "",
+    "title": { "ru": "Первый шаг", "uz": "Birinchi qadam", "en": "First step" },
+    "description": {
+      "ru": "Посмотрели свой первый урок",
+      "uz": "Birinchi darsni ko‘rdingiz",
+      "en": "Watched your first lesson"
+    }
+  },
+  "first_lesson_passed": {
+    "src": "",
+    "title": { "ru": "Дело сделано", "uz": "Ish bajarildi", "en": "Done and done" },
+    "description": {
+      "ru": "Прошли свой первый урок",
+      "uz": "Birinchi darsni yakunladingiz",
+      "en": "Completed your first lesson"
+    }
+  },
+  "five_lessons_passed": {
+    "src": "",
+    "title": { "ru": "В ритме", "uz": "Ritmda", "en": "In the groove" },
+    "description": {
+      "ru": "Пройдено 5 уроков",
+      "uz": "5 ta dars yakunlandi",
+      "en": "5 lessons completed"
+    }
+  },
+  "first_course_completed": {
+    "src": "",
+    "title": { "ru": "Курс покорён", "uz": "Kurs zabt etildi", "en": "Course conquered" },
+    "description": {
+      "ru": "Завершили свой первый курс",
+      "uz": "Birinchi kursingizni yakunladingiz",
+      "en": "Finished your first course"
+    }
+  },
+  "all_courses_completed": {
+    "src": "",
+    "title": { "ru": "Всё пройдено", "uz": "Hammasi tugallandi", "en": "Clean sweep" },
+    "description": {
+      "ru": "Завершены все текущие курсы",
+      "uz": "Barcha joriy kurslar yakunlandi",
+      "en": "Completed every enrolled course"
+    }
+  },
+  "first_payment": {
+    "src": "",
+    "title": { "ru": "Старт положен", "uz": "Boshlandi", "en": "Getting started" },
+    "description": {
+      "ru": "Первая оплата курса",
+      "uz": "Birinchi kurs to‘lovi",
+      "en": "First course payment"
+    }
+  },
+  "streak_3": {
+    "src": "",
+    "title": { "ru": "3 дня подряд", "uz": "3 kun ketma-ket", "en": "3-day streak" },
+    "description": {
+      "ru": "Занимались 3 дня подряд",
+      "uz": "3 kun ketma-ket shug‘ullandingiz",
+      "en": "Studied 3 days in a row"
+    }
+  },
+  "streak_7": {
+    "src": "",
+    "title": { "ru": "Неделя подряд", "uz": "Bir hafta ketma-ket", "en": "7-day streak" },
+    "description": {
+      "ru": "Занимались 7 дней подряд",
+      "uz": "7 kun ketma-ket shug‘ullandingiz",
+      "en": "Studied 7 days in a row"
+    }
+  },
+  "streak_30": {
+    "src": "",
+    "title": { "ru": "Месяц подряд", "uz": "Bir oy ketma-ket", "en": "30-day streak" },
+    "description": {
+      "ru": "Занимались 30 дней подряд",
+      "uz": "30 kun ketma-ket shug‘ullandingiz",
+      "en": "Studied 30 days in a row"
+    }
+  }
+}

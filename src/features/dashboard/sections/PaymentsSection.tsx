@@ -1,4 +1,4 @@
-import { useTranslations, useLocale } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 type Payment = {
   id: string
@@ -10,24 +10,23 @@ type Payment = {
   course: { slug: string } | null
 }
 
-export default function PaymentsSection({ payments }: { payments: Payment[] }) {
-  const t = useTranslations()
-  const locale = useLocale()
+export async function PaymentsSection({ payments, locale }: { payments: Payment[]; locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'dashboard' })
 
   return (
     <section className="card">
       {payments.length === 0 ? (
-        <div className="text-sm text-muted">{t('dashboard.noPayments')}</div>
+        <div className="text-sm text-muted">{t('noPayments')}</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr>
-                <th className="text-left p-2">{t('dashboard.courseColumn')}</th>
-                <th className="text-left p-2">{t('dashboard.amount')}</th>
-                <th className="text-left p-2">{t('dashboard.provider')}</th>
-                <th className="text-left p-2">{t('dashboard.date')}</th>
-                <th className="text-left p-2">{t('dashboard.status')}</th>
+                <th className="text-left p-2">{t('courseColumn')}</th>
+                <th className="text-left p-2">{t('amount')}</th>
+                <th className="text-left p-2">{t('provider')}</th>
+                <th className="text-left p-2">{t('date')}</th>
+                <th className="text-left p-2">{t('status')}</th>
               </tr>
             </thead>
             <tbody>

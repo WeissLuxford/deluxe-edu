@@ -82,6 +82,7 @@ export default function UserMenu() {
           name={session.user.name}
           seed={session.user.phone || session.user.id}
           image={session.user.image}
+          avatarSkinId={session.user.avatarSkinId}
           size={36}
         />
       </button>

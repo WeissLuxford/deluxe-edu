@@ -25,6 +25,8 @@ declare module 'next-auth' {
       locale: string
       image?: string | null
       phoneVerified?: Date | null
+      avatarSkinId?: string | null
+      deviceId?: string | null
     }
   }
   interface User {
@@ -39,6 +41,7 @@ declare module 'next-auth' {
     locale: string
     image?: string | null
     phoneVerified?: Date | null
+    avatarSkinId?: string | null
   }
 }
 
@@ -55,6 +58,7 @@ declare module 'next-auth/jwt' {
     locale: string
     image?: string | null
     phoneVerified?: Date | null
+    avatarSkinId?: string | null
     refreshedAt?: number
     invalid?: boolean
     deviceId?: string
@@ -72,7 +76,8 @@ const SESSION_FIELDS = {
   role: true,
   locale: true,
   image: true,
-  phoneVerified: true
+  phoneVerified: true,
+  avatarSkinId: true
 } as const
 
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000
@@ -190,6 +195,7 @@ export const authOptions: NextAuthOptions = {
         token.locale = fresh.locale || 'ru'
         token.image = fresh.image
         token.phoneVerified = fresh.phoneVerified
+        token.avatarSkinId = fresh.avatarSkinId
         token.refreshedAt = Date.now()
         token.deviceId = await assignDevice(fresh.id)
         return token
@@ -207,6 +213,7 @@ export const authOptions: NextAuthOptions = {
         token.locale = user.locale || 'ru'
         token.image = user.image ?? null
         token.phoneVerified = user.phoneVerified ?? null
+        token.avatarSkinId = user.avatarSkinId ?? null
         token.refreshedAt = Date.now()
         token.deviceId = await assignDevice(user.id)
         return token
@@ -246,6 +253,7 @@ export const authOptions: NextAuthOptions = {
         token.locale = fresh.locale || 'ru'
         token.image = fresh.image
         token.phoneVerified = fresh.phoneVerified
+        token.avatarSkinId = fresh.avatarSkinId
         token.refreshedAt = Date.now()
       }
 
@@ -264,7 +272,9 @@ export const authOptions: NextAuthOptions = {
           role: 'STUDENT',
           locale: 'ru',
           image: null,
-          phoneVerified: null
+          phoneVerified: null,
+          avatarSkinId: null,
+          deviceId: null
         }
         return session
       }
@@ -280,7 +290,9 @@ export const authOptions: NextAuthOptions = {
         role: token.role as Role,
         locale: (token.locale as string) || 'ru',
         image: (token.image as string | null) ?? null,
-        phoneVerified: (token.phoneVerified as Date | null) ?? null
+        phoneVerified: (token.phoneVerified as Date | null) ?? null,
+        avatarSkinId: (token.avatarSkinId as string | null) ?? null,
+        deviceId: (token.deviceId as string | undefined) ?? null
       }
 
       return session

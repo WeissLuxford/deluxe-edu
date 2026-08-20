@@ -4,10 +4,12 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { Prisma } from '@prisma/client'
 import { normalizeEmail } from '@/features/auth/identity'
+import avatarSkins from '@/content/avatars.json'
 
 export const dynamic = 'force-dynamic'
 
 const LOCALES = ['ru', 'uz', 'en']
+const AVATAR_SKIN_IDS = new Set((avatarSkins as { id: string }[]).map(a => a.id))
 
 export async function PATCH(req: Request) {
   const session = await getServerSession(authOptions)
@@ -22,6 +24,12 @@ export async function PATCH(req: Request) {
   if (typeof body.lastName === 'string') data.lastName = body.lastName.trim().slice(0, 100)
   if (typeof body.displayName === 'string') data.name = body.displayName.trim().slice(0, 100)
   if (typeof body.locale === 'string' && LOCALES.includes(body.locale)) data.locale = body.locale
+
+  if (body.avatarSkinId === null) {
+    data.avatarSkinId = null
+  } else if (typeof body.avatarSkinId === 'string' && AVATAR_SKIN_IDS.has(body.avatarSkinId)) {
+    data.avatarSkinId = body.avatarSkinId
+  }
 
   let emailChanged = false
   if (typeof body.email === 'string') {
