@@ -3977,6 +3977,14 @@ html.light .course-article__cta {
   background: var(--bg-tertiary);
 }
 
+.admin-table tr.row-risk td {
+  background: rgba(239, 68, 68, 0.07);
+}
+
+.admin-table tr.row-risk:hover td {
+  background: rgba(239, 68, 68, 0.12);
+}
+
 .admin-table .num {
   text-align: center;
 }

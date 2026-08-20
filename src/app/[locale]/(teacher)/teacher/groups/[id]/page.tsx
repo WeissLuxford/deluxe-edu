@@ -56,11 +56,27 @@ export default async function TeacherGroupDetail({
 
   const memberIds = memberships.map(m => m.user.id)
 
-  const [enrollments, events, availableStudents] = await Promise.all([
+  const [enrollments, lessonProgress, attendanceRows, events, availableStudents] = await Promise.all([
     memberIds.length
       ? prisma.enrollment.findMany({
           where: { userId: { in: memberIds }, status: 'ACTIVE' },
-          select: { userId: true, course: { select: { title: true } } }
+          select: {
+            userId: true,
+            lastVisitedAt: true,
+            course: { select: { title: true, lessons: { select: { id: true } } } }
+          }
+        })
+      : Promise.resolve([]),
+    memberIds.length
+      ? prisma.lessonProgress.findMany({
+          where: { userId: { in: memberIds }, passed: true },
+          select: { userId: true, lessonId: true }
+        })
+      : Promise.resolve([]),
+    memberIds.length
+      ? prisma.attendance.findMany({
+          where: { userId: { in: memberIds }, event: { groupId: id } },
+          select: { userId: true, status: true }
         })
       : Promise.resolve([]),
     prisma.scheduleEvent.findMany({
@@ -89,12 +105,82 @@ export default async function TeacherGroupDetail({
     })
   ])
 
-  const coursesByUser = new Map<string, string[]>()
+  const AT_RISK_PROGRESS = 30
+  const AT_RISK_DAYS = 7
+  const AT_RISK_ATTENDANCE = 50
+  const MIN_ATTENDANCE_SAMPLES = 2
+
+  const passedLessonIds = new Set(lessonProgress.map(p => p.lessonId))
+
+  const enrollmentsByUser = new Map<string, typeof enrollments>()
   for (const e of enrollments) {
-    const list = coursesByUser.get(e.userId) ?? []
-    list.push(ru(e.course.title))
-    coursesByUser.set(e.userId, list)
+    const list = enrollmentsByUser.get(e.userId) ?? []
+    list.push(e)
+    enrollmentsByUser.set(e.userId, list)
   }
+
+  const coursesByUser = new Map<string, string[]>()
+  const progressByUser = new Map<string, number>()
+  const lastVisitByUser = new Map<string, Date | null>()
+
+  for (const [uid, list] of enrollmentsByUser) {
+    coursesByUser.set(uid, list.map(e => ru(e.course.title)))
+
+    const percents = list.map(e => {
+      const total = e.course.lessons.length
+      const done = e.course.lessons.filter(l => passedLessonIds.has(l.id)).length
+      return total > 0 ? Math.round((done / total) * 100) : 0
+    })
+    progressByUser.set(uid, Math.min(...percents))
+
+    const visits = list.map(e => e.lastVisitedAt).filter((d): d is Date => d != null)
+    lastVisitByUser.set(uid, visits.length ? new Date(Math.max(...visits.map(d => +d))) : null)
+  }
+
+  const attendanceByUser = new Map<string, { present: number; countable: number }>()
+  for (const a of attendanceRows) {
+    const bucket = attendanceByUser.get(a.userId) ?? { present: 0, countable: 0 }
+    if (a.status !== 'EXCUSED') {
+      bucket.countable += 1
+      if (a.status === 'PRESENT') bucket.present += 1
+    }
+    attendanceByUser.set(a.userId, bucket)
+  }
+
+  const relTime = new Intl.RelativeTimeFormat('ru', { numeric: 'auto' })
+  function formatLastVisit(date: Date | null) {
+    if (!date) return 'никогда'
+    const days = Math.floor((Date.now() - +date) / 86_400_000)
+    if (days <= 0) return 'сегодня'
+    if (days < 30) return relTime.format(-days, 'day')
+    return relTime.format(-Math.floor(days / 30), 'month')
+  }
+
+  function attendanceRate(uid: string) {
+    const bucket = attendanceByUser.get(uid)
+    if (!bucket || bucket.countable === 0) return null
+    return Math.round((bucket.present / bucket.countable) * 100)
+  }
+
+  function isAtRisk(uid: string) {
+    const progress = progressByUser.get(uid)
+    const lastVisit = lastVisitByUser.get(uid) ?? null
+    const daysSinceVisit = lastVisit ? (Date.now() - +lastVisit) / 86_400_000 : Infinity
+    const rate = attendanceRate(uid)
+    const bucket = attendanceByUser.get(uid)
+
+    return (
+      (progress !== undefined && progress < AT_RISK_PROGRESS) ||
+      daysSinceVisit >= AT_RISK_DAYS ||
+      (rate !== null && bucket!.countable >= MIN_ATTENDANCE_SAMPLES && rate < AT_RISK_ATTENDANCE)
+    )
+  }
+
+  const riskByUser = new Map(memberIds.map(uid => [uid, isAtRisk(uid)]))
+  const sortedMemberships = [...memberships].sort(
+    (a, b) => Number(riskByUser.get(b.user.id)) - Number(riskByUser.get(a.user.id))
+  )
+  const atRiskCount = memberIds.filter(uid => riskByUser.get(uid)).length
 
   const now = new Date()
   const upcoming = events.filter(e => e.startsAt >= now).sort((a, b) => +a.startsAt - +b.startsAt)
@@ -133,7 +219,9 @@ export default async function TeacherGroupDetail({
             <GroupNameEditor groupId={id} name={group.name} />
           </h1>
           <p className="admin-page-head__sub">
-            {memberships.length} студентов{group.archived ? ' · в архиве' : ''}
+            {memberships.length} студентов
+            {atRiskCount > 0 ? ` · ${atRiskCount} требуют внимания` : ''}
+            {group.archived ? ' · в архиве' : ''}
           </p>
         </div>
       </header>
@@ -178,34 +266,69 @@ export default async function TeacherGroupDetail({
                 <tr>
                   <th>Студент</th>
                   <th>Курс</th>
+                  <th>Прогресс</th>
+                  <th>Посещаемость</th>
+                  <th>Последний визит</th>
                   <th>В группе с</th>
                   <th />
                 </tr>
               </thead>
               <tbody>
-                {memberships.map(m => (
-                  <tr key={m.id}>
-                    <td>
-                      <span style={{ color: 'var(--fg)' }}>
-                        {[m.user.firstName, m.user.lastName].filter(Boolean).join(' ') ||
-                          m.user.name ||
-                          'без имени'}
-                      </span>
-                      <div className="text-xs" style={{ color: 'var(--muted)' }}>
-                        {contact(m.user)}
-                      </div>
-                    </td>
-                    <td>{(coursesByUser.get(m.user.id) ?? []).join(', ') || '—'}</td>
-                    <td>{dateFmt.format(m.joinedAt)}</td>
-                    <td className="right">
-                      <DeleteButton
-                        action={removeMember.bind(null, id, m.user.id)}
-                        confirmText={`Убрать «${m.user.name || 'студента'}» из группы?`}
-                        label="Убрать"
-                      />
-                    </td>
-                  </tr>
-                ))}
+                {sortedMemberships.map(m => {
+                  const risk = riskByUser.get(m.user.id) ?? false
+                  const progress = progressByUser.get(m.user.id)
+                  const rate = attendanceRate(m.user.id)
+                  const lastVisit = lastVisitByUser.get(m.user.id) ?? null
+
+                  return (
+                    <tr key={m.id} className={risk ? 'row-risk' : undefined}>
+                      <td>
+                        <span style={{ color: 'var(--fg)' }}>
+                          {[m.user.firstName, m.user.lastName].filter(Boolean).join(' ') ||
+                            m.user.name ||
+                            'без имени'}
+                        </span>
+                        {risk && (
+                          <span className="badge badge-error" style={{ marginLeft: '0.5rem' }}>
+                            риск
+                          </span>
+                        )}
+                        <div className="text-xs" style={{ color: 'var(--muted)' }}>
+                          {contact(m.user)}
+                        </div>
+                      </td>
+                      <td>{(coursesByUser.get(m.user.id) ?? []).join(', ') || '—'}</td>
+                      <td>
+                        {progress === undefined ? (
+                          '—'
+                        ) : (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: '6rem' }}>
+                            <div className="progress" style={{ flex: 1 }}>
+                              <div
+                                className="progress-bar"
+                                style={{
+                                  width: `${progress}%`,
+                                  ...(progress < AT_RISK_PROGRESS ? { background: '#ef4444' } : {})
+                                }}
+                              />
+                            </div>
+                            <span className="text-xs">{progress}%</span>
+                          </div>
+                        )}
+                      </td>
+                      <td>{rate === null ? 'нет данных' : `${rate}%`}</td>
+                      <td>{formatLastVisit(lastVisit)}</td>
+                      <td>{dateFmt.format(m.joinedAt)}</td>
+                      <td className="right">
+                        <DeleteButton
+                          action={removeMember.bind(null, id, m.user.id)}
+                          confirmText={`Убрать «${m.user.name || 'студента'}» из группы?`}
+                          label="Убрать"
+                        />
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
