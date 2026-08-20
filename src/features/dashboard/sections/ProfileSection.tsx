@@ -90,8 +90,7 @@ export default function ProfileSection() {
               disabled
               style={{
                 background: 'var(--surface-2)',
-                cursor: 'not-allowed',
-                opacity: 0.7
+                cursor: 'not-allowed'
               }}
             />
             <p className="hint" style={{ marginTop: '0.5rem' }}>

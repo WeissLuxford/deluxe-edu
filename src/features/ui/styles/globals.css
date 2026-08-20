@@ -263,7 +263,7 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
 .input:disabled,
 .textarea:disabled,
 .select:disabled {
-  opacity: 0.5;
+  color: var(--muted);
   cursor: not-allowed;
 }
 
