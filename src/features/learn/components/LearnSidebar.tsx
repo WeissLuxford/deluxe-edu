@@ -13,7 +13,9 @@ import {
   Menu,
   X,
   Info,
-  User
+  User,
+  ClipboardCheck,
+  Clock3
 } from 'lucide-react'
 import type { CourseTree } from '@/features/learn/progress'
 
@@ -146,6 +148,38 @@ export function LearnSidebar({ locale, tree }: { locale: string; tree: CourseTre
                         </li>
                       )
                     })}
+
+                    {module.exam && (
+                      <li>
+                        {(() => {
+                          const exam = module.exam
+                          const moduleDone = module.total > 0 && module.done === module.total
+                          if (!moduleDone) {
+                            return (
+                              <span className="learn-lesson is-locked" title={t('lockedModule')}>
+                                <Lock size={15} />
+                                <span className="learn-lesson__title">{exam.title}</span>
+                              </span>
+                            )
+                          }
+
+                          const Icon = exam.reviewStatus === 'PENDING' ? Clock3 : ClipboardCheck
+                          const href = `${base}/exam/${module.id}`
+                          const active = pathname === href
+
+                          return (
+                            <Link
+                              href={href}
+                              className={`learn-lesson status-current${active ? ' active' : ''}`}
+                              onClick={() => setMobileOpen(false)}
+                            >
+                              <Icon size={15} />
+                              <span className="learn-lesson__title">{exam.title}</span>
+                            </Link>
+                          )
+                        })()}
+                      </li>
+                    )}
                   </ul>
                 )}
               </div>

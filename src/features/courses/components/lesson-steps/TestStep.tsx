@@ -92,7 +92,7 @@ export function TestStep({
       const data = await res.json()
 
       if (!res.ok) {
-        setError(data?.error || t('sendError'))
+        setError(data?.error === 'daily_limit_reached' ? t('dailyLimitError') : t('sendError'))
         return
       }
 

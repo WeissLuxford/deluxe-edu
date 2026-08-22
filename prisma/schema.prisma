@@ -35,6 +35,9 @@ model User {
   attendanceRecords Attendance[]        @relation("AttendanceRecords")
   devices           UserDevice[]
   achievements      UserAchievement[]
+  examAttempts      ExamAttempt[]       @relation("ExamAttempts")
+  examReviews       ExamAttempt[]       @relation("ExamReviewer")
+  dialogueAttempts  DialogueAttempt[]
 
   @@index([phone])
   @@index([email])
@@ -165,6 +168,7 @@ model Module {
   order       Int      @default(0)
   course      Course   @relation(fields: [courseId], references: [id])
   lessons     Lesson[]
+  exam        Exam?
 
   @@index([courseId, order])
 }
@@ -182,15 +186,107 @@ model Lesson {
   hasVideo       Boolean          @default(true)
   hasConspect    Boolean          @default(false)
   hasTest        Boolean          @default(false)
+  hasDialogue    Boolean          @default(false)
   zoomMeetingId  String?
   order          Int              @default(0)
   course         Course           @relation(fields: [courseId], references: [id])
   module         Module?          @relation(fields: [moduleId], references: [id])
   Assignment     Assignment[]
   LessonProgress LessonProgress[]
+  Dialogue       Dialogue[]
 
   @@unique([courseId, slug])
   @@index([moduleId, order])
+}
+
+model Exam {
+  id           String   @id @default(cuid())
+  moduleId     String   @unique
+  title        Json
+  prompt       Json
+  answerKey    Json?
+  passingScore Int      @default(70)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  module   Module        @relation(fields: [moduleId], references: [id])
+  attempts ExamAttempt[]
+}
+
+model ExamAttempt {
+  id           String           @id @default(cuid())
+  examId       String
+  userId       String
+  answer       Json
+  grade        Int
+  correct      Int
+  total        Int
+  submittedAt  DateTime         @default(now())
+  reviewStatus ExamReviewStatus @default(PENDING)
+  reviewedById String?
+  reviewedAt   DateTime?
+  reviewNote   String?
+
+  exam       Exam  @relation(fields: [examId], references: [id])
+  user       User  @relation("ExamAttempts", fields: [userId], references: [id])
+  reviewedBy User? @relation("ExamReviewer", fields: [reviewedById], references: [id])
+
+  @@index([examId, userId, submittedAt])
+  @@index([reviewStatus])
+}
+
+enum ExamReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Dialogue {
+  id         String   @id @default(cuid())
+  lessonId   String
+  title      Json
+  characters Json
+  lines      Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  lesson   Lesson            @relation(fields: [lessonId], references: [id])
+  attempts DialogueAttempt[]
+}
+
+model DialogueAttempt {
+  id          String                @id @default(cuid())
+  dialogueId  String
+  userId      String
+  characterId String
+  status      DialogueAttemptStatus @default(IN_PROGRESS)
+  startedAt   DateTime              @default(now())
+  completedAt DateTime?
+
+  dialogue   Dialogue                @relation(fields: [dialogueId], references: [id])
+  user       User                    @relation(fields: [userId], references: [id])
+  recordings DialogueLineRecording[]
+
+  @@index([dialogueId, userId])
+}
+
+model DialogueLineRecording {
+  id          String   @id @default(cuid())
+  attemptId   String
+  lineId      String
+  audioUrl    String
+  durationSec Int?
+  createdAt   DateTime @default(now())
+
+  attempt DialogueAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+
+  @@unique([attemptId, lineId])
+  @@index([attemptId])
+}
+
+enum DialogueAttemptStatus {
+  IN_PROGRESS
+  COMPLETED
 }
 
 model Enrollment {
@@ -245,18 +341,20 @@ model Payment {
 }
 
 model LessonProgress {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String
   lessonId  String
-  watched   Boolean  @default(false)
-  passed    Boolean  @default(false)
+  watched   Boolean   @default(false)
+  passed    Boolean   @default(false)
+  passedAt  DateTime?
   lastStep  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
-  lesson    Lesson   @relation(fields: [lessonId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id])
+  lesson    Lesson    @relation(fields: [lessonId], references: [id])
 
   @@unique([userId, lessonId])
+  @@index([userId, passedAt])
 }
 
 model Stream {

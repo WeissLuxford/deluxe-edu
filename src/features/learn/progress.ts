@@ -1,9 +1,11 @@
 import { prisma } from '@/lib/db'
 import { localized } from '@/lib/localized'
 import { resolvePublicAsset } from '@/lib/publicAsset'
+import { isHardGated } from './groupGate'
 
-export type LessonStep = 'video' | 'conspect' | 'test'
+export type LessonStep = 'video' | 'conspect' | 'test' | 'dialogue'
 export type LessonStatus = 'done' | 'current' | 'locked'
+export type ModuleExamStatus = 'PENDING' | 'APPROVED' | 'REJECTED'
 
 export type TreeLesson = {
   id: string
@@ -18,6 +20,19 @@ export type TreeLesson = {
   lastStep: LessonStep | null
   steps: LessonStep[]
   blockedByTitle: string | null
+  blockedByExam: string | null
+}
+
+export type TreeModuleExam = {
+  id: string
+  title: string
+  passingScore: number
+  attempted: boolean
+  grade: number | null
+  passed: boolean | null
+  reviewStatus: ModuleExamStatus | null
+  approved: boolean
+  reviewNote: string | null
 }
 
 export type TreeModule = {
@@ -28,6 +43,7 @@ export type TreeModule = {
   locked: boolean
   total: number
   done: number
+  exam: TreeModuleExam | null
   lessons: TreeLesson[]
 }
 
@@ -40,34 +56,55 @@ export type CourseTree = {
   coverUrl: string | null
   plan: string
   enrollmentId: string
+  hardGated: boolean
   modules: TreeModule[]
   total: number
   done: number
   percent: number
   completed: boolean
   current: { moduleId: string; lessonSlug: string; lessonTitle: string } | null
+  currentExam: { moduleId: string; examId: string; moduleTitle: string } | null
 }
 
-export type ResumeTarget = {
-  courseSlug: string
-  courseTitle: string
-  moduleTitle: string
-  lessonSlug: string
-  lessonTitle: string
-  step: LessonStep | null
-  percent: number
-  done: number
-  total: number
-  started: boolean
-}
+export type ResumeTarget =
+  | {
+      kind: 'lesson'
+      courseSlug: string
+      courseTitle: string
+      moduleTitle: string
+      lessonSlug: string
+      lessonTitle: string
+      step: LessonStep | null
+      percent: number
+      done: number
+      total: number
+      started: boolean
+    }
+  | {
+      kind: 'exam'
+      courseSlug: string
+      courseTitle: string
+      moduleTitle: string
+      moduleId: string
+      examId: string
+      percent: number
+      done: number
+      total: number
+    }
 
-const STEP_VALUES: LessonStep[] = ['video', 'conspect', 'test']
+const STEP_VALUES: LessonStep[] = ['video', 'conspect', 'test', 'dialogue']
 
-function stepsOf(lesson: { hasVideo: boolean; hasConspect: boolean; hasTest: boolean }): LessonStep[] {
+function stepsOf(lesson: {
+  hasVideo: boolean
+  hasConspect: boolean
+  hasTest: boolean
+  hasDialogue: boolean
+}): LessonStep[] {
   const steps: LessonStep[] = []
   if (lesson.hasVideo) steps.push('video')
   if (lesson.hasConspect) steps.push('conspect')
   if (lesson.hasTest) steps.push('test')
+  if (lesson.hasDialogue) steps.push('dialogue')
   return steps
 }
 
@@ -101,6 +138,24 @@ export async function getCourseTree(
   })
   const progressByLesson = new Map(progressRows.map(p => [p.lessonId, p]))
 
+  const moduleIds = course.modules.map(m => m.id)
+  const exams = moduleIds.length > 0 ? await prisma.exam.findMany({ where: { moduleId: { in: moduleIds } } }) : []
+  const examByModule = new Map(exams.map(e => [e.moduleId, e]))
+
+  const attempts =
+    exams.length > 0
+      ? await prisma.examAttempt.findMany({
+          where: { userId, examId: { in: exams.map(e => e.id) } },
+          orderBy: { submittedAt: 'desc' }
+        })
+      : []
+  const latestAttemptByExam = new Map<string, (typeof attempts)[number]>()
+  for (const a of attempts) {
+    if (!latestAttemptByExam.has(a.examId)) latestAttemptByExam.set(a.examId, a)
+  }
+
+  const hardGated = await isHardGated(userId)
+
   const orphans = course.lessons.filter(l => !l.moduleId)
   const moduleSource = orphans.length
     ? [
@@ -115,17 +170,34 @@ export async function getCourseTree(
       ]
     : course.modules
 
-  const flat = moduleSource.flatMap(m => m.lessons)
-  const currentLesson = flat.find(l => !progressByLesson.get(l.id)?.passed) ?? null
-  const currentIndex = currentLesson ? flat.findIndex(l => l.id === currentLesson.id) : flat.length
-
   let cursor = 0
+  let assignedCurrent = false
+  let blocked = false
+  let currentLessonTitle: string | null = null
+  let currentExam: CourseTree['currentExam'] = null
+
   const modules: TreeModule[] = moduleSource.map((m, moduleIndex) => {
+    const exam = examByModule.get(m.id) ?? null
+    const attempt = exam ? (latestAttemptByExam.get(exam.id) ?? null) : null
+
     const lessons: TreeLesson[] = m.lessons.map(lesson => {
       const position = cursor++
       const row = progressByLesson.get(lesson.id)
       const passed = Boolean(row?.passed)
-      const status: LessonStatus = passed ? 'done' : position === currentIndex ? 'current' : 'locked'
+
+      let status: LessonStatus
+      const gatedWhenLocking = blocked
+      if (passed) {
+        status = 'done'
+      } else if (blocked) {
+        status = 'locked'
+      } else if (!assignedCurrent) {
+        status = 'current'
+        assignedCurrent = true
+        currentLessonTitle = localized(lesson.title, locale)
+      } else {
+        status = 'locked'
+      }
 
       return {
         id: lesson.id,
@@ -139,10 +211,39 @@ export async function getCourseTree(
         passed,
         lastStep: asStep(row?.lastStep),
         steps: stepsOf(lesson),
-        blockedByTitle:
-          status === 'locked' && currentLesson ? localized(currentLesson.title, locale) : null
+        blockedByTitle: status === 'locked' && !gatedWhenLocking ? currentLessonTitle : null,
+        blockedByExam: status === 'locked' && gatedWhenLocking ? (currentExam?.moduleTitle ?? null) : null
       }
     })
+
+    const moduleAllPassed = lessons.length > 0 && lessons.every(l => l.passed)
+    const examApproved = attempt?.reviewStatus === 'APPROVED'
+
+    const moduleExam: TreeModuleExam | null = exam
+      ? {
+          id: exam.id,
+          title: localized(exam.title, locale),
+          passingScore: exam.passingScore,
+          attempted: Boolean(attempt),
+          grade: attempt?.grade ?? null,
+          passed: attempt ? attempt.grade >= exam.passingScore : null,
+          reviewStatus: (attempt?.reviewStatus as ModuleExamStatus | undefined) ?? null,
+          approved: examApproved,
+          reviewNote: attempt?.reviewNote ?? null
+        }
+      : null
+
+    // Хард-гейт (учитель должен одобрить) блокирует только тех, кто состоит в
+    // группе с куратором — на остальных тарифах это не влияет на доступ,
+    // только на статус в exam-карточке (см. TreeModuleExam).
+    if (hardGated && exam && moduleAllPassed && !examApproved && !blocked) {
+      blocked = true
+      currentExam = {
+        moduleId: m.id,
+        examId: exam.id,
+        moduleTitle: localized(m.title, locale)
+      }
+    }
 
     return {
       id: m.id,
@@ -152,13 +253,15 @@ export async function getCourseTree(
       locked: lessons.length > 0 && lessons.every(l => l.status === 'locked'),
       total: lessons.length,
       done: lessons.filter(l => l.passed).length,
+      exam: moduleExam,
       lessons
     }
   })
 
-  const total = flat.length
-  const done = flat.filter(l => progressByLesson.get(l.id)?.passed).length
+  const total = cursor
+  const done = modules.reduce((sum, m) => sum + m.done, 0)
   const currentModule = modules.find(m => m.lessons.some(l => l.status === 'current')) ?? null
+  const currentLessonRow = currentModule?.lessons.find(l => l.status === 'current') ?? null
 
   return {
     courseId: course.id,
@@ -169,19 +272,17 @@ export async function getCourseTree(
     coverUrl: resolvePublicAsset(course.coverUrl),
     plan: enrollment.plan || 'BASIC',
     enrollmentId: enrollment.id,
+    hardGated,
     modules,
     total,
     done,
     percent: total > 0 ? Math.round((done / total) * 100) : 0,
     completed: total > 0 && done === total,
     current:
-      currentLesson && currentModule
-        ? {
-            moduleId: currentModule.id,
-            lessonSlug: currentLesson.slug,
-            lessonTitle: localized(currentLesson.title, locale)
-          }
-        : null
+      currentModule && currentLessonRow
+        ? { moduleId: currentModule.id, lessonSlug: currentLessonRow.slug, lessonTitle: currentLessonRow.title }
+        : null,
+    currentExam
   }
 }
 
@@ -198,10 +299,39 @@ export function isLessonUnlocked(tree: CourseTree, lessonSlug: string): boolean 
   return Boolean(found) && found!.lesson.status !== 'locked'
 }
 
+// Для использования вне SSR-страницы (API-роуты), где известен только
+// lessonId, а не slug курса. Локаль для проверки доступа не важна — берём
+// фиксированную, чтобы не тянуть локаль пользователя в API-роуты.
+export async function isLessonAccessible(userId: string, lessonId: string): Promise<boolean> {
+  const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, select: { courseId: true } })
+  if (!lesson) return false
+
+  const course = await prisma.course.findUnique({ where: { id: lesson.courseId }, select: { slug: true } })
+  if (!course) return false
+
+  const tree = await getCourseTree(userId, course.slug, 'ru')
+  if (!tree) return false
+
+  const found = tree.modules.flatMap(m => m.lessons).find(l => l.id === lessonId)
+  return Boolean(found) && found!.status !== 'locked'
+}
+
 export function resumeFromTree(tree: CourseTree): ResumeTarget | null {
-  const target = tree.current
-    ? findLesson(tree, tree.current.lessonSlug)
-    : lastCompleted(tree)
+  if (tree.currentExam) {
+    return {
+      kind: 'exam',
+      courseSlug: tree.slug,
+      courseTitle: tree.title,
+      moduleTitle: tree.currentExam.moduleTitle,
+      moduleId: tree.currentExam.moduleId,
+      examId: tree.currentExam.examId,
+      percent: tree.percent,
+      done: tree.done,
+      total: tree.total
+    }
+  }
+
+  const target = tree.current ? findLesson(tree, tree.current.lessonSlug) : lastCompleted(tree)
 
   if (!target) return null
 
@@ -209,6 +339,7 @@ export function resumeFromTree(tree: CourseTree): ResumeTarget | null {
   const step = lesson.lastStep && lesson.steps.includes(lesson.lastStep) ? lesson.lastStep : null
 
   return {
+    kind: 'lesson',
     courseSlug: tree.slug,
     courseTitle: tree.title,
     moduleTitle: module.title,
@@ -257,4 +388,8 @@ export async function getEnrolledCourseIds(userId: string): Promise<Set<string>>
 export function lessonHref(locale: string, courseSlug: string, lessonSlug: string, step?: LessonStep | null) {
   const base = `/${locale}/learn/${courseSlug}/${lessonSlug}`
   return step ? `${base}?step=${step}` : base
+}
+
+export function examHref(locale: string, courseSlug: string, moduleId: string) {
+  return `/${locale}/learn/${courseSlug}/exam/${moduleId}`
 }

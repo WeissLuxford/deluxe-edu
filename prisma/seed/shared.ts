@@ -87,6 +87,73 @@ export async function upsertLesson(
   return saved
 }
 
+export async function upsertExam(
+  moduleId: string,
+  exam: { title: L10n; passingScore?: number; questions: Question[] }
+) {
+  const payload = {
+    title: exam.title,
+    passingScore: exam.passingScore ?? 70,
+    ...assignmentData(exam.title, exam.questions)
+  }
+
+  return prisma.exam.upsert({
+    where: { moduleId },
+    update: payload,
+    create: { moduleId, ...payload }
+  })
+}
+
+export type DialogueCharacter = { id: string; name: L10n }
+export type DialogueLine = { id: string; characterId: string; text: L10n; audioUrl: string }
+
+export async function upsertDialogue(
+  lessonId: string,
+  dialogue: { title: L10n; characters: DialogueCharacter[]; lines: DialogueLine[] }
+) {
+  const data = { title: dialogue.title, characters: dialogue.characters, lines: dialogue.lines }
+  const existing = await prisma.dialogue.findFirst({ where: { lessonId } })
+
+  if (existing) {
+    await prisma.dialogue.update({ where: { id: existing.id }, data })
+  } else {
+    await prisma.dialogue.create({ data: { lessonId, ...data } })
+  }
+
+  await prisma.lesson.update({ where: { id: lessonId }, data: { hasDialogue: true } })
+}
+
+// Короткий гудок в виде WAV, закодированный как data URI — самодостаточная
+// заглушка для аудио реплики, пока не подключено хранилище (Bunny) и не
+// записаны настоящие голоса. Разные частоты помогают на слух отличить
+// персонажей друг от друга при проверке.
+export function beepDataUri(freqHz: number, durationSec = 0.35, sampleRate = 8000): string {
+  const numSamples = Math.floor(sampleRate * durationSec)
+  const header = Buffer.alloc(44)
+  header.write('RIFF', 0)
+  header.writeUInt32LE(36 + numSamples, 4)
+  header.write('WAVE', 8)
+  header.write('fmt ', 12)
+  header.writeUInt32LE(16, 16)
+  header.writeUInt16LE(1, 20)
+  header.writeUInt16LE(1, 22)
+  header.writeUInt32LE(sampleRate, 24)
+  header.writeUInt32LE(sampleRate, 28)
+  header.writeUInt16LE(1, 32)
+  header.writeUInt16LE(8, 34)
+  header.write('data', 36)
+  header.writeUInt32LE(numSamples, 40)
+
+  const data = Buffer.alloc(numSamples)
+  for (let i = 0; i < numSamples; i++) {
+    const t = i / sampleRate
+    const envelope = Math.min(1, i / 200, (numSamples - i) / 200)
+    data[i] = 128 + Math.round(60 * envelope * Math.sin(2 * Math.PI * freqHz * t))
+  }
+
+  return `data:audio/wav;base64,${Buffer.concat([header, data]).toString('base64')}`
+}
+
 export async function upsertModule(
   courseId: string,
   module: { title: L10n; description?: L10n; order: number }

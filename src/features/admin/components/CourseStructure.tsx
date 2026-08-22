@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ChevronUp, ChevronDown, Clock, AlertTriangle } from 'lucide-react'
+import { ChevronUp, ChevronDown, Clock, AlertTriangle, ClipboardCheck } from 'lucide-react'
 import { deleteLesson, moveLesson } from '@/features/admin/actions'
 import {
   deleteModule,
@@ -31,6 +31,7 @@ type Module = {
   description?: unknown
   order: number
   lessons: Lesson[]
+  exam?: { id: string } | null
 }
 
 const ru = (value: unknown) => localized(value, 'ru') || '—'
@@ -167,6 +168,13 @@ export function CourseStructure({
             <span className="struct-module__count">{module.lessons.length} урок(ов)</span>
 
             <div className="struct-module__actions">
+              <Link
+                href={`/${locale}/admin/courses/${courseId}/modules/${module.id}/exam`}
+                className={module.exam ? 'badge badge-success' : 'badge badge-warning'}
+              >
+                <ClipboardCheck size={11} />
+                {module.exam ? 'экзамен модуля' : 'экзамен не задан'}
+              </Link>
               <Link
                 href={`/${locale}/admin/courses/${courseId}/lessons/new?module=${module.id}`}
                 className="btn btn-secondary btn-sm"

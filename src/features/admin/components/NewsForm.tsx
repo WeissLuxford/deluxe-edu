@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { LocalizedField } from './LocalizedField'
+import { LocalizedRichField } from './LocalizedRichField'
 import { SlugField } from './SlugField'
 import type { ActionResult } from '../actions'
 
@@ -64,7 +65,7 @@ export function NewsForm({
 
         <LocalizedField name="lead" label="Анонс" value={news.lead} textarea rows={3} required hint="Короткое описание для списка и соцсетей" maxLength={300} />
 
-        <LocalizedField name="body" label="Текст" value={news.body} textarea rows={16} required hint="Пустая строка разделяет абзацы" />
+        <LocalizedRichField name="body" label="Текст" value={news.body} required hint="Заголовки, списки, выноски, цвет текста, ссылки и кнопки — через панель редактора" />
 
         <div>
           <label className="label">Ссылка на обложку</label>

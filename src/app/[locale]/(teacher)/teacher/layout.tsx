@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db'
 import { requireTeacher } from '@/features/teacher/requireTeacher'
+import { getPendingExamCount } from '@/features/teacher/examReview'
 import { TeacherSidebar } from '@/features/teacher/components/TeacherSidebar'
 
 export const metadata = {
@@ -17,7 +18,10 @@ export default async function TeacherLayout({
   const { locale } = await params
   const teacher = await requireTeacher(locale)
 
-  const groups = await prisma.group.count({ where: { teacherId: teacher.id, archived: false } })
+  const [groups, pendingExams] = await Promise.all([
+    prisma.group.count({ where: { teacherId: teacher.id, archived: false } }),
+    getPendingExamCount(teacher.id)
+  ])
 
   return (
     <div className="admin-shell">
@@ -25,7 +29,7 @@ export default async function TeacherLayout({
         locale={locale}
         teacherName={teacher.name || 'Учитель'}
         teacherPhone={teacher.phone || ''}
-        counters={{ groups }}
+        counters={{ groups, pendingExams }}
       />
 
       <main className="admin-main">

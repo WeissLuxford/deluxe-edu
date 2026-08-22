@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { Calendar } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { localized } from '@/lib/localized'
+import { RichText } from '@/features/ui/components/RichText'
 
 export const dynamic = 'force-dynamic'
 
@@ -62,7 +63,6 @@ export default async function NewsPage({ params }: Props) {
   if (!item) notFound()
 
   const body = localized(item.body, locale)
-  const paragraphs = body.split(/\n\s*\n/).filter(Boolean)
 
   return (
     <main className="page-shell">
@@ -95,9 +95,7 @@ export default async function NewsPage({ params }: Props) {
 
           <p className="news-article__lead">{localized(item.lead, locale)}</p>
 
-          {paragraphs.map((p, i) => (
-            <p key={i} className="news-article__p">{p}</p>
-          ))}
+          <RichText text={body} className="news-article__body" />
         </article>
 
         <Link href={`/${locale}/news`} className="btn btn-secondary">

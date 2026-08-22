@@ -1,14 +1,37 @@
 import { Fragment, type ReactNode } from 'react'
+import DOMPurify from 'isomorphic-dompurify'
 
-// Конспекты вводятся в админке обычным текстом, поэтому разметка здесь
-// намеренно скудная: заголовок, список, выноска, жирный и моноширинный
-// фрагмент. Ничего, что нельзя набрать в textarea, не поддерживается.
+// Старый контент набирался как обычный текст с самодельной разметкой —
+// парсер ниже это по-прежнему понимает, чтобы не ломать то, что уже
+// сохранено в базе:
 //
 //   ## Заголовок
 //   Абзац с **важным** словом и примером `I have been waiting`.
 //   - пункт списка
 //   1. пункт нумерованного списка
 //   > выноска: правило или частая ошибка
+//
+// Новый контент приходит из RichTextEditor (TipTap) как готовый HTML.
+// Различаем форматы по наличию HTML-тега: если он есть — санитизируем и
+// рендерим как разметку, иначе — как раньше, через самодельный парсер.
+
+const HTML_TAG = /<[a-z][\s\S]*>/i
+
+const ALLOWED_TAGS = [
+  'p', 'h2', 'h3', 'strong', 'em', 'u', 's', 'a',
+  'ul', 'ol', 'li', 'blockquote', 'code', 'pre', 'br', 'span'
+]
+const ALLOWED_ATTR = ['href', 'target', 'rel', 'class', 'style']
+
+function renderHtml(html: string, className?: string) {
+  const safe = DOMPurify.sanitize(html, { ALLOWED_TAGS, ALLOWED_ATTR })
+  return (
+    <div
+      className={className ? `rich ${className}` : 'rich'}
+      dangerouslySetInnerHTML={{ __html: safe }}
+    />
+  )
+}
 
 type Block =
   | { kind: 'heading'; text: string }
@@ -111,7 +134,14 @@ function inline(text: string): ReactNode {
 }
 
 export function RichText({ text, className }: { text: string; className?: string }) {
-  const blocks = parse(text || '')
+  const trimmed = (text || '').trim()
+  if (!trimmed) return null
+
+  if (HTML_TAG.test(trimmed)) {
+    return renderHtml(trimmed, className)
+  }
+
+  const blocks = parse(trimmed)
   if (!blocks.length) return null
 
   return (

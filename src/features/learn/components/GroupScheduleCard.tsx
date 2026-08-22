@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
-import type { StudentGroup, StudentUpcomingEvent, StudentAttendanceRecord } from '@/features/learn/schedule'
+import { Trophy } from 'lucide-react'
+import type { StudentGroup, StudentUpcomingEvent, StudentAttendanceRecord, LeaderboardEntry } from '@/features/learn/schedule'
 
 const TYPE_KEYS: Record<string, string> = {
   LESSON: 'eventTypeLesson',
@@ -27,12 +28,14 @@ export async function GroupScheduleCard({
   locale,
   groups,
   upcoming,
-  attendance
+  attendance,
+  leaderboard = []
 }: {
   locale: string
   groups: StudentGroup[]
   upcoming: StudentUpcomingEvent[]
   attendance: StudentAttendanceRecord[]
+  leaderboard?: LeaderboardEntry[]
 }) {
   const t = await getTranslations({ locale, namespace: 'learn' })
 
@@ -101,6 +104,33 @@ export async function GroupScheduleCard({
             </ul>
           )}
         </div>
+
+        {leaderboard.length > 0 && (
+          <div className="card" style={{ padding: '1.25rem' }}>
+            <h3 style={{ marginBottom: '0.75rem', color: 'var(--fg)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Trophy size={16} />
+              {t('leaderboardTitle')}
+            </h3>
+            <ol style={{ listStyle: 'none', padding: 0, margin: 0 }} className="space-y-2">
+              {leaderboard.slice(0, 10).map((entry, index) => (
+                <li
+                  key={entry.userId}
+                  className="flex items-center justify-between"
+                  style={entry.isCurrentUser ? { color: 'var(--gold-text)', fontWeight: 600 } : undefined}
+                >
+                  <span>
+                    {index + 1}. {entry.name}
+                    {entry.isCurrentUser ? ` (${t('leaderboardYou')})` : ''}
+                  </span>
+                  <span className="text-xs" style={{ color: entry.isCurrentUser ? 'inherit' : 'var(--muted)' }}>
+                    {t('leaderboardLessons', { count: entry.lessonsPassed })}
+                    {entry.streak > 0 ? ` · 🔥${entry.streak}` : ''}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
       </div>
     </section>
   )

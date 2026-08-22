@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Trophy } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { requireTeacher } from '@/features/teacher/requireTeacher'
 import { setGroupArchived, deleteGroup, removeMember } from '@/features/teacher/groupActions'
+import { getGroupLeaderboard } from '@/features/learn/schedule'
 import { GroupNameEditor } from '@/features/teacher/components/GroupNameEditor'
 import { AddMemberForm } from '@/features/teacher/components/AddMemberForm'
 import { ActionButton } from '@/features/teacher/components/ActionButton'
@@ -56,7 +58,7 @@ export default async function TeacherGroupDetail({
 
   const memberIds = memberships.map(m => m.user.id)
 
-  const [enrollments, lessonProgress, attendanceRows, events, availableStudents] = await Promise.all([
+  const [enrollments, lessonProgress, attendanceRows, events, availableStudents, leaderboard] = await Promise.all([
     memberIds.length
       ? prisma.enrollment.findMany({
           where: { userId: { in: memberIds }, status: 'ACTIVE' },
@@ -102,7 +104,8 @@ export default async function TeacherGroupDetail({
       orderBy: { createdAt: 'desc' },
       take: 50,
       select: { id: true, name: true, firstName: true, lastName: true, phone: true, email: true }
-    })
+    }),
+    getGroupLeaderboard([id], teacher.id)
   ])
 
   const AT_RISK_PROGRESS = 30
@@ -334,6 +337,28 @@ export default async function TeacherGroupDetail({
           </div>
         )}
       </section>
+
+      {leaderboard.length > 0 && (
+        <section className="admin-card">
+          <h3 className="admin-card__title" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <Trophy size={16} />
+            Рейтинг группы
+          </h3>
+          <ol style={{ listStyle: 'none', padding: 0, margin: 0 }} className="space-y-2">
+            {leaderboard.slice(0, 10).map((entry, index) => (
+              <li key={entry.userId} className="flex items-center justify-between">
+                <span style={{ color: 'var(--fg)' }}>
+                  {index + 1}. {entry.name}
+                </span>
+                <span className="text-xs" style={{ color: 'var(--muted)' }}>
+                  {entry.lessonsPassed} урок(ов)
+                  {entry.streak > 0 ? ` · 🔥${entry.streak}` : ''}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
 
       <section className="admin-card">
         <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>

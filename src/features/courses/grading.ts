@@ -1,3 +1,6 @@
+import { localized } from '@/lib/localized'
+import { isAnswerAcceptable, aiConfigured } from '@/lib/ai'
+
 export type Graded = {
   grade: number
   correct: number
@@ -41,4 +44,47 @@ export function gradeAnswers(
     total: questionIds.length,
     wrongIds
   }
+}
+
+type PromptQuestion = { id: string; type: string; question: unknown }
+
+function readPromptQuestions(prompt: unknown): PromptQuestion[] {
+  const parsed = prompt as { questions?: unknown }
+  return Array.isArray(parsed?.questions) ? (parsed.questions as PromptQuestion[]) : []
+}
+
+// Точное совпадение (gradeAnswers) уже отработало — здесь только текстовые
+// вопросы, провалившие его, получают вторую, мягкую попытку через ИИ
+// (опечатки/синонимы). Без ANTHROPIC_API_KEY просто возвращает исходный
+// результат — это не обязательная часть проверки, а необязательное
+// улучшение поверх неё.
+export async function applyLenientTextGrading(
+  graded: Graded,
+  prompt: unknown,
+  answerKey: Record<string, unknown>,
+  answers: Record<string, unknown>
+): Promise<Graded> {
+  if (!aiConfigured() || graded.wrongIds.length === 0) return graded
+
+  const questions = new Map(readPromptQuestions(prompt).map(q => [q.id, q]))
+  const upgraded: string[] = []
+
+  for (const id of graded.wrongIds) {
+    const question = questions.get(id)
+    if (!question || question.type !== 'text') continue
+
+    const expected = answerKey[id]
+    const given = answers?.[id]
+    if (typeof expected !== 'string' || typeof given !== 'string' || !given.trim()) continue
+
+    const acceptable = await isAnswerAcceptable(localized(question.question, 'ru'), expected, given)
+    if (acceptable) upgraded.push(id)
+  }
+
+  if (upgraded.length === 0) return graded
+
+  const wrongIds = graded.wrongIds.filter(id => !upgraded.includes(id))
+  const correct = graded.correct + upgraded.length
+
+  return { ...graded, correct, wrongIds, grade: Math.round((correct / graded.total) * 100) }
 }

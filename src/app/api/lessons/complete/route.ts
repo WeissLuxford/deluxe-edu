@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { authenticateRequest } from '@/lib/apiAuth'
 import { prisma } from '@/lib/db'
+import { assertWithinDailyLimit } from '@/features/courses/dailyLimit'
+import { isLessonAccessible } from '@/features/learn/progress'
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,10 +37,25 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    if (!(await isLessonAccessible(userId, lessonId))) {
+      return NextResponse.json({ error: 'Lesson is locked' }, { status: 403 })
+    }
+
+    const limit = await assertWithinDailyLimit(userId, lessonId)
+    if (!limit.allowed) {
+      return NextResponse.json({ error: 'daily_limit_reached', resetAt: limit.resetAt }, { status: 403 })
+    }
+
+    const existing = await prisma.lessonProgress.findUnique({
+      where: { userId_lessonId: { userId, lessonId } },
+      select: { passed: true, passedAt: true }
+    })
+    const passedAt = existing?.passed ? existing.passedAt : new Date()
+
     await prisma.lessonProgress.upsert({
       where: { userId_lessonId: { userId, lessonId } },
-      update: { watched: true, passed: true },
-      create: { userId, lessonId, watched: true, passed: true }
+      update: { watched: true, passed: true, passedAt },
+      create: { userId, lessonId, watched: true, passed: true, passedAt }
     })
 
     return NextResponse.json({ success: true })

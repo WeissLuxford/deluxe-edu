@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db'
 import type { AttendanceStatus, ScheduleEventType } from '@prisma/client'
+import { getCurrentStreak } from '@/features/dashboard/streak'
 
 export type StudentGroup = {
   groupId: string
@@ -72,4 +73,50 @@ export async function getRecentAttendance(userId: string, take = 10): Promise<St
     startsAt: a.event.startsAt,
     status: a.status
   }))
+}
+
+export type LeaderboardEntry = {
+  userId: string
+  name: string
+  lessonsPassed: number
+  streak: number
+  isCurrentUser: boolean
+}
+
+// Рейтинг внутри своей группы, а не среди чужих людей — это реальная мотивация,
+// а не абстрактное соревнование с анонимами.
+export async function getGroupLeaderboard(groupIds: string[], currentUserId: string): Promise<LeaderboardEntry[]> {
+  if (groupIds.length === 0) return []
+
+  const memberships = await prisma.groupMembership.findMany({
+    where: { groupId: { in: groupIds }, leftAt: null },
+    select: { userId: true, user: { select: { name: true, firstName: true } } }
+  })
+  if (memberships.length === 0) return []
+
+  const nameByUser = new Map(memberships.map(m => [m.userId, m.user.firstName || m.user.name || 'Без имени']))
+  const userIds = Array.from(nameByUser.keys())
+
+  const [passedCounts, streaks] = await Promise.all([
+    prisma.lessonProgress.groupBy({
+      by: ['userId'],
+      where: { userId: { in: userIds }, passed: true },
+      _count: { _all: true }
+    }),
+    Promise.all(userIds.map(async id => ({ id, streak: await getCurrentStreak(id) })))
+  ])
+
+  const passedByUser = new Map(passedCounts.map(p => [p.userId, p._count._all]))
+  const streakByUser = new Map(streaks.map(s => [s.id, s.streak]))
+
+  const entries: LeaderboardEntry[] = userIds.map(id => ({
+    userId: id,
+    name: nameByUser.get(id) ?? 'Без имени',
+    lessonsPassed: passedByUser.get(id) ?? 0,
+    streak: streakByUser.get(id) ?? 0,
+    isCurrentUser: id === currentUserId
+  }))
+
+  entries.sort((a, b) => b.lessonsPassed - a.lessonsPassed || b.streak - a.streak)
+  return entries
 }

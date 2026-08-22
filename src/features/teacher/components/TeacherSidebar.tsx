@@ -3,7 +3,16 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, ExternalLink, PanelLeftClose, PanelLeftOpen, Menu, X } from 'lucide-react'
+import {
+  LayoutDashboard,
+  Users,
+  ClipboardCheck,
+  ExternalLink,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Menu,
+  X
+} from 'lucide-react'
 import { Avatar } from '@/features/ui/components/Avatar'
 import ThemeToggle from '@/features/ui/components/ThemeToggle'
 
@@ -11,7 +20,7 @@ type Props = {
   locale: string
   teacherName: string
   teacherPhone: string
-  counters: { groups: number }
+  counters: { groups: number; pendingExams: number }
 }
 
 export function TeacherSidebar({ locale, teacherName, teacherPhone, counters }: Props) {
@@ -23,7 +32,8 @@ export function TeacherSidebar({ locale, teacherName, teacherPhone, counters }: 
 
   const items = [
     { href: base, icon: LayoutDashboard, label: 'Обзор', exact: true },
-    { href: `${base}/groups`, icon: Users, label: 'Группы', count: counters.groups }
+    { href: `${base}/groups`, icon: Users, label: 'Группы', count: counters.groups },
+    { href: `${base}/exams`, icon: ClipboardCheck, label: 'Экзамены', count: counters.pendingExams }
   ]
 
   const isActive = (href: string, exact?: boolean) =>

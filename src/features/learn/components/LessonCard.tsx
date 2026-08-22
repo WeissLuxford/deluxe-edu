@@ -44,9 +44,11 @@ export async function LessonCard({
 
         {locked ? (
           <p className="lesson-card__hint">
-            {lesson.blockedByTitle
-              ? t('lockedAfter', { title: lesson.blockedByTitle })
-              : t('statusLocked')}
+            {lesson.blockedByExam
+              ? t('lockedAfterExam')
+              : lesson.blockedByTitle
+                ? t('lockedAfter', { title: lesson.blockedByTitle })
+                : t('statusLocked')}
           </p>
         ) : (
           <div className="lesson-card__steps">

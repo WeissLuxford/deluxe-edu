@@ -6,6 +6,9 @@ import { authOptions } from '@/lib/auth'
 import { getCourseTree, resumeFromTree } from '@/features/learn/progress'
 import { ResumeCard } from '@/features/learn/components/ResumeCard'
 import { LessonCard } from '@/features/learn/components/LessonCard'
+import { ExamCard } from '@/features/learn/components/ExamCard'
+import { DailyLimitBanner } from '@/features/learn/components/DailyLimitBanner'
+import { getFreeDailyLessonCount, FREE_DAILY_LESSON_LIMIT } from '@/features/courses/dailyLimit'
 
 export default async function LearnCoursePage({
   params
@@ -21,9 +24,13 @@ export default async function LearnCoursePage({
   if (!tree) redirect(`/${locale}/courses/${slug}`)
 
   const resume = tree.total > 0 ? resumeFromTree(tree) : null
+  const dailyCount = tree.plan === 'FREE' ? await getFreeDailyLessonCount(session.user.id) : 0
+  const showDailyLimit = tree.plan === 'FREE' && dailyCount >= FREE_DAILY_LESSON_LIMIT
 
   return (
     <div className="learn-container">
+      {showDailyLimit && <DailyLimitBanner locale={locale} count={dailyCount} />}
+
       {resume && !tree.completed && <ResumeCard locale={locale} resume={resume} />}
 
       {tree.completed && (
@@ -67,6 +74,7 @@ export default async function LearnCoursePage({
                   lesson={lesson}
                 />
               ))}
+              {module.exam && <ExamCard locale={locale} courseSlug={tree.slug} module={module} />}
             </div>
           )}
         </section>

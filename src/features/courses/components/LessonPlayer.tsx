@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { ArrowLeft, ArrowRight, CheckCircle, Check, Video, FileText, ListChecks } from 'lucide-react'
+import { ArrowLeft, ArrowRight, CheckCircle, Check, Video, FileText, ListChecks, MessagesSquare } from 'lucide-react'
 import { localized } from '@/lib/localized'
 import { VideoStep } from './lesson-steps/VideoStep'
 import { ConspectStep } from './lesson-steps/ConspectStep'
 import { TestStep } from './lesson-steps/TestStep'
+import { DialogueStep } from './lesson-steps/DialogueStep'
 
-type Step = 'video' | 'conspect' | 'test'
+type Step = 'video' | 'conspect' | 'test' | 'dialogue'
 
 type Lesson = {
   id: string
@@ -20,6 +21,18 @@ type Lesson = {
   hasVideo: boolean
   hasConspect: boolean
   hasTest: boolean
+  hasDialogue: boolean
+}
+
+type DialogueInfo = {
+  id: string
+  title: any
+  characters: any
+  lines: any
+  attemptId: string | null
+  characterId: string | null
+  status: 'IN_PROGRESS' | 'COMPLETED' | null
+  recordings: Record<string, string>
 }
 
 type Props = {
@@ -28,6 +41,7 @@ type Props = {
   moduleTitle: string
   lessonIndex: number
   assignment: { id: string; title: any; prompt: any } | null
+  dialogue: DialogueInfo | null
   progress: { watched: boolean; passed: boolean }
   nextLessonSlug: string | null
   initialStep: Step | null
@@ -38,7 +52,8 @@ type Props = {
 const STEP_META = {
   video: { icon: Video, key: 'video' },
   conspect: { icon: FileText, key: 'notes' },
-  test: { icon: ListChecks, key: 'test' }
+  test: { icon: ListChecks, key: 'test' },
+  dialogue: { icon: MessagesSquare, key: 'dialogueStep' }
 } as const
 
 export function LessonPlayer({
@@ -47,6 +62,7 @@ export function LessonPlayer({
   moduleTitle,
   lessonIndex,
   assignment,
+  dialogue,
   progress,
   nextLessonSlug,
   initialStep,
@@ -62,20 +78,30 @@ export function LessonPlayer({
   if (lesson.hasVideo) steps.push('video')
   if (lesson.hasConspect) steps.push('conspect')
   if (lesson.hasTest) steps.push('test')
+  if (lesson.hasDialogue) steps.push('dialogue')
 
   const startIndex = initialStep && steps.includes(initialStep) ? steps.indexOf(initialStep) : 0
 
   const [currentStepIndex, setCurrentStepIndex] = useState(startIndex)
   const [visited, setVisited] = useState<Set<Step>>(new Set(steps.slice(0, startIndex + 1)))
   const [testCompleted, setTestCompleted] = useState(progress.passed)
+  const [dialogueCompleted, setDialogueCompleted] = useState(dialogue?.status === 'COMPLETED')
   const [finishing, setFinishing] = useState(false)
+  const [finishError, setFinishError] = useState<string | null>(null)
   const reportedStep = useRef<Step | null>(null)
 
   const currentStep = steps[currentStepIndex]
   const isLastStep = currentStepIndex === steps.length - 1
   const conspectStepIndex = steps.indexOf('conspect')
   const hasGradedTest = Boolean(assignment)
-  const canGoNext = currentStep !== 'test' || testCompleted
+  const canGoNext =
+    (currentStep !== 'test' || testCompleted) && (currentStep !== 'dialogue' || dialogueCompleted)
+  // Тест сам пишет LessonProgress.passed при сдаче (submit), поэтому если
+  // именно он последний и завершённый шаг — можно перейти сразу, без
+  // повторного вызова /complete. Диалог этого не делает (см. complete/route.ts
+  // для диалога — он трогает только DialogueAttempt), поэтому для него всегда
+  // нужен обычный путь через handleNext().
+  const readyToFinishDirectly = currentStep === 'test' && testCompleted && isLastStep
 
   const title = localized(lesson.title, locale)
   const content = localized(lesson.content, locale)
@@ -106,12 +132,20 @@ export function LessonPlayer({
 
     if (!hasGradedTest && !progress.passed) {
       setFinishing(true)
+      setFinishError(null)
       try {
-        await fetch('/api/lessons/complete', {
+        const res = await fetch('/api/lessons/complete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ lessonId: lesson.id })
         })
+        if (!res.ok) {
+          const data = await res.json().catch(() => null)
+          if (data?.error === 'daily_limit_reached') {
+            setFinishError(t('dailyLimitError'))
+            return
+          }
+        }
       } finally {
         setFinishing(false)
       }
@@ -139,7 +173,7 @@ export function LessonPlayer({
             const Icon = STEP_META[step].icon
             const isCurrent = index === currentStepIndex
             const isDone = visited.has(step) && index < currentStepIndex
-            const reachable = index <= currentStepIndex || testCompleted
+            const reachable = index <= currentStepIndex || (testCompleted && dialogueCompleted)
 
             return (
               <button
@@ -178,7 +212,25 @@ export function LessonPlayer({
             }
           />
         )}
+
+        {currentStep === 'dialogue' && dialogue && (
+          <DialogueStep
+            dialogueId={dialogue.id}
+            title={localized(dialogue.title, locale)}
+            characters={dialogue.characters}
+            lines={dialogue.lines}
+            initialAttemptId={dialogue.attemptId}
+            initialCharacterId={dialogue.characterId}
+            initialStatus={dialogue.status}
+            initialRecordings={dialogue.recordings}
+            locale={locale}
+            onComplete={() => setDialogueCompleted(true)}
+            isCompleted={dialogueCompleted}
+          />
+        )}
       </div>
+
+      {finishError && <div className="alert alert-error">{finishError}</div>}
 
       <div className="lesson-player__nav">
         <button
@@ -191,7 +243,7 @@ export function LessonPlayer({
           {tButtons('back')}
         </button>
 
-        {testCompleted && isLastStep ? (
+        {readyToFinishDirectly ? (
           <button
             type="button"
             onClick={goToNextLesson}

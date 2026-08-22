@@ -91,7 +91,7 @@ function layout(body: string, action: string, url: string, ignore: string): stri
   return `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6">
 <p>${body}</p>
 <p><a href="${url}" style="display:inline-block;padding:12px 20px;border-radius:8px;background:#c7a45a;color:#0b0d12;text-decoration:none;font-weight:600">${action}</a></p>
-<p style="color:#6b7280;font-size:14px">${ignore}</p>
+${ignore ? `<p style="color:#6b7280;font-size:14px">${ignore}</p>` : ''}
 </div>`
 }
 

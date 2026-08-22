@@ -4238,6 +4238,211 @@ html.light .course-article__cta {
   margin-top: 0.3rem;
 }
 
+.rte {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.rte-head {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.4rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-tertiary);
+}
+
+.rte-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem;
+  flex: 1;
+}
+
+.rte-toolbar__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.rte-toolbar__btn:hover {
+  color: var(--fg);
+  background: var(--bg-secondary);
+}
+
+.rte-toolbar__btn.active {
+  color: var(--gold-text);
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
+
+.rte-toolbar__html {
+  width: auto;
+  padding: 0 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.rte-toolbar__sep {
+  width: 1px;
+  height: 1.3rem;
+  margin: 0 0.15rem;
+  background: var(--border);
+}
+
+.rte-toolbar__colorwrap {
+  position: relative;
+}
+
+.rte-toolbar__colors {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  z-index: 20;
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.rte-toolbar__swatch {
+  width: 1.3rem;
+  height: 1.3rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.rte-toolbar__swatch--none {
+  background: repeating-linear-gradient(45deg, var(--bg-tertiary), var(--bg-tertiary) 3px, transparent 3px, transparent 6px);
+}
+
+.rte-content {
+  min-height: 200px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding: 0.9rem 1rem;
+}
+
+.rte-content .ProseMirror {
+  outline: none;
+  color: var(--fg);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.rte-content .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  color: var(--muted);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.rte-content .ProseMirror h2,
+.rte-content .ProseMirror h3 {
+  color: var(--fg);
+  margin: 1rem 0 0.5rem;
+}
+
+.rte-content .ProseMirror blockquote {
+  margin: 0.75rem 0;
+  padding: 0.6rem 1rem;
+  border-left: 3px solid var(--gold-text);
+  background: var(--bg-tertiary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.rte-content .ProseMirror code {
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-tertiary);
+  font-size: 0.85em;
+}
+
+.rte-content .ProseMirror pre {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  background: var(--bg-tertiary);
+  overflow-x: auto;
+}
+
+.rte-content .ProseMirror ul,
+.rte-content .ProseMirror ol {
+  padding-left: 1.4rem;
+}
+
+.rte-content .ProseMirror a {
+  color: var(--gold-text);
+  text-decoration: underline;
+}
+
+.rte-content .ProseMirror a.rte-btn {
+  display: inline-block;
+  margin: 0.3rem 0;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius);
+  background: var(--gold-text);
+  color: #111;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.rte-html {
+  width: 100%;
+  min-height: 200px;
+  padding: 0.9rem 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.rte-html:focus {
+  outline: none;
+}
+
+/* Отрендеренный контент (конспект, новость) — та же .rte-btn кнопка, что и в
+   редакторе, плюс наследование цвета текста, заданного через Color extension. */
+.rich a.rte-btn,
+.news-article__body a.rte-btn {
+  display: inline-block;
+  margin: 0.4rem 0;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  background: var(--gold-text);
+  color: #111;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.rich a:not(.rte-btn),
+.news-article__body a:not(.rte-btn) {
+  color: var(--gold-text);
+  text-decoration: underline;
+}
+
 .lf__count {
   font-size: 0.75rem;
   color: var(--muted);
@@ -4418,6 +4623,12 @@ html.light .course-article__cta {
   font-size: 1.0625rem;
   line-height: 1.75;
   color: var(--muted);
+}
+
+.news-article__body.rich {
+  gap: 1.1rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
 }
 
 @media (max-width: 640px) {

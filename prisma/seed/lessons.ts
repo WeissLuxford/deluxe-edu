@@ -1,4 +1,16 @@
-import { courseIdBySlug, en3, l, opts, upsertLesson, upsertModule, type Question } from './shared'
+import {
+  beepDataUri,
+  courseIdBySlug,
+  en3,
+  l,
+  opts,
+  prisma,
+  upsertDialogue,
+  upsertExam,
+  upsertLesson,
+  upsertModule,
+  type Question
+} from './shared'
 
 // Демо-наполнение платных курсов. Задача — показать клиенту, как выглядит
 // курс с модулями, конспектами и тестами, а не выдать готовую программу.
@@ -770,7 +782,108 @@ async function seedOutlines() {
   }
 }
 
+// Демонстрация контрольной по модулю (Фаза 1A) и диалогового ролплея (Фаза
+// 1C) — на первом реально наполненном курсе, чтобы клиент увидел формат
+// сразу, а не в виде пустого раздела админки.
+async function seedModuleExams() {
+  const courseId = await courseIdBySlug('beginner-grammar')
+  if (!courseId) return
+
+  const basics = await prisma.module.findFirst({ where: { courseId, order: 1 } })
+  const tenses = await prisma.module.findFirst({ where: { courseId, order: 2 } })
+  if (!basics || !tenses) return
+
+  await upsertExam(basics.id, {
+    title: l(
+      'Контрольная: из чего собрано предложение',
+      'Nazorat ishi: gap nimadan tuzilgan',
+      'Exam: what a sentence is made of'
+    ),
+    passingScore: 70,
+    questions: [
+      {
+        id: 'm1-order',
+        type: 'single',
+        question: en3('Choose the correct sentence.'),
+        options: opts('I always drink tea in the morning', 'Always I drink tea in the morning', 'I drink always tea in the morning'),
+        correct: 'a'
+      },
+      {
+        id: 'm1-pronoun',
+        type: 'single',
+        question: en3('This is my sister. ___ is a doctor.'),
+        options: opts('He', 'She', 'Her'),
+        correct: 'b'
+      },
+      {
+        id: 'm1-article',
+        type: 'single',
+        question: en3('I saw ___ elephant at the zoo.'),
+        options: opts('a', 'an', 'the'),
+        correct: 'b'
+      }
+    ]
+  })
+
+  await upsertExam(tenses.id, {
+    title: l(
+      'Контрольная: Present Simple',
+      'Nazorat ishi: Present Simple',
+      'Exam: Present Simple'
+    ),
+    passingScore: 70,
+    questions: [
+      {
+        id: 'm2-form',
+        type: 'single',
+        question: en3('She ___ to school every day.'),
+        options: opts('go', 'goes', 'going'),
+        correct: 'b'
+      },
+      {
+        id: 'm2-usage',
+        type: 'single',
+        question: en3('Present Simple is mainly used for:'),
+        options: opts('actions happening right now', 'habits and routines', 'events in the past'),
+        correct: 'b'
+      }
+    ]
+  })
+
+  console.log('beginner-grammar: контрольные для 2 модулей')
+}
+
+async function seedDialogue() {
+  const courseId = await courseIdBySlug('beginner-speaking')
+  if (!courseId) return
+
+  const lesson = await prisma.lesson.findFirst({ where: { courseId, slug: 'introductions' } })
+  if (!lesson) return
+
+  const alex = 'alex'
+  const maria = 'maria'
+
+  await upsertDialogue(lesson.id, {
+    title: l('Диалог: знакомство', 'Dialog: tanishuv', 'Dialogue: introductions'),
+    characters: [
+      { id: alex, name: en3('Alex') },
+      { id: maria, name: en3('Maria') }
+    ],
+    lines: [
+      { id: 'l1', characterId: alex, text: l("Привет! Я Алекс. Как тебя зовут?", "Salom! Men Aleksman. Isming nima?", "Hi! I'm Alex. What's your name?"), audioUrl: beepDataUri(440) },
+      { id: 'l2', characterId: maria, text: l("Привет, Алекс! Я Мария. Приятно познакомиться.", "Salom, Aleks! Men Mariyaman. Tanishganimdan xursandman.", "Hi Alex! I'm Maria. Nice to meet you."), audioUrl: beepDataUri(660) },
+      { id: 'l3', characterId: alex, text: l("Мне тоже приятно. Ты откуда?", "Menga ham. Sen qayerdansan?", "Nice to meet you too. Where are you from?"), audioUrl: beepDataUri(440) },
+      { id: 'l4', characterId: maria, text: l("Я из Ташкента. А ты?", "Men Toshkentdanman. Sen-chi?", "I'm from Tashkent. And you?"), audioUrl: beepDataUri(660) },
+      { id: 'l5', characterId: alex, text: l("Я из Лондона.", "Men Londondanman.", "I'm from London."), audioUrl: beepDataUri(440) }
+    ]
+  })
+
+  console.log('beginner-speaking: диалог для урока introductions')
+}
+
 export async function seedCourseContent() {
   await seedBeginnerGrammar()
   await seedOutlines()
+  await seedModuleExams()
+  await seedDialogue()
 }

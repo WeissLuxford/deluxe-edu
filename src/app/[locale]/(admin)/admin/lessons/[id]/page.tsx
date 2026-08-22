@@ -3,8 +3,10 @@ import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { updateLesson } from '@/features/admin/actions'
 import { saveAssignment, deleteAssignment } from '@/features/admin/assignmentActions'
+import { saveDialogue, deleteDialogue } from '@/features/admin/dialogueActions'
 import { LessonForm } from '@/features/admin/components/LessonForm'
 import { AssignmentBuilder } from '@/features/admin/components/AssignmentBuilder'
+import { DialogueBuilder } from '@/features/admin/components/DialogueBuilder'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 
 type Localized = { ru: string; uz: string; en: string }
@@ -13,6 +15,23 @@ function toLocalized(value: any): Localized {
   if (!value) return { ru: '', uz: '', en: '' }
   if (typeof value === 'string') return { ru: value, uz: '', en: '' }
   return { ru: value.ru ?? '', uz: value.uz ?? '', en: value.en ?? '' }
+}
+
+function toBuilderCharacters(characters: any): { id: string; name: Localized }[] {
+  return Array.isArray(characters)
+    ? characters.map((c: any) => ({ id: String(c.id), name: toLocalized(c.name) }))
+    : []
+}
+
+function toBuilderLines(lines: any): { id: string; characterId: string; text: Localized; audioUrl: string }[] {
+  return Array.isArray(lines)
+    ? lines.map((l: any) => ({
+        id: String(l.id),
+        characterId: String(l.characterId),
+        text: toLocalized(l.text),
+        audioUrl: String(l.audioUrl ?? '')
+      }))
+    : []
 }
 
 function toBuilderQuestions(prompt: any, answerKey: any) {
@@ -51,13 +70,15 @@ export default async function EditLesson({
           modules: { orderBy: { order: 'asc' }, select: { id: true, title: true, order: true } }
         }
       },
-      Assignment: true
+      Assignment: true,
+      Dialogue: true
     }
   })
 
   if (!lesson) notFound()
 
   const assignment = lesson.Assignment[0] ?? null
+  const dialogue = lesson.Dialogue[0] ?? null
 
   return (
     <div className="space-y-6">
@@ -88,6 +109,7 @@ export default async function EditLesson({
             hasVideo: lesson.hasVideo,
             hasConspect: lesson.hasConspect,
             hasTest: lesson.hasTest,
+            hasDialogue: lesson.hasDialogue,
             videoUrl: lesson.videoUrl,
             zoomMeetingId: lesson.zoomMeetingId,
             moduleId: lesson.moduleId,
@@ -109,6 +131,16 @@ export default async function EditLesson({
                 hasExisting={Boolean(assignment)}
               />
             </>
+          }
+          dialogueSlot={
+            <DialogueBuilder
+              save={saveDialogue.bind(null, id)}
+              remove={deleteDialogue.bind(null, id)}
+              initialTitle={toLocalized(dialogue?.title)}
+              initialCharacters={toBuilderCharacters(dialogue?.characters)}
+              initialLines={toBuilderLines(dialogue?.lines)}
+              hasExisting={Boolean(dialogue)}
+            />
           }
         />
       </LocaleTabsProvider>

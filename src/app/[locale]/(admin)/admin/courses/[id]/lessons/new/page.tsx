@@ -63,6 +63,7 @@ export default async function NewLesson({
             hasVideo: true,
             hasConspect: true,
             hasTest: false,
+            hasDialogue: false,
             videoUrl: null,
             zoomMeetingId: null,
             moduleId: targetModule,

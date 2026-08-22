@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import { authOptions } from '@/lib/auth'
 import { getEnrolledCourses, resumeFromTree } from '@/features/learn/progress'
-import { getStudentGroups, getUpcomingEvents, getRecentAttendance } from '@/features/learn/schedule'
+import { getStudentGroups, getUpcomingEvents, getRecentAttendance, getGroupLeaderboard } from '@/features/learn/schedule'
 import { LearnTopbar } from '@/features/learn/components/LearnTopbar'
 import { LearnHomeSidebar } from '@/features/learn/components/LearnHomeSidebar'
 import { ResumeCard } from '@/features/learn/components/ResumeCard'
@@ -19,12 +19,13 @@ export default async function LearnHome({ params }: { params: Promise<{ locale: 
   const t = await getTranslations({ locale, namespace: 'learn' })
   const trees = await getEnrolledCourses(session.user.id, locale)
   const groups = await getStudentGroups(session.user.id)
-  const [upcomingEvents, attendance] = groups.length
+  const [upcomingEvents, attendance, leaderboard] = groups.length
     ? await Promise.all([
         getUpcomingEvents(groups.map(g => g.groupId)),
-        getRecentAttendance(session.user.id)
+        getRecentAttendance(session.user.id),
+        getGroupLeaderboard(groups.map(g => g.groupId), session.user.id)
       ])
-    : [[], []]
+    : [[], [], []]
 
   const active = trees.filter(tree => !tree.completed)
   const completed = trees.filter(tree => tree.completed)
@@ -48,7 +49,13 @@ export default async function LearnHome({ params }: { params: Promise<{ locale: 
             {resume && <ResumeCard locale={locale} resume={resume} />}
 
             {groups.length > 0 && (
-              <GroupScheduleCard locale={locale} groups={groups} upcoming={upcomingEvents} attendance={attendance} />
+              <GroupScheduleCard
+                locale={locale}
+                groups={groups}
+                upcoming={upcomingEvents}
+                attendance={attendance}
+                leaderboard={leaderboard}
+              />
             )}
 
             {trees.length === 0 && (

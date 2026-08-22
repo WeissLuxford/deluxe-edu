@@ -41,7 +41,10 @@ export default async function EditCourse({
       title: true,
       modules: {
         orderBy: { order: 'asc' },
-        include: { lessons: { orderBy: { order: 'asc' }, select: lessonSelect } }
+        include: {
+          lessons: { orderBy: { order: 'asc' }, select: lessonSelect },
+          exam: { select: { id: true } }
+        }
       },
       lessons: { where: { moduleId: null }, orderBy: { order: 'asc' }, select: lessonSelect }
     }
