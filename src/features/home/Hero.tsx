@@ -1,7 +1,18 @@
 'use client'
 
 import { useTranslations, useLocale } from 'next-intl'
-import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { BookOpen, MessageCircle, Rocket, Sparkles } from 'lucide-react'
+import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
+import { PLAYFUL_PALETTE } from '@/features/ui/lib/palette'
+
+const FLOATERS = [
+  { icon: BookOpen, color: PLAYFUL_PALETTE[0], top: '14%', left: '8%', duration: 4.5 },
+  { icon: MessageCircle, color: PLAYFUL_PALETTE[1], top: '66%', left: '10%', duration: 5.5 },
+  { icon: Rocket, color: PLAYFUL_PALETTE[3], top: '18%', left: '90%', duration: 5 },
+  { icon: Sparkles, color: PLAYFUL_PALETTE[2], top: '70%', left: '88%', duration: 4 }
+]
 
 export default function Hero() {
   const t = useTranslations('home')
@@ -9,16 +20,68 @@ export default function Hero() {
   const base = `/${locale}`
 
   return (
-    <section>
-      <p>{t('introducing')}</p>
+    <section className="hero">
+      {FLOATERS.map((f, i) => (
+        <motion.div
+          key={i}
+          className="hero-floater"
+          style={{ top: f.top, left: f.left }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: [0, -14, 0] }}
+          transition={{
+            opacity: { duration: 0.6, delay: i * 0.15 },
+            y: { duration: f.duration, repeat: Infinity, ease: 'easeInOut', delay: i * 0.15 }
+          }}
+        >
+          <BoilingIcon icon={f.icon} color={f.color} size={40} />
+        </motion.div>
+      ))}
 
-      <h2>HIGHGATE</h2>
+      <div className="hero-inner">
+        <motion.p
+          className="hero-eyebrow"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {t('introducing')}
+        </motion.p>
 
-      <p>{t('tagline')}</p>
+        <motion.h1
+          className="hero-title"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          {'HIGHGATE'.split('').map((letter, i) => (
+            <span key={i} style={{ color: PLAYFUL_PALETTE[i % PLAYFUL_PALETTE.length] }}>
+              {letter}
+            </span>
+          ))}
+        </motion.h1>
 
-      <div>
-        <Link href={`${base}/trial-lesson`}>{t('heroPrimary')}</Link>
-        <Link href={`${base}/courses`}>{t('heroSecondary')}</Link>
+        <motion.p
+          className="herotxt"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          {t('tagline')}
+        </motion.p>
+
+        <motion.div
+          className="hero-actions"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <ChunkyButton href={`${base}/trial-lesson`} color="brand" size="lg">
+            {t('heroPrimary')}
+          </ChunkyButton>
+          <ChunkyButton href={`${base}/courses`} color="neutral" size="lg">
+            {t('heroSecondary')}
+          </ChunkyButton>
+        </motion.div>
       </div>
     </section>
   )
