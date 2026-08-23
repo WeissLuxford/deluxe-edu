@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { ChevronDown } from 'lucide-react'
 import { Section } from '@/features/ui/components/Section'
+import { Reveal } from '@/features/ui/components/Reveal'
 
 export default function FAQSection() {
   const t = useTranslations('home')
@@ -26,7 +27,7 @@ export default function FAQSection() {
         {faqs.map((item, i) => {
           const isOpen = open === i
           return (
-            <div key={i} className={`faq-item${isOpen ? ' open' : ''}`}>
+            <Reveal key={i} delay={Math.min(i, 4) * 0.06} className={`faq-item${isOpen ? ' open' : ''}`}>
               <button className="faq-trigger" aria-expanded={isOpen} onClick={() => setOpen(isOpen ? null : i)}>
                 <span className="faq-title">{item.q}</span>
                 <ChevronDown size={18} className={`faq-caret${isOpen ? ' rot' : ''}`} />
@@ -34,7 +35,7 @@ export default function FAQSection() {
               <div className="faq-answer">
                 <p className="faq-answer-text">{item.a}</p>
               </div>
-            </div>
+            </Reveal>
           )
         })}
       </div>

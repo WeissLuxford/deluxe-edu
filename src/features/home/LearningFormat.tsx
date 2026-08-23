@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { Video, FileText, ListChecks, Radio } from 'lucide-react'
 import { Section } from '@/features/ui/components/Section'
+import { Reveal } from '@/features/ui/components/Reveal'
 
 export async function LearningFormat({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'blocks' })
@@ -21,11 +22,14 @@ export async function LearningFormat({ locale }: { locale: string }) {
       title={t('formatTitle')}
       subtitle={t('formatSub')}
     >
+      <span className="deco-grid" aria-hidden="true" />
       <div className="fmt-grid">
         {steps.map((step, index) => {
           const Icon = step.icon
           return (
-            <div
+            <Reveal
+              as="div"
+              delay={index * 0.08}
               className="fmt-card-wrap"
               key={step.title}
               style={{ '--accent': step.accent } as CSSProperties}
@@ -45,7 +49,7 @@ export async function LearningFormat({ locale }: { locale: string }) {
                   <p>{step.text}</p>
                 </div>
               </div>
-            </div>
+            </Reveal>
           )
         })}
       </div>

@@ -425,6 +425,58 @@
   height: 1.1em;
 }
 
+/* ---------- Arrow link button (quiet secondary action) ---------- */
+
+.arrow-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.3em 0.3em 0.3em 1.1em;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.arrow-link-btn:hover {
+  border-color: var(--brand-border);
+  background: var(--brand-soft);
+}
+
+.arrow-link-btn[data-tone='invert'] {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.arrow-link-btn[data-tone='invert']:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.arrow-link-btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9em;
+  height: 1.9em;
+  border-radius: 50%;
+  background: var(--fg);
+  color: var(--bg);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.arrow-link-btn[data-tone='invert'] .arrow-link-btn__icon {
+  background: #fff;
+  color: #0a0a0c;
+}
+
+.arrow-link-btn:hover .arrow-link-btn__icon {
+  transform: rotate(45deg);
+}
+
 /* ---------- Sticker slap reward ---------- */
 
 .hg-sticker-stage {

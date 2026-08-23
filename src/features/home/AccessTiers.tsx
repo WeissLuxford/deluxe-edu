@@ -3,6 +3,8 @@
 import { useTranslations } from 'next-intl'
 import { Check } from 'lucide-react'
 import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { ArrowLinkButton } from '@/features/ui/components/ArrowLinkButton'
+import { Reveal } from '@/features/ui/components/Reveal'
 
 export default function AccessTiers({ base }: { base: string }) {
   const t = useTranslations('home')
@@ -36,7 +38,7 @@ export default function AccessTiers({ base }: { base: string }) {
 
         <div className="access-grid">
           {tiers.map((tier, i) => (
-            <div key={i} className={`plan-card${tier.highlight ? ' accent' : ''}`}>
+            <Reveal key={i} delay={i * 0.08} className={`plan-card${tier.highlight ? ' accent' : ''}`}>
               {tier.highlight && <span className="plan-card__badge">{tier.title}</span>}
 
               <span className="plan-card__name">{tier.title}</span>
@@ -55,15 +57,13 @@ export default function AccessTiers({ base }: { base: string }) {
               <ChunkyButton href={`${base}/courses`} color={tier.highlight ? 'brand' : 'neutral'} fullWidth>
                 {t('tierCta')}
               </ChunkyButton>
-            </div>
+            </Reveal>
           ))}
         </div>
 
         <div className="access-footer">
           <p className="section-sub">{t('tiersUnsure')}</p>
-          <ChunkyButton href={`${base}/trial-lesson`} color="neutral">
-            {t('tiersTry')}
-          </ChunkyButton>
+          <ArrowLinkButton href={`${base}/trial-lesson`}>{t('tiersTry')}</ArrowLinkButton>
         </div>
       </div>
     </section>

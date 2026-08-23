@@ -4,6 +4,7 @@ import type { CSSProperties } from 'react'
 import { useTranslations } from 'next-intl'
 import { UserPlus, PlayCircle, Radio } from 'lucide-react'
 import { Section } from '@/features/ui/components/Section'
+import { Reveal } from '@/features/ui/components/Reveal'
 import { PLAYFUL_PALETTE } from '@/features/ui/lib/palette'
 
 export default function HowItWorks() {
@@ -20,8 +21,10 @@ export default function HowItWorks() {
         {steps.map((step, index) => {
           const Icon = step.icon
           return (
-            <li
+            <Reveal
+              as="li"
               key={step.n}
+              delay={index * 0.08}
               className="format-step"
               style={
                 {
@@ -40,7 +43,7 @@ export default function HowItWorks() {
                 </p>
                 <p className="format-step__text">{step.desc}</p>
               </div>
-            </li>
+            </Reveal>
           )
         })}
       </ol>

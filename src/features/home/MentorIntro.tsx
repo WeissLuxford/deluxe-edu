@@ -4,6 +4,8 @@ import { useTranslations, useLocale } from 'next-intl'
 
 import { Media } from '@/features/ui/components/Media'
 import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { ArrowLinkButton } from '@/features/ui/components/ArrowLinkButton'
+import { Reveal } from '@/features/ui/components/Reveal'
 
 export default function MentorIntro({ base }: { base: string }) {
   const t = useTranslations('home')
@@ -11,14 +13,14 @@ export default function MentorIntro({ base }: { base: string }) {
   return (
     <section id="mentor">
       <div className="container mentor-grid">
-        <div className="mentor-media">
+        <Reveal className="mentor-media" x={-24} y={0}>
           <div className="mentor-glow" />
           <div className="mentor-photo-wrap">
             <Media slot="home.mentor.portrait" locale={locale} sizes="(max-width: 900px) 100vw, 420px" className="mentor-photo" />
           </div>
-        </div>
+        </Reveal>
 
-        <div className="mentor-content">
+        <Reveal className="mentor-content" x={24} y={0} delay={0.1}>
           <span className="badge badge-primary">{t('mentorBadge')}</span>
           <h2 className="section-title">{t('mentorTitle')}</h2>
           <p className="section-sub">{t('mentorLead')}</p>
@@ -33,11 +35,9 @@ export default function MentorIntro({ base }: { base: string }) {
             <ChunkyButton href={`${base}/courses`} color="brand">
               {t('viewCourses')}
             </ChunkyButton>
-            <ChunkyButton href={`${base}/contacts`} color="neutral">
-              {t('contactMentor')}
-            </ChunkyButton>
+            <ArrowLinkButton href={`${base}/contacts`}>{t('contactMentor')}</ArrowLinkButton>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

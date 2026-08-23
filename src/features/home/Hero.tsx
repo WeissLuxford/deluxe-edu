@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { BookOpen, MessageCircle, Rocket, Sparkles } from 'lucide-react'
 import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { ArrowLinkButton } from '@/features/ui/components/ArrowLinkButton'
 import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
 import { PLAYFUL_PALETTE } from '@/features/ui/lib/palette'
 import { StickerSlap, emojiToImage } from '@/features/ui/lib/stickerSlap'
@@ -103,9 +104,7 @@ export default function Hero() {
           <ChunkyButton href={`${base}/trial-lesson`} color="brand" size="lg">
             {t('heroPrimary')}
           </ChunkyButton>
-          <ChunkyButton href={`${base}/courses`} color="neutral" size="lg">
-            {t('heroSecondary')}
-          </ChunkyButton>
+          <ArrowLinkButton href={`${base}/courses`}>{t('heroSecondary')}</ArrowLinkButton>
         </motion.div>
       </div>
     </section>

@@ -1,22 +1,38 @@
 'use client'
 
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { Section } from '@/features/ui/components/Section'
-import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { ArrowLinkButton } from '@/features/ui/components/ArrowLinkButton'
+import { Reveal } from '@/features/ui/components/Reveal'
 
 export default function CTASection({ base }: { base: string }) {
   const t = useTranslations('home')
 
   return (
-    <Section id="cta" tone="accent" title={t('ctaTitle')} subtitle={t('ctaLead')}>
-      <div className="hero-actions">
-        <ChunkyButton href={`${base}/trial-lesson`} color="brand" size="lg">
-          {t('ctaStart')}
-        </ChunkyButton>
-        <ChunkyButton href={`${base}/courses`} color="neutral" size="lg">
-          {t('ctaBrowse')}
-        </ChunkyButton>
+    <section id="cta">
+      <div className="container">
+        <Reveal className="cta-panel">
+          <span className="cta-panel__glow cta-panel__glow--a" aria-hidden="true" />
+          <span className="cta-panel__glow cta-panel__glow--b" aria-hidden="true" />
+
+          <span className="badge badge-primary cta-panel__tag">{t('ctaTag')}</span>
+
+          <h2 className="cta-panel__title">
+            {t('ctaTitleLead')} <em>{t('ctaTitleEmphasis')}</em>
+          </h2>
+
+          <p className="cta-panel__lead">{t('ctaLead')}</p>
+
+          <div className="cta-panel__actions">
+            <ArrowLinkButton href={`${base}/trial-lesson`} tone="invert">
+              {t('ctaStart')}
+            </ArrowLinkButton>
+            <Link href={`${base}/courses`} className="cta-panel__browse">
+              {t('ctaBrowse')}
+            </Link>
+          </div>
+        </Reveal>
       </div>
-    </Section>
+    </section>
   )
 }

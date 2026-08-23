@@ -9,6 +9,7 @@ import { PHONE_PREFIX, normalizePhone } from '@/features/auth/identity'
 import Turnstile, { turnstileEnabled } from '@/features/auth/components/Turnstile'
 import { Section } from '@/features/ui/components/Section'
 import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { Reveal } from '@/features/ui/components/Reveal'
 
 export default function ContactFormSection() {
   const t = useTranslations('home')
@@ -81,7 +82,7 @@ export default function ContactFormSection() {
 
   return (
     <Section id="contact-form" tone="raised" width="narrow" title={t('formTitle')} subtitle={t('formLead')}>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <Reveal as="form" onSubmit={handleSubmit} className="space-y-4">
         <div className="form-grid-2">
           <div>
             <label className="label" htmlFor="firstName">{t('fFirst')}</label>
@@ -156,7 +157,7 @@ export default function ContactFormSection() {
           |{' '}
           <a href="https://t.me/hge" target="_blank" rel="noopener noreferrer">@hge</a>
         </p>
-      </form>
+      </Reveal>
     </Section>
   )
 }

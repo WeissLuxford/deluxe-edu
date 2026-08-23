@@ -4747,20 +4747,6 @@ html.light .course-article__cta {
   overflow: hidden;
 }
 
-#format::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 32px 32px;
-  mask-image: radial-gradient(70% 60% at 50% 35%, #000, transparent 78%);
-  -webkit-mask-image: radial-gradient(70% 60% at 50% 35%, #000, transparent 78%);
-  pointer-events: none;
-}
-
 .fmt-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -4797,8 +4783,8 @@ html.light .course-article__cta {
   position: absolute;
   top: 14px;
   inset-inline-end: 14px;
-  width: 112px;
-  height: 112px;
+  width: 96px;
+  height: 96px;
   transform-style: preserve-3d;
   pointer-events: none;
 }
@@ -4807,50 +4793,49 @@ html.light .course-article__cta {
   position: absolute;
   border-radius: 50%;
   background: color-mix(in oklab, var(--accent) 12%, var(--surface-1));
-  border: 1.5px solid color-mix(in oklab, var(--accent) 45%, transparent);
+  border: none;
   transform: translate3d(0, 0, 8px);
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* 4 concentric layers (3 rings + badge) at 100% / 70% / 42% / 24% of the 104px orbit box */
+/* 4 concentric layers (3 rings + badge), inset 0 / 9 / 18 / 32px on the 96px orbit box; only the outer ring keeps a border */
 .fmt-card__ring:nth-child(1) {
   inset: 0;
+  border: 1.5px solid color-mix(in oklab, var(--accent) 45%, transparent);
 }
 
 .fmt-card__ring:nth-child(2) {
-  inset: 16px;
+  inset: 9px;
   background: color-mix(in oklab, var(--accent) 18%, var(--surface-1));
-  border-color: color-mix(in oklab, var(--accent) 55%, transparent);
   transform: translate3d(0, 0, 16px);
 }
 
 .fmt-card__ring:nth-child(3) {
-  inset: 34px;
+  inset: 18px;
   background: color-mix(in oklab, var(--accent) 26%, var(--surface-1));
-  border-color: color-mix(in oklab, var(--accent) 65%, transparent);
   transform: translate3d(0, 0, 24px);
 }
 
 .fmt-card-wrap:hover .fmt-card__ring:nth-child(1) {
-  transform: translate3d(0, 0, 16px);
+  transform: translate3d(3px, -3px, 16px);
 }
 
 .fmt-card-wrap:hover .fmt-card__ring:nth-child(2) {
-  transform: translate3d(0, 0, 26px);
+  transform: translate3d(7px, -7px, 26px);
 }
 
 .fmt-card-wrap:hover .fmt-card__ring:nth-child(3) {
-  transform: translate3d(0, 0, 38px);
+  transform: translate3d(11px, -11px, 38px);
 }
 
 .fmt-card__badge {
   position: absolute;
-  inset: 40px;
+  inset: 32px;
   display: grid;
   place-items: center;
   border-radius: 50%;
   background: var(--accent);
-  border: 1.5px solid color-mix(in oklab, var(--accent) 75%, black 20%);
+  border: none;
   color: #fff;
   transform: translate3d(0, 0, 34px);
   box-shadow: 0 10px 24px -10px color-mix(in oklab, var(--accent) 70%, transparent);
@@ -4863,12 +4848,12 @@ html.light .course-article__cta {
 }
 
 .fmt-card-wrap:hover .fmt-card__badge {
-  transform: translate3d(0, 0, 50px);
+  transform: translate3d(14px, -14px, 58px);
 }
 
 .fmt-card__body {
   position: relative;
-  margin-top: 128px;
+  margin-top: 112px;
   transform: translate3d(0, 0, 26px);
 }
 
