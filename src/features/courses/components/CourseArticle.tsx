@@ -47,23 +47,20 @@ export function CourseArticle({
 
   return (
     <>
-      <article className="course-article" data-level={level}>
-        <div
-          className={`course-article__cover${coverUrl ? ' has-image' : ''}`}
-          style={coverUrl ? { backgroundImage: `url(${coverUrl})` } : undefined}
-        >
-          {badge && <span className="course-article__badge">{badge}</span>}
-          <span className="course-article__level">{level}</span>
+      <article data-level={level}>
+        <div style={coverUrl ? { backgroundImage: `url(${coverUrl})` } : undefined}>
+          {badge && <span>{badge}</span>}
+          <span>{level}</span>
         </div>
 
-        <div className="course-article__body">
-          <h3 className="course-article__title">
+        <div>
+          <h3>
             <Link href={courseHref}>{title}</Link>
           </h3>
 
-          <p className="course-article__desc">{description}</p>
+          <p>{description}</p>
 
-          <div className="course-article__meta">
+          <div>
             <span>
               <BookOpen size={14} />
               {t('lessonsCount', { count: lessonsCount })}
@@ -76,8 +73,8 @@ export function CourseArticle({
             )}
           </div>
 
-          <div className="course-article__foot">
-            <span className="course-article__price">
+          <div>
+            <span>
               {isFree ? (
                 t('free')
               ) : (
@@ -92,11 +89,7 @@ export function CourseArticle({
               )}
             </span>
 
-            <button
-              type="button"
-              onClick={() => setPlanOpen(true)}
-              className="btn btn-primary course-article__cta"
-            >
+            <button type="button" onClick={() => setPlanOpen(true)}>
               {t('choosePlan')}
               <ArrowRight size={15} />
             </button>

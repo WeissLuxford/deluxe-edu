@@ -34,19 +34,17 @@ function OfferCard({ offer }: { offer: Offer }) {
 
   const body = (
     <>
-      <div className="offer-head">
-        <span className="offer-icon">
+      <div>
+        <span>
           <Icon size={20} />
         </span>
-        {offer.badge && (
-          <span className={`badge${offer.accent ? ' badge-primary' : ''}`}>{offer.badge}</span>
-        )}
+        {offer.badge && <span>{offer.badge}</span>}
       </div>
 
-      <h3 className="offer-title">{offer.title}</h3>
-      <p className="offer-desc">{offer.desc}</p>
+      <h3>{offer.title}</h3>
+      <p>{offer.desc}</p>
 
-      <ul className="offer-points">
+      <ul>
         {offer.points.map(p => (
           <li key={p}>
             <Check size={14} />
@@ -55,21 +53,15 @@ function OfferCard({ offer }: { offer: Offer }) {
         ))}
       </ul>
 
-      <span className={`btn ${offer.accent ? 'btn-primary' : 'btn-secondary'} offer-cta`}>
-        {offer.cta}
-      </span>
+      <span>{offer.cta}</span>
     </>
   )
 
   if (!offer.href) {
-    return <div className={`offer-card${offer.accent ? ' accent' : ''}`}>{body}</div>
+    return <div>{body}</div>
   }
 
-  return (
-    <Link href={offer.href} className={`offer-card${offer.accent ? ' accent' : ''}`}>
-      {body}
-    </Link>
-  )
+  return <Link href={offer.href}>{body}</Link>
 }
 
 export function SpecialOffersSection({ hasLevelTest, hasFreeMockTest, locale }: Props) {
@@ -128,13 +120,11 @@ export function SpecialOffersSection({ hasLevelTest, hasFreeMockTest, locale }: 
   ]
 
   return (
-    <section className="offers-section">
-      <div className="section-head">
-        <h2 className="section-title">{t('title')}</h2>
-        <p className="section-sub">{t('subtitle')}</p>
-      </div>
+    <section>
+      <h2>{t('title')}</h2>
+      <p>{t('subtitle')}</p>
 
-      <div className="offers-grid">
+      <div>
         {offers.map(o => (
           <OfferCard key={o.key} offer={o} />
         ))}

@@ -1,0 +1,532 @@
+/* Shared playful UI primitives: tooltip, sticker text, hand-drawn mark,
+   chunky button, boiling icon, sticker-slap reward, confetti, checkmark. */
+
+/* ---------- Tooltip ---------- */
+
+.hg-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+.hg-tooltip--inline {
+  display: inline;
+  border-bottom: 1px dashed var(--muted);
+  cursor: help;
+}
+
+.hg-tooltip:focus {
+  outline: none;
+}
+
+.hg-tooltip::before {
+  content: attr(data-tip);
+  position: absolute;
+  background: var(--surface-2);
+  color: var(--fg);
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-hover);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 30;
+  box-shadow: var(--shadow-lg);
+}
+
+.hg-tooltip--inline::before {
+  white-space: normal;
+  width: 200px;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.hg-tooltip::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 31;
+  width: 0;
+  height: 0;
+}
+
+.hg-tooltip:hover::before,
+.hg-tooltip:focus::before,
+.hg-tooltip:hover::after,
+.hg-tooltip:focus::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hg-tooltip:not([data-pos])::before,
+.hg-tooltip[data-pos='top']::before {
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+}
+
+.hg-tooltip:not([data-pos]):hover::before,
+.hg-tooltip:not([data-pos]):focus::before,
+.hg-tooltip[data-pos='top']:hover::before,
+.hg-tooltip[data-pos='top']:focus::before {
+  transform: translateX(-50%) translateY(0);
+}
+
+.hg-tooltip:not([data-pos])::after,
+.hg-tooltip[data-pos='top']::after {
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--border-hover);
+}
+
+.hg-tooltip:not([data-pos]):hover::after,
+.hg-tooltip:not([data-pos]):focus::after,
+.hg-tooltip[data-pos='top']:hover::after,
+.hg-tooltip[data-pos='top']:focus::after {
+  transform: translateX(-50%) translateY(0);
+}
+
+.hg-tooltip[data-pos='bottom']::before {
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.hg-tooltip[data-pos='bottom']:hover::before,
+.hg-tooltip[data-pos='bottom']:focus::before {
+  transform: translateX(-50%) translateY(0);
+}
+
+.hg-tooltip[data-pos='bottom']::after {
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--border-hover);
+}
+
+.hg-tooltip[data-pos='bottom']:hover::after,
+.hg-tooltip[data-pos='bottom']:focus::after {
+  transform: translateX(-50%) translateY(0);
+}
+
+.hg-tooltip[data-pos='left']::before {
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(4px);
+}
+
+.hg-tooltip[data-pos='left']:hover::before,
+.hg-tooltip[data-pos='left']:focus::before {
+  transform: translateY(-50%) translateX(0);
+}
+
+.hg-tooltip[data-pos='left']::after {
+  right: calc(100% + 4px);
+  top: 50%;
+  transform: translateY(-50%) translateX(4px);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid var(--border-hover);
+}
+
+.hg-tooltip[data-pos='left']:hover::after,
+.hg-tooltip[data-pos='left']:focus::after {
+  transform: translateY(-50%) translateX(0);
+}
+
+.hg-tooltip[data-pos='right']::before {
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+}
+
+.hg-tooltip[data-pos='right']:hover::before,
+.hg-tooltip[data-pos='right']:focus::before {
+  transform: translateY(-50%) translateX(0);
+}
+
+.hg-tooltip[data-pos='right']::after {
+  left: calc(100% + 4px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid var(--border-hover);
+}
+
+.hg-tooltip[data-pos='right']:hover::after,
+.hg-tooltip[data-pos='right']:focus::after {
+  transform: translateY(-50%) translateX(0);
+}
+
+.hg-tooltip[data-variant='accent']::before {
+  background: var(--brand);
+  color: var(--brand-fg);
+  border-color: var(--brand);
+}
+
+.hg-tooltip[data-variant='accent']::after {
+  border-top-color: var(--brand) !important;
+}
+
+.hg-tooltip[data-variant='danger']::before {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+.hg-tooltip[data-variant='danger']::after {
+  border-top-color: var(--danger) !important;
+}
+
+.hg-tooltip[data-variant='info']::before {
+  background: var(--info);
+  color: #fff;
+  border-color: var(--info);
+}
+
+.hg-tooltip[data-variant='info']::after {
+  border-top-color: var(--info) !important;
+}
+
+/* ---------- Sticker text ---------- */
+
+.hg-sticker-text {
+  --text-color: var(--sticker-color, var(--brand));
+  --text-size: var(--sticker-size, 2rem);
+  --stroke-width: calc(var(--text-size) * 0.16);
+  --stroke-color: var(--bg);
+  --outline-width: 1px;
+  --outline-color: var(--text-color);
+
+  position: relative;
+  display: inline-block;
+  padding: calc(var(--stroke-width) * 0.5);
+  font-size: var(--text-size);
+  font-weight: 800;
+  color: var(--text-color);
+  white-space: nowrap;
+  rotate: var(--sticker-rotate, 0deg);
+
+  -webkit-text-stroke: var(--stroke-width) var(--stroke-color);
+  paint-order: stroke fill;
+
+  filter: drop-shadow(var(--outline-width) 0 var(--outline-color))
+    drop-shadow(calc(var(--outline-width) * -1) 0 var(--outline-color))
+    drop-shadow(0 var(--outline-width) var(--outline-color))
+    drop-shadow(0 calc(var(--outline-width) * -1) var(--outline-color));
+}
+
+.hg-sticker-text::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  padding: inherit;
+  background: linear-gradient(
+    40deg,
+    var(--text-color) 30%,
+    color-mix(in srgb, var(--text-color) 40%, white) 45% 55%,
+    var(--text-color) 70%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 0;
+  color: transparent;
+}
+
+/* ---------- Hand-drawn mark ---------- */
+
+.hg-mark {
+  --hg-mark-color: var(--brand-soft);
+  display: inline-block;
+  position: relative;
+  background-color: unset;
+  isolation: isolate;
+  color: var(--fg);
+}
+
+.hg-mark[data-color='brand'] {
+  --hg-mark-color: var(--brand-soft);
+}
+
+.hg-mark[data-color='success'] {
+  --hg-mark-color: var(--success-soft);
+}
+
+.hg-mark[data-color='danger'] {
+  --hg-mark-color: var(--danger-soft);
+}
+
+.hg-mark[data-color='info'] {
+  --hg-mark-color: var(--info-soft);
+}
+
+.hg-mark[data-color='violet'] {
+  --hg-mark-color: rgba(139, 92, 246, 0.18);
+}
+
+.hg-mark::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  width: calc(100% + 1ch);
+  left: -0.25ch;
+  height: 110%;
+  top: -5%;
+  border-bottom-right-radius: 20px 30px;
+  background-color: var(--hg-mark-color);
+  filter: url(#hg-filter-rough);
+  z-index: -1;
+}
+
+/* ---------- Boiling (sketch) icon ---------- */
+
+.boiling-icon {
+  display: block;
+}
+
+/* ---------- Chunky button ---------- */
+
+.chunky-btn {
+  --lift: 6px;
+  display: inline-block;
+  position: relative;
+  border: none;
+  padding: 0 0 var(--lift) 0;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--brand) 65%, black);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.chunky-btn[data-color='success'] {
+  background: color-mix(in srgb, var(--success) 65%, black);
+}
+
+.chunky-btn[data-color='danger'] {
+  background: color-mix(in srgb, var(--danger) 65%, black);
+}
+
+.chunky-btn[data-color='info'] {
+  background: color-mix(in srgb, var(--info) 65%, black);
+}
+
+.chunky-btn[data-color='neutral'] {
+  background: color-mix(in srgb, var(--fg) 45%, black);
+}
+
+.chunky-btn--full {
+  display: block;
+  width: 100%;
+}
+
+.chunky-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.chunky-btn__face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border-radius: 18px;
+  border: 2px solid color-mix(in srgb, var(--brand) 70%, white);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--brand) 100%, white 18%), var(--brand));
+  color: var(--brand-fg);
+  font-weight: 700;
+  white-space: nowrap;
+  transform: translateY(0);
+  transition: transform 0.12s ease;
+}
+
+.chunky-btn--sm .chunky-btn__face {
+  padding: 0.55em 1.1em;
+  font-size: 0.85rem;
+}
+
+.chunky-btn--md .chunky-btn__face {
+  padding: 0.8em 1.5em;
+  font-size: 0.95rem;
+}
+
+.chunky-btn--lg .chunky-btn__face {
+  padding: 1em 2em;
+  font-size: 1.1rem;
+}
+
+.chunky-btn[data-color='success'] .chunky-btn__face {
+  border-color: color-mix(in srgb, var(--success) 70%, white);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--success) 100%, white 18%), var(--success));
+  color: #06280f;
+}
+
+.chunky-btn[data-color='danger'] .chunky-btn__face {
+  border-color: color-mix(in srgb, var(--danger) 70%, white);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--danger) 100%, white 18%), var(--danger));
+  color: #2a0a0a;
+}
+
+.chunky-btn[data-color='info'] .chunky-btn__face {
+  border-color: color-mix(in srgb, var(--info) 70%, white);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--info) 100%, white 18%), var(--info));
+  color: #06122a;
+}
+
+.chunky-btn[data-color='neutral'] .chunky-btn__face {
+  border-color: color-mix(in srgb, var(--fg) 60%, white);
+  background: linear-gradient(180deg, var(--surface-3), var(--surface-2));
+  color: var(--fg);
+}
+
+.chunky-btn:active .chunky-btn__face,
+.chunky-btn[data-pressed='true'] .chunky-btn__face {
+  transform: translateY(var(--lift));
+}
+
+.chunky-btn__icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.chunky-btn__icon svg {
+  width: 1.1em;
+  height: 1.1em;
+}
+
+/* ---------- Sticker slap reward ---------- */
+
+.hg-sticker-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@property --p {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.hg-sticker {
+  position: absolute;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.16)) drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
+
+  --fold: calc(var(--minp) + var(--span) * var(--p));
+  --half-plane: polygon(
+    calc((var(--fold) * var(--u0) + var(--big) * var(--w0)) * 1px) calc((var(--fold) * var(--u1) + var(--big) * var(--w1)) * 1px),
+    calc((var(--fold) * var(--u0) - var(--big) * var(--w0)) * 1px) calc((var(--fold) * var(--u1) - var(--big) * var(--w1)) * 1px),
+    calc((var(--fold) * var(--u0) - var(--big) * var(--w0) - var(--big) * var(--u0)) * 1px)
+      calc((var(--fold) * var(--u1) - var(--big) * var(--w1) - var(--big) * var(--u1)) * 1px),
+    calc((var(--fold) * var(--u0) + var(--big) * var(--w0) - var(--big) * var(--u0)) * 1px)
+      calc((var(--fold) * var(--u1) + var(--big) * var(--w1) - var(--big) * var(--u1)) * 1px)
+  );
+}
+
+.hg-sticker__layer {
+  position: absolute;
+  inset: 0;
+}
+
+.hg-sticker__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.hg-sticker__flat {
+  clip-path: var(--half-plane);
+}
+
+.hg-sticker__flap-clip {
+  clip-path: var(--half-plane);
+}
+
+.hg-sticker__flap-inner {
+  transform-origin: 0 0;
+  transform: matrix(var(--a), var(--b), var(--b), var(--d), calc(2 * var(--fold) * var(--u0)), calc(2 * var(--fold) * var(--u1)));
+}
+
+.hg-sticker__flap-fill {
+  -webkit-mask-image: var(--src);
+  mask-image: var(--src);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  mask-mode: alpha;
+  background-image: linear-gradient(
+    calc(var(--ca) * 1deg),
+    #cdcdcd calc(var(--p) * 100%),
+    #f3f3f3 calc((var(--p) + (1 - var(--p)) * 0.1) * 100%),
+    #ffffff calc((var(--p) + (1 - var(--p)) * 0.45) * 100%),
+    #f0f0f0 calc((var(--p) + (1 - var(--p)) * 0.82) * 100%),
+    #c6c6c6 100%
+  );
+}
+
+.hg-sticker__flap-shadow {
+  filter: drop-shadow(
+    calc(var(--u0) * var(--s) * -0.05 * (1 - var(--p)) * 1px) calc((var(--u1) * -0.05 + 0.04) * var(--s) * (1 - var(--p)) * 1px)
+      calc(var(--s) * 0.025 * 1px) rgba(0, 0, 0, calc(0.35 * (1 - var(--p))))
+  );
+}
+
+/* ---------- Confetti ---------- */
+
+.hg-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* ---------- Checkmark ---------- */
+
+.hg-checkmark circle,
+.hg-checkmark path {
+  fill: none;
+  stroke: var(--success);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+}
+
+.hg-checkmark--animate circle {
+  animation: hgDrawLine 0.7s ease forwards;
+}
+
+.hg-checkmark--animate path {
+  animation: hgDrawLine 0.4s ease forwards 0.6s;
+}
+
+@keyframes hgDrawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

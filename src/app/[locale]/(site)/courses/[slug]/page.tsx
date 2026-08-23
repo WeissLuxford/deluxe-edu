@@ -47,40 +47,38 @@ export default async function CoursePage({ params }: Props) {
   const description = localized(course.description, locale)
 
   return (
-    <main className="page-shell">
-      <div className="page-hero">
-        <div className="container">
-          <nav className="breadcrumb">
-            <Link href={`/${locale}/courses`}>{tCourses('title')}</Link>
-            <span>/</span>
-            <Link href={`/${locale}/courses?level=${encodeURIComponent(course.level)}`}>
-              {course.level}
-            </Link>
-          </nav>
+    <main>
+      <div>
+        <nav>
+          <Link href={`/${locale}/courses`}>{tCourses('title')}</Link>
+          <span>/</span>
+          <Link href={`/${locale}/courses?level=${encodeURIComponent(course.level)}`}>
+            {course.level}
+          </Link>
+        </nav>
 
-          <h1 className="page-hero__title">{title}</h1>
-          <p className="page-hero__sub">{description}</p>
+        <h1>{title}</h1>
+        <p>{description}</p>
 
-          <div className="course-hero__meta">
+        <div>
+          <span>
+            <BookOpen size={15} />
+            {tCourses('lessonsCount', { count: total })}
+          </span>
+          {course.modules.length > 0 && (
             <span>
-              <BookOpen size={15} />
-              {tCourses('lessonsCount', { count: total })}
+              <Layers size={15} />
+              {course.modules.length}
             </span>
-            {course.modules.length > 0 && (
-              <span>
-                <Layers size={15} />
-                {course.modules.length}
-              </span>
-            )}
-            <span>
-              <GraduationCap size={15} />
-              {course.level}
-            </span>
-          </div>
+          )}
+          <span>
+            <GraduationCap size={15} />
+            {course.level}
+          </span>
         </div>
       </div>
 
-      <div className="container page-body">
+      <div>
         <CoursePlans
           courseId={course.id}
           courseSlug={course.slug}
@@ -92,12 +90,10 @@ export default async function CoursePage({ params }: Props) {
         />
 
         <section>
-          <div className="section-head">
-            <h2 className="section-title">{t('content')}</h2>
-          </div>
+          <h2>{t('content')}</h2>
 
           {total === 0 ? (
-            <p className="catalog-empty">{t('noLessons')}</p>
+            <p>{t('noLessons')}</p>
           ) : (
             <LessonsList
               lessons={course.lessons}

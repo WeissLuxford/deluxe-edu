@@ -40,7 +40,7 @@ async function send(to: string, subject: string, html: string): Promise<SendResu
   try {
     await mailer.sendMail({
       to,
-      from: process.env.EMAIL_FROM || 'no-reply@vertexedu.uz',
+      from: process.env.EMAIL_FROM || 'no-reply@highgate.uz',
       subject,
       html
     })
@@ -53,28 +53,28 @@ async function send(to: string, subject: string, html: string): Promise<SendResu
 
 const COPY = {
   ru: {
-    verifySubject: 'Подтверждение почты — Vertex',
+    verifySubject: 'Подтверждение почты — Highgate',
     verifyBody: 'Подтвердите адрес электронной почты',
     verifyAction: 'Подтвердить почту',
-    resetSubject: 'Восстановление пароля — Vertex',
+    resetSubject: 'Восстановление пароля — Highgate',
     resetBody: 'Вы запросили восстановление пароля',
     resetAction: 'Задать новый пароль',
     ignore: 'Если вы этого не запрашивали, просто проигнорируйте письмо'
   },
   uz: {
-    verifySubject: 'Emailni tasdiqlash — Vertex',
+    verifySubject: 'Emailni tasdiqlash — Highgate',
     verifyBody: 'Elektron pochta manzilingizni tasdiqlang',
     verifyAction: 'Emailni tasdiqlash',
-    resetSubject: 'Parolni tiklash — Vertex',
+    resetSubject: 'Parolni tiklash — Highgate',
     resetBody: 'Siz parolni tiklashni soʻradingiz',
     resetAction: 'Yangi parol oʻrnatish',
     ignore: 'Agar bu siz boʻlmasangiz, xatni eʼtiborsiz qoldiring'
   },
   en: {
-    verifySubject: 'Verify your email — Vertex',
+    verifySubject: 'Verify your email — Highgate',
     verifyBody: 'Please confirm your email address',
     verifyAction: 'Verify email',
-    resetSubject: 'Reset your password — Vertex',
+    resetSubject: 'Reset your password — Highgate',
     resetBody: 'You requested a password reset',
     resetAction: 'Set a new password',
     ignore: 'If you did not request this, simply ignore this email'

@@ -20,7 +20,7 @@ type Props = {
   locale: string
 }
 
-const STORAGE_KEY = 'vertex:mock-test'
+const STORAGE_KEY = 'highgate:mock-test'
 
 type Saved = Record<string, { correct: number; total: number }>
 

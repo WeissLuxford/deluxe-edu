@@ -9,35 +9,22 @@ export default function MentorIntro({ base }: { base: string }) {
   const t = useTranslations('home')
   const locale = useLocale()
   return (
-    <section id="mentor" className="relative py-24 vx-band vx-band--raised">
-      <div className="container">
-        <div className="mentor-grid glass-panel">
-          <div className="mentor-media">
-            <div className="mentor-photo-wrap">
-              <Media slot="home.mentor.portrait" locale={locale} className="mentor-photo" sizes="(max-width: 900px) 100vw, 420px" />
-              <div className="mentor-glow" />
-            </div>
-          </div>
-          <div className="mentor-content">
-            <div style={{ marginBottom: '1rem' }}>
-              <span className="badge-success" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>{t('mentorBadge')}</span>
-            </div>
-            <h2 className="text-4xl font-extrabold mb-4 text-gradient">{t('mentorTitle')}</h2>
-            <p className="text-lg text-muted mb-6">
-              {t('mentorLead')}
-            </p>
-            <ul className="mentor-list">
-              <li>{t('mb1')}</li>
-              <li>{t('mb2')}</li>
-              <li>{t('mb3')}</li>
-              <li>{t('mb4')}</li>
-              <li>{t('mb5')}</li>
-            </ul>
-            <div className="mt-8 flex gap-3 flex-wrap">
-              <Link href={`${base}/courses`} className="iridescent vx">{t('viewCourses')}</Link>
-              <Link href={`${base}/contacts`} className="btn-secondary">{t('contactMentor')}</Link>
-            </div>
-          </div>
+    <section id="mentor">
+      <Media slot="home.mentor.portrait" locale={locale} sizes="(max-width: 900px) 100vw, 420px" />
+      <div>
+        <span>{t('mentorBadge')}</span>
+        <h2>{t('mentorTitle')}</h2>
+        <p>{t('mentorLead')}</p>
+        <ul>
+          <li>{t('mb1')}</li>
+          <li>{t('mb2')}</li>
+          <li>{t('mb3')}</li>
+          <li>{t('mb4')}</li>
+          <li>{t('mb5')}</li>
+        </ul>
+        <div>
+          <Link href={`${base}/courses`}>{t('viewCourses')}</Link>
+          <Link href={`${base}/contacts`}>{t('contactMentor')}</Link>
         </div>
       </div>
     </section>

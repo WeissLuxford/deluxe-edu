@@ -1,6 +1,6 @@
 {
   "hero": {
-    "title": "Vertex Education"
+    "title": "Highgate Education"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -306,6 +306,8 @@
       "primary": "Catalog",
       "secondary": "Sign in"
     },
+    "metaTitle": "Highgate — English courses in Uzbekistan",
+    "metaDescription": "Online English courses from Highgate: levels A1 through C1, live lessons with a teacher, tests and materials after every class. Free trial lesson available.",
     "introducing": "Introducing",
     "tagline": "To the highest heights",
     "heroPrimary": "Free trial lesson",
@@ -460,7 +462,7 @@
   "about": {
     "title": "About us",
     "subtitle": "Who we are and how we teach",
-    "whyTitle": "Why Vertex",
+    "whyTitle": "Why Highgate",
     "whyLead": "We are not here to rob you. We are here to give you a chance",
     "r1": "No overpriced courses draining your wallet",
     "r2": "Transparent pricing — no hidden fees or upsells",

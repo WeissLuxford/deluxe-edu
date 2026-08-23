@@ -4,9 +4,9 @@ import { localized } from '@/lib/localized'
 const SUPPORTED = ['ru', 'uz', 'en']
 
 const CHANNEL: Record<string, { title: string; description: string }> = {
-  ru: { title: 'Vertex — новости', description: 'Новости платформы Vertex' },
-  uz: { title: 'Vertex — yangiliklar', description: 'Vertex platformasi yangiliklari' },
-  en: { title: 'Vertex — news', description: 'News from the Vertex platform' }
+  ru: { title: 'Highgate — новости', description: 'Новости платформы Highgate' },
+  uz: { title: 'Highgate — yangiliklar', description: 'Highgate platformasi yangiliklari' },
+  en: { title: 'Highgate — news', description: 'News from the Highgate platform' }
 }
 
 function escapeXml(value: string): string {
@@ -25,7 +25,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ locale:
     return new Response('Not found', { status: 404 })
   }
 
-  const site = (process.env.NEXTAUTH_URL || 'https://vertexedu.uz').replace(/\/$/, '')
+  const site = (process.env.NEXTAUTH_URL || 'https://highgate.uz').replace(/\/$/, '')
 
   const items = await prisma.news.findMany({
     where: { published: true, publishedAt: { lte: new Date() } },

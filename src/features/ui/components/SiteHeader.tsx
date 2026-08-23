@@ -5,10 +5,9 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
 import { Menu, Send, X } from 'lucide-react'
-import ThemeToggle from './ThemeToggle'
 import LangSwitcher from './LangDropdown'
 import VerifyBanner from './VerifyBanner'
-import { VertexLogo } from './VertexLogo'
+import { HighgateLogo } from './HighgateLogo'
 import UserMenu from './UserMenu'
 import { HeaderLeadModal } from './HeaderLeadModal'
 import { useEffect, useState } from 'react'
@@ -71,100 +70,88 @@ export default function SiteHeader() {
 
   return (
     <>
-      <header className="site-header relative">
-      <nav className="site-nav container flex items-center justify-between py-3">
-        <Link href={base} className="logo-link">
-          <VertexLogo className="h-7 w-auto" />
-        </Link>
+      <header>
+        <nav>
+          <Link href={base}>
+            <HighgateLogo />
+          </Link>
 
-        <ul className="nav-list flex gap-6">
-          {navItems.map(item => {
-            const active = pathname === item.href
-            return (
-              <li key={item.href}>
-                <Link href={item.href} className={`nav-link${active ? ' active' : ''}`}>
-                  {item.label}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+          <ul>
+            {navItems.map(item => {
+              const active = pathname === item.href
+              return (
+                <li key={item.href}>
+                  <Link href={item.href} aria-current={active ? 'page' : undefined}>
+                    {item.label}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
 
-        <div className="header-actions flex items-center gap-4">
-          <button type="button" className="header-cta" onClick={() => setLeadModalOpen(true)}>
-            <Send size={16} />
-            {t('nav.headerCta')}
+          <div>
+            <button type="button" onClick={() => setLeadModalOpen(true)}>
+              <Send size={16} />
+              {t('nav.headerCta')}
+            </button>
+            <LangSwitcher />
+            <UserMenu />
+          </div>
+
+          <button
+            type="button"
+            aria-label="Меню"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMenuOpen(v => !v)}
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
-          <ThemeToggle />
-          <LangSwitcher />
-          <UserMenu />
-        </div>
-
-        <button
-          type="button"
-          className="burger-btn"
-          aria-label="Меню"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          onClick={() => setMenuOpen(v => !v)}
-        >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </nav>
+        </nav>
 
         <VerifyBanner />
       </header>
 
-      <div
-        className={`mobile-menu-backdrop${menuOpen ? ' open' : ''}`}
-        onClick={() => setMenuOpen(false)}
-        aria-hidden="true"
-      />
-      <div id="mobile-menu" className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-        <button
-          type="button"
-          className="mobile-menu-close"
-          aria-label="Закрыть меню"
-          onClick={() => setMenuOpen(false)}
-        >
-          <X size={22} />
-        </button>
+      {menuOpen && (
+        <div id="mobile-menu">
+          <button type="button" aria-label="Закрыть меню" onClick={() => setMenuOpen(false)}>
+            <X size={22} />
+          </button>
 
-        <ul className="mobile-menu-list">
-          {navItems.map(item => {
-            const active = pathname === item.href
-            return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`mobile-menu-link${active ? ' active' : ''}`}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+          <ul>
+            {navItems.map(item => {
+              const active = pathname === item.href
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={active ? 'page' : undefined}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
 
-        <button
-          type="button"
-          className="header-cta header-cta--mobile"
-          onClick={() => {
-            setMenuOpen(false)
-            setLeadModalOpen(true)
-          }}
-        >
-          <Send size={16} />
-          {t('nav.headerCta')}
-        </button>
+          <button
+            type="button"
+            onClick={() => {
+              setMenuOpen(false)
+              setLeadModalOpen(true)
+            }}
+          >
+            <Send size={16} />
+            {t('nav.headerCta')}
+          </button>
 
-        <div className="mobile-menu-actions">
-          <ThemeToggle />
-          <LangSwitcher />
-          <UserMenu />
+          <div>
+            <LangSwitcher />
+            <UserMenu />
+          </div>
         </div>
-      </div>
+      )}
 
       {leadModalOpen && <HeaderLeadModal onClose={() => setLeadModalOpen(false)} />}
     </>

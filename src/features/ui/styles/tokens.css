@@ -31,20 +31,18 @@
   --info: #60a5fa;
   --info-soft: rgba(96, 165, 250, 0.14);
 
+  --accent-green: #22c55e;
+  --accent-blue: #3b82f6;
+  --accent-violet: #8b5cf6;
+  --accent-amber: #f59e0b;
+
   --border: rgba(148, 172, 235, 0.14);
   --border-hover: var(--brand-border);
 
   --header-bg: rgba(7, 10, 20, 0.82);
 
-  --sky-high: #0a1a3d;
-  --sky-mid: #0b1228;
-  --sky-low: var(--bg);
-  --star: #f4f7ff;
-  --cloud: rgba(140, 168, 232, 0.11);
-  --cloud-edge: rgba(198, 216, 255, 0.2);
-
-  --glow-warm: rgba(221, 169, 47, 0.18);
-  --glow-cool: rgba(84, 130, 232, 0.16);
+  --glow-warm: rgba(221, 169, 47, 0.22);
+  --glow-cool: rgba(139, 92, 246, 0.18);
 
   --veil: rgba(148, 172, 235, 0.05);
   --veil-strong: rgba(148, 172, 235, 0.09);
@@ -54,10 +52,10 @@
     radial-gradient(120% 120% at 10% 0%, rgba(221, 169, 47, 0.2), transparent 60%),
     radial-gradient(100% 100% at 90% 40%, rgba(232, 192, 101, 0.14), transparent 60%);
 
-  --gradient-sky:
-    radial-gradient(90% 70% at 50% -10%, rgba(38, 74, 158, 0.35), transparent 70%),
-    radial-gradient(60% 50% at 12% 8%, var(--glow-warm), transparent 66%),
-    radial-gradient(70% 60% at 88% 92%, var(--glow-cool), transparent 70%);
+  --gradient-playful:
+    radial-gradient(55% 50% at 12% 12%, var(--glow-warm), transparent 70%),
+    radial-gradient(50% 45% at 88% 18%, var(--glow-cool), transparent 70%),
+    radial-gradient(60% 55% at 50% 105%, rgba(59, 130, 246, 0.14), transparent 70%);
 
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
   --shadow: 0 4px 14px rgba(2, 5, 15, 0.45);
@@ -123,15 +121,8 @@ html.light {
 
   --header-bg: rgba(243, 246, 253, 0.86);
 
-  --sky-high: #58a4ec;
-  --sky-mid: #a7cdf3;
-  --sky-low: var(--bg);
-  --star: #ffffff;
-  --cloud: rgba(255, 255, 255, 0.9);
-  --cloud-edge: rgba(255, 255, 255, 1);
-
-  --glow-warm: rgba(221, 169, 47, 0.16);
-  --glow-cool: rgba(96, 148, 232, 0.14);
+  --glow-warm: rgba(221, 169, 47, 0.18);
+  --glow-cool: rgba(139, 92, 246, 0.14);
 
   --veil: rgba(24, 46, 96, 0.035);
   --veil-strong: rgba(24, 46, 96, 0.06);
@@ -141,10 +132,10 @@ html.light {
     radial-gradient(120% 120% at 10% 0%, rgba(200, 144, 26, 0.16), transparent 60%),
     radial-gradient(100% 100% at 90% 40%, rgba(221, 169, 47, 0.12), transparent 60%);
 
-  --gradient-sky:
-    radial-gradient(90% 70% at 50% -10%, rgba(126, 176, 240, 0.3), transparent 70%),
-    radial-gradient(60% 50% at 12% 8%, var(--glow-warm), transparent 66%),
-    radial-gradient(70% 60% at 88% 92%, var(--glow-cool), transparent 70%);
+  --gradient-playful:
+    radial-gradient(55% 50% at 12% 12%, var(--glow-warm), transparent 70%),
+    radial-gradient(50% 45% at 88% 18%, var(--glow-cool), transparent 70%),
+    radial-gradient(60% 55% at 50% 105%, rgba(59, 130, 246, 0.1), transparent 70%);
 
   --shadow-sm: 0 1px 2px 0 rgba(24, 46, 96, 0.06);
   --shadow: 0 4px 14px rgba(24, 46, 96, 0.08);

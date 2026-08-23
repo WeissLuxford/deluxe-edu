@@ -6,7 +6,7 @@ import { ChevronRight, GraduationCap } from 'lucide-react'
 import ThemeToggle from '@/features/ui/components/ThemeToggle'
 import LangSwitcher from '@/features/ui/components/LangDropdown'
 import UserMenu from '@/features/ui/components/UserMenu'
-import { VertexLogo } from '@/features/ui/components/VertexLogo'
+import { HighgateLogo } from '@/features/ui/components/HighgateLogo'
 
 export type Crumb = { label: string; href?: string }
 
@@ -17,7 +17,7 @@ export function LearnTopbar({ locale, crumbs = [] }: { locale: string; crumbs?: 
     <header className="learn-topbar">
       <div className="learn-topbar__inner">
         <Link href={`/${locale}/learn`} className="learn-topbar__brand" aria-label={t('backToLearning')}>
-          <VertexLogo className="learn-topbar__logo" />
+          <HighgateLogo className="learn-topbar__logo" />
         </Link>
 
         <nav className="learn-crumbs" aria-label={t('backToLearning')}>

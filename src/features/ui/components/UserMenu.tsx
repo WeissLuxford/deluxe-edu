@@ -33,18 +33,18 @@ export default function UserMenu() {
 
   useEffect(() => {
     try {
-      const raw = sessionStorage.getItem('vertexUserOverride')
+      const raw = sessionStorage.getItem('highgateUserOverride')
       if (raw) setOverride(JSON.parse(raw))
     } catch {}
     const handler = (e: Event) => {
       const ce = e as CustomEvent
       if (ce.detail) {
         setOverride({ name: ce.detail.name, phone: ce.detail.phone })
-        try { sessionStorage.setItem('vertexUserOverride', JSON.stringify(ce.detail)) } catch {}
+        try { sessionStorage.setItem('highgateUserOverride', JSON.stringify(ce.detail)) } catch {}
       }
     }
-    window.addEventListener('vertex:user-updated', handler as EventListener)
-    return () => window.removeEventListener('vertex:user-updated', handler as EventListener)
+    window.addEventListener('highgate:user-updated', handler as EventListener)
+    return () => window.removeEventListener('highgate:user-updated', handler as EventListener)
   }, [])
 
   const initials = useMemo(() => {

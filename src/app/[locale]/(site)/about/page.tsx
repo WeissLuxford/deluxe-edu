@@ -11,7 +11,7 @@ export default async function AboutPage() {
   const t = await getTranslations('about');
 
   return (
-    <main className="page-start">
+    <main>
       <AboutHero />
       <OurMission />
       <WhyUs />

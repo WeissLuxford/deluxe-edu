@@ -50,8 +50,8 @@ if (!to) {
 try {
   const info = await transport.sendMail({
     to,
-    from: from || 'no-reply@vertexedu.uz',
-    subject: 'Vertex — проверка SMTP',
+    from: from || 'no-reply@highgate.uz',
+    subject: 'Highgate — проверка SMTP',
     html: '<p>Если вы видите это письмо, отправка через SMTP работает.</p>'
   })
   console.log(`Письмо отправлено на ${to}. messageId: ${info.messageId}`)

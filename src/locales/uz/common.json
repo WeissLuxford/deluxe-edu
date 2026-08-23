@@ -1,6 +1,6 @@
 {
   "hero": {
-    "title": "Vertex Education"
+    "title": "Highgate Education"
   },
   "nav": {
     "dashboard": "Kabinet",
@@ -312,6 +312,8 @@
       "primary": "Katalog",
       "secondary": "Kirish"
     },
+    "metaTitle": "Highgate — Oʻzbekistondagi ingliz tili kurslari",
+    "metaDescription": "Highgate onlayn ingliz tili kurslari: A1 dan C1 gacha darajalar, oʻqituvchi bilan jonli darslar, har bir darsdan keyin test va materiallar. Bepul sinov darsi.",
     "introducing": "Tanishtiramiz",
     "tagline": "Yangi choqqilarga",
     "heroPrimary": "Bepul sinov darsi",
@@ -466,7 +468,7 @@
   "about": {
     "title": "Biz haqimizda",
     "subtitle": "Biz kimmiz va qanday o’qitamiz",
-    "whyTitle": "Nega Vertex",
+    "whyTitle": "Nega Highgate",
     "whyLead": "Biz sizni shilish uchun emas, imkoniyat berish uchun shu yerdamiz",
     "r1": "Hamyonni bo’shatadigan haddan tashqari narxlar yo’q",
     "r2": "Shaffof narxlar — yashirin to’lovlarsiz",

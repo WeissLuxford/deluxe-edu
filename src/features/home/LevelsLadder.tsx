@@ -21,17 +21,14 @@ export async function LevelsLadder({ locale }: { locale: string }) {
       subtitle={t('levelsSub')}
       width="wide"
     >
-      <ol className="ladder">
-        {LEVELS.map((level, index) => (
-          <li key={level.code} className="ladder__step" style={{ '--step': index } as React.CSSProperties}>
-            <Link
-              href={`/${locale}/courses?level=${encodeURIComponent(level.name)}`}
-              className="ladder__card"
-            >
-              <span className="ladder__code">{level.code}</span>
-              <span className="ladder__name">{level.name}</span>
-              <p className="ladder__text">{t(level.key)}</p>
-              <span className="ladder__go">
+      <ol>
+        {LEVELS.map(level => (
+          <li key={level.code}>
+            <Link href={`/${locale}/courses?level=${encodeURIComponent(level.name)}`}>
+              <span>{level.code}</span>
+              <span>{level.name}</span>
+              <p>{t(level.key)}</p>
+              <span>
                 <ArrowRight size={14} />
               </span>
             </Link>

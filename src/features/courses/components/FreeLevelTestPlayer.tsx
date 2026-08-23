@@ -20,7 +20,7 @@ type Props = {
   locale: string
 }
 
-const STORAGE_KEY = 'vertex:level-test'
+const STORAGE_KEY = 'highgate:level-test'
 
 // Разделы теста лежат на отдельных страницах, поэтому промежуточный результат
 // живёт в sessionStorage: закрыл вкладку — начал заново, и это честно.

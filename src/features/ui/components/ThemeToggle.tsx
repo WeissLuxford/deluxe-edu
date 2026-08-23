@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-const EVENT = 'vertex:theme-changed'
+const EVENT = 'highgate:theme-changed'
 
 export default function ThemeToggle() {
   const [isLight, setIsLight] = useState(false)

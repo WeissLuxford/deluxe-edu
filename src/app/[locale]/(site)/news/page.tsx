@@ -17,46 +17,40 @@ export default async function NewsListPage({ params }: { params: Promise<{ local
   })
 
   return (
-    <main className="page-shell">
-      <div className="page-hero">
-        <div className="container">
-          <h1 className="page-hero__title">{t('title')}</h1>
-          <p className="page-hero__sub">{t('subtitle')}</p>
-        </div>
+    <main>
+      <div>
+        <h1>{t('title')}</h1>
+        <p>{t('subtitle')}</p>
       </div>
 
-      <div className="container page-body">
+      <div>
         {items.length === 0 ? (
-          <div className="empty-state">
+          <div>
             <h3>{t('empty')}</h3>
             <p>{t('emptyHint')}</p>
           </div>
         ) : (
-          <div className="news-grid">
+          <div>
             {items.map(n => (
-              <article key={n.id} className="news-card">
+              <article key={n.id}>
                 {n.coverUrl && (
-                  <Link href={`/${locale}/news/${n.slug}`} className="news-card__cover">
+                  <Link href={`/${locale}/news/${n.slug}`}>
                     <img src={n.coverUrl} alt="" loading="lazy" />
                   </Link>
                 )}
-                <div className="news-card__body">
-                  <time className="news-card__date" dateTime={n.publishedAt?.toISOString()}>
-                    <Calendar size={13} />
-                    {n.publishedAt?.toLocaleDateString(locale, {
-                      day: '2-digit',
-                      month: 'long',
-                      year: 'numeric'
-                    })}
-                  </time>
-                  <h2 className="news-card__title">
-                    <Link href={`/${locale}/news/${n.slug}`}>{localized(n.title, locale)}</Link>
-                  </h2>
-                  <p className="news-card__lead">{localized(n.lead, locale)}</p>
-                  <Link href={`/${locale}/news/${n.slug}`} className="news-card__more">
-                    {t('readMore')}
-                  </Link>
-                </div>
+                <time dateTime={n.publishedAt?.toISOString()}>
+                  <Calendar size={13} />
+                  {n.publishedAt?.toLocaleDateString(locale, {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                  })}
+                </time>
+                <h2>
+                  <Link href={`/${locale}/news/${n.slug}`}>{localized(n.title, locale)}</Link>
+                </h2>
+                <p>{localized(n.lead, locale)}</p>
+                <Link href={`/${locale}/news/${n.slug}`}>{t('readMore')}</Link>
               </article>
             ))}
           </div>

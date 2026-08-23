@@ -125,5 +125,5 @@ export async function sendOTP(phone: string, code: string): Promise<void> {
     return
   }
 
-  await sendSMS(phone, `Your Vertex Edu verification code: ${code}\n\nDo not share this code with anyone.`)
+  await sendSMS(phone, `Your Highgate Edu verification code: ${code}\n\nDo not share this code with anyone.`)
 }

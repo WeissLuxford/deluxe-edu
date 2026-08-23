@@ -1,7 +1,7 @@
-# Vertex
+# Highgate
 
 Учебная платформа: курсы, уроки с видео/конспектом/тестом, живые занятия, оплата.
-Продакшн — [vertexedu.uz](https://vertexedu.uz) (Vercel).
+Продакшн — [highgate.uz](https://highgate.uz) (Vercel).
 
 ## Стек
 
@@ -45,7 +45,7 @@ npm run dev
 хранилища, файл на компьютере на продакшн не влияет.
 
 Единственная переменная, где значения намеренно разные: `NEXTAUTH_URL`
-(локально `http://localhost:3000`, на проде `https://vertexedu.uz`).
+(локально `http://localhost:3000`, на проде `https://highgate.uz`).
 
 ## Структура
 

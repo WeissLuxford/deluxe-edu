@@ -73,7 +73,7 @@ export function AdminSidebar({ locale, adminName, adminPhone, counters }: Props)
 
       <aside className={`admin-sidebar${collapsed ? ' collapsed' : ''}${mobileOpen ? ' open' : ''}`}>
         <div className="admin-sidebar__top">
-          <span className="admin-sidebar__brand">{collapsed ? 'V' : 'VERTEX'}</span>
+          <span className="admin-sidebar__brand">{collapsed ? 'H' : 'HIGHGATE'}</span>
           <button
             type="button"
             className="admin-sidebar__close"

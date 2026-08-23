@@ -24,13 +24,13 @@ export function Section({
   const hasHead = Boolean(eyebrow || title || subtitle)
 
   return (
-    <section id={id} className={`vsection tone-${tone}`}>
-      <div className={`vsection__inner width-${width}`}>
+    <section id={id} data-tone={tone}>
+      <div data-width={width}>
         {hasHead && (
-          <header className={`vsection__head align-${align}`}>
-            {eyebrow && <span className="vsection__eyebrow">{eyebrow}</span>}
-            {title && <h2 className="vsection__title">{title}</h2>}
-            {subtitle && <p className="vsection__sub">{subtitle}</p>}
+          <header data-align={align}>
+            {eyebrow && <span>{eyebrow}</span>}
+            {title && <h2>{title}</h2>}
+            {subtitle && <p>{subtitle}</p>}
           </header>
         )}
 

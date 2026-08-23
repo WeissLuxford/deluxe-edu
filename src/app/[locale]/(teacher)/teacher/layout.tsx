@@ -4,7 +4,7 @@ import { getPendingExamCount } from '@/features/teacher/examReview'
 import { TeacherSidebar } from '@/features/teacher/components/TeacherSidebar'
 
 export const metadata = {
-  title: 'Кабинет учителя — Vertex',
+  title: 'Кабинет учителя — Highgate',
   robots: { index: false, follow: false }
 }
 

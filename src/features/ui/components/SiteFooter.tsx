@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
 import { Instagram, Youtube, Facebook, Send } from 'lucide-react'
-import { VertexLogo } from './VertexLogo_v2'
+import { HighgateLogoBordered } from './HighgateLogoBordered'
 
 export default function SiteFooter() {
   const locale = useLocale()
@@ -19,87 +19,56 @@ export default function SiteFooter() {
   ]
 
   const socialLinks = [
-    { href: 'https://instagram.com/vertexedu', label: 'Instagram', Icon: Instagram },
-    { href: 'https://youtube.com/@vertexedu', label: 'YouTube', Icon: Youtube },
-    { href: 'https://facebook.com/vertexedu', label: 'Facebook', Icon: Facebook },
-    { href: 'https://t.me/vertexedu', label: 'Telegram', Icon: Send }
+    { href: 'https://instagram.com/hge', label: 'Instagram', Icon: Instagram },
+    { href: 'https://youtube.com/@hge', label: 'YouTube', Icon: Youtube },
+    { href: 'https://facebook.com/hge', label: 'Facebook', Icon: Facebook },
+    { href: 'https://t.me/hge', label: 'Telegram', Icon: Send }
   ]
 
   return (
-    <footer className="vx-footer">
-      <div className="vx-footer__container container">
-        <div className="vx-footer__line" />
-        <div className="vx-footer__top grid gap-8 pt-6">
+    <footer>
+      <div>
+        <div>
+          <HighgateLogoBordered />
+          <div>Learning. Elevated.</div>
+        </div>
 
-          <div className="vx-footer__brand">
-            <div className="vx-footer__logo">
-              <VertexLogo className="vx-footer__logoImg h-[6rem] md:h-[9rem] lg:h-[11rem] w-auto" />
-            </div>
-            <div className="vx-footer__tagline">Learning. Elevated.</div>
+        <nav>
+          {navLinks.map(l => (
+            <Link key={l.href} href={l.href}>
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+
+        <nav>
+          {socialLinks.map(l => (
+            <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer">
+              <l.Icon size={15} strokeWidth={1.7} />
+              {l.label}
+            </a>
+          ))}
+        </nav>
+
+        <div>
+          <div>
+            <span>A</span>
+            <span>Highgate, Tashkent, UZ</span>
           </div>
-
-          <nav className="vx-footer__nav">
-            {navLinks.map(l => (
-              <Link key={l.href} href={l.href} className="vx-link vx-bracket">
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-
-          <nav className="vx-footer__social">
-            {socialLinks.map(l => (
-              <a
-                key={l.href}
-                href={l.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="vx-link vx-social"
-              >
-                <l.Icon size={15} strokeWidth={1.7} />
-                {l.label}
-              </a>
-            ))}
-          </nav>
-
-          <div className="vx-footer__contacts">
-            <div className="vx-contactRow">
-              <div className="vx-contactKey">A</div>
-              <div className="vx-contactVal">Vertex, Tashkent, UZ</div>
-            </div>
-            <div className="vx-contactRow">
-              <div className="vx-contactKey">P</div>
-              <div className="vx-contactVal">
-                <a href="tel:+998901234567" className="vx-link">+998 90 123 45 67</a>
-              </div>
-            </div>
-            <div className="vx-contactRow">
-              <div className="vx-contactKey">E</div>
-              <div className="vx-contactVal">
-                <a href="mailto:hello@vertex.uz" className="vx-link underline">hello@vertex.uz</a>
-              </div>
-            </div>
-          </div>
-
-          <div className="vx-footer__meta">
-            <div className="vx-footer__line" />
-            <div className="vx-metaRow">
-              <div className="vx-legal">
-                <Link href={`${base}/privacy`} className="vx-link-quiet">{t('footer.privacy')}</Link>
-                <Link href={`${base}/terms`} className="vx-link-quiet">{t('footer.terms')}</Link>
-              </div>
-            </div>
+          <div>
+            <span>P</span>
+            <a href="tel:+998901234567">+998 90 123 45 67</a>
           </div>
         </div>
 
-        <div className="vx-footer__line mt-8" />
-        <div className="vx-bar">
-          <div className="vx-barLeft">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 3l9 18H3z" fill="var(--gold)" />
-            </svg>
-            <span className="vx-brandName">Vertex</span>
-          </div>
-          <div className="vx-copy">© {year} Vertex Education</div>
+        <div>
+          <Link href={`${base}/privacy`}>{t('footer.privacy')}</Link>
+          <Link href={`${base}/terms`}>{t('footer.terms')}</Link>
+        </div>
+
+        <div>
+          <span>Highgate</span>
+          <span>© {year} Highgate Education</span>
         </div>
       </div>
     </footer>

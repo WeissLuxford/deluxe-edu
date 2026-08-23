@@ -65,43 +65,31 @@ export default async function NewsPage({ params }: Props) {
   const body = localized(item.body, locale)
 
   return (
-    <main className="page-shell">
-      <div className="page-hero">
-        <div className="container">
-          <nav className="breadcrumb">
-            <Link href={`/${locale}/news`}>{t('title')}</Link>
-          </nav>
+    <main>
+      <nav>
+        <Link href={`/${locale}/news`}>{t('title')}</Link>
+      </nav>
 
-          <h1 className="page-hero__title news-article__title">{localized(item.title, locale)}</h1>
+      <h1>{localized(item.title, locale)}</h1>
 
-          <div className="course-hero__meta">
-            <span>
-              <Calendar size={15} />
-              {item.publishedAt?.toLocaleDateString(locale, {
-                day: '2-digit',
-                month: 'long',
-                year: 'numeric'
-              })}
-            </span>
-          </div>
-        </div>
-      </div>
+      <span>
+        <Calendar size={15} />
+        {item.publishedAt?.toLocaleDateString(locale, {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric'
+        })}
+      </span>
 
-      <div className="container page-body">
-        <article className="news-article">
-          {item.coverUrl && (
-            <img src={item.coverUrl} alt="" className="news-article__cover" />
-          )}
+      <article>
+        {item.coverUrl && <img src={item.coverUrl} alt="" />}
 
-          <p className="news-article__lead">{localized(item.lead, locale)}</p>
+        <p>{localized(item.lead, locale)}</p>
 
-          <RichText text={body} className="news-article__body" />
-        </article>
+        <RichText text={body} />
+      </article>
 
-        <Link href={`/${locale}/news`} className="btn btn-secondary">
-          {t('backToList')}
-        </Link>
-      </div>
+      <Link href={`/${locale}/news`}>{t('backToList')}</Link>
     </main>
   )
 }

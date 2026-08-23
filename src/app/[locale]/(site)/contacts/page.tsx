@@ -6,7 +6,7 @@ import { QuickLinks } from '@/features/contacts/components/QuickLinks';
 
 export default async function ContactsPage() {
   return (
-    <main className="page-start">
+    <main>
       <ContactHero />
       <ContactMethods />
       <ContactFormBlock />

@@ -171,7 +171,7 @@ export function TestStep({
         )}
 
         {(enrollmentPlan === 'PRO' || enrollmentPlan === 'DELUXE') && (
-          <button type="button" className="btn btn-secondary w-full" onClick={() => alert('Telegram: @vertexedu')}>
+          <button type="button" className="btn btn-secondary w-full" onClick={() => alert('Telegram: @hge')}>
             <MessageCircle size={16} />
             {t('askMentor')}
           </button>

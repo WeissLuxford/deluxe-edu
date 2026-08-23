@@ -3,7 +3,7 @@ import { requireAdmin } from '@/features/admin/requireAdmin'
 import { AdminSidebar } from '@/features/admin/components/AdminSidebar'
 
 export const metadata = {
-  title: 'Админка — Vertex',
+  title: 'Админка — Highgate',
   robots: { index: false, follow: false }
 }
 

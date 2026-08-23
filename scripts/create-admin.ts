@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 const prisma = new PrismaClient()
 
 async function main() {
-  const [phone, password, firstName = 'Admin', lastName = 'Vertex'] = process.argv.slice(2)
+  const [phone, password, firstName = 'Admin', lastName = 'Highgate'] = process.argv.slice(2)
 
   if (!phone || !password) {
     console.error('Использование: npx tsx scripts/create-admin.ts <телефон> <пароль> [имя] [фамилия]')

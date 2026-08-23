@@ -1,5 +1,29 @@
 {
-  "$описание": "Реестр картинок сайта. Файлы кладём в public/media/**, сюда пишем путь от корня сайта. Пустой src — на месте картинки появится подсказка с именем слота, вёрстка не поедет. alt обязателен для всего, что несёт смысл; у декора его можно оставить пустым.",
+  "$описание": "Реестр картинок сайта. Файлы кладём в public/media/** (бренд-картинки — в public/brand/**), сюда пишем путь от корня сайта. Пустой src — на месте картинки появится подсказка с именем слота, вёрстка не поедет. alt обязателен для всего, что несёт смысл; у декора его можно оставить пустым.",
+  "brand.header.logo": {
+    "$комментарий": "Логотип в шапке сайта. src — тёмная тема, srcLight — светлая. Файлы временные (Vertex), заменить на Highgate когда будут готовы.",
+    "src": "/brand/vertex-dark.png",
+    "srcLight": "/brand/vertex-light.png",
+    "alt": {
+      "ru": "Highgate",
+      "uz": "Highgate",
+      "en": "Highgate"
+    },
+    "width": 1487,
+    "height": 309
+  },
+  "brand.footer.logo": {
+    "$комментарий": "Логотип в подвале сайта (окаймлённый вариант). src — тёмная тема, srcLight — светлая. Файлы временные (Vertex), заменить на Highgate когда будут готовы.",
+    "src": "/brand/vertex_border-dark.png",
+    "srcLight": "/brand/vertex_border-light.png",
+    "alt": {
+      "ru": "Highgate",
+      "uz": "Highgate",
+      "en": "Highgate"
+    },
+    "width": 1487,
+    "height": 309
+  },
   "home.hero.side": {
     "src": "/media/peak-constellation.svg",
     "alt": {
@@ -61,9 +85,9 @@
   "home.mentor.portrait": {
     "src": "/media/mentor-portrait.svg",
     "alt": {
-      "ru": "Преподаватель Vertex",
-      "uz": "Vertex o‘qituvchisi",
-      "en": "Vertex teacher"
+      "ru": "Преподаватель Highgate",
+      "uz": "Highgate o‘qituvchisi",
+      "en": "Highgate teacher"
     },
     "width": 640,
     "height": 800,
@@ -94,9 +118,9 @@
   "about.team.group": {
     "src": "/media/team-group.svg",
     "alt": {
-      "ru": "Команда Vertex",
-      "uz": "Vertex jamoasi",
-      "en": "The Vertex team"
+      "ru": "Команда Highgate",
+      "uz": "Highgate jamoasi",
+      "en": "The Highgate team"
     },
     "width": 1200,
     "height": 675,

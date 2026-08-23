@@ -21,12 +21,12 @@ export async function Reviews({ locale }: { locale: string }) {
       subtitle={t('reviewsSub')}
     >
       {REVIEWS.length === 0 ? (
-        <p className="catalog-empty">{t('reviewsEmpty')}</p>
+        <p>{t('reviewsEmpty')}</p>
       ) : (
-        <div className="reviews-grid">
+        <div>
           {REVIEWS.map(review => (
-            <figure key={review.id} className="review-card">
-              <Quote size={18} className="review-card__mark" />
+            <figure key={review.id}>
+              <Quote size={18} />
               <blockquote>{review.text}</blockquote>
               <figcaption>
                 <strong>{review.name}</strong>

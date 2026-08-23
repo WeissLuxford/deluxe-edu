@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
-import TilesCarousel from './TilesCarousel'
 import StructurePreview from './StructurePreview'
-import HeroVertex from './HeroVertex'
+import Hero from './Hero'
 import AccessTiers from './AccessTiers'
 import BrandMarquee from './BrandMarquee'
 import HowItWorks from './HowItWorks'
@@ -11,7 +10,6 @@ import FAQSection from './FAQSection'
 import ContactFormSection from './ContactFormSection'
 import { LearningFormat } from './LearningFormat'
 import { LevelsLadder } from './LevelsLadder'
-import { PlatformFacts } from './PlatformFacts'
 import { PriceHonesty } from './PriceHonesty'
 import { Reviews, REVIEWS } from './Reviews'
 
@@ -24,12 +22,10 @@ export type HomeSection = {
 }
 
 export const HOME_SECTIONS: HomeSection[] = [
-  { key: 'hero', enabled: true, render: () => <HeroVertex /> },
-  { key: 'facts', enabled: true, render: ({ locale }) => <PlatformFacts locale={locale} /> },
-  { key: 'tiles', enabled: true, render: () => <TilesCarousel /> },
+  { key: 'hero', enabled: true, render: () => <Hero /> },
   { key: 'format', enabled: true, render: ({ locale }) => <LearningFormat locale={locale} /> },
   { key: 'levels', enabled: true, render: ({ locale }) => <LevelsLadder locale={locale} /> },
-  { key: 'howItWorks', enabled: true, render: ({ base }) => <HowItWorks base={base} /> },
+  { key: 'howItWorks', enabled: true, render: () => <HowItWorks /> },
   { key: 'mentor', enabled: true, render: ({ base }) => <MentorIntro base={base} /> },
   { key: 'tiers', enabled: true, render: ({ base }) => <AccessTiers base={base} /> },
   { key: 'priceHonesty', enabled: true, render: ({ locale }) => <PriceHonesty locale={locale} /> },

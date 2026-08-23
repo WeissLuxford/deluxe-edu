@@ -9,7 +9,6 @@ import { SpecialOffersSection } from '@/features/courses/components/SpecialOffer
 import { getEnrolledCourseIds } from '@/features/learn/progress'
 import { localized } from '@/lib/localized'
 import { resolvePublicAsset } from '@/lib/publicAsset'
-import { MediaDecor } from '@/features/ui/components/MediaDecor'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -62,18 +61,15 @@ export default async function CoursesPage({ params, searchParams }: Props) {
   const filtered = selectedLevel ? catalogue.filter(c => c.level === selectedLevel) : catalogue
 
   return (
-    <main className="page-shell">
-      <div className="page-hero">
-        <MediaDecor slot="courses.hero.side" side="right" size="md" />
-        <div className="container">
-          <h1 className="page-hero__title">{t('title')}</h1>
-          <p className="page-hero__sub">{t('subtitle')}</p>
-        </div>
+    <main>
+      <div>
+        <h1>{t('title')}</h1>
+        <p>{t('subtitle')}</p>
       </div>
 
-      <div className="container page-body">
+      <div>
         {enrolledIds.size > 0 && (
-          <Link href={`/${locale}/learn`} className="learn-strip">
+          <Link href={`/${locale}/learn`}>
             <GraduationCap size={18} />
             <span>
               {t('myCourses')}: {enrolledIds.size}
@@ -85,25 +81,22 @@ export default async function CoursesPage({ params, searchParams }: Props) {
           </Link>
         )}
 
-        <section className="catalog-section">
-          <div className="section-head">
-            <h2 className="section-title">{t('available')}</h2>
-            <p className="section-sub">{t('availableHint')}</p>
+        <section>
+          <div>
+            <h2>{t('available')}</h2>
+            <p>{t('availableHint')}</p>
           </div>
 
           {levelsWithCourses.length > 1 && (
-            <div className="level-filter">
-              <Link
-                href={`/${locale}/courses`}
-                className={`level-chip${!selectedLevel ? ' active' : ''}`}
-              >
+            <div>
+              <Link href={`/${locale}/courses`} aria-current={!selectedLevel ? 'page' : undefined}>
                 {t('allLevels')}
               </Link>
               {levelsWithCourses.map(l => (
                 <Link
                   key={l}
                   href={`/${locale}/courses?level=${encodeURIComponent(l)}`}
-                  className={`level-chip${selectedLevel === l ? ' active' : ''}`}
+                  aria-current={selectedLevel === l ? 'page' : undefined}
                 >
                   {l}
                 </Link>
@@ -112,7 +105,7 @@ export default async function CoursesPage({ params, searchParams }: Props) {
           )}
 
           {filtered.length > 0 ? (
-            <div className="course-grid">
+            <div>
               {filtered.map(course => (
                 <CourseArticle
                   key={course.id}
@@ -133,7 +126,7 @@ export default async function CoursesPage({ params, searchParams }: Props) {
               ))}
             </div>
           ) : (
-            <p className="catalog-empty">{selectedLevel ? t('emptyLevel') : t('empty')}</p>
+            <p>{selectedLevel ? t('emptyLevel') : t('empty')}</p>
           )}
         </section>
 
