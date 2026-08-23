@@ -315,12 +315,16 @@
 
 .chunky-btn {
   --lift: 6px;
+  /* Falls back to --lesson-accent when set (e.g. inside .lesson-player, where
+     each lesson's chunky buttons pick up its animal icon's color) so "brand"
+     buttons aren't stuck on one color everywhere. */
+  --chunky-brand: var(--lesson-accent, var(--brand));
   display: inline-block;
   position: relative;
   border: none;
   padding: 0 0 var(--lift) 0;
   border-radius: 20px;
-  background: color-mix(in srgb, var(--brand) 65%, black);
+  background: color-mix(in srgb, var(--chunky-brand) 65%, black);
   cursor: pointer;
   text-decoration: none;
 }
@@ -358,8 +362,8 @@
   width: 100%;
   gap: 0.5em;
   border-radius: 18px;
-  border: 2px solid color-mix(in srgb, var(--brand) 70%, white);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--brand) 100%, white 18%), var(--brand));
+  border: 2px solid color-mix(in srgb, var(--chunky-brand) 70%, white);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--chunky-brand) 100%, white 18%), var(--chunky-brand));
   color: var(--brand-fg);
   font-weight: 700;
   white-space: nowrap;

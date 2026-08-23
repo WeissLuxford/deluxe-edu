@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import {
@@ -108,6 +108,8 @@ export function LessonPlayer({
   if (lesson.hasTest) steps.push('test')
   if (lesson.hasDialogue) steps.push('dialogue')
 
+  const lessonAccent = LESSON_ANIMALS[lessonIndex % LESSON_ANIMALS.length].color
+
   const startIndex = initialStep && steps.includes(initialStep) ? steps.indexOf(initialStep) : 0
 
   const [currentStepIndex, setCurrentStepIndex] = useState(startIndex)
@@ -183,7 +185,7 @@ export function LessonPlayer({
   }
 
   return (
-    <div className="lesson-player">
+    <div className="lesson-player" style={{ '--lesson-accent': lessonAccent } as CSSProperties}>
       <header className="lesson-player__head">
         <div className="lesson-player__heading">
           <BoilingIcon
