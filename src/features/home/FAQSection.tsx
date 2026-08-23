@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
+import { ChevronDown } from 'lucide-react'
+import { Section } from '@/features/ui/components/Section'
 
 export default function FAQSection() {
   const t = useTranslations('home')
@@ -19,30 +21,28 @@ export default function FAQSection() {
   ]
 
   return (
-    <section id="faq">
-      <h2>{t('faqTitle')}</h2>
-      <p>{t('faqLead')}</p>
-      <div>
+    <Section id="faq" title={t('faqTitle')} subtitle={t('faqLead')} width="narrow">
+      <div className="faq-root">
         {faqs.map((item, i) => {
           const isOpen = open === i
           return (
-            <div key={i}>
-              <button aria-expanded={isOpen} onClick={() => setOpen(isOpen ? null : i)}>
-                <span>{item.q}</span>
+            <div key={i} className={`faq-item${isOpen ? ' open' : ''}`}>
+              <button className="faq-trigger" aria-expanded={isOpen} onClick={() => setOpen(isOpen ? null : i)}>
+                <span className="faq-title">{item.q}</span>
+                <ChevronDown size={18} className={`faq-caret${isOpen ? ' rot' : ''}`} />
               </button>
-              {isOpen && (
-                <div>
-                  <p>{item.a}</p>
-                </div>
-              )}
+              <div className="faq-answer">
+                <p className="faq-answer-text">{item.a}</p>
+              </div>
             </div>
           )
         })}
       </div>
-      <div>
-        <p>{t('faqMore')}</p>
+
+      <p className="section-sub" style={{ textAlign: 'center', marginTop: '2rem' }}>
+        {t('faqMore')}{' '}
         <a href={`/${locale}/contacts`}>{t('faqContact')}</a>
-      </div>
-    </section>
+      </p>
+    </Section>
   )
 }

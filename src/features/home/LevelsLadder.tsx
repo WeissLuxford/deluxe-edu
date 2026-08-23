@@ -1,7 +1,9 @@
+import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { ArrowRight } from 'lucide-react'
 import { Section } from '@/features/ui/components/Section'
+import { PLAYFUL_PALETTE } from '@/features/ui/lib/palette'
 
 const LEVELS = [
   { code: 'A1', name: 'Beginner', key: 'levelBeginner' },
@@ -21,14 +23,14 @@ export async function LevelsLadder({ locale }: { locale: string }) {
       subtitle={t('levelsSub')}
       width="wide"
     >
-      <ol>
-        {LEVELS.map(level => (
-          <li key={level.code}>
-            <Link href={`/${locale}/courses?level=${encodeURIComponent(level.name)}`}>
-              <span>{level.code}</span>
-              <span>{level.name}</span>
-              <p>{t(level.key)}</p>
-              <span>
+      <ol className="ladder">
+        {LEVELS.map((level, index) => (
+          <li key={level.code} style={{ '--ladder-accent': PLAYFUL_PALETTE[index % PLAYFUL_PALETTE.length] } as CSSProperties}>
+            <Link href={`/${locale}/courses?level=${encodeURIComponent(level.name)}`} className="ladder__card">
+              <span className="ladder__code">{level.code}</span>
+              <span className="ladder__name">{level.name}</span>
+              <p className="ladder__text">{t(level.key)}</p>
+              <span className="ladder__go">
                 <ArrowRight size={14} />
               </span>
             </Link>

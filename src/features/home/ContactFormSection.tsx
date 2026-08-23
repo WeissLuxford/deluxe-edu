@@ -7,6 +7,8 @@ import { Send } from 'lucide-react'
 import PhoneField, { isPhoneComplete } from '@/features/auth/components/PhoneField'
 import { PHONE_PREFIX, normalizePhone } from '@/features/auth/identity'
 import Turnstile, { turnstileEnabled } from '@/features/auth/components/Turnstile'
+import { Section } from '@/features/ui/components/Section'
+import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
 
 export default function ContactFormSection() {
   const t = useTranslations('home')
@@ -78,43 +80,45 @@ export default function ContactFormSection() {
   }
 
   return (
-    <section>
-      <h2>{t('formTitle')}</h2>
-      <p>{t('formLead')}</p>
+    <Section id="contact-form" tone="raised" width="narrow" title={t('formTitle')} subtitle={t('formLead')}>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="form-grid-2">
+          <div>
+            <label className="label" htmlFor="firstName">{t('fFirst')}</label>
+            <input
+              id="firstName"
+              name="firstName"
+              type="text"
+              className="input"
+              required
+              value={formData.firstName}
+              onChange={handleChange}
+            />
+          </div>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="firstName">{t('fFirst')}</label>
-          <input
-            id="firstName"
-            name="firstName"
-            type="text"
-            required
-            value={formData.firstName}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="lastName">{t('fLast')}</label>
-          <input
-            id="lastName"
-            name="lastName"
-            type="text"
-            required
-            value={formData.lastName}
-            onChange={handleChange}
-          />
+          <div>
+            <label className="label" htmlFor="lastName">{t('fLast')}</label>
+            <input
+              id="lastName"
+              name="lastName"
+              type="text"
+              className="input"
+              required
+              value={formData.lastName}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
         <PhoneField value={phone} onChange={setPhone} label={t('fPhone')} />
 
         <div>
-          <label htmlFor="email">{t('fEmail')}</label>
+          <label className="label" htmlFor="email">{t('fEmail')}</label>
           <input
             id="email"
             name="email"
             type="email"
+            className="input"
             value={formData.email}
             onChange={handleChange}
             placeholder="john@example.com"
@@ -122,10 +126,11 @@ export default function ContactFormSection() {
         </div>
 
         <div>
-          <label htmlFor="message">{t('fMessage')}</label>
+          <label className="label" htmlFor="message">{t('fMessage')}</label>
           <textarea
             id="message"
             name="message"
+            className="textarea"
             value={formData.message}
             onChange={handleChange}
             placeholder={t('fMessage')}
@@ -136,27 +141,22 @@ export default function ContactFormSection() {
         <Turnstile onToken={setTurnstileToken} />
 
         {status === 'success' && (
-          <div>{tLead('sent')}. {tLead('sentHint')}</div>
+          <div className="alert alert-success">{tLead('sent')}. {tLead('sentHint')}</div>
         )}
 
-        {status === 'error' && <div>{errorMessage}</div>}
+        {status === 'error' && <div className="alert alert-error">{errorMessage}</div>}
 
-        <button type="submit" disabled={status === 'loading' || !ready}>
-          {status === 'loading' ? tLead('sending') : (
-            <>
-              <Send size={20} />
-              {t('fSend')}
-            </>
-          )}
-        </button>
+        <ChunkyButton type="submit" color="brand" fullWidth disabled={status === 'loading' || !ready} icon={<Send size={18} />}>
+          {status === 'loading' ? tLead('sending') : t('fSend')}
+        </ChunkyButton>
 
-        <p>
+        <p className="section-sub" style={{ textAlign: 'center' }}>
           {t('formDirectLine')}:{' '}
           <a href="tel:+998901234567">+998 90 123 45 67</a>{' '}
           |{' '}
           <a href="https://t.me/hge" target="_blank" rel="noopener noreferrer">@hge</a>
         </p>
       </form>
-    </section>
+    </Section>
   )
 }

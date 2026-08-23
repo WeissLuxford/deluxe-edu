@@ -15,10 +15,10 @@ export async function PriceHonesty({ locale }: { locale: string }) {
       title={t('priceTitle')}
       subtitle={t('priceSub')}
     >
-      <div>
-        <div>
-          <h3>{t('priceUsTitle')}</h3>
-          <ul>
+      <div className="compare">
+        <div className="compare__col compare__col--us">
+          <h3 className="compare__title">{t('priceUsTitle')}</h3>
+          <ul className="compare__list">
             {us.map(item => (
               <li key={item}>
                 <Check size={16} />
@@ -28,9 +28,9 @@ export async function PriceHonesty({ locale }: { locale: string }) {
           </ul>
         </div>
 
-        <div>
-          <h3>{t('priceThemTitle')}</h3>
-          <ul>
+        <div className="compare__col compare__col--them">
+          <h3 className="compare__title">{t('priceThemTitle')}</h3>
+          <ul className="compare__list">
             {them.map(item => (
               <li key={item}>
                 <X size={16} />

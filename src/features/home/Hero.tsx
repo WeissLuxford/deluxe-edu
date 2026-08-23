@@ -16,7 +16,7 @@ const FLOATERS = [
   { icon: Sparkles, color: PLAYFUL_PALETTE[2], top: '70%', left: '88%', duration: 4 }
 ]
 
-const STICKER_EMOJIS = ['🎉', '🔥', '💖', '⭐', '🌈', '✨', '🚀', '🎈', '💫', '🍕']
+const STICKER_EMOJIS = ['🎉', '🔥', '💖', '⭐', '🌈', '✨', '🚀', '🎈', '💫', '🍕', '🌎', '🌍', '🌏']
 
 export default function Hero() {
   const t = useTranslations('home')

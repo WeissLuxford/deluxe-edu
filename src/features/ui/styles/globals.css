@@ -299,7 +299,7 @@ html.light .only-dark.theme-fade { opacity: 0; visibility: hidden }
 }
 
 .badge-primary {
-  background: rgba(199, 164, 90, 0.2);
+  background: rgba(255, 92, 124, 0.2);
   color: var(--gold-text);
 }
 
@@ -781,7 +781,9 @@ html.light .theme-toggle:hover { background: rgba(0,0,0,0.03) }
   background: radial-gradient(closest-side, rgba(255,92,124,0.12), transparent);
   filter: blur(18px);
 }
-.access-head { margin: 3rem 0 2rem 0 }
+#block-access { padding: clamp(3rem, 7vw, 5.5rem) 0 }
+.access-head { margin: 0 0 2rem 0; text-align: center }
+.access-footer { margin-top: 2rem; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; text-align: center }
 .access-grid { display: grid; gap: 1rem }
 @media (min-width: 640px){ .access-grid { grid-template-columns: repeat(2,minmax(0,1fr)) } }
 @media (min-width: 1024px){ .access-grid { grid-template-columns: repeat(3,minmax(0,1fr)) } }
@@ -1366,7 +1368,7 @@ html.light .glass-panel {
 @media (min-width: 1024px) {
   .mentor-grid { grid-template-columns: 1fr 1.1fr }
 }
-.mentor-media { display: grid; place-items: center }
+.mentor-media { position: relative; display: grid; place-items: center }
 .mentor-photo-wrap { position: relative; width: 100%; max-width: 520px; aspect-ratio: 4/3; border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border) }
 .mentor-photo { width: 100%; height: 100%; object-fit: cover }
 .mentor-glow { position: absolute; inset: -20%; background: radial-gradient(closest-side, rgba(255,92,124,0.12), transparent); filter: blur(28px); z-index: -1 }
@@ -1376,7 +1378,9 @@ html.light .glass-panel {
 .mentor-list li::before { content: "•"; position: absolute; left: .4rem; color: var(--gold-text) }
 
 .faq-root { display: grid; gap: 0.75rem }
-.faq-item { padding: 1rem 1.25rem }
+.faq-item { padding: 1rem 1.25rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface-1); transition: var(--transition) }
+.faq-item:hover { border-color: var(--border-hover) }
+.faq-answer-text { color: var(--muted); font-size: 0.9375rem }
 .faq-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: transparent; border: 0; color: var(--fg); font-weight: 700; font-size: 1.05rem; cursor: pointer }
 .faq-title { text-align: left }
 .faq-caret { transition: var(--transition) }
@@ -1821,7 +1825,7 @@ html.light .glass-panel {
 .level-chip.active {
   border-color: var(--gold);
   color: var(--gold-text);
-  background: rgba(199, 164, 90, 0.1);
+  background: rgba(255, 92, 124, 0.1);
 }
 
 .catalog-empty {
@@ -1872,7 +1876,7 @@ html.light .glass-panel {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: var(--radius);
-  background: rgba(199, 164, 90, 0.12);
+  background: rgba(255, 92, 124, 0.12);
   color: var(--gold-text);
 }
 
@@ -2513,7 +2517,7 @@ html.light .glass-panel {
 
 .test-option.selected {
   border-color: var(--gold);
-  background: rgba(199, 164, 90, 0.14);
+  background: rgba(255, 92, 124, 0.14);
 }
 
 .test-option__box {
@@ -2791,6 +2795,15 @@ html.light .glass-panel {
   color: var(--fg);
 }
 
+.plan-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0;
+}
+
 .plan-card__includes {
   display: flex;
   align-items: flex-start;
@@ -2923,7 +2936,7 @@ html.light .glass-panel {
 
 .course-article {
   --accent: var(--gold);
-  --accent-soft: rgba(199, 164, 90, 0.14);
+  --accent-soft: rgba(255, 92, 124, 0.14);
   position: relative;
   overflow: hidden;
 }
@@ -3836,7 +3849,7 @@ html.light .course-article__cta {
 }
 
 .admin-nav__item.active {
-  background: rgba(199, 164, 90, 0.14);
+  background: rgba(255, 92, 124, 0.14);
   color: var(--gold-text);
 }
 

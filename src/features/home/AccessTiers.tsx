@@ -1,7 +1,8 @@
 'use client'
 
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import { Check } from 'lucide-react'
+import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
 
 export default function AccessTiers({ base }: { base: string }) {
   const t = useTranslations('home')
@@ -27,40 +28,43 @@ export default function AccessTiers({ base }: { base: string }) {
 
   return (
     <section id="block-access" data-section="access-tiers">
-      <div>
-        <h2>{t('tiersTitle')}</h2>
-        <p>{t('tiersLead')}</p>
-      </div>
+      <div className="container">
+        <div className="access-head">
+          <h2 className="section-title">{t('tiersTitle')}</h2>
+          <p className="section-sub">{t('tiersLead')}</p>
+        </div>
 
-      <div>
-        {tiers.map((tier, i) => (
-          <div key={i}>
-            <div>
-              <div>{tier.title}</div>
-              {tier.highlight && <span>{t('tierDeluxe')}</span>}
+        <div className="access-grid">
+          {tiers.map((tier, i) => (
+            <div key={i} className={`plan-card${tier.highlight ? ' accent' : ''}`}>
+              {tier.highlight && <span className="plan-card__badge">{tier.title}</span>}
+
+              <span className="plan-card__name">{tier.title}</span>
+              <p className="plan-card__kind">{tier.desc}</p>
+              <p className="plan-card__kind">{t('tierPriceHint')}</p>
+
+              <ul className="plan-card__list">
+                {tier.features.map((feature, idx) => (
+                  <li key={idx} className="plan-card__includes">
+                    <Check size={14} />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <ChunkyButton href={`${base}/courses`} color={tier.highlight ? 'brand' : 'neutral'} fullWidth>
+                {t('tierCta')}
+              </ChunkyButton>
             </div>
+          ))}
+        </div>
 
-            <p>{tier.desc}</p>
-
-            <div>{t('tierPriceHint')}</div>
-
-            <ul>
-              {tier.features.map((feature, idx) => (
-                <li key={idx}>
-                  <span>✓</span>
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-
-            <Link href={`${base}/courses`}>{t('tierCta')}</Link>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        <p>{t('tiersUnsure')}</p>
-        <Link href={`${base}/trial-lesson`}>{t('tiersTry')}</Link>
+        <div className="access-footer">
+          <p className="section-sub">{t('tiersUnsure')}</p>
+          <ChunkyButton href={`${base}/trial-lesson`} color="neutral">
+            {t('tiersTry')}
+          </ChunkyButton>
+        </div>
       </div>
     </section>
   )
