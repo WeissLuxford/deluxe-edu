@@ -1,8 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { CheckCircle2, XCircle, RefreshCw, BookOpen, MessageCircle, FileQuestion } from 'lucide-react'
+import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
+import { Checkmark } from '@/features/ui/components/Checkmark'
+import { Confetti } from '@/features/ui/components/Confetti'
+import { StickerReward } from '@/features/ui/components/StickerReward'
 
 type LocalizedText = string | Record<string, string>
 
@@ -63,11 +68,16 @@ export function TestStep({
   const [result, setResult] = useState<Result | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [rewardTrigger, setRewardTrigger] = useState(0)
+
+  useEffect(() => {
+    if (result?.passed) setRewardTrigger(prev => prev + 1)
+  }, [result?.passed])
 
   if (questions.length === 0) {
     return (
       <div className="test-empty">
-        <FileQuestion size={40} />
+        <BoilingIcon icon={FileQuestion} color="var(--gold-text)" size={40} />
         <h3>{t('notReadyTitle')}</h3>
         <p>{t('notReadyText')}</p>
       </div>
@@ -119,8 +129,14 @@ export function TestStep({
     return (
       <div className="space-y-4">
         <div className={`test-result${passed ? ' passed' : ''}`}>
+          {passed && (
+            <>
+              <Confetti trigger={rewardTrigger} />
+              <StickerReward trigger={rewardTrigger} />
+            </>
+          )}
           <span className="test-result__icon">
-            {passed ? <CheckCircle2 size={40} /> : <RefreshCw size={40} />}
+            {passed ? <Checkmark key={rewardTrigger} size={40} /> : <RefreshCw size={40} />}
           </span>
           <h2 className="test-result__title">{passed ? t('passedTitle') : t('failedTitle')}</h2>
           <div className="test-result__score">{grade}%</div>
@@ -158,23 +174,25 @@ export function TestStep({
         {!passed && (
           <div className="test-actions">
             {onReviewConspect && (
-              <button type="button" onClick={onReviewConspect} className="btn btn-secondary">
-                <BookOpen size={16} />
+              <ChunkyButton color="neutral" onClick={onReviewConspect} icon={<BookOpen size={16} />}>
                 {t('reviewConspect')}
-              </button>
+              </ChunkyButton>
             )}
-            <button type="button" onClick={retry} className="btn btn-primary">
-              <RefreshCw size={16} />
+            <ChunkyButton color="brand" onClick={retry} icon={<RefreshCw size={16} />}>
               {t('retry')}
-            </button>
+            </ChunkyButton>
           </div>
         )}
 
         {(enrollmentPlan === 'PRO' || enrollmentPlan === 'DELUXE') && (
-          <button type="button" className="btn btn-secondary w-full" onClick={() => alert('Telegram: @hge')}>
-            <MessageCircle size={16} />
+          <ChunkyButton
+            color="neutral"
+            fullWidth
+            onClick={() => alert('Telegram: @hge')}
+            icon={<MessageCircle size={16} />}
+          >
             {t('askMentor')}
-          </button>
+          </ChunkyButton>
         )}
       </div>
     )
@@ -252,23 +270,22 @@ export function TestStep({
       {error && <div className="alert alert-error">{error}</div>}
 
       <div className="test-nav">
-        <button
-          type="button"
-          onClick={() => setCurrentIndex(i => Math.max(0, i - 1))}
+        <ChunkyButton
+          color="neutral"
           disabled={currentIndex === 0}
-          className="btn btn-secondary"
+          onClick={() => setCurrentIndex(i => Math.max(0, i - 1))}
         >
           {t('prev')}
-        </button>
+        </ChunkyButton>
 
-        <button
-          type="button"
-          onClick={() => (isLast ? submit() : setCurrentIndex(i => i + 1))}
+        <ChunkyButton
+          color="brand"
+          className="test-nav__next"
           disabled={!answered || submitting}
-          className="btn btn-primary test-nav__next"
+          onClick={() => (isLast ? submit() : setCurrentIndex(i => i + 1))}
         >
           {submitting ? t('sending') : isLast ? t('submit') : t('next')}
-        </button>
+        </ChunkyButton>
       </div>
     </div>
   )

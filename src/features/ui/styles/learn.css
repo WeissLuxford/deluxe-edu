@@ -8,6 +8,15 @@
   flex-direction: column;
 }
 
+/* Notebook / graph-paper backdrop for the actual study zone — a nod to the
+   hand-drawn highlighter marks (.hg-mark) used throughout lesson content. */
+.learn-shell--notebook {
+  background-image:
+    linear-gradient(var(--hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
 .learn-topbar {
   position: sticky;
   top: 0;
@@ -677,6 +686,12 @@
   border-bottom: 1px solid var(--border);
 }
 
+.learn-module-block__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .learn-module-block__label {
   display: block;
   font-size: 0.72rem;
@@ -1022,6 +1037,12 @@
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1.25rem;
+}
+
+.lesson-player__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
 }
 
 .lesson-player__module {

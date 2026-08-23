@@ -1,11 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { ArrowRight, CheckCircle2, RotateCcw } from 'lucide-react'
+import { ArrowRight, RotateCcw } from 'lucide-react'
 import LeadForm from '@/features/leads/LeadForm'
 import { RichText } from '@/features/ui/components/RichText'
+import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { Checkmark } from '@/features/ui/components/Checkmark'
+import { Confetti } from '@/features/ui/components/Confetti'
+import { StickerReward } from '@/features/ui/components/StickerReward'
 import { FreeTest, type FreeTestResult } from './FreeTest'
 
 type Section = { slug: string; title: string }
@@ -106,8 +109,10 @@ export function FreeMockTestPlayer({
       <div className="page-start py-8">
         <div className="mx-auto max-w-2xl space-y-4">
           <div className="test-result passed">
+            <Confetti trigger={1} />
+            <StickerReward trigger={1} />
             <span className="test-result__icon">
-              <CheckCircle2 size={40} />
+              <Checkmark size={40} />
             </span>
             <h2 className="test-result__title">{t('sectionDone')}</h2>
             <div className="test-result__score">
@@ -116,13 +121,14 @@ export function FreeMockTestPlayer({
             <p className="test-result__text">{t('sectionDoneText', { section: nextSection.title })}</p>
           </div>
 
-          <Link
+          <ChunkyButton
             href={`/${locale}/free-mock-test/${nextSection.slug}`}
-            className="btn btn-primary w-full justify-center"
+            color="brand"
+            fullWidth
+            trailingIcon={<ArrowRight size={16} />}
           >
             {t('nextSection')}
-            <ArrowRight size={16} />
-          </Link>
+          </ChunkyButton>
         </div>
       </div>
     )
@@ -163,13 +169,12 @@ export function FreeMockTestPlayer({
           <h3 className="level-advice__title">{t('mockAdviceTitle')}</h3>
           <p className="level-advice__text">{t('mockAdviceText')}</p>
           <div className="level-advice__actions">
-            <Link href={`/${locale}/courses`} className="btn btn-primary">
+            <ChunkyButton href={`/${locale}/courses`} color="brand">
               {t('toCourses')}
-            </Link>
-            <button type="button" onClick={restart} className="btn btn-secondary">
-              <RotateCcw size={16} />
+            </ChunkyButton>
+            <ChunkyButton color="neutral" onClick={restart} icon={<RotateCcw size={16} />}>
               {t('restart')}
-            </button>
+            </ChunkyButton>
           </div>
         </div>
 

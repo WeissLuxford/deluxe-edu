@@ -2219,6 +2219,7 @@ html.light .glass-panel {
 }
 
 .level-result {
+  position: relative;
   padding: 2.5rem 1.5rem;
   text-align: center;
   border: 1px solid var(--gold);
@@ -2462,6 +2463,7 @@ html.light .glass-panel {
 }
 
 .test-result {
+  position: relative;
   padding: 2.5rem 1.5rem;
   text-align: center;
   border: 1px solid var(--border);
@@ -4393,6 +4395,13 @@ html.light .course-article__cta {
 .rte-content .ProseMirror a {
   color: var(--gold-text);
   text-decoration: underline;
+}
+
+.rte-content .ProseMirror mark {
+  background: var(--brand-soft);
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 0.15em;
 }
 
 .rte-content .ProseMirror a.rte-btn {

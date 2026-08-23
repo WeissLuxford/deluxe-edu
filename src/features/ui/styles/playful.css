@@ -278,7 +278,20 @@
   --hg-mark-color: rgba(139, 92, 246, 0.18);
 }
 
-.hg-mark::before {
+/* Admin-authored lesson notes use the plain HTML <mark> tag (via the Tiptap
+   Highlight extension), not the <Mark> React component — style it the same
+   way so a teacher's highlight gets the hand-drawn look for free. */
+.conspect mark {
+  --hg-mark-color: var(--brand-soft);
+  display: inline-block;
+  position: relative;
+  background-color: unset;
+  isolation: isolate;
+  color: var(--fg);
+}
+
+.hg-mark::before,
+.conspect mark::before {
   position: absolute;
   inset: 0;
   content: '';
@@ -342,6 +355,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   gap: 0.5em;
   border-radius: 18px;
   border: 2px solid color-mix(in srgb, var(--brand) 70%, white);

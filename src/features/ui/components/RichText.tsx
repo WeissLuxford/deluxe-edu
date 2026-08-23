@@ -19,7 +19,7 @@ const HTML_TAG = /<[a-z][\s\S]*>/i
 
 const ALLOWED_TAGS = [
   'p', 'h2', 'h3', 'strong', 'em', 'u', 's', 'a',
-  'ul', 'ol', 'li', 'blockquote', 'code', 'pre', 'br', 'span'
+  'ul', 'ol', 'li', 'blockquote', 'code', 'pre', 'br', 'span', 'mark'
 ]
 const ALLOWED_ATTR = ['href', 'target', 'rel', 'class', 'style']
 

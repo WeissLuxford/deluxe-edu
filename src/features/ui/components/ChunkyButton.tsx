@@ -9,8 +9,10 @@ type CommonProps = {
   color?: ChunkyButtonColor
   size?: ChunkyButtonSize
   icon?: ReactNode
+  trailingIcon?: ReactNode
   fullWidth?: boolean
   ariaLabel?: string
+  className?: string
 }
 
 type ButtonProps = CommonProps & {
@@ -34,16 +36,19 @@ export function ChunkyButton({
   color = 'brand',
   size = 'md',
   icon,
+  trailingIcon,
   fullWidth,
   ariaLabel,
+  className: extraClassName,
   href,
   ...rest
 }: ChunkyButtonProps) {
-  const className = `chunky-btn chunky-btn--${size}${fullWidth ? ' chunky-btn--full' : ''}`
+  const className = `chunky-btn chunky-btn--${size}${fullWidth ? ' chunky-btn--full' : ''}${extraClassName ? ` ${extraClassName}` : ''}`
   const face = (
     <span className="chunky-btn__face">
       {icon && <span className="chunky-btn__icon">{icon}</span>}
       <span className="chunky-btn__label">{children}</span>
+      {trailingIcon && <span className="chunky-btn__icon">{trailingIcon}</span>}
     </span>
   )
 

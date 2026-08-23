@@ -3,8 +3,26 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { ArrowLeft, ArrowRight, CheckCircle, Check, Video, FileText, ListChecks, MessagesSquare } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle,
+  Check,
+  Video,
+  FileText,
+  ListChecks,
+  MessagesSquare,
+  Dog,
+  Cat,
+  Rabbit,
+  Bird,
+  Fish,
+  Turtle,
+  Squirrel
+} from 'lucide-react'
 import { localized } from '@/lib/localized'
+import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
 import { VideoStep } from './lesson-steps/VideoStep'
 import { ConspectStep } from './lesson-steps/ConspectStep'
 import { TestStep } from './lesson-steps/TestStep'
@@ -48,6 +66,16 @@ type Props = {
   enrollmentPlan: string
   locale: string
 }
+
+const LESSON_ANIMALS = [
+  { icon: Dog, color: '#ff5c7c' },
+  { icon: Cat, color: '#3b82f6' },
+  { icon: Rabbit, color: '#8b5cf6' },
+  { icon: Bird, color: '#22c55e' },
+  { icon: Fish, color: '#f59e0b' },
+  { icon: Turtle, color: '#22c55e' },
+  { icon: Squirrel, color: '#f59e0b' }
+]
 
 const STEP_META = {
   video: { icon: Video, key: 'video' },
@@ -157,9 +185,16 @@ export function LessonPlayer({
   return (
     <div className="lesson-player">
       <header className="lesson-player__head">
-        <div className="lesson-player__meta">
-          <span className="lesson-player__module">{moduleTitle}</span>
-          <h1 className="lesson-player__title">{title}</h1>
+        <div className="lesson-player__heading">
+          <BoilingIcon
+            icon={LESSON_ANIMALS[lessonIndex % LESSON_ANIMALS.length].icon}
+            color={LESSON_ANIMALS[lessonIndex % LESSON_ANIMALS.length].color}
+            size={36}
+          />
+          <div className="lesson-player__meta">
+            <span className="lesson-player__module">{moduleTitle}</span>
+            <h1 className="lesson-player__title">{title}</h1>
+          </div>
         </div>
         <span className="lesson-player__number">{tLearn('lessonNumber', { n: lessonIndex })}</span>
       </header>
@@ -233,35 +268,34 @@ export function LessonPlayer({
       {finishError && <div className="alert alert-error">{finishError}</div>}
 
       <div className="lesson-player__nav">
-        <button
-          type="button"
-          onClick={() => setCurrentStepIndex(prev => Math.max(0, prev - 1))}
+        <ChunkyButton
+          color="neutral"
+          icon={<ArrowLeft size={16} />}
           disabled={currentStepIndex === 0}
-          className="btn btn-secondary"
+          onClick={() => setCurrentStepIndex(prev => Math.max(0, prev - 1))}
         >
-          <ArrowLeft size={16} />
           {tButtons('back')}
-        </button>
+        </ChunkyButton>
 
         {readyToFinishDirectly ? (
-          <button
-            type="button"
+          <ChunkyButton
+            color="success"
+            className="lesson-player__forward"
+            icon={<CheckCircle size={16} />}
             onClick={goToNextLesson}
-            className="btn btn-primary lesson-player__forward"
           >
-            <CheckCircle size={16} />
             {nextLessonSlug ? t('nextLesson') : t('completeCourse')}
-          </button>
+          </ChunkyButton>
         ) : (
-          <button
-            type="button"
-            onClick={handleNext}
+          <ChunkyButton
+            color="brand"
+            className="lesson-player__forward"
+            trailingIcon={<ArrowRight size={16} />}
             disabled={!canGoNext || finishing}
-            className="btn btn-primary lesson-player__forward"
+            onClick={handleNext}
           >
             {finishing ? tButtons('saving') : isLastStep ? t('finish') : tButtons('next')}
-            <ArrowRight size={16} />
-          </button>
+          </ChunkyButton>
         )}
       </div>
     </div>

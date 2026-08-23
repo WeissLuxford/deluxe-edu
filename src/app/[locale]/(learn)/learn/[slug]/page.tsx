@@ -9,6 +9,8 @@ import { LessonCard } from '@/features/learn/components/LessonCard'
 import { ExamCard } from '@/features/learn/components/ExamCard'
 import { DailyLimitBanner } from '@/features/learn/components/DailyLimitBanner'
 import { getFreeDailyLessonCount, FREE_DAILY_LESSON_LIMIT } from '@/features/courses/dailyLimit'
+import { ModuleIcon } from '@/features/learn/components/ModuleIcon'
+import { Tooltip } from '@/features/ui/components/Tooltip'
 
 export default async function LearnCoursePage({
   params
@@ -42,18 +44,26 @@ export default async function LearnCoursePage({
 
       {tree.total === 0 && <p className="catalog-empty">{t('emptyCourse')}</p>}
 
-      {tree.modules.map(module => (
+      {tree.modules.map((module, moduleIndex) => (
         <section key={module.id} className="learn-module-block">
           <header className="learn-module-block__head">
-            <div>
-              <span className="learn-module-block__label">
-                {t('moduleLabel', { n: module.index })}
-              </span>
-              <h2 className="learn-module-block__title">{module.title}</h2>
+            <div className="learn-module-block__heading">
+              <ModuleIcon index={moduleIndex} />
+
+              <div>
+                <span className="learn-module-block__label">
+                  {t('moduleLabel', { n: module.index })}
+                </span>
+                <h2 className="learn-module-block__title">{module.title}</h2>
+              </div>
             </div>
 
             <span className={`learn-module-block__count${module.locked ? ' is-locked' : ''}`}>
-              {module.locked && <Lock size={13} />}
+              {module.locked && (
+                <Tooltip tip={t('lockedModule')} pos="left">
+                  <Lock size={13} />
+                </Tooltip>
+              )}
               {t('lessonsOf', { done: module.done, total: module.total })}
             </span>
           </header>

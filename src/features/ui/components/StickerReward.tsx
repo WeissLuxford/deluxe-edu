@@ -23,7 +23,9 @@ export function StickerReward({ trigger, emojis = DEFAULT_EMOJIS }: StickerRewar
   useEffect(() => {
     if (trigger <= 0 || !slapperRef.current) return
     const glyph = emojis[Math.floor(Math.random() * emojis.length)]
-    slapperRef.current.slap(emojiToImage(glyph), { x: 0.5, y: 0.5, size: [96, 140] })
+    // Corner placement reads as a badge stamped on the card rather than
+    // fighting the centered title/score text for the same space.
+    slapperRef.current.slap(emojiToImage(glyph), { x: 0.85, y: 0.18, size: [70, 100] })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger])
 

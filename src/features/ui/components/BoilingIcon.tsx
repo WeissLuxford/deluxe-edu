@@ -34,6 +34,13 @@ export function BoilingIcon({ icon: Icon, color = 'currentColor', size = 48, int
     const rc = rough.canvas(canvas)
     const scale = size / 24
 
+    // rough.js hands `color` straight to the canvas 2D context, which (unlike
+    // SVG) can't resolve custom properties passed as a raw string — only the
+    // `currentColor` keyword itself is spec-resolved there. Routing the value
+    // through the canvas element's own computed style resolves both cases.
+    canvas.style.color = color
+    const resolvedColor = getComputedStyle(canvas).color || color
+
     let rafId = 0
     let lastDraw = 0
 
@@ -45,7 +52,7 @@ export function BoilingIcon({ icon: Icon, color = 'currentColor', size = 48, int
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.save()
       ctx.scale(scale, scale)
-      const opts = { stroke: color, roughness: 0.7, strokeWidth: 1.5 / scale }
+      const opts = { stroke: resolvedColor, roughness: 0.7, strokeWidth: 1.5 / scale }
       for (const shape of shapes) {
         const num = (attr: string) => Number(shape.getAttribute(attr) ?? 0)
         switch (shape.tagName) {

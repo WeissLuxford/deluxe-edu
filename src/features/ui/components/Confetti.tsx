@@ -14,7 +14,7 @@ type Particle = {
   decay: number
 }
 
-const DEFAULT_COLORS = ['#dda92f', '#22c55e', '#3b82f6', '#8b5cf6', '#f59e0b']
+const DEFAULT_COLORS = ['#ff5c7c', '#22c55e', '#3b82f6', '#8b5cf6', '#f59e0b']
 
 type ConfettiProps = {
   trigger: number

@@ -15,5 +15,5 @@ export default async function LearnLayout({
   const { locale } = await params
   await requireVerifiedPhone(locale, `/${locale}/learn`)
 
-  return <div className="learn-shell">{children}</div>
+  return <div className="learn-shell learn-shell--notebook">{children}</div>
 }

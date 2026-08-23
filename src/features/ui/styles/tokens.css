@@ -1,11 +1,11 @@
 :root {
-  --brand-100: #f7e7bf;
-  --brand-200: #f0d492;
-  --brand-300: #e8c065;
-  --brand-400: #dda92f;
-  --brand-500: #c8901a;
-  --brand-600: #a87413;
-  --brand-700: #855a10;
+  --brand-100: #ffe3e8;
+  --brand-200: #ffb8c4;
+  --brand-300: #ff8aa0;
+  --brand-400: #ff5c7c;
+  --brand-500: #f0304f;
+  --brand-600: #c81f3f;
+  --brand-700: #9e1533;
 
   --bg: #070a14;
   --surface-1: #0d1222;
@@ -17,10 +17,10 @@
 
   --brand: var(--brand-400);
   --brand-hover: var(--brand-300);
-  --brand-fg: #17130a;
+  --brand-fg: #fff5f7;
   --brand-text: var(--brand-300);
-  --brand-soft: rgba(221, 169, 47, 0.14);
-  --brand-border: rgba(221, 169, 47, 0.35);
+  --brand-soft: rgba(255, 92, 124, 0.16);
+  --brand-border: rgba(255, 92, 124, 0.4);
 
   --success: #4ade80;
   --success-soft: rgba(74, 222, 128, 0.14);
@@ -41,7 +41,7 @@
 
   --header-bg: rgba(7, 10, 20, 0.82);
 
-  --glow-warm: rgba(221, 169, 47, 0.22);
+  --glow-warm: rgba(255, 92, 124, 0.24);
   --glow-cool: rgba(139, 92, 246, 0.18);
 
   --veil: rgba(148, 172, 235, 0.05);
@@ -49,8 +49,8 @@
   --hairline: rgba(196, 214, 255, 0.1);
 
   --gradient-gold:
-    radial-gradient(120% 120% at 10% 0%, rgba(221, 169, 47, 0.2), transparent 60%),
-    radial-gradient(100% 100% at 90% 40%, rgba(232, 192, 101, 0.14), transparent 60%);
+    radial-gradient(120% 120% at 10% 0%, rgba(255, 92, 124, 0.2), transparent 60%),
+    radial-gradient(100% 100% at 90% 40%, rgba(255, 138, 160, 0.14), transparent 60%);
 
   --gradient-playful:
     radial-gradient(55% 50% at 12% 12%, var(--glow-warm), transparent 70%),
@@ -60,7 +60,7 @@
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
   --shadow: 0 4px 14px rgba(2, 5, 15, 0.45);
   --shadow-lg: 0 18px 44px rgba(2, 5, 15, 0.55);
-  --shadow-gold: 0 6px 26px rgba(221, 169, 47, 0.24);
+  --shadow-gold: 0 6px 26px rgba(255, 92, 124, 0.28);
   --shadow-lift: 0 20px 50px rgba(2, 5, 15, 0.6), 0 0 0 1px var(--hairline);
 
   --radius-sm: 0.375rem;
@@ -89,7 +89,7 @@
   --gold-dark: var(--brand-600);
   --gold-text: var(--brand-text);
   --gold-light-text: var(--brand-300);
-  --text-hero: #f7edd8;
+  --text-hero: #ffd9e0;
 }
 
 html.light {
@@ -103,10 +103,10 @@ html.light {
 
   --brand: var(--brand-500);
   --brand-hover: var(--brand-600);
-  --brand-fg: #1a1405;
+  --brand-fg: #fff5f7;
   --brand-text: var(--brand-700);
-  --brand-soft: rgba(200, 144, 26, 0.13);
-  --brand-border: rgba(200, 144, 26, 0.4);
+  --brand-soft: rgba(240, 48, 79, 0.13);
+  --brand-border: rgba(240, 48, 79, 0.4);
 
   --success: #15803d;
   --success-soft: rgba(21, 128, 61, 0.12);
@@ -121,7 +121,7 @@ html.light {
 
   --header-bg: rgba(243, 246, 253, 0.86);
 
-  --glow-warm: rgba(221, 169, 47, 0.18);
+  --glow-warm: rgba(240, 48, 79, 0.2);
   --glow-cool: rgba(139, 92, 246, 0.14);
 
   --veil: rgba(24, 46, 96, 0.035);
@@ -129,8 +129,8 @@ html.light {
   --hairline: rgba(24, 46, 96, 0.08);
 
   --gradient-gold:
-    radial-gradient(120% 120% at 10% 0%, rgba(200, 144, 26, 0.16), transparent 60%),
-    radial-gradient(100% 100% at 90% 40%, rgba(221, 169, 47, 0.12), transparent 60%);
+    radial-gradient(120% 120% at 10% 0%, rgba(240, 48, 79, 0.16), transparent 60%),
+    radial-gradient(100% 100% at 90% 40%, rgba(255, 92, 124, 0.12), transparent 60%);
 
   --gradient-playful:
     radial-gradient(55% 50% at 12% 12%, var(--glow-warm), transparent 70%),
@@ -140,9 +140,9 @@ html.light {
   --shadow-sm: 0 1px 2px 0 rgba(24, 46, 96, 0.06);
   --shadow: 0 4px 14px rgba(24, 46, 96, 0.08);
   --shadow-lg: 0 18px 44px rgba(24, 46, 96, 0.12);
-  --shadow-gold: 0 6px 26px rgba(200, 144, 26, 0.22);
+  --shadow-gold: 0 6px 26px rgba(240, 48, 79, 0.24);
   --shadow-lift: 0 20px 46px rgba(24, 46, 96, 0.14), 0 0 0 1px var(--hairline);
 
   --gold-light-text: var(--brand-500);
-  --text-hero: #6e4b0d;
+  --text-hero: #7a1030;
 }

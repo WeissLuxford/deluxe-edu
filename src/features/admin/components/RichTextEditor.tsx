@@ -8,6 +8,7 @@ import Color from '@tiptap/extension-color'
 import Underline from '@tiptap/extension-underline'
 import Placeholder from '@tiptap/extension-placeholder'
 import TiptapLink from '@tiptap/extension-link'
+import Highlight from '@tiptap/extension-highlight'
 import {
   Bold,
   Italic,
@@ -24,7 +25,8 @@ import {
   Redo,
   Code2,
   Palette,
-  Code
+  Code,
+  Highlighter
 } from 'lucide-react'
 
 // Расширяем стандартную ссылку своим атрибутом class: без этого TipTap
@@ -91,6 +93,9 @@ function Toolbar({ editor }: { editor: Editor }) {
       </button>
       <button type="button" className={cls(editor.isActive('strike'))} onClick={() => editor.chain().focus().toggleStrike().run()} title="Зачёркнутый">
         <Strikethrough size={15} />
+      </button>
+      <button type="button" className={cls(editor.isActive('highlight'))} onClick={() => editor.chain().focus().toggleHighlight().run()} title="Маркер (выделение)">
+        <Highlighter size={15} />
       </button>
 
       <span className="rte-toolbar__sep" />
@@ -191,6 +196,7 @@ export function RichTextEditor({
       TextStyle,
       Color,
       Underline,
+      Highlight,
       Link.configure({ openOnClick: false, autolink: false }),
       Placeholder.configure({ placeholder: placeholder ?? '' })
     ],
