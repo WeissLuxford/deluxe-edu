@@ -71,17 +71,6 @@
     "height": 700,
     "decorative": true
   },
-  "home.format.preview": {
-    "src": "/media/lesson-preview.svg",
-    "srcLight": "/media/lesson-preview-light.svg",
-    "alt": {
-      "ru": "Как выглядит урок внутри платформы",
-      "uz": "Platformada dars qanday ko‘rinadi",
-      "en": "What a lesson looks like inside the platform"
-    },
-    "width": 960,
-    "height": 640
-  },
   "home.mentor.portrait": {
     "src": "/media/mentor-portrait.svg",
     "alt": {

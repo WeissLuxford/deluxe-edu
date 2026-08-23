@@ -2,7 +2,6 @@ import type { CSSProperties } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { Video, FileText, ListChecks, Radio } from 'lucide-react'
 import { Section } from '@/features/ui/components/Section'
-import { Media } from '@/features/ui/components/Media'
 
 export async function LearningFormat({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'blocks' })
@@ -35,6 +34,7 @@ export async function LearningFormat({ locale }: { locale: string }) {
                 <div className="fmt-card__orbit" aria-hidden="true">
                   <span className="fmt-card__ring" />
                   <span className="fmt-card__ring" />
+                  <span className="fmt-card__ring" />
                   <span className="fmt-card__badge">
                     <Icon size={18} />
                   </span>
@@ -49,13 +49,6 @@ export async function LearningFormat({ locale }: { locale: string }) {
           )
         })}
       </div>
-
-      <Media
-        slot="home.format.preview"
-        locale={locale}
-        sizes="(max-width: 900px) 100vw, 480px"
-        className="fmt-preview"
-      />
     </Section>
   )
 }
