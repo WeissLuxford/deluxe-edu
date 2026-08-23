@@ -126,8 +126,8 @@ header[data-align] > p {
   display: grid;
   place-items: center;
   border-radius: var(--radius);
-  background: var(--brand-soft);
-  color: var(--brand-text);
+  background: var(--step-accent-soft, var(--brand-soft));
+  color: var(--step-accent, var(--brand-text));
 }
 
 .format-step__title {

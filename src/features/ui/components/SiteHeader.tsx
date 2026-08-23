@@ -92,8 +92,10 @@ export default function SiteHeader() {
 
             <div className="header-actions">
               <button type="button" className="header-cta" onClick={() => setLeadModalOpen(true)}>
-                <Send size={16} />
-                {t('nav.headerCta')}
+                <span className="cta-text">{t('nav.headerCta')}</span>
+                <span className="cta-dot">
+                  <Send size={14} />
+                </span>
               </button>
               <LangSwitcher />
               <UserMenu />
@@ -147,8 +149,10 @@ export default function SiteHeader() {
             setLeadModalOpen(true)
           }}
         >
-          <Send size={16} />
-          {t('nav.headerCta')}
+          <span className="cta-text">{t('nav.headerCta')}</span>
+          <span className="cta-dot">
+            <Send size={14} />
+          </span>
         </button>
 
         <div className="mobile-menu-actions">
