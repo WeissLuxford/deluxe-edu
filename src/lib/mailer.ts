@@ -53,13 +53,13 @@ async function send(to: string, subject: string, html: string): Promise<SendResu
 
 const COPY = {
   ru: {
-    verifySubject: 'Подтверждение почты — Highgate',
-    verifyBody: 'Подтвердите адрес электронной почты',
+    verifySubject: 'Подтверди почту — Highgate',
+    verifyBody: 'Остался один шаг: подтверди почту, и можно входить.',
     verifyAction: 'Подтвердить почту',
-    resetSubject: 'Восстановление пароля — Highgate',
-    resetBody: 'Вы запросили восстановление пароля',
+    resetSubject: 'Новый пароль — Highgate',
+    resetBody: 'Чтобы задать новый пароль, нажми на кнопку. Ссылка работает 30 минут.',
     resetAction: 'Задать новый пароль',
-    ignore: 'Если вы этого не запрашивали, просто проигнорируйте письмо'
+    ignore: 'Если это был не ты, просто не обращай внимания на письмо — ничего не изменится.'
   },
   uz: {
     verifySubject: 'Emailni tasdiqlash — Highgate',
@@ -90,7 +90,7 @@ function pick(locale: string): (typeof COPY)[Locale] {
 function layout(body: string, action: string, url: string, ignore: string): string {
   return `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6">
 <p>${body}</p>
-<p><a href="${url}" style="display:inline-block;padding:12px 20px;border-radius:8px;background:#c7a45a;color:#0b0d12;text-decoration:none;font-weight:600">${action}</a></p>
+<p><a href="${url}" style="display:inline-block;padding:12px 20px;border-radius:8px;background:#6A4CFF;color:#ffffff;text-decoration:none;font-weight:600">${action}</a></p>
 ${ignore ? `<p style="color:#6b7280;font-size:14px">${ignore}</p>` : ''}
 </div>`
 }

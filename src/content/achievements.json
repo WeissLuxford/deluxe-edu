@@ -4,7 +4,7 @@
     "src": "",
     "title": { "ru": "Первый шаг", "uz": "Birinchi qadam", "en": "First step" },
     "description": {
-      "ru": "Посмотрели свой первый урок",
+      "ru": "Первый урок просмотрен",
       "uz": "Birinchi darsni ko‘rdingiz",
       "en": "Watched your first lesson"
     }
@@ -13,7 +13,7 @@
     "src": "",
     "title": { "ru": "Дело сделано", "uz": "Ish bajarildi", "en": "Done and done" },
     "description": {
-      "ru": "Прошли свой первый урок",
+      "ru": "Первый урок пройден",
       "uz": "Birinchi darsni yakunladingiz",
       "en": "Completed your first lesson"
     }
@@ -31,7 +31,7 @@
     "src": "",
     "title": { "ru": "Курс покорён", "uz": "Kurs zabt etildi", "en": "Course conquered" },
     "description": {
-      "ru": "Завершили свой первый курс",
+      "ru": "Первый курс завершён",
       "uz": "Birinchi kursingizni yakunladingiz",
       "en": "Finished your first course"
     }
@@ -40,14 +40,14 @@
     "src": "",
     "title": { "ru": "Всё пройдено", "uz": "Hammasi tugallandi", "en": "Clean sweep" },
     "description": {
-      "ru": "Завершены все текущие курсы",
+      "ru": "Все твои курсы завершены",
       "uz": "Barcha joriy kurslar yakunlandi",
       "en": "Completed every enrolled course"
     }
   },
   "first_payment": {
     "src": "",
-    "title": { "ru": "Старт положен", "uz": "Boshlandi", "en": "Getting started" },
+    "title": { "ru": "Начало положено", "uz": "Boshlandi", "en": "Getting started" },
     "description": {
       "ru": "Первая оплата курса",
       "uz": "Birinchi kurs to‘lovi",
@@ -58,7 +58,7 @@
     "src": "",
     "title": { "ru": "3 дня подряд", "uz": "3 kun ketma-ket", "en": "3-day streak" },
     "description": {
-      "ru": "Занимались 3 дня подряд",
+      "ru": "3 дня занятий подряд",
       "uz": "3 kun ketma-ket shug‘ullandingiz",
       "en": "Studied 3 days in a row"
     }
@@ -67,7 +67,7 @@
     "src": "",
     "title": { "ru": "Неделя подряд", "uz": "Bir hafta ketma-ket", "en": "7-day streak" },
     "description": {
-      "ru": "Занимались 7 дней подряд",
+      "ru": "7 дней занятий подряд",
       "uz": "7 kun ketma-ket shug‘ullandingiz",
       "en": "Studied 7 days in a row"
     }
@@ -76,7 +76,7 @@
     "src": "",
     "title": { "ru": "Месяц подряд", "uz": "Bir oy ketma-ket", "en": "30-day streak" },
     "description": {
-      "ru": "Занимались 30 дней подряд",
+      "ru": "30 дней занятий подряд",
       "uz": "30 kun ketma-ket shug‘ullandingiz",
       "en": "Studied 30 days in a row"
     }
