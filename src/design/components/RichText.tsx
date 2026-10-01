@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from 'react'
 import DOMPurify from 'isomorphic-dompurify'
+import st from './RichText.module.css'
 
 // Старый контент набирался как обычный текст с самодельной разметкой —
 // парсер ниже это по-прежнему понимает, чтобы не ломать то, что уже
@@ -27,7 +28,7 @@ function renderHtml(html: string, className?: string) {
   const safe = DOMPurify.sanitize(html, { ALLOWED_TAGS, ALLOWED_ATTR })
   return (
     <div
-      className={className ? `rich ${className}` : 'rich'}
+      className={className ? `${st.prose} ${className}` : st.prose}
       dangerouslySetInnerHTML={{ __html: safe }}
     />
   )
@@ -145,26 +146,26 @@ export function RichText({ text, className }: { text: string; className?: string
   if (!blocks.length) return null
 
   return (
-    <div className={className ? `rich ${className}` : 'rich'}>
+    <div className={className ? `${st.prose} ${className}` : st.prose}>
       {blocks.map((block, index) => {
         if (block.kind === 'heading') {
-          return <h3 key={index} className="rich__heading">{inline(block.text)}</h3>
+          return <h3 key={index} className={st.heading}>{inline(block.text)}</h3>
         }
 
         if (block.kind === 'callout') {
-          return <p key={index} className="rich__callout">{inline(block.text)}</p>
+          return <p key={index} className={st.callout}>{inline(block.text)}</p>
         }
 
         if (block.kind === 'list') {
           const items = block.items.map((item, i) => <li key={i}>{inline(item)}</li>)
           return block.ordered ? (
-            <ol key={index} className="rich__list">{items}</ol>
+            <ol key={index} className={st.list}>{items}</ol>
           ) : (
-            <ul key={index} className="rich__list">{items}</ul>
+            <ul key={index} className={st.list}>{items}</ul>
           )
         }
 
-        return <p key={index} className="rich__paragraph">{inline(block.text)}</p>
+        return <p key={index} className={st.paragraph}>{inline(block.text)}</p>
       })}
     </div>
   )

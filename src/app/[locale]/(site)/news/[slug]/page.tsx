@@ -5,7 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { Calendar } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { localized } from '@/lib/localized'
-import { RichText } from '@/features/ui/components/RichText'
+import { RichText } from '@/design/components/RichText'
 
 export const dynamic = 'force-dynamic'
 

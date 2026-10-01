@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, FileText, ListChecks, Video, X } from 'lucide-react'
 import LeadForm from '@/features/leads/LeadForm'
-import { RichText } from '@/features/ui/components/RichText'
+import { RichText } from '@/design/components/RichText'
 import { VideoStep } from './lesson-steps/VideoStep'
 import { FreeTest, type FreeTestResult } from './FreeTest'
 

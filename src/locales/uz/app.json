@@ -411,5 +411,59 @@
       "forgot-password": "Parolni tiklash",
       "resend-verification": "Xatni qayta yuborish"
     }
+  },
+  "quiz": {
+    "pick": "Mosini tanla",
+    "pickMany": "Bir nechtasini tanlash mumkin",
+    "type": "Javobni yoz",
+    "typePlaceholder": "Javobing",
+    "next": "Keyingisi",
+    "check": "Tekshirish",
+    "skip": "Bilmayman — o‘tkazib yuborish",
+    "close": "Yopish",
+    "counter": "{current} / {total}",
+    "sending": "Hisoblanmoqda…",
+    "sendError": "Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘r.",
+    "right": "To‘g‘ri",
+    "yours": "Sening javobing",
+    "empty": "Savollar hali tayyorlanmoqda — birozdan keyin qara."
+  },
+  "levelTestPage": {
+    "meta": {
+      "title": "Ingliz tili daraja testi — Highgate",
+      "description": "15 daqiqa — va A1 dan C1 gacha ingliz tili darajangni hamda qaysi kursdan boshlashni bilib olasan. Bepul."
+    },
+    "introTitle": "<it>Darajangni</it> aniqlaymiz",
+    "introLead": "{questions} ta savol, taxminan 15 daqiqa. Ro‘yxatdan o‘tmasdan. Javobni bilmasang — bemalol o‘tkazib yubor, natija aniqroq chiqadi.",
+    "start": "Testni boshlash",
+    "section": "Bo‘lim: {title}",
+    "readFirst": "Avval matnni o‘qi",
+    "resultKicker": "Tayyor! Darajang, shekilli —",
+    "score": "{total} tadan {correct} tasi to‘g‘ri",
+    "seeCourse": "Kursni ko‘rish",
+    "allCourses": "Shu darajadagi kurslar",
+    "again": "Qayta topshirish",
+    "results": {
+      "A1": {
+        "title": "Noldan boshlaymiz — <it>bu ajoyib</it>",
+        "text": "Eng birinchi so‘z va iboralardan boshlaymiz. Hammasini o‘z tilingda tushuntiramiz."
+      },
+      "A2": {
+        "title": "Asos bor — <it>gapirish vaqti</it>",
+        "text": "Asoslarni bilasan. Endi uyalishni bas qilib, gapirishni boshlash vaqti."
+      },
+      "B1": {
+        "title": "Ko‘p narsani tushunasan, lekin <it>zamonlarda adashasan</it>",
+        "text": "Buni tuzatish oson — hammasini joy-joyiga qo‘yamiz."
+      },
+      "B2": {
+        "title": "Ishonchli! <it>Erkinlik qo‘shamiz</it>",
+        "text": "Sen gapirasan. Endi — ko‘proq amaliyot va kamroq pauza."
+      },
+      "C1": {
+        "title": "Voy. <it>Bu yuqori daraja</it>",
+        "text": "Nozikliklar qoldi: IELTS, akademik yozuv, uslub."
+      }
+    }
   }
 }

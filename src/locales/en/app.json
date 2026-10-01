@@ -411,5 +411,59 @@
       "forgot-password": "Password recovery",
       "resend-verification": "Resend email"
     }
+  },
+  "quiz": {
+    "pick": "Pick what fits",
+    "pickMany": "You can pick several",
+    "type": "Type the answer",
+    "typePlaceholder": "Your answer",
+    "next": "Next",
+    "check": "Check",
+    "skip": "Don't know — skip",
+    "close": "Close",
+    "counter": "{current} / {total}",
+    "sending": "Counting…",
+    "sendError": "Couldn't send. Check your internet and try again.",
+    "right": "Correct",
+    "yours": "Your answer",
+    "empty": "The questions are still being prepared — check back a bit later."
+  },
+  "levelTestPage": {
+    "meta": {
+      "title": "English level test — Highgate",
+      "description": "15 minutes and you'll know your English level from A1 to C1 and which course to start with. Free."
+    },
+    "introTitle": "Let's find your <it>level</it>",
+    "introLead": "{questions, plural, one {# question} other {# questions}}, about 15 minutes. No sign-up. If you don't know an answer, skip it — the result will be more accurate.",
+    "start": "Start the test",
+    "section": "Section: {title}",
+    "readFirst": "Read the text first",
+    "resultKicker": "Done! Looks like your level is",
+    "score": "{correct} of {total} correct",
+    "seeCourse": "See the course",
+    "allCourses": "Courses at this level",
+    "again": "Take it again",
+    "results": {
+      "A1": {
+        "title": "Starting from zero — <it>and that's great</it>",
+        "text": "We'll begin with the very first words and phrases. Everything explained in your language."
+      },
+      "A2": {
+        "title": "You've got the basics — <it>time to speak</it>",
+        "text": "You know the fundamentals. Now's the time to stop being shy and start talking."
+      },
+      "B1": {
+        "title": "You understand a lot, but <it>mix up tenses</it>",
+        "text": "That's easy to fix — we'll sort it all out."
+      },
+      "B2": {
+        "title": "Confident! <it>Let's add freedom</it>",
+        "text": "You speak. Now — more practice and fewer pauses."
+      },
+      "C1": {
+        "title": "Wow. <it>That's a high level</it>",
+        "text": "What's left is nuance: IELTS, academic writing, style."
+      }
+    }
   }
 }

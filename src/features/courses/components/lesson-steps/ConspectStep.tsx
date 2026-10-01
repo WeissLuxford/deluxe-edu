@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import { FileText } from 'lucide-react'
-import { RichText } from '@/features/ui/components/RichText'
+import { RichText } from '@/design/components/RichText'
 import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
 
 type Props = {

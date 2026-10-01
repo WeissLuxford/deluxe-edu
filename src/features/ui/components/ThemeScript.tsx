@@ -3,7 +3,7 @@ const script = `
   try {
     var root = document.documentElement;
     root.classList.add('js');
-    var appAreas = ['admin','teacher','learn','dashboard','account','streams','free-lesson','free-mock-test','level-test','trial-lesson'];
+    var appAreas = ['admin','teacher','learn','dashboard','account','streams'];
     var firstSegment = location.pathname.split('/')[2] || '';
     if (appAreas.indexOf(firstSegment) === -1) {
       document.documentElement.classList.add('light');
