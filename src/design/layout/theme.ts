@@ -26,7 +26,8 @@ export function paintTheme(theme: Theme) {
   root.classList.toggle('light', theme === 'light')
 }
 
-type ViewTransitionDocument = Document & { startViewTransition?: (update: () => void) => unknown }
+type ViewTransition = { ready: Promise<void>; finished: Promise<void> }
+type ViewTransitionDocument = Document & { startViewTransition?: (update: () => void) => ViewTransition }
 
 /** Saves the choice and repaints with a soft cross-fade where the browser can do one. */
 export function chooseTheme(theme: Theme) {
@@ -35,8 +36,14 @@ export function chooseTheme(theme: Theme) {
   } catch {}
   const doc = document as ViewTransitionDocument
   const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (doc.startViewTransition && !calm) doc.startViewTransition(() => paintTheme(theme))
-  else paintTheme(theme)
+  if (doc.startViewTransition && !calm) {
+    // A hidden tab skips the animation and rejects these; the theme still applies.
+    const vt = doc.startViewTransition(() => paintTheme(theme))
+    vt.ready.catch(() => {})
+    vt.finished.catch(() => {})
+  } else {
+    paintTheme(theme)
+  }
   window.dispatchEvent(new Event(EVENT))
 }
 

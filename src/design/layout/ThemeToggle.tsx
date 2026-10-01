@@ -19,22 +19,34 @@ const MOON = (
 
 // Sun / moon switch. Where the knob sits comes from html[data-theme] in CSS,
 // so it is right from the first paint and every toggle on the page agrees.
-export function ThemeToggle({ variant = 'pill' }: { variant?: 'pill' | 'round' }) {
+// `className` lets a host (the staff rail) size the round one like its own items.
+export function ThemeToggle({ variant = 'pill', className, tip }: { variant?: 'pill' | 'round'; className?: string; tip?: boolean }) {
   const t = useTranslations('appNav')
   const dark = useTheme() === 'dark'
+  const label = dark ? t('themeLight') : t('themeDark')
   return (
     <button
       type="button"
       role="switch"
       aria-checked={dark}
       aria-label={t('themeDark')}
-      title={dark ? t('themeLight') : t('themeDark')}
-      className={variant === 'pill' ? s.pill : s.round}
+      title={tip ? undefined : label}
+      data-tip={tip ? label : undefined}
+      className={[variant === 'pill' ? s.pill : s.round, className].filter(Boolean).join(' ')}
       onClick={() => chooseTheme(dark ? 'light' : 'dark')}
     >
-      {variant === 'pill' && <span className={s.knob} />}
-      <span className={[s.icon, s.sun].join(' ')}>{SUN}</span>
-      <span className={[s.icon, s.moon].join(' ')}>{MOON}</span>
+      {variant === 'pill' ? (
+        <>
+          <span className={s.knob} />
+          <span className={[s.icon, s.sun].join(' ')}>{SUN}</span>
+          <span className={[s.icon, s.moon].join(' ')}>{MOON}</span>
+        </>
+      ) : (
+        <span className={s.track}>
+          <span className={[s.icon, s.sun].join(' ')}>{SUN}</span>
+          <span className={[s.icon, s.moon].join(' ')}>{MOON}</span>
+        </span>
+      )}
     </button>
   )
 }

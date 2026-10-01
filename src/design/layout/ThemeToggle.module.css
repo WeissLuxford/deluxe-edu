@@ -84,8 +84,15 @@ html[data-theme='dark'] .pill .moon {
   background: rgba(255, 255, 255, 0.08);
   color: #e9e6f0;
   cursor: pointer;
-  overflow: hidden;
   view-transition-name: theme-toggle;
+}
+
+/* Clips the sliding icons; the button itself stays unclipped for tooltips. */
+.track {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
 }
 
 .round .icon {
