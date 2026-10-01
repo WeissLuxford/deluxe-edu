@@ -7,6 +7,7 @@ import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 import { ContentWarnings } from '@/features/admin/components/ContentWarnings'
 import { localized } from '@/lib/localized'
+import { levelCode, levelVars } from '@/design/levels'
 import { requireAdmin } from '@/features/admin/requireAdmin'
 
 function ru(value: unknown) {
@@ -57,8 +58,26 @@ export default async function AdminCourses({ params }: { params: Promise<{ local
               {courses.map(c => (
                 <tr key={c.id}>
                   <td>
-                    <span style={{ color: 'var(--fg)' }}>{ru(c.title)}</span>
-                    <div className="text-xs" style={{ color: 'var(--muted)' }}>{c.level}</div>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <span
+                        title={c.level}
+                        style={{
+                          minWidth: 40,
+                          height: 32,
+                          borderRadius: 10,
+                          background: levelVars(levelCode(c.level)).bg,
+                          color: levelVars(levelCode(c.level)).fg,
+                          fontSize: 13,
+                          fontWeight: 900,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        {c.level === 'Other' ? '—' : levelCode(c.level)}
+                      </span>
+                      <Link href={`/${locale}/admin/courses/${c.id}`}>{ru(c.title)}</Link>
+                    </span>
                   </td>
                   <td style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--muted)' }}>
                     {c.slug}

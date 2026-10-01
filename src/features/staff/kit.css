@@ -902,6 +902,27 @@
   padding: 14px 16px;
 }
 
+/* ---------- list tables: titles in ink, addresses quiet ---------- */
+
+.staff .admin-table td > a:not([class]),
+.staff .admin-table td > span > a:not([class]) {
+  color: var(--c-ink);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.staff .admin-table td > a:not([class]):hover,
+.staff .admin-table td > span > a:not([class]):hover {
+  color: var(--c-violet-ink);
+}
+
+.staff .admin-table td[style*='monospace'] {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-size: 12px !important;
+  color: var(--c-faint) !important;
+}
+
 /* ---------- moved from the old globals.css / admin-structure.css ---------- */
 
 .order-controls {
