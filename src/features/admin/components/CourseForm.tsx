@@ -93,7 +93,7 @@ export function CourseForm({
           <LevelPicker name="level" defaultValue={course.level} levels={LEVELS} />
         </Section>
 
-        <Section title="Цены" hint="В сумах, за весь курс. Тарифы отличаются тем, сколько преподавателя в них.">
+        <Section title="Цены" hint="В сумах, за месяц подписки. Тарифы отличаются тем, сколько преподавателя в них.">
           <Row min={160}>
             <Field label="Basic" htmlFor="priceBasic">
               <Input id="priceBasic" type="number" name="priceBasic" defaultValue={course.priceBasic} min={0} step={1000} required />

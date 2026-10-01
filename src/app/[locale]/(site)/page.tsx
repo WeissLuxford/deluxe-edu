@@ -47,7 +47,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   const price = (plan: PlanKey) => {
     const amount = prices[plan]
-    return amount === null ? '—' : tu('from', { price: tu('sum', { amount: formatSum(amount) }) })
+    return amount === null ? '—' : tu('from', { price: tu('perMonth', { price: tu('sum', { amount: formatSum(amount) }) }) })
   }
 
   const jsonLd = [

@@ -73,7 +73,8 @@ export default async function CoursePage({ params }: Props) {
   const loose = lessonsOf(null)
   if (loose.length) modules.push({ id: 'loose', title: tu('lessonsCount', { count: loose.length }), meta: '', lessons: loose })
 
-  const sum = (amount: number) => tu('sum', { amount: formatSum(amount) })
+  // Plans are a monthly subscription.
+  const sum = (amount: number) => tu('perMonth', { price: tu('sum', { amount: formatSum(amount) }) })
   const prices = { BASIC: sum(course.priceBasic), PRO: sum(course.pricePro), DELUXE: sum(course.priceDeluxe) }
 
   const rich = { it: (c: ReactNode) => <span className="it">{c}</span> }

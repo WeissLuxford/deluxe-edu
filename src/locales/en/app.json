@@ -51,11 +51,11 @@
       "DELUXE": {
         "name": "Deluxe",
         "tagline": "With a teacher",
-        "desc": "Everything in Pro, plus one-on-one lessons with a teacher and group classes with people on your plan.",
+        "desc": "Everything in Pro, plus live Zoom classes with a teacher twice a week — one-on-one and in a group with other Deluxe students.",
         "points": [
           "Everything in Pro",
-          "One-on-one lessons with a teacher",
-          "Group classes with people on your plan"
+          "Zoom classes twice a week",
+          "One-on-one and in a Deluxe group"
         ]
       }
     },
@@ -75,7 +75,8 @@
       "work": "For work",
       "writing": "Writing",
       "general": "General English"
-    }
+    },
+    "perMonth": "{price} a month"
   },
   "siteNav": {
     "courses": "Courses",
@@ -111,7 +112,7 @@
     "submit": "Call me back",
     "sending": "Sending…",
     "doneTitle": "Done!",
-    "doneText": "We'll call you back during working hours. Meanwhile, you can take the level test — it's 15 minutes.",
+    "doneText": "We'll call back during working hours, 10:00 to 18:00. Meanwhile, you can take the level test — it takes 15 minutes.",
     "doneAction": "Take the test",
     "error": "Couldn't send it. Check the number and try again.",
     "tooMany": "Too many attempts. Try again a bit later."
@@ -177,7 +178,7 @@
       "title": "What it <it>costs</it>",
       "popular": "Recommended",
       "choose": "Choose {plan}",
-      "note": "The price is for the whole course. Lessons stay with you forever; reviews and teacher sessions last for the plan's term."
+      "note": "You pay monthly. Lessons stay with you forever; reviews and teacher sessions run while your subscription is paid."
     },
     "faq": {
       "title": "Common <it>questions</it>",
@@ -196,15 +197,15 @@
         },
         {
           "q": "How do I pay for a course?",
-          "a": "Choose a course and a plan and leave your number — we'll call and help you pay. Your lessons open right after that."
+          "a": "Choose a course and a plan and leave your number — we'll call and help you pay. You pay once a month, and your lessons open right after payment."
         },
         {
           "q": "How do live classes work?",
-          "a": "Online, on Zoom: one-on-one lessons with a teacher and group classes — that's the Deluxe plan. The schedule will be in your account, in the Live section."
+          "a": "Online, on Zoom, twice a week: one-on-one lessons with a teacher and group classes — that's the Deluxe plan. The schedule will be in your account, in the Live section."
         },
         {
-          "q": "What happens when my plan ends?",
-          "a": "The lessons and materials stay with you. Only reviews and teacher sessions end."
+          "q": "What happens if I don't renew?",
+          "a": "The course lessons and materials stay with you. Only reviews and teacher sessions pause until your next payment."
         }
       ]
     },
@@ -235,7 +236,7 @@
     "min": "min",
     "howToLearn": "How do you want to learn?",
     "startWith": "Choose {plan}",
-    "note": "The price is for the whole course. Lessons stay with you forever. Not sure? <a>Try the trial lesson first</a>.",
+    "note": "You pay monthly. Lessons stay with you forever. Not sure? <a>Try the trial lesson first</a>.",
     "inside": "What's <it>inside</it>",
     "moduleMeta": "{count, plural, one {# lesson} other {# lessons}}",
     "withExam": " · checkpoint test",
@@ -305,13 +306,13 @@
     "fastest": "Fastest",
     "call": "Call us",
     "hours": "We reply",
-    "hoursValue": "Every day, during working hours",
+    "hoursValue": "10:00 to 18:00",
     "v1Title": "We explain again",
     "v1Text": "Didn't get a topic? That's normal. Ask, and it'll be explained a different way.",
     "v2Title": "No miracles promised",
     "v2Text": "You can't learn a language in a month. But in a month you can move forward noticeably — and feel it.",
     "v3Title": "Lessons are yours forever",
-    "v3Text": "Bought a course — the materials stay with you even after your plan ends."
+    "v3Text": "The course materials stay with you even if you don't renew."
   },
   "authFlow": {
     "phone": "Phone",
@@ -584,7 +585,7 @@
     "nextExam": "Next checkpoint",
     "nextExamText": "Opens after you finish every lesson in the module. A teacher reviews it — usually in 1–2 days.",
     "upsellTitle": "Want live classes?",
-    "upsellText": "Deluxe adds one-on-one lessons with a teacher and a group.",
+    "upsellText": "Deluxe adds Zoom classes with a teacher twice a week.",
     "upsellLink": "See Deluxe",
     "courseDone": "Course complete! <it>Well done</it>",
     "courseDoneText": "All lessons and checkpoints are behind you. The materials stay yours — come back to review.",
@@ -714,7 +715,7 @@
     "achievements": "Achievements",
     "plan": "Your plan",
     "planLine": "{plan} · {course}",
-    "planNote": "Lessons are yours forever. Reviews and classes last for the plan's term.",
+    "planNote": "Lessons are yours forever. Reviews and classes run while your subscription is paid.",
     "noPlan": "No course yet — pick one in the catalog.",
     "settings": {
       "payments": "Payments",

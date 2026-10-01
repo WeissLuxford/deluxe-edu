@@ -34,7 +34,7 @@ export default async function CoursesPage({ params, searchParams }: Props) {
 
   const level = (LEVEL_CODES as string[]).includes(query.level ?? '') ? (query.level as LevelCode) : null
   const topic = (TOPICS as string[]).includes(query.topic ?? '') ? (query.topic as Topic) : null
-  const fromLabels = Object.fromEntries(courses.map(c => [c.id, tu('from', { price: tu('sum', { amount: formatSum(c.fromPrice) }) })]))
+  const fromLabels = Object.fromEntries(courses.map(c => [c.id, tu('from', { price: tu('perMonth', { price: tu('sum', { amount: formatSum(c.fromPrice) }) }) })]))
 
   const rich = {
     it: (c: ReactNode) => <span className="it">{c}</span>,
