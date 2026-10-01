@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState, useEffect, useState } from 'react'
+import { Field, FormError, Input, Textarea, formStyles as fs } from '@/features/staff/form/Form'
 import { useRouter } from 'next/navigation'
 import { Check, Copy, Eye } from 'lucide-react'
 import { ActionButton } from './ActionButton'
@@ -97,21 +98,19 @@ export function ReportCard({
         </div>
       </div>
 
-      <form action={formAction} style={{ display: 'grid', gap: '0.5rem' }}>
-        <label className="label" htmlFor={`comment-${report.id}`}>
-          Комментарий родителю
-        </label>
-        <textarea
-          id={`comment-${report.id}`}
-          name="comment"
-          className="input"
-          rows={3}
-          maxLength={4000}
-          defaultValue={report.comment ?? ''}
-          placeholder="Одна-две живые фразы про этот месяц. Именно они отличают отчёт от выписки из базы."
-        />
+      <form action={formAction} className={fs.stack}>
+        <Field label="Комментарий родителю" htmlFor={`comment-${report.id}`}>
+          <Textarea
+            id={`comment-${report.id}`}
+            name="comment"
+            rows={3}
+            maxLength={4000}
+            defaultValue={report.comment ?? ''}
+            placeholder="Одна-две живые фразы про этот месяц. Именно они отличают отчёт от выписки из базы."
+          />
+        </Field>
         <div className="flex flex-wrap items-center gap-2">
-          <button type="submit" className="btn btn-ghost" disabled={pending}>
+          <button type="submit" className="btn btn-secondary" disabled={pending}>
             {pending ? 'Сохраняю…' : 'Сохранить комментарий'}
           </button>
 
@@ -133,12 +132,12 @@ export function ReportCard({
             </ActionButton>
           )}
         </div>
-        {state && !state.ok && <div className="alert alert-error">{state.error}</div>}
+        {state && !state.ok && <FormError>{state.error}</FormError>}
       </form>
 
       {published && (
         <div className="flex flex-wrap items-center gap-2" style={{ fontSize: '0.8125rem' }}>
-          <input className="input" readOnly value={report.url} style={{ flex: '1 1 18rem' }} />
+          <Input readOnly value={report.url} style={{ flex: '1 1 18rem', width: 'auto' }} onFocus={e => e.target.select()} />
           <button type="button" className="btn btn-ghost" onClick={copyLink}>
             {copied ? <Check size={16} /> : <Copy size={16} />}
             {copied ? 'Скопировано' : 'Копировать'}

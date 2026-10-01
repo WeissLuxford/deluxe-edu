@@ -764,6 +764,62 @@
   color: var(--c-violet-ink);
 }
 
+/* ---------- parent report cards (documents.css names, v2 look) ---------- */
+
+.staff .doc-stats {
+  gap: 10px;
+}
+
+.staff .doc-stat {
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--c-paper);
+}
+
+.staff .doc-stat__value {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--c-ink);
+}
+
+.staff .doc-stat__label {
+  font-size: 13px;
+  color: var(--c-muted);
+}
+
+.staff .doc-badge {
+  height: 28px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+}
+
+.staff .doc-badge--ok {
+  background: var(--lv-a1-bg);
+  color: var(--lv-a1-fg);
+}
+
+.staff .doc-badge--wait {
+  background: var(--c-butter);
+  color: var(--c-butter-ink);
+}
+
+.staff .doc-badge--stop {
+  background: var(--c-err-soft);
+  color: var(--c-err-ink);
+}
+
+.staff .doc-serial {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.02em;
+}
+
 /* ---------- moved from the old globals.css / admin-structure.css ---------- */
 
 .order-controls {
