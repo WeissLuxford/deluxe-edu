@@ -172,7 +172,8 @@ export async function getCourseTree(
   let cursor = 0
   let assignedCurrent = false
   let blocked = false
-  let currentLessonTitle: string | null = null
+  // A locked lesson names the one right before it: that's what opens it.
+  let previousTitle: string | null = null
   let currentExam: CourseTree['currentExam'] = null
 
   const modules: TreeModule[] = moduleSource.map((m, moduleIndex) => {
@@ -193,15 +194,18 @@ export async function getCourseTree(
       } else if (!assignedCurrent) {
         status = 'current'
         assignedCurrent = true
-        currentLessonTitle = localized(lesson.title, locale)
       } else {
         status = 'locked'
       }
 
+      const title = localized(lesson.title, locale)
+      const blockedByTitle = status === 'locked' && !gatedWhenLocking ? previousTitle : null
+      previousTitle = title
+
       return {
         id: lesson.id,
         slug: lesson.slug,
-        title: localized(lesson.title, locale),
+        title,
         coverUrl: resolvePublicAsset(lesson.coverUrl),
         durationMin: lesson.durationMin ?? null,
         index: position + 1,
@@ -210,7 +214,7 @@ export async function getCourseTree(
         passed,
         lastStep: asStep(row?.lastStep),
         steps: stepsOf(lesson),
-        blockedByTitle: status === 'locked' && !gatedWhenLocking ? currentLessonTitle : null,
+        blockedByTitle,
         blockedByExam: status === 'locked' && gatedWhenLocking ? (currentExam?.moduleTitle ?? null) : null
       }
     })
