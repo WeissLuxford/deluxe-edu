@@ -472,6 +472,161 @@
   color: var(--c-faint);
 }
 
+/* ---------- lists, student card, progress (v2 over the moved rules) ---------- */
+
+.staff .admin-feed {
+  gap: 2px;
+}
+
+.staff .admin-feed li {
+  gap: 14px;
+  padding: 11px 12px;
+  margin: 0 -12px;
+  border-top: 0;
+  border-radius: 16px;
+  font-size: 15px;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.staff .admin-feed li:hover {
+  background: var(--c-panel-alt);
+}
+
+.staff .admin-feed li > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.staff .admin-feed strong {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+.staff .admin-feed li > a:hover strong {
+  color: var(--c-violet-ink);
+}
+
+.staff .admin-feed span span,
+.staff .admin-feed a span {
+  font-size: 13px;
+  color: var(--c-muted);
+}
+
+.staff .admin-feed time {
+  font-size: 13px;
+  color: var(--c-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.staff .admin-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.staff .progress {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--c-white);
+  overflow: hidden;
+}
+
+.staff .progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--c-violet);
+  transition: width var(--dur-slow) var(--ease-out);
+}
+
+.staff .student-head {
+  gap: 20px;
+}
+
+.staff .student-head__meta {
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.staff .student-head__meta > span {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 16px;
+  background: var(--c-paper);
+  color: var(--c-ink);
+  gap: 6px;
+}
+
+.staff .student-ok {
+  color: var(--c-ok);
+}
+
+.staff .student-courses {
+  gap: 10px;
+}
+
+.staff .student-course {
+  padding: 18px;
+  border: 0;
+  border-radius: 22px;
+  background: var(--c-paper);
+}
+
+.staff .student-course__head {
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.staff .student-course__head a {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--c-ink);
+  text-decoration: none;
+}
+
+.staff .student-course__head a:hover {
+  color: var(--c-violet-ink);
+}
+
+.staff .student-course__head > :last-child {
+  margin-left: auto;
+}
+
+.staff .student-course__progress {
+  gap: 12px;
+  font-size: 14px;
+}
+
+.staff .student-modules {
+  gap: 4px;
+}
+
+.staff .student-modules li {
+  font-size: 14px;
+}
+
+.staff .student-modules .done {
+  color: var(--c-ok-ink);
+  font-weight: 700;
+}
+
+/* Big pastel initial in place of the old photo avatar. */
+.staff .staff-initial {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 24px;
+  color: var(--c-ink);
+  font-size: 30px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-4deg);
+}
+
 /* ---------- moved from the old globals.css / admin-structure.css ---------- */
 
 .order-controls {

@@ -1,19 +1,23 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { CheckCircle2, Phone, Mail, CalendarDays, History, Smartphone } from 'lucide-react'
+import { CheckCircle2, Phone, Mail, CalendarDays, History } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { revokeEnrollment } from '@/features/admin/actions'
 import { revokeDevice } from '@/features/admin/deviceActions'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { CertificatePanel } from '@/features/certificates/CertificatePanel'
 import { issueCertificate, revokeCertificate } from '@/features/certificates/actions'
-import { Avatar } from '@/features/ui/components/Avatar'
+import { formatPhone } from '@/features/auth/identity'
 import { localized } from '@/lib/localized'
 import { summarizeUserAgent } from '@/lib/userAgent'
 import { DEVICE_LIMIT } from '@/lib/devices'
 import { requireAdmin } from '@/features/admin/requireAdmin'
 
 const ru = (value: unknown) => localized(value, 'ru') || '—'
+
+const INITIAL_TONES = ['var(--lv-a1-bg)', 'var(--lv-a2-bg)', 'var(--lv-b1-bg)', 'var(--lv-b2-bg)', 'var(--lv-c1-bg)', 'var(--c-butter)']
+
+const ROLE_LABELS: Record<string, string> = { STUDENT: 'ученик', MENTOR: 'преподаватель', ADMIN: 'админ' }
 
 const dateFmt = new Intl.DateTimeFormat('ru-RU', {
   day: '2-digit',
@@ -106,14 +110,16 @@ export default async function StudentCard({
       </div>
 
       <div className="admin-card student-head">
-        <Avatar name={user.name} seed={user.phone} image={user.image} size={64} />
+        <span className="staff-initial" style={{ background: INITIAL_TONES[(user.phone ?? user.id).length % INITIAL_TONES.length] }} aria-hidden="true">
+          {(user.firstName || user.name || '?').charAt(0).toUpperCase()}
+        </span>
         <div className="student-head__info">
           <h1 className="admin-page-head__title">
             {[user.firstName, user.lastName].filter(Boolean).join(' ') || user.name || 'без имени'}
           </h1>
           <div className="student-head__meta">
             <span>
-              <Phone size={14} /> +{user.phone}
+              <Phone size={14} /> {user.phone ? formatPhone(user.phone) : 'нет телефона'}
               {user.phoneVerified && <CheckCircle2 size={13} className="student-ok" />}
             </span>
             {user.email && (
@@ -125,7 +131,7 @@ export default async function StudentCard({
             <span>
               <CalendarDays size={14} /> с {dateFmt.format(user.createdAt)}
             </span>
-            <span className="badge">{user.role}</span>
+            <span>{ROLE_LABELS[user.role] ?? user.role}</span>
           </div>
         </div>
       </div>
@@ -217,10 +223,7 @@ export default async function StudentCard({
             {user.devices.map(d => (
               <li key={d.id}>
                 <span>
-                  <strong>
-                    <Smartphone size={13} style={{ verticalAlign: '-2px', marginRight: '0.25rem' }} />
-                    {summarizeUserAgent(d.userAgent)}
-                  </strong>
+                  <strong>{summarizeUserAgent(d.userAgent)}</strong>
                   <span>
                     {d.ip ?? 'IP неизвестен'} · первый вход {dateTimeFmt.format(d.firstSeenAt)} · активность{' '}
                     {dateTimeFmt.format(d.lastSeenAt)}

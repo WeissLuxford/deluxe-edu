@@ -4,6 +4,7 @@ import { useActionState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { ActionButton } from '@/features/teacher/components/ActionButton'
 import type { ActionResult } from './actions'
+import { Field, FormError, FormOk, Input, Select, Submit, formStyles as fs } from '@/features/staff/form/Form'
 
 export type AdminCertificate = {
   id: string
@@ -67,36 +68,24 @@ export function CertificatePanel({
           У ученика нет записей на курсы — сертификат выдавать не за что.
         </p>
       ) : (
-        <form action={formAction} style={{ display: 'grid', gap: '0.5rem', marginTop: '1rem' }}>
-          <label className="label" htmlFor="cert-course">Курс</label>
-          <select id="cert-course" name="courseId" className="select">
-            {courses.map(c => (
-              <option key={c.id} value={c.id}>{c.title}</option>
-            ))}
-          </select>
-
-          <label className="label" htmlFor="cert-level">Уровень в документе</label>
-          <input
-            id="cert-level"
-            name="level"
-            className="input"
-            defaultValue={courses[0]?.level ?? ''}
-            maxLength={60}
-            placeholder="Например, B1 Intermediate"
-          />
-
-          <label className="label" htmlFor="cert-note">Примечание (не показывается публично)</label>
-          <input id="cert-note" name="note" className="input" maxLength={300} />
-
-          <button type="submit" className="btn btn-primary" disabled={pending} style={{ justifySelf: 'start' }}>
-            {pending ? 'Выдаю…' : 'Выдать сертификат'}
-          </button>
-
-          {state && (
-            <div className={state.ok ? 'alert' : 'alert alert-error'}>
-              {state.ok ? `Выдан номер ${state.error}` : state.error}
-            </div>
-          )}
+        <form action={formAction} className={fs.stack} style={{ marginTop: 16 }}>
+          <Field label="Курс" htmlFor="cert-course">
+            <Select id="cert-course" name="courseId">
+              {courses.map(c => (
+                <option key={c.id} value={c.id}>
+                  {c.title}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <Field label="Уровень в документе" htmlFor="cert-level">
+            <Input id="cert-level" name="level" defaultValue={courses[0]?.level ?? ''} maxLength={60} placeholder="Например, B1 Intermediate" />
+          </Field>
+          <Field label="Примечание" htmlFor="cert-note" hint="Видно только в админке">
+            <Input id="cert-note" name="note" maxLength={300} />
+          </Field>
+          <Submit pending={pending} label="Выдать сертификат" pendingLabel="Выдаю…" />
+          {state && (state.ok ? <FormOk>Выдан номер {state.error}</FormOk> : <FormError>{state.error}</FormError>)}
         </form>
       )}
     </section>
