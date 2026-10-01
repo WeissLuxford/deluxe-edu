@@ -5,6 +5,7 @@ import { updateCourse } from '@/features/admin/actions'
 import { CourseForm } from '@/features/admin/components/CourseForm'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 function ru(value: unknown) {
   return localized(value, 'ru') || '—'
@@ -16,6 +17,7 @@ export default async function CourseSettings({
   params: Promise<{ locale: string; id: string }>
 }) {
   const { locale, id } = await params
+  await requireAdmin(locale)
 
   const course = await prisma.course.findUnique({
     where: { id },

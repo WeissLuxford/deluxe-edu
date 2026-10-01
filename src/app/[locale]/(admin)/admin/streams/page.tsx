@@ -6,6 +6,7 @@ import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { statusOf } from '@/features/streams/utils/streamHelpers'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 function ru(value: unknown) {
   return localized(value, 'ru') || '—'
@@ -19,6 +20,7 @@ const STATUS_LABEL: Record<string, string> = {
 
 export default async function AdminStreams({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  await requireAdmin(locale)
   const streams = await prisma.stream.findMany({ orderBy: { startsAt: 'desc' } })
 
   return (

@@ -5,6 +5,7 @@ import { createLesson } from '@/features/admin/actions'
 import { LessonForm } from '@/features/admin/components/LessonForm'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 export default async function NewLesson({
   params,
@@ -14,6 +15,7 @@ export default async function NewLesson({
   searchParams: Promise<{ module?: string }>
 }) {
   const { locale, id } = await params
+  await requireAdmin(locale)
   const { module: moduleParam } = await searchParams
 
   const course = await prisma.course.findUnique({

@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db'
 import { updateStream } from '@/features/admin/streamActions'
 import { StreamForm } from '@/features/admin/components/StreamForm'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 function toLocalInput(date: Date) {
   const pad = (n: number) => String(n).padStart(2, '0')
@@ -16,6 +17,7 @@ export default async function EditStream({
   params: Promise<{ locale: string; id: string }>
 }) {
   const { locale, id } = await params
+  await requireAdmin(locale)
   const stream = await prisma.stream.findUnique({ where: { id } })
   if (!stream) notFound()
 

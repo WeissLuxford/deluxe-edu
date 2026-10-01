@@ -766,10 +766,10 @@ async function seedOutlines() {
     const courseId = await courseIdBySlug(outline.slug)
     if (!courseId) continue
 
-    const module = await upsertModule(courseId, { ...outline.module, order: 1 })
+    const mod = await upsertModule(courseId, { ...outline.module, order: 1 })
 
     for (const [index, lesson] of outline.lessons.entries()) {
-      await upsertLesson(courseId, module.id, {
+      await upsertLesson(courseId, mod.id, {
         slug: lesson.slug,
         title: lesson.title,
         content: lesson.content,

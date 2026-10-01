@@ -20,13 +20,19 @@ export async function GET(req: Request) {
   if (record.usedAt) return back('ru', 'verify=used')
   if (record.expiresAt < new Date()) return back('ru', 'verify=expired')
 
+  // Spend the token first and only if nobody else has: two clicks on the same
+  // link must not both pass the usedAt check above.
+  const spent = await prisma.verificationToken.updateMany({
+    where: { id: record.id, usedAt: null },
+    data: { usedAt: new Date() }
+  })
+  if (spent.count === 0) return back('ru', 'verify=used')
+
   const user = await prisma.user.update({
     where: { id: record.userId },
     data: { emailVerified: new Date() },
     select: { locale: true }
   })
-
-  await prisma.verificationToken.update({ where: { token }, data: { usedAt: new Date() } })
 
   return back(user.locale || 'ru', 'verified=1')
 }

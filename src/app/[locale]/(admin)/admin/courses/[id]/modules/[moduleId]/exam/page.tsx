@@ -5,6 +5,7 @@ import { saveExam, deleteExam } from '@/features/admin/examActions'
 import { ExamBuilder } from '@/features/admin/components/ExamBuilder'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 type Localized = { ru: string; uz: string; en: string }
 
@@ -38,8 +39,9 @@ export default async function ModuleExamPage({
   params: Promise<{ locale: string; id: string; moduleId: string }>
 }) {
   const { locale, id, moduleId } = await params
+  await requireAdmin(locale)
 
-  const module = await prisma.module.findUnique({
+  const mod = await prisma.module.findUnique({
     where: { id: moduleId },
     include: {
       course: { select: { id: true, title: true } },
@@ -48,7 +50,7 @@ export default async function ModuleExamPage({
     }
   })
 
-  if (!module || module.courseId !== id) notFound()
+  if (!mod || mod.courseId !== id) notFound()
 
   return (
     <div className="space-y-6">
@@ -57,11 +59,11 @@ export default async function ModuleExamPage({
       </Link>
 
       <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
-        Контрольная: {localized(module.title, 'ru') || 'без названия'}
+        Контрольная: {localized(mod.title, 'ru') || 'без названия'}
       </h2>
 
       <div className="hint">
-        Контрольная показывается студенту после того, как он пройдёт все {module.lessons.length}{' '}
+        Контрольная показывается студенту после того, как он пройдёт все {mod.lessons.length}{' '}
         урок(ов) этого модуля. Результат автоматически считается сервером и в любом случае уходит
         учителю студента (если он состоит в группе) на разбор.
       </div>
@@ -70,10 +72,10 @@ export default async function ModuleExamPage({
         <ExamBuilder
           save={saveExam.bind(null, moduleId)}
           remove={deleteExam.bind(null, moduleId)}
-          initialTitle={toLocalized(module.exam?.title)}
-          initialPassingScore={module.exam?.passingScore ?? 70}
-          initialQuestions={toBuilderQuestions(module.exam?.prompt, module.exam?.answerKey)}
-          hasExisting={Boolean(module.exam)}
+          initialTitle={toLocalized(mod.exam?.title)}
+          initialPassingScore={mod.exam?.passingScore ?? 70}
+          initialQuestions={toBuilderQuestions(mod.exam?.prompt, mod.exam?.answerKey)}
+          hasExisting={Boolean(mod.exam)}
         />
       </LocaleTabsProvider>
     </div>

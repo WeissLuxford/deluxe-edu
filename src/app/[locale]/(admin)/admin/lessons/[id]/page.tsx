@@ -8,6 +8,7 @@ import { LessonForm } from '@/features/admin/components/LessonForm'
 import { AssignmentBuilder } from '@/features/admin/components/AssignmentBuilder'
 import { DialogueBuilder } from '@/features/admin/components/DialogueBuilder'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 type Localized = { ru: string; uz: string; en: string }
 
@@ -58,6 +59,7 @@ export default async function EditLesson({
   params: Promise<{ locale: string; id: string }>
 }) {
   const { locale, id } = await params
+  await requireAdmin(locale)
 
   const lesson = await prisma.lesson.findUnique({
     where: { id },

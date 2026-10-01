@@ -2,6 +2,7 @@ import { createNews } from '@/features/admin/newsActions'
 import { NewsForm } from '@/features/admin/components/NewsForm'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 function localInput(date: Date) {
   const pad = (n: number) => String(n).padStart(2, '0')
@@ -10,6 +11,7 @@ function localInput(date: Date) {
 
 export default async function NewNews({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  await requireAdmin(locale)
 
   return (
     <div className="space-y-4">

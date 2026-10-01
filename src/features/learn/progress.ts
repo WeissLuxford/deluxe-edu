@@ -287,9 +287,9 @@ export async function getCourseTree(
 }
 
 export function findLesson(tree: CourseTree, lessonSlug: string) {
-  for (const module of tree.modules) {
-    const lesson = module.lessons.find(l => l.slug === lessonSlug)
-    if (lesson) return { module, lesson }
+  for (const mod of tree.modules) {
+    const lesson = mod.lessons.find(l => l.slug === lessonSlug)
+    if (lesson) return { module: mod, lesson }
   }
   return null
 }
@@ -335,14 +335,14 @@ export function resumeFromTree(tree: CourseTree): ResumeTarget | null {
 
   if (!target) return null
 
-  const { module, lesson } = target
+  const { module: mod, lesson } = target
   const step = lesson.lastStep && lesson.steps.includes(lesson.lastStep) ? lesson.lastStep : null
 
   return {
     kind: 'lesson',
     courseSlug: tree.slug,
     courseTitle: tree.title,
-    moduleTitle: module.title,
+    moduleTitle: mod.title,
     lessonSlug: lesson.slug,
     lessonTitle: lesson.title,
     step,
@@ -355,9 +355,9 @@ export function resumeFromTree(tree: CourseTree): ResumeTarget | null {
 
 function lastCompleted(tree: CourseTree) {
   for (let i = tree.modules.length - 1; i >= 0; i--) {
-    const module = tree.modules[i]
-    const lesson = module.lessons[module.lessons.length - 1]
-    if (lesson) return { module, lesson }
+    const mod = tree.modules[i]
+    const lesson = mod.lessons[mod.lessons.length - 1]
+    if (lesson) return { module: mod, lesson }
   }
   return null
 }

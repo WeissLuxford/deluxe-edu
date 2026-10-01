@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db'
 import { ContactRow } from '@/features/admin/components/ContactRow'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 export default async function AdminContacts({
   params,
@@ -12,6 +13,7 @@ export default async function AdminContacts({
   searchParams: Promise<{ campaign?: string }>
 }) {
   const { locale } = await params
+  await requireAdmin(locale)
   const { campaign = '' } = await searchParams
   const active = campaign.trim()
 

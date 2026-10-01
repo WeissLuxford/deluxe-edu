@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import { GraduationCap, CreditCard, ClipboardCheck } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 const ru = (value: unknown) => localized(value, 'ru') || '—'
 
@@ -21,6 +22,7 @@ export default async function StudentHistory({
   params: Promise<{ locale: string; id: string }>
 }) {
   const { locale, id } = await params
+  await requireAdmin(locale)
 
   const user = await prisma.user.findUnique({
     where: { id },

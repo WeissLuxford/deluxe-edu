@@ -21,14 +21,14 @@ export default async function ModuleExamPage({
   const tree = await getCourseTree(session.user.id, slug, locale)
   if (!tree) redirect(`/${locale}/courses/${slug}`)
 
-  const module = tree.modules.find(m => m.id === moduleId)
-  if (!module || !module.exam) notFound()
+  const mod = tree.modules.find(m => m.id === moduleId)
+  if (!mod || !mod.exam) notFound()
 
-  const moduleDone = module.total > 0 && module.done === module.total
+  const moduleDone = mod.total > 0 && mod.done === mod.total
   if (!moduleDone) redirect(`/${locale}/learn/${slug}`)
 
   const exam = await prisma.exam.findUnique({
-    where: { id: module.exam.id },
+    where: { id: mod.exam.id },
     select: { id: true, title: true, prompt: true, passingScore: true }
   })
   if (!exam) notFound()
@@ -45,19 +45,19 @@ export default async function ModuleExamPage({
     <div className="lesson-player">
       <header className="lesson-player__head">
         <div className="lesson-player__meta">
-          <span className="lesson-player__module">{module.title}</span>
-          <h1 className="lesson-player__title">{module.exam.title}</h1>
+          <span className="lesson-player__module">{mod.title}</span>
+          <h1 className="lesson-player__title">{mod.exam.title}</h1>
         </div>
       </header>
 
       <div className="lesson-player__body">
         <ExamPlayer
           examId={exam.id}
-          title={module.exam.title}
+          title={mod.exam.title}
           prompt={exam.prompt}
           passingScore={exam.passingScore}
           courseSlug={tree.slug}
-          moduleTitle={module.title}
+          moduleTitle={mod.title}
           hardGated={hardGated}
           priorAttempt={priorAttempt}
           locale={locale}

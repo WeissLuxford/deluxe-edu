@@ -6,6 +6,7 @@ import { ActionButton } from '@/features/admin/components/ActionButton'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 function ru(value: unknown) {
   return localized(value, 'ru') || '—'
@@ -13,6 +14,7 @@ function ru(value: unknown) {
 
 export default async function AdminCourses({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  await requireAdmin(locale)
 
   const courses = await prisma.course.findMany({
     orderBy: { createdAt: 'desc' },

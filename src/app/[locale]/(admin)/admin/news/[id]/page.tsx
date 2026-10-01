@@ -5,6 +5,7 @@ import { NewsForm } from '@/features/admin/components/NewsForm'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 function localInput(date: Date) {
   const pad = (n: number) => String(n).padStart(2, '0')
@@ -17,6 +18,7 @@ export default async function EditNews({
   params: Promise<{ locale: string; id: string }>
 }) {
   const { locale, id } = await params
+  await requireAdmin(locale)
   const item = await prisma.news.findUnique({ where: { id } })
   if (!item) notFound()
 

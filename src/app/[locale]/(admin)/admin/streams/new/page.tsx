@@ -2,9 +2,11 @@ import Link from 'next/link'
 import { createStream } from '@/features/admin/streamActions'
 import { StreamForm } from '@/features/admin/components/StreamForm'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 export default async function NewStream({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  await requireAdmin(locale)
 
   return (
     <div className="space-y-4">

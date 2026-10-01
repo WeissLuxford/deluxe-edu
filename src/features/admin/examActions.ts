@@ -107,8 +107,8 @@ export async function saveExam(moduleId: string, _prev: unknown, form: FormData)
   const problem = validate(parsed.data.questions)
   if (problem) return { ok: false, error: problem }
 
-  const module = await prisma.module.findUnique({ where: { id: moduleId }, select: { id: true, courseId: true } })
-  if (!module) return { ok: false, error: 'Модуль не найден' }
+  const mod = await prisma.module.findUnique({ where: { id: moduleId }, select: { id: true, courseId: true } })
+  if (!mod) return { ok: false, error: 'Модуль не найден' }
 
   const { prompt, answerKey } = split(parsed.data.questions)
   const existing = await prisma.exam.findUnique({ where: { moduleId }, select: { id: true } })
@@ -130,16 +130,16 @@ export async function saveExam(moduleId: string, _prev: unknown, form: FormData)
     })
   }
 
-  revalidatePath(`/ru/admin/courses/${module.courseId}`)
-  revalidatePath(`/ru/admin/courses/${module.courseId}/modules/${moduleId}/exam`)
+  revalidatePath(`/ru/admin/courses/${mod.courseId}`)
+  revalidatePath(`/ru/admin/courses/${mod.courseId}/modules/${moduleId}/exam`)
   return { ok: true }
 }
 
 export async function deleteExam(moduleId: string): Promise<ActionResult> {
   await requireAdmin()
 
-  const module = await prisma.module.findUnique({ where: { id: moduleId }, select: { courseId: true } })
-  if (!module) return { ok: false, error: 'Модуль не найден' }
+  const mod = await prisma.module.findUnique({ where: { id: moduleId }, select: { courseId: true } })
+  if (!mod) return { ok: false, error: 'Модуль не найден' }
 
   const existing = await prisma.exam.findUnique({ where: { moduleId }, select: { id: true } })
   if (!existing) return { ok: true }
@@ -149,7 +149,7 @@ export async function deleteExam(moduleId: string): Promise<ActionResult> {
     prisma.exam.delete({ where: { id: existing.id } })
   ])
 
-  revalidatePath(`/ru/admin/courses/${module.courseId}`)
-  revalidatePath(`/ru/admin/courses/${module.courseId}/modules/${moduleId}/exam`)
+  revalidatePath(`/ru/admin/courses/${mod.courseId}`)
+  revalidatePath(`/ru/admin/courses/${mod.courseId}/modules/${moduleId}/exam`)
   return { ok: true }
 }

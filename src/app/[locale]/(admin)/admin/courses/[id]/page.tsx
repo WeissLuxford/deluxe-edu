@@ -7,6 +7,7 @@ import { CourseStructure } from '@/features/admin/components/CourseStructure'
 import { ModuleForm } from '@/features/admin/components/ModuleForm'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 function ru(value: unknown) {
   return localized(value, 'ru') || '—'
@@ -18,6 +19,7 @@ export default async function EditCourse({
   params: Promise<{ locale: string; id: string }>
 }) {
   const { locale, id } = await params
+  await requireAdmin(locale)
 
   const lessonSelect = {
     id: true,

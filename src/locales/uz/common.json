@@ -262,13 +262,7 @@
   "payments": {
     "successTitle": "To'lov muvaffaqiyatli",
     "successText": "Kursga kirish faollashtirildi",
-    "goToCourse": "Kursga o'tish",
-    "verified": "Email tasdiqlandi. Endi tizimga kirishingiz mumkin.",
-    "expired": "Tasdiqlash havolasi muddati tugagan. Yangi xat yuboring.",
-    "invalid": "Noto'g'ri tasdiqlash havolasi.",
-    "used": "Havola allaqachon ishlatilgan.",
-    "resend": "Yangi xat yuborish",
-    "resent": "Yangi tasdiqlash xati yuborildi. Pochtani tekshiring."
+    "goToCourse": "Kursga o'tish"
   },
   "home": {
     "liveTitle": "Yaqin efirlar",

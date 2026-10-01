@@ -3,6 +3,7 @@ import { AlertTriangle, Inbox, UserPlus, Radio, Plus } from 'lucide-react'
 import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/db'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 const ru = (value: unknown) => localized(value, 'ru') || '—'
 
@@ -15,6 +16,7 @@ const dateFmt = new Intl.DateTimeFormat('ru-RU', {
 
 export default async function AdminHome({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  await requireAdmin(locale)
   const base = `/${locale}/admin`
 
   const [

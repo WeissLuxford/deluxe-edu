@@ -11,6 +11,7 @@ import { Avatar } from '@/features/ui/components/Avatar'
 import { localized } from '@/lib/localized'
 import { summarizeUserAgent } from '@/lib/userAgent'
 import { DEVICE_LIMIT } from '@/lib/devices'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 const ru = (value: unknown) => localized(value, 'ru') || '—'
 
@@ -34,6 +35,7 @@ export default async function StudentCard({
   params: Promise<{ locale: string; id: string }>
 }) {
   const { locale, id } = await params
+  await requireAdmin(locale)
 
   const user = await prisma.user.findUnique({
     where: { id },

@@ -47,5 +47,8 @@ export function safeNext(next: unknown, locale: string, fallback = 'learn'): str
   if (!next.startsWith('/')) return home
   if (next.startsWith('//') || next.startsWith('/\\')) return home
   if (next.includes('://')) return home
+  // Browsers drop tabs/newlines and treat a backslash as a slash when parsing a
+  // URL, so "/<tab>/evil.com" would otherwise become "//evil.com" - off-site.
+  if (/[\u0000-\u001f\u007f\\]/.test(next)) return home
   return next
 }

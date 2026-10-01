@@ -2,9 +2,11 @@ import Link from 'next/link'
 import { createCourse } from '@/features/admin/actions'
 import { CourseForm } from '@/features/admin/components/CourseForm'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 export default async function NewCourse({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  await requireAdmin(locale)
 
   return (
     <div className="space-y-4">

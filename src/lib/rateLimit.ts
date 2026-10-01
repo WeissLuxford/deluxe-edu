@@ -30,7 +30,9 @@ export const RATE_LIMITS = {
   // Public token pages. Generous for a parent re-opening a report, low enough
   // that enumerating tokens is pointless.
   publicReportIp: { action: 'report:ip', limit: 60, windowMs: 60 * 60 * 1000 },
-  certVerifyIp: { action: 'cert:verify:ip', limit: 30, windowMs: 60 * 60 * 1000 }
+  certVerifyIp: { action: 'cert:verify:ip', limit: 30, windowMs: 60 * 60 * 1000 },
+  // Every call writes a Payment row; nobody opens checkout twenty times an hour.
+  paymentCreateUser: { action: 'payment:create:user', limit: 20, windowMs: 60 * 60 * 1000 }
 } satisfies Record<string, RateLimitRule>
 
 const CLEANUP_CHANCE = 0.02

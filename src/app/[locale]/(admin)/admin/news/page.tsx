@@ -6,9 +6,11 @@ import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { ActionButton } from '@/features/admin/components/ActionButton'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 import { localized } from '@/lib/localized'
+import { requireAdmin } from '@/features/admin/requireAdmin'
 
 export default async function AdminNews({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  await requireAdmin(locale)
   const items = await prisma.news.findMany({ orderBy: { publishedAt: 'desc' } })
 
   return (
