@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { LocalizedField } from './LocalizedField'
 import type { ActionResult } from '../actions'
+import { Chips, Field, FormLayout, Input, Row, SaveBox, Section, Toggle } from '@/features/staff/form/Form'
 
 type Localized = { ru?: string; uz?: string; en?: string }
 
@@ -53,98 +54,76 @@ export function StreamForm({
   }, [state, router, redirectTo])
 
   return (
-    <form action={formAction} className="space-y-6">
-      {state && !state.ok && <div className="alert alert-error">{state.error}</div>}
+    <form action={formAction}>
+      <FormLayout
+        aside={
+          <>
+            <Section title="Доступ" hint="Открытый эфир видят и гости — это реклама платформы.">
+              <Chips
+                name="requiredPlan"
+                defaultValue={stream.requiredPlan}
+                options={[
+                  { value: '', label: 'Всем' },
+                  { value: 'BASIC', label: 'Basic+' },
+                  { value: 'PRO', label: 'Pro+' },
+                  { value: 'DELUXE', label: 'Deluxe' }
+                ]}
+              />
+              <div>
+                <Toggle name="published" defaultChecked={stream.published} title="Опубликован" hint="Без этого эфира нет в расписании" />
+              </div>
+            </Section>
+            <SaveBox pending={pending} label={submitLabel} error={state && !state.ok ? state.error : null} />
+          </>
+        }
+      >
+        <Section title="О чём эфир">
+          <LocalizedField name="title" label="Название" value={stream.title} required />
+          <LocalizedField name="description" label="Описание" value={stream.description} textarea rows={3} required />
+        </Section>
 
-      <div className="card" style={{ padding: '1.5rem' }}>
-        <LocalizedField name="title" label="Название" value={stream.title} required />
-      </div>
-
-      <div className="card" style={{ padding: '1.5rem' }}>
-        <LocalizedField name="description" label="Описание" value={stream.description} textarea rows={3} required />
-      </div>
-
-      <div className="card" style={{ padding: '1.5rem' }}>
-        <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)', marginBottom: '1rem' }}>
-          Эфир
-        </h3>
-
-        <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
-          <div>
-            <label className="label">Тип</label>
-            <select
+        <Section title="Где и когда">
+          <Field label="Площадка">
+            <Chips
               name="kind"
-              className="select"
               value={kind}
-              onChange={e => setKind(e.target.value as 'YOUTUBE' | 'ZOOM')}
-            >
-              <option value="YOUTUBE">YouTube — смотрят на сайте</option>
-              <option value="ZOOM">Zoom — занятие по ссылке</option>
-            </select>
-          </div>
+              onChange={v => setKind(v as 'YOUTUBE' | 'ZOOM')}
+              options={[
+                { value: 'YOUTUBE', label: 'YouTube — смотрят на сайте' },
+                { value: 'ZOOM', label: 'Zoom — по ссылке' }
+              ]}
+            />
+          </Field>
 
-          <div>
-            <label className="label">Начало *</label>
-            <input type="datetime-local" name="startsAt" defaultValue={stream.startsAt} className="input" required />
-          </div>
+          <Row min={220}>
+            <Field label="Начало" required htmlFor="startsAt">
+              <Input id="startsAt" type="datetime-local" name="startsAt" defaultValue={stream.startsAt} required />
+            </Field>
+            <Field label="Длительность, мин" htmlFor="durationMin">
+              <Input id="durationMin" type="number" name="durationMin" defaultValue={stream.durationMin} min={5} max={600} required />
+            </Field>
+          </Row>
 
-          <div>
-            <label className="label">Длительность, мин</label>
-            <input type="number" name="durationMin" defaultValue={stream.durationMin} className="input" min={5} max={600} required />
-          </div>
-
-          <div>
-            <label className="label">Минимальный тариф</label>
-            <select name="requiredPlan" defaultValue={stream.requiredPlan} className="select">
-              <option value="">Открыт всем</option>
-              <option value="BASIC">BASIC</option>
-              <option value="PRO">PRO</option>
-              <option value="DELUXE">DELUXE</option>
-            </select>
-            <div className="hint">Открытый эфир видят и гости — это реклама платформы.</div>
-          </div>
-        </div>
-
-        <div style={{ marginTop: '1rem' }}>
           {kind === 'YOUTUBE' ? (
-            <div>
-              <label className="label">Ссылка или id ролика *</label>
-              <input
-                name="youtubeId"
-                defaultValue={stream.youtubeId}
-                className="input"
-                placeholder="https://youtu.be/XXXXXXXXXXX"
-              />
-              <div className="hint">Можно вставить полную ссылку — id извлечётся сам.</div>
-            </div>
+            <Field label="Ссылка или id ролика" required htmlFor="youtubeId" hint="Можно вставить полную ссылку — id извлечётся сам.">
+              <Input id="youtubeId" name="youtubeId" defaultValue={stream.youtubeId} placeholder="https://youtu.be/XXXXXXXXXXX" />
+            </Field>
           ) : (
-            <div>
-              <label className="label">Ссылка входа в Zoom *</label>
-              <input
-                name="zoomJoinUrl"
-                defaultValue={stream.zoomJoinUrl}
-                className="input"
-                placeholder="https://zoom.us/j/..."
-              />
-              <div className="hint">В разметку страницы не попадает — сервер отдаёт её только тем, у кого есть доступ.</div>
-            </div>
+            <Field
+              label="Ссылка входа в Zoom"
+              required
+              htmlFor="zoomJoinUrl"
+              hint="В разметку страницы не попадает — сервер отдаёт её только тем, у кого есть доступ."
+            >
+              <Input id="zoomJoinUrl" name="zoomJoinUrl" defaultValue={stream.zoomJoinUrl} placeholder="https://zoom.us/j/..." />
+            </Field>
           )}
-        </div>
 
-        <div style={{ marginTop: '1rem' }}>
-          <label className="label">Ссылка на запись</label>
-          <input name="recordingUrl" defaultValue={stream.recordingUrl} className="input" placeholder="необязательно" />
-        </div>
-
-        <label className="flex items-center gap-2" style={{ cursor: 'pointer', marginTop: '1.25rem' }}>
-          <input type="checkbox" name="published" defaultChecked={stream.published} />
-          <span style={{ color: 'var(--fg)' }}>Опубликован</span>
-        </label>
-      </div>
-
-      <button type="submit" className="btn btn-primary" disabled={pending}>
-        {pending ? 'Сохраняю…' : submitLabel}
-      </button>
+          <Field label="Запись" htmlFor="recordingUrl" hint="Когда эфир прошёл — ссылка на запись для тех, кто пропустил.">
+            <Input id="recordingUrl" name="recordingUrl" defaultValue={stream.recordingUrl} placeholder="необязательно" />
+          </Field>
+        </Section>
+      </FormLayout>
     </form>
   )
 }

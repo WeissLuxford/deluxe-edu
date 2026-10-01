@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect } from 'react'
 import { Plus } from 'lucide-react'
+import { FormError, Submit, formStyles as fs } from '@/features/staff/form/Form'
 import { LocalizedField } from './LocalizedField'
 import type { ActionResult } from '../actions'
 
@@ -23,7 +24,7 @@ export function ModuleForm({ action, module, submitLabel, onSuccess }: Props) {
   }, [state, onSuccess])
 
   return (
-    <form action={formAction} className="admin-module-form">
+    <form action={formAction} className={fs.stack}>
       <LocalizedField
         name="title"
         label="Название модуля"
@@ -40,12 +41,9 @@ export function ModuleForm({ action, module, submitLabel, onSuccess }: Props) {
         hint="Короткое вступление к модулю — студент видит его над карточками уроков"
       />
 
-      {state?.error && <p className="admin-form-error">{state.error}</p>}
+      {state?.error && <FormError>{state.error}</FormError>}
 
-      <button type="submit" className="btn btn-primary" disabled={pending}>
-        <Plus size={16} />
-        {pending ? 'Сохраняем…' : submitLabel}
-      </button>
+      <Submit pending={pending} label={submitLabel} pendingLabel="Сохраняем…" icon={<Plus size={16} />} />
     </form>
   )
 }

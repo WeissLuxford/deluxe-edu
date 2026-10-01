@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { LocalizedField } from './LocalizedField'
 import { SlugField } from './SlugField'
 import type { ActionResult } from '../actions'
+import { Chips, Field, FormLayout, Input, LevelPicker, Row, SaveBox, Section, Toggle } from '@/features/staff/form/Form'
 
 type Localized = { ru?: string; uz?: string; en?: string }
 
@@ -68,121 +69,57 @@ export function CourseForm({
   }, [state, router, redirectTo])
 
   return (
-    <form action={formAction} className="admin-form">
-      {state && !state.ok && <div className="alert alert-error">{state.error}</div>}
+    <form action={formAction}>
+      <FormLayout
+        aside={
+          <>
+            <Section title="Публикация">
+              <div>
+                <Toggle name="published" defaultChecked={course.published} title="Опубликован" hint="Без этого курс не открывается даже по прямой ссылке" />
+                <Toggle name="visible" defaultChecked={course.visible} title="В каталоге" hint="Выключи, чтобы курс был доступен только по ссылке" />
+              </div>
+            </Section>
+            <SaveBox pending={pending} label={submitLabel} error={state && !state.ok ? state.error : null} />
+          </>
+        }
+      >
+        <Section title="Содержание">
+          <LocalizedField name="title" label="Название" value={course.title} required onRuChange={setTitleRu} />
+          <LocalizedField name="description" label="Описание" value={course.description} textarea rows={4} required />
+          <SlugField value={course.slug} source={titleRu} hint="Виден в ссылке: /ru/courses/адрес. Только латиница, цифры и дефис." />
+        </Section>
 
-      <section className="admin-panel">
-        <h2 className="admin-panel__title">Содержание</h2>
+        <Section title="Уровень">
+          <LevelPicker name="level" defaultValue={course.level} levels={LEVELS} />
+        </Section>
 
-        <LocalizedField
-          name="title"
-          label="Название"
-          value={course.title}
-          required
-          onRuChange={setTitleRu}
-        />
+        <Section title="Цены" hint="В сумах, за весь курс. Тарифы отличаются тем, сколько преподавателя в них.">
+          <Row min={160}>
+            <Field label="Basic" htmlFor="priceBasic">
+              <Input id="priceBasic" type="number" name="priceBasic" defaultValue={course.priceBasic} min={0} step={1000} required />
+            </Field>
+            <Field label="Pro" htmlFor="pricePro">
+              <Input id="pricePro" type="number" name="pricePro" defaultValue={course.pricePro} min={0} step={1000} required />
+            </Field>
+            <Field label="Deluxe" htmlFor="priceDeluxe">
+              <Input id="priceDeluxe" type="number" name="priceDeluxe" defaultValue={course.priceDeluxe} min={0} step={1000} required />
+            </Field>
+          </Row>
+        </Section>
 
-        <LocalizedField
-          name="description"
-          label="Описание"
-          value={course.description}
-          textarea
-          rows={4}
-          required
-        />
-
-        <SlugField
-          value={course.slug}
-          source={titleRu}
-          hint="Виден в ссылке: /ru/courses/адрес. Только латиница, цифры и дефис."
-        />
-      </section>
-
-      <section className="admin-panel">
-        <h2 className="admin-panel__title">Уровень и цены</h2>
-
-        <div className="admin-grid">
-          <div>
-            <label className="label">Уровень</label>
-            <select name="level" defaultValue={course.level} className="select">
-              {LEVELS.map(l => (
-                <option key={l} value={l}>{l}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="label">Basic, сум</label>
-            <input type="number" name="priceBasic" defaultValue={course.priceBasic} className="input" min={0} step={1000} required />
-          </div>
-          <div>
-            <label className="label">Pro, сум</label>
-            <input type="number" name="pricePro" defaultValue={course.pricePro} className="input" min={0} step={1000} required />
-          </div>
-          <div>
-            <label className="label">Deluxe, сум</label>
-            <input type="number" name="priceDeluxe" defaultValue={course.priceDeluxe} className="input" min={0} step={1000} required />
-          </div>
-        </div>
-      </section>
-
-      <section className="admin-panel">
-        <h2 className="admin-panel__title">Вид в каталоге</h2>
-
-        <div className="admin-grid">
-          <div>
-            <label className="label">Обложка курса</label>
-            <input
-              name="coverUrl"
-              defaultValue={course.coverUrl ?? ''}
-              className="input"
-              placeholder="/media/courses/beginner-grammar.webp"
-            />
-            <div className="hint">
-              Путь к файлу из папки public. Если файла нет, карточка покажет плашку с цветом
-              уровня — сломанной картинки не будет
-            </div>
-          </div>
-
-          <div>
-            <label className="label">Бейдж</label>
-            <select name="badge" defaultValue={course.badge ?? ''} className="select">
-              {BADGES.map(b => (
-                <option key={b || 'none'} value={b}>
-                  {b || 'без бейджа'}
-                </option>
-              ))}
-            </select>
-            <div className="hint">Плашка в углу карточки в каталоге</div>
-          </div>
-        </div>
-      </section>
-
-      <section className="admin-panel">
-        <h2 className="admin-panel__title">Публикация</h2>
-
-        <label className="admin-switch">
-          <input type="checkbox" name="published" defaultChecked={course.published} />
-          <span>
-            <strong>Опубликован</strong>
-            <em>Неопубликованный курс не открывается по прямой ссылке</em>
-          </span>
-        </label>
-
-        <label className="admin-switch">
-          <input type="checkbox" name="visible" defaultChecked={course.visible} />
-          <span>
-            <strong>Показывать в каталоге</strong>
-            <em>Снимите, чтобы курс был доступен только по ссылке</em>
-          </span>
-        </label>
-      </section>
-
-      <div className="admin-savebar">
-        <button type="submit" className="btn btn-primary" disabled={pending}>
-          {pending ? 'Сохраняю…' : submitLabel}
-        </button>
-      </div>
+        <Section title="Вид в каталоге">
+          <Field
+            label="Обложка"
+            htmlFor="coverUrl"
+            hint="Путь к файлу из папки public. Нет файла — карточка покажет плашку цвета уровня, сломанной картинки не будет."
+          >
+            <Input id="coverUrl" name="coverUrl" defaultValue={course.coverUrl ?? ''} placeholder="/media/courses/beginner-grammar.webp" />
+          </Field>
+          <Field label="Бейдж" hint="Плашка в углу карточки в каталоге">
+            <Chips name="badge" defaultValue={course.badge ?? ''} options={BADGES.map(b => ({ value: b, label: b || 'Без бейджа' }))} />
+          </Field>
+        </Section>
+      </FormLayout>
     </form>
   )
 }
