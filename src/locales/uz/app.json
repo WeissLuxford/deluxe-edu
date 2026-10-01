@@ -811,5 +811,15 @@
     "sent": ", {date} kuni yuborilgan",
     "print": "Chop etish yoki PDF sifatida saqlash",
     "language": "Hisobot tili"
+  },
+  "errorPage": {
+    "meta": "Sahifa topilmadi — Highgate",
+    "notFoundTitle": "Bunday sahifa <it>yo‘q</it>",
+    "notFoundText": "Havola eskirgan yoki manzilda xato bo‘lishi mumkin. Bosh sahifadan boshlang yoki kurslarni ko‘ring.",
+    "home": "Bosh sahifa",
+    "courses": "Barcha kurslar",
+    "errorTitle": "Nimadir <it>xato ketdi</it>",
+    "errorText": "Yana bir bor urinib ko‘ring — odatda bu yordam beradi. Xato takrorlansa, bizga yozing.",
+    "retry": "Qayta urinish"
   }
 }

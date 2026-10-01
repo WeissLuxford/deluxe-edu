@@ -811,5 +811,15 @@
     "sent": ", sent on {date}",
     "print": "Print or save as PDF",
     "language": "Report language"
+  },
+  "errorPage": {
+    "meta": "Page not found — Highgate",
+    "notFoundTitle": "This page <it>doesn't exist</it>",
+    "notFoundText": "The link may be out of date, or there's a typo in the address. Start from the home page or browse the courses.",
+    "home": "Home",
+    "courses": "All courses",
+    "errorTitle": "Something <it>went wrong</it>",
+    "errorText": "Try again — it usually helps. If the error keeps coming back, message us.",
+    "retry": "Try again"
   }
 }
