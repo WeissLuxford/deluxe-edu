@@ -40,22 +40,21 @@ export default async function NewLesson({
     <div className="space-y-4">
       <Link
         href={`/${locale}/admin/courses/${id}`}
-        className="text-sm"
-        style={{ color: 'var(--muted)' }}
+        className="admin-page-head__back"
       >
         ← К курсу
       </Link>
 
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
+      <h1 className="admin-page-head__title">
         Новый урок
-      </h2>
+      </h1>
 
       <LocaleTabsProvider>
         <LessonForm
           action={createLesson.bind(null, id)}
           modules={course.modules.map(m => ({
             id: m.id,
-            label: `${m.order + 1}. ${localized(m.title, 'ru') || 'без названия'}`
+            label: localized(m.title, 'ru') || 'Модуль без названия'
           }))}
           lesson={{
             slug: '',

@@ -21,13 +21,13 @@ export default async function NewScheduleEvent({
 
   return (
     <div className="space-y-4">
-      <Link href={`/${locale}/teacher/groups/${id}`} className="text-sm" style={{ color: 'var(--muted)' }}>
+      <Link href={`/${locale}/teacher/groups/${id}`} className="admin-page-head__back">
         ← К группе «{group.name}»
       </Link>
 
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
+      <h1 className="admin-page-head__title">
         Новое занятие
-      </h2>
+      </h1>
 
       <ScheduleEventForm
         action={createScheduleEvent.bind(null, id)}

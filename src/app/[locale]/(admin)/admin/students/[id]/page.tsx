@@ -93,7 +93,7 @@ export default async function StudentCard({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <Link href={`/${locale}/admin/students`} className="text-sm" style={{ color: 'var(--muted)' }}>
+        <Link href={`/${locale}/admin/students`} className="admin-page-head__back">
           ← К списку студентов
         </Link>
         <Link
@@ -108,9 +108,9 @@ export default async function StudentCard({
       <div className="admin-card student-head">
         <Avatar name={user.name} seed={user.phone} image={user.image} size={64} />
         <div className="student-head__info">
-          <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
+          <h1 className="admin-page-head__title">
             {[user.firstName, user.lastName].filter(Boolean).join(' ') || user.name || 'без имени'}
-          </h2>
+          </h1>
           <div className="student-head__meta">
             <span>
               <Phone size={14} /> +{user.phone}

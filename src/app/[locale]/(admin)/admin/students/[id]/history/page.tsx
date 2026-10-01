@@ -105,13 +105,13 @@ export default async function StudentHistory({
 
   return (
     <div className="space-y-6">
-      <Link href={`/${locale}/admin/students/${id}`} className="text-sm" style={{ color: 'var(--muted)' }}>
+      <Link href={`/${locale}/admin/students/${id}`} className="admin-page-head__back">
         ← К карточке студента
       </Link>
 
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
+      <h1 className="admin-page-head__title">
         Журнал: {name}
-      </h2>
+      </h1>
       <p className="hint">
         Записи на курсы, платежи и сданные тесты — в порядке времени.
       </p>

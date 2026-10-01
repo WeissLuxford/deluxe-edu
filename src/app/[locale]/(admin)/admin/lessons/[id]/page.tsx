@@ -1,9 +1,9 @@
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { updateLesson } from '@/features/admin/actions'
 import { saveAssignment, deleteAssignment } from '@/features/admin/assignmentActions'
 import { LessonForm } from '@/features/admin/components/LessonForm'
+import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 import { TestBuilder } from '@/features/admin/components/TestBuilder'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { requireAdmin } from '@/features/admin/requireAdmin'
@@ -63,24 +63,18 @@ export default async function EditLesson({
 
   return (
     <div className="space-y-6">
-      <Link
-        href={`/${locale}/admin/courses/${lesson.course.id}`}
-        className="text-sm"
-        style={{ color: 'var(--muted)' }}
-      >
-        ← К курсу
-      </Link>
-
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
-        {toLocalized(lesson.title).ru || lesson.slug}
-      </h2>
+      <AdminPageHead
+        title={toLocalized(lesson.title).ru || lesson.slug}
+        backHref={`/${locale}/admin/courses/${lesson.course.id}`}
+        backLabel="К курсу"
+      />
 
       <LocaleTabsProvider>
         <LessonForm
           action={updateLesson.bind(null, id)}
           modules={lesson.course.modules.map(m => ({
             id: m.id,
-            label: `${m.order + 1}. ${toLocalized(m.title).ru || 'без названия'}`
+            label: toLocalized(m.title).ru || 'Модуль без названия'
           }))}
           lesson={{
             slug: lesson.slug,

@@ -34,7 +34,7 @@ export default async function TeacherExamAttemptPage({
 
   return (
     <div className="space-y-6">
-      <Link href={`/${locale}/teacher/exams`} className="text-sm" style={{ color: 'var(--muted)' }}>
+      <Link href={`/${locale}/teacher/exams`} className="admin-page-head__back">
         ← К списку контрольных
       </Link>
 

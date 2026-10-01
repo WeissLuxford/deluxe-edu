@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { saveExam, deleteExam } from '@/features/admin/examActions'
+import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
 import { TestBuilder } from '@/features/admin/components/TestBuilder'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { localized } from '@/lib/localized'
@@ -54,19 +54,12 @@ export default async function ModuleExamPage({
 
   return (
     <div className="space-y-6">
-      <Link href={`/${locale}/admin/courses/${id}`} className="text-sm" style={{ color: 'var(--muted)' }}>
-        ← К курсу
-      </Link>
-
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
-        Контрольная: {localized(mod.title, 'ru') || 'без названия'}
-      </h2>
-
-      <div className="hint">
-        Контрольная показывается студенту после того, как он пройдёт все {mod.lessons.length}{' '}
-        урок(ов) этого модуля. Результат автоматически считается сервером и в любом случае уходит
-        учителю студента (если он состоит в группе) на разбор.
-      </div>
+      <AdminPageHead
+        title={`Контрольная: ${localized(mod.title, 'ru') || 'без названия'}`}
+        subtitle={`Откроется ученику, когда он пройдёт все уроки модуля (${mod.lessons.length}).`}
+        backHref={`/${locale}/admin/courses/${id}`}
+        backLabel="К курсу"
+      />
 
       <LocaleTabsProvider>
         <TestBuilder

@@ -23,10 +23,10 @@ export default async function EditStream({
 
   return (
     <div className="space-y-4">
-      <Link href={`/${locale}/admin/streams`} className="text-sm" style={{ color: 'var(--muted)' }}>
+      <Link href={`/${locale}/admin/streams`} className="admin-page-head__back">
         ← К списку эфиров
       </Link>
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>Эфир</h2>
+      <h1 className="admin-page-head__title">Эфир</h1>
       <LocaleTabsProvider>
         <StreamForm
           action={updateStream.bind(null, id)}

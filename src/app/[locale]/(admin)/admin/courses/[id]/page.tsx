@@ -59,14 +59,14 @@ export default async function EditCourse({
 
   return (
     <div className="space-y-6">
-      <Link href={`/${locale}/admin/courses`} className="text-sm" style={{ color: 'var(--muted)' }}>
+      <Link href={`/${locale}/admin/courses`} className="admin-page-head__back">
         ← К списку курсов
       </Link>
 
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
+        <h1 className="admin-page-head__title">
           {ru(course.title)}
-        </h2>
+        </h1>
         <div className="flex items-center gap-2">
           <Link href={`/${locale}/admin/courses/${id}/settings`} className="btn btn-secondary">
             <Pencil size={15} /> Карточка курса

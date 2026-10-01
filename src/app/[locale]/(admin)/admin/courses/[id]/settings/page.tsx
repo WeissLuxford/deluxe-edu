@@ -40,14 +40,14 @@ export default async function CourseSettings({
 
   return (
     <div className="space-y-6">
-      <Link href={`/${locale}/admin/courses/${id}`} className="text-sm" style={{ color: 'var(--muted)' }}>
+      <Link href={`/${locale}/admin/courses/${id}`} className="admin-page-head__back">
         ← Контент курса
       </Link>
 
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
+        <h1 className="admin-page-head__title">
           {ru(course.title)}: карточка курса
-        </h2>
+        </h1>
         <Link
           href={`/${locale}/courses/${course.slug}`}
           className="btn btn-secondary"

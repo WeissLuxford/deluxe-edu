@@ -25,7 +25,7 @@ export default async function AdminTeacherDetail({
 
   return (
     <div className="space-y-4">
-      <Link href={`/${locale}/admin/teachers`} className="text-sm" style={{ color: 'var(--muted)' }}>
+      <Link href={`/${locale}/admin/teachers`} className="admin-page-head__back">
         ← К списку учителей
       </Link>
 

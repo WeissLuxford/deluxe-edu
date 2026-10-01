@@ -10,10 +10,10 @@ export default async function NewStream({ params }: { params: Promise<{ locale: 
 
   return (
     <div className="space-y-4">
-      <Link href={`/${locale}/admin/streams`} className="text-sm" style={{ color: 'var(--muted)' }}>
+      <Link href={`/${locale}/admin/streams`} className="admin-page-head__back">
         ← К списку эфиров
       </Link>
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>Новый эфир</h2>
+      <h1 className="admin-page-head__title">Новый эфир</h1>
       <LocaleTabsProvider>
         <StreamForm
           action={createStream}

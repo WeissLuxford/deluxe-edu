@@ -10,11 +10,11 @@ export default async function NewCourse({ params }: { params: Promise<{ locale: 
 
   return (
     <div className="space-y-4">
-      <Link href={`/${locale}/admin/courses`} className="text-sm" style={{ color: 'var(--muted)' }}>
+      <Link href={`/${locale}/admin/courses`} className="admin-page-head__back">
         ← К списку курсов
       </Link>
 
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>Новый курс</h2>
+      <h1 className="admin-page-head__title">Новый курс</h1>
 
       <LocaleTabsProvider>
         <CourseForm

@@ -57,7 +57,7 @@ export default async function ScheduleEventDetail({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <Link href={`/${locale}/teacher/groups/${id}`} className="text-sm" style={{ color: 'var(--muted)' }}>
+        <Link href={`/${locale}/teacher/groups/${id}`} className="admin-page-head__back">
           ← К группе «{event.group.name}»
         </Link>
         <DeleteButton
@@ -66,9 +66,9 @@ export default async function ScheduleEventDetail({
         />
       </div>
 
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
+      <h1 className="admin-page-head__title">
         {event.title || TYPE_LABELS[event.type]} · {TYPE_LABELS[event.type]}
-      </h2>
+      </h1>
 
       <ScheduleEventForm
         action={updateScheduleEvent.bind(null, eventId)}

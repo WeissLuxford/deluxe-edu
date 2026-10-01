@@ -9,13 +9,13 @@ export default async function NewGroup({ params }: { params: Promise<{ locale: s
 
   return (
     <div className="space-y-4">
-      <Link href={`/${locale}/teacher/groups`} className="text-sm" style={{ color: 'var(--muted)' }}>
+      <Link href={`/${locale}/teacher/groups`} className="admin-page-head__back">
         ← К списку групп
       </Link>
 
-      <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)' }}>
+      <h1 className="admin-page-head__title">
         Новая группа
-      </h2>
+      </h1>
 
       <GroupForm action={createGroup} submitLabel="Создать группу" redirectTo={`/${locale}/teacher/groups`} />
     </div>
