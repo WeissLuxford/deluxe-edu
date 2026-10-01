@@ -5,6 +5,7 @@ import { deleteCourse, toggleCoursePublished } from '@/features/admin/actions'
 import { ActionButton } from '@/features/admin/components/ActionButton'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
+import { ContentWarnings } from '@/features/admin/components/ContentWarnings'
 import { localized } from '@/lib/localized'
 import { requireAdmin } from '@/features/admin/requireAdmin'
 
@@ -34,6 +35,8 @@ export default async function AdminCourses({ params }: { params: Promise<{ local
           </Link>
         }
       />
+
+      <ContentWarnings base={`/${locale}/admin`} />
 
       {courses.length === 0 ? (
         <div className="admin-empty">Курсов пока нет.</div>

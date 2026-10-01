@@ -1,259 +1,189 @@
 import Link from 'next/link'
-import { AlertTriangle, Inbox, UserPlus, Radio, Plus } from 'lucide-react'
-import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/db'
+import { dayBounds } from '@/lib/day'
 import { localized } from '@/lib/localized'
+import { formatPhone } from '@/features/auth/identity'
 import { requireAdmin } from '@/features/admin/requireAdmin'
+import { ago, greeting, timeFmt } from '@/features/staff/format'
+import { Reveal } from '@/design/components/Reveal'
+import s from '@/features/admin/overview.module.css'
 
-const ru = (value: unknown) => localized(value, 'ru') || '—'
+// Where a lead came from — a short word and a level pastel, as on the canvas.
+const SOURCES: Record<string, { label: string; look: string }> = {
+  HOME_FORM: { label: 'Сайт', look: 'b1' },
+  COURSE_PAGE: { label: 'Курс', look: 'b1' },
+  CONTACTS_PAGE: { label: 'Контакты', look: 'b1' },
+  TRIAL_LESSON: { label: 'Пробный урок', look: 'a2' },
+  LEVEL_TEST: { label: 'Тест уровня', look: 'a1' },
+  LANDING: { label: 'Лендинг', look: 'b2' }
+}
 
-const dateFmt = new Intl.DateTimeFormat('ru-RU', {
-  day: '2-digit',
-  month: '2-digit',
-  hour: '2-digit',
-  minute: '2-digit'
-})
+const EVENT_TYPES: Record<string, string> = {
+  LESSON: 'Занятие',
+  MOCK_TEST: 'Мок-тест',
+  EXAM: 'Контрольная',
+  SPEAKING_PRACTICE: 'Спикинг',
+  OTHER: 'Встреча'
+}
 
 export default async function AdminHome({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await requireAdmin(locale)
   const base = `/${locale}/admin`
+  const now = new Date()
+  const today = dayBounds(now)
+  const weekAgo = new Date(+now - 7 * 86_400_000)
 
-  const [
-    courses,
-    published,
-    lessons,
-    assignments,
-    users,
-    enrollments,
-    newContacts,
-    latestContacts,
-    latestUsers,
-    upcomingStreams,
-    publishedNoLessons,
-    emptyModules,
-    testsWithoutKey,
-    orphanLessons
-  ] = await Promise.all([
-    prisma.course.count(),
-    prisma.course.count({ where: { published: true } }),
-    prisma.lesson.count(),
-    prisma.assignment.count(),
-    prisma.user.count(),
-    prisma.enrollment.count({ where: { status: 'ACTIVE' } }),
-    prisma.contactRequest.count({ where: { status: 'NEW' } }),
+  const [leadsToday, students, activeWeek, pendingReviews, leads, streams, events] = await Promise.all([
+    prisma.contactRequest.count({ where: { createdAt: { gte: today.start } } }),
+    prisma.user.count({ where: { enrollments: { some: { status: 'ACTIVE' } } } }),
+    prisma.user.count({ where: { LessonProgress: { some: { updatedAt: { gte: weekAgo } } } } }),
+    prisma.examAttempt.count({ where: { reviewStatus: 'PENDING' } }),
     prisma.contactRequest.findMany({
-      where: { status: 'NEW' },
+      where: { status: { not: 'SPAM' } },
       orderBy: { createdAt: 'desc' },
-      take: 5,
-      select: { id: true, firstName: true, lastName: true, phone: true, createdAt: true }
-    }),
-    prisma.user.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 5,
-      select: { id: true, name: true, firstName: true, phone: true, createdAt: true }
+      take: 6,
+      select: { id: true, firstName: true, lastName: true, phone: true, source: true, status: true, createdAt: true }
     }),
     prisma.stream.findMany({
-      where: { published: true, startsAt: { gte: new Date() } },
+      where: { published: true, startsAt: { gte: today.start, lt: today.end } },
       orderBy: { startsAt: 'asc' },
-      take: 3,
       select: { id: true, title: true, startsAt: true }
     }),
-    prisma.course.findMany({
-      where: { published: true, lessons: { none: {} } },
-      select: { id: true, title: true }
-    }),
-    prisma.module.findMany({
-      where: { lessons: { none: {} } },
-      select: { id: true, title: true, courseId: true }
-    }),
-    prisma.assignment.findMany({
-      where: { answerKey: { equals: Prisma.DbNull } },
-      select: { id: true, lessonId: true, title: true }
-    }),
-    prisma.lesson.count({ where: { moduleId: null } })
+    prisma.scheduleEvent.findMany({
+      where: { startsAt: { gte: today.start, lt: today.end }, group: { archived: false } },
+      orderBy: { startsAt: 'asc' },
+      select: {
+        id: true,
+        type: true,
+        title: true,
+        startsAt: true,
+        group: { select: { id: true, name: true, teacherId: true, teacher: { select: { name: true } }, _count: { select: { members: { where: { leftAt: null } } } } } }
+      }
+    })
   ])
 
-  const stats = [
-    { label: 'Курсов', value: courses, hint: `${published} опубликовано`, href: `${base}/courses` },
-    { label: 'Уроков', value: lessons, hint: `${assignments} с тестом`, href: `${base}/courses` },
-    { label: 'Пользователей', value: users, hint: `${enrollments} активных записей`, href: `${base}/students` },
-    { label: 'Новых заявок', value: newContacts, hint: 'с формы на сайте', href: `${base}/contacts` }
+  const kpis = [
+    { label: 'Новые заявки', value: leadsToday, hint: 'за сегодня', look: s.kpiLime, href: `${base}/contacts` },
+    { label: 'Студенты', value: students, hint: 'с активным доступом', look: s.kpiWhite, href: `${base}/students` },
+    { label: 'Учились за неделю', value: activeWeek, hint: 'хотя бы один урок', look: s.kpiLavender, href: `${base}/students` },
+    { label: 'Ждут проверки', value: pendingReviews, hint: 'контрольные', look: s.kpiPeach, href: `${base}/teachers` }
   ]
 
-  const groups = [
-    {
-      key: 'empty-courses',
-      count: publishedNoLessons.length,
-      text: 'опубликованных курсов без единого урока',
-      hint: 'для витрины это нормально, для запуска — нет',
-      items: publishedNoLessons.map(c => ({
-        id: c.id,
-        label: ru(c.title),
-        href: `${base}/courses/${c.id}`
-      }))
-    },
-    {
-      key: 'empty-modules',
-      count: emptyModules.length,
-      text: 'пустых модулей — студенту они не показываются',
-      items: emptyModules.map(m => ({
-        id: m.id,
-        label: ru(m.title),
-        href: `${base}/courses/${m.courseId}`
-      }))
-    },
-    {
-      key: 'tests',
-      count: testsWithoutKey.length,
-      text: 'тестов без правильных ответов — сервер не сможет их проверить',
-      items: testsWithoutKey.map(a => ({
-        id: a.id,
-        label: ru(a.title),
-        href: `${base}/lessons/${a.lessonId}`
-      }))
-    },
-    {
-      key: 'orphans',
-      count: orphanLessons,
-      text: 'уроков не привязаны к модулю',
-      items: []
-    }
-  ].filter(g => g.count > 0)
+  const onAir = [
+    ...streams.map(st => ({
+      id: `s-${st.id}`,
+      at: st.startsAt,
+      title: localized(st.title, 'ru') || 'Эфир',
+      who: 'Эфир для всех',
+      href: `${base}/streams/${st.id}`
+    })),
+    ...events.map(e => ({
+      id: `e-${e.id}`,
+      at: e.startsAt,
+      title: e.title || EVENT_TYPES[e.type] || 'Занятие',
+      who: `${e.group.teacher.name || 'Преподаватель'} · ${e.group.name} · ${e.group._count.members} чел.`,
+      href: `${base}/teachers/${e.group.teacherId}/groups/${e.group.id}`
+    }))
+  ].sort((a, b) => +a.at - +b.at)
 
   return (
-    <div className="space-y-6">
-      <div className="admin-stats">
-        {stats.map(s => (
-          <Link key={s.label} href={s.href} className="admin-stat">
-            <span className="admin-stat__label">{s.label}</span>
-            <span className="admin-stat__value">{s.value}</span>
-            <span className="admin-stat__hint">{s.hint}</span>
-          </Link>
+    <div className={s.page}>
+      <Reveal className={s.head}>
+        <h1 className={s.title}>
+          {greeting(now)} <span className="it">Вот что нового</span>
+        </h1>
+        <form action={`${base}/students`} className={s.search} role="search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" />
+          </svg>
+          <input name="q" aria-label="Поиск" placeholder="Студент или телефон" autoComplete="off" />
+        </form>
+      </Reveal>
+
+      <div className={s.kpis}>
+        {kpis.map((k, i) => (
+          <Reveal key={k.label} delay={i * 60}>
+            <Link href={k.href} className={`${s.kpi} ${k.look}`}>
+              <span className={s.kpiLabel}>{k.label}</span>
+              <span className={s.kpiValue}>{k.value}</span>
+              <span className={s.kpiHint}>{k.hint}</span>
+            </Link>
+          </Reveal>
         ))}
       </div>
 
-      <div className="admin-quick">
-        <Link href={`${base}/courses/new`} className="btn btn-primary btn-sm">
-          <Plus size={15} /> Курс
-        </Link>
-        <Link href={`${base}/streams/new`} className="btn btn-secondary btn-sm">
-          <Plus size={15} /> Эфир
-        </Link>
-        <Link href={`${base}/news/new`} className="btn btn-secondary btn-sm">
-          <Plus size={15} /> Новость
-        </Link>
-      </div>
+      <div className={s.cols}>
+        <Reveal delay={120} className={s.leads}>
+          <div className={s.boxHead}>
+            <h2 className={s.boxTitle}>Новые заявки</h2>
+            <Link href={`${base}/contacts`} className={s.more}>
+              Все заявки →
+            </Link>
+          </div>
+          {leads.length === 0 ? (
+            <p className={s.empty}>Заявок пока нет — как только кто-то оставит телефон, он появится здесь.</p>
+          ) : (
+            leads.map(l => {
+              const src = SOURCES[l.source] ?? SOURCES.HOME_FORM
+              const fresh = l.status === 'NEW'
+              return (
+                <div key={l.id} className={s.lead} data-fresh={fresh || undefined}>
+                  <span className={s.leadName}>{[l.firstName, l.lastName].filter(Boolean).join(' ')}</span>
+                  <span className={s.leadPhone}>{formatPhone(l.phone)}</span>
+                  <span>
+                    <span className={s.source} style={{ background: `var(--lv-${src.look}-bg)`, color: `var(--lv-${src.look}-fg)` }}>
+                      {src.label}
+                    </span>
+                  </span>
+                  <span className={s.leadWhen}>{ago(l.createdAt, now)}</span>
+                  {fresh ? (
+                    <a href={`tel:+${l.phone.replace(/\D/g, '')}`} className={s.call}>
+                      Позвонить
+                    </a>
+                  ) : (
+                    <Link href={`${base}/contacts`} className={s.done}>
+                      {l.status === 'CONTACTED' ? 'Связались' : 'Готово'}
+                    </Link>
+                  )}
+                </div>
+              )
+            })
+          )}
+        </Reveal>
 
-      {courses === 0 && (
-        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-          <h2 className="text-xl font-semibold" style={{ color: 'var(--fg)', marginBottom: '0.5rem' }}>
-            В базе пока нет ни одного курса
-          </h2>
-          <p style={{ color: 'var(--muted)', marginBottom: '1.25rem' }}>
-            Пока курсов нет, на сайте нечего показывать и не за что платить.
-          </p>
-          <Link href={`${base}/courses/new`} className="btn btn-primary">
-            Создать курс
-          </Link>
+        <div className={s.side}>
+          <Reveal delay={180} className={s.air}>
+            <h2 className={s.sideTitle}>Сегодня в эфире</h2>
+            {onAir.length === 0 ? (
+              <p className={s.airEmpty}>Сегодня занятий и эфиров нет.</p>
+            ) : (
+              onAir.map(a => (
+                <Link key={a.id} href={a.href} className={s.airRow}>
+                  <span className={s.airTime}>{timeFmt.format(a.at)}</span>
+                  <span className={s.airText}>
+                    <span className={s.airTitle}>{a.title}</span>
+                    <span className={s.airWho}>{a.who}</span>
+                  </span>
+                </Link>
+              ))
+            )}
+          </Reveal>
+
+          <Reveal delay={240} className={s.quick}>
+            <h2 className={s.sideTitle}>Быстро</h2>
+            <Link href={`${base}/students`} className={s.quickLink}>
+              Открыть доступ к курсу
+            </Link>
+            <Link href={`${base}/courses`} className={s.quickLink}>
+              Новый урок
+            </Link>
+            <Link href={`${base}/streams/new`} className={s.quickLink}>
+              Запланировать эфир
+            </Link>
+          </Reveal>
         </div>
-      )}
-
-      {groups.length > 0 && (
-        <section className="admin-card">
-          <h3 className="admin-card__title">
-            <AlertTriangle size={16} /> Требует внимания
-          </h3>
-          <ul className="admin-warnings">
-            {groups.map(group => (
-              <li key={group.key}>
-                {group.items.length > 0 ? (
-                  <details>
-                    <summary>
-                      <strong>{group.count}</strong> {group.text}
-                      {group.hint && <em> — {group.hint}</em>}
-                    </summary>
-                    <ul className="admin-warnings__items">
-                      {group.items.map(item => (
-                        <li key={item.id}>
-                          <Link href={item.href}>{item.label}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-                ) : (
-                  <p className="admin-warnings__plain">
-                    <strong>{group.count}</strong> {group.text}
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      <div className="admin-columns">
-        <section className="admin-card">
-          <h3 className="admin-card__title">
-            <Inbox size={16} /> Свежие заявки
-          </h3>
-          {latestContacts.length === 0 ? (
-            <p className="admin-empty">Новых заявок нет.</p>
-          ) : (
-            <ul className="admin-feed">
-              {latestContacts.map(c => (
-                <li key={c.id}>
-                  <Link href={`${base}/contacts`}>
-                    <strong>{[c.firstName, c.lastName].filter(Boolean).join(' ')}</strong>
-                    <span>+{c.phone}</span>
-                  </Link>
-                  <time>{dateFmt.format(c.createdAt)}</time>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-
-        <section className="admin-card">
-          <h3 className="admin-card__title">
-            <UserPlus size={16} /> Последние регистрации
-          </h3>
-          {latestUsers.length === 0 ? (
-            <p className="admin-empty">Пользователей пока нет.</p>
-          ) : (
-            <ul className="admin-feed">
-              {latestUsers.map(u => (
-                <li key={u.id}>
-                  <Link href={`${base}/students/${u.id}`}>
-                    <strong>{u.firstName || u.name || 'без имени'}</strong>
-                    <span>+{u.phone}</span>
-                  </Link>
-                  <time>{dateFmt.format(u.createdAt)}</time>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-
-        <section className="admin-card">
-          <h3 className="admin-card__title">
-            <Radio size={16} /> Ближайшие эфиры
-          </h3>
-          {upcomingStreams.length === 0 ? (
-            <p className="admin-empty">Запланированных эфиров нет.</p>
-          ) : (
-            <ul className="admin-feed">
-              {upcomingStreams.map(s => (
-                <li key={s.id}>
-                  <Link href={`${base}/streams/${s.id}`}>
-                    <strong>{ru(s.title)}</strong>
-                  </Link>
-                  <time>{dateFmt.format(s.startsAt)}</time>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
       </div>
     </div>
   )
