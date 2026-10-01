@@ -88,3 +88,26 @@ export async function applyLenientTextGrading(
 
   return { ...graded, correct, wrongIds, grade: Math.round((correct / graded.total) * 100) }
 }
+
+export type QuestionCheck = { correct: boolean; right: string[] }
+
+/**
+ * Checks a single answer for the step-by-step test. The right answer is only
+ * returned after the student has committed to theirs (the UI locks the
+ * question), so it can be shown in green — the key itself never ships with the page.
+ */
+export async function checkOne(
+  answerKey: Record<string, unknown>,
+  prompt: unknown,
+  questionId: string,
+  answer: unknown
+): Promise<QuestionCheck | null> {
+  if (!(questionId in answerKey)) return null
+  const expected = answerKey[questionId]
+  const single = { [questionId]: expected }
+  let graded = gradeAnswers(single, { [questionId]: answer })
+  if (!graded) return null
+  graded = await applyLenientTextGrading(graded, prompt, single, { [questionId]: answer })
+  const right = Array.isArray(expected) ? expected.map(String) : typeof expected === 'string' ? [expected] : []
+  return { correct: graded.correct === 1, right }
+}

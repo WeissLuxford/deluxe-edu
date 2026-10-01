@@ -32,7 +32,9 @@ export const RATE_LIMITS = {
   publicReportIp: { action: 'report:ip', limit: 60, windowMs: 60 * 60 * 1000 },
   certVerifyIp: { action: 'cert:verify:ip', limit: 30, windowMs: 60 * 60 * 1000 },
   // Every call writes a Payment row; nobody opens checkout twenty times an hour.
-  paymentCreateUser: { action: 'payment:create:user', limit: 20, windowMs: 60 * 60 * 1000 }
+  paymentCreateUser: { action: 'payment:create:user', limit: 20, windowMs: 60 * 60 * 1000 },
+  // One call per answered question; generous for real study, useless for scraping keys.
+  lessonCheckUser: { action: 'lesson:check:user', limit: 400, windowMs: 60 * 60 * 1000 }
 } satisfies Record<string, RateLimitRule>
 
 const CLEANUP_CHANCE = 0.02
