@@ -17,9 +17,9 @@
         "short": "Understand, but mix up"
       },
       "B2": {
-        "title": "I speak, want to be freer",
-        "desc": "Conversation practice and work",
-        "short": "Speak freely"
+        "title": "I speak, but want more fluency",
+        "desc": "Conversation practice and English for work",
+        "short": "More fluency"
       },
       "C1": {
         "title": "I want the fine points",
@@ -108,7 +108,7 @@
     "nameLabel": "What's your name",
     "namePlaceholder": "Name",
     "phoneLabel": "Phone",
-    "submit": "Call me",
+    "submit": "Call me back",
     "sending": "Sending…",
     "doneTitle": "Done!",
     "doneText": "We'll call you back during working hours. Meanwhile, you can take the level test — it's 15 minutes.",
@@ -141,7 +141,7 @@
     },
     "manifesto": "Learning a language <it>isn't about talent.</it> It's about small steps every day and a person nearby who'll <soft>help when you get stuck.</soft>",
     "feel": {
-      "title": "How it <it>feels</it>",
+      "title": "How learning <it>works</it>",
       "minutes": "15–20",
       "minutesUnit": "min",
       "oneTitle": "One lesson, one topic",
@@ -170,14 +170,14 @@
       },
       "s3": {
         "title": "Go at your own pace",
-        "text": "Lessons open in order and your progress is visible right away. Stuck — message your teacher."
+        "text": "Lessons open in order and your progress is visible right away. Stuck? Message us — we'll help you figure it out."
       }
     },
     "pricing": {
       "title": "What it <it>costs</it>",
-      "popular": "Most popular",
+      "popular": "Recommended",
       "choose": "Choose {plan}",
-      "note": "Lessons stay with you forever. Teacher sessions and reviews last for the plan's term."
+      "note": "The price is for the whole course. Lessons stay with you forever; reviews and teacher sessions last for the plan's term."
     },
     "faq": {
       "title": "Common <it>questions</it>",
@@ -195,8 +195,12 @@
           "a": "Yes. Lessons, notes and tests work well on a phone, and live classes run on Zoom."
         },
         {
+          "q": "How do I pay for a course?",
+          "a": "Choose a course and a plan and leave your number — we'll call and help you pay. Your lessons open right after that."
+        },
+        {
           "q": "How do live classes work?",
-          "a": "Online, on Zoom: one-on-one lessons with a teacher and group classes — that's the Deluxe plan. The schedule is always in the Live section."
+          "a": "Online, on Zoom: one-on-one lessons with a teacher and group classes — that's the Deluxe plan. The schedule will be in your account, in the Live section."
         },
         {
           "q": "What happens when my plan ends?",
@@ -205,8 +209,8 @@
       ]
     },
     "lead": {
-      "title": "Let's <it>just</it> talk",
-      "text": "Leave your number — we'll call back, help you find your level and choose a course. No pressure, honestly."
+      "title": "Let's pick your course <it>together</it>",
+      "text": "Leave your number — we'll call, ask about your goals and suggest a level and a course. No strings attached."
     }
   },
   "coursesPage": {
@@ -226,12 +230,12 @@
   "coursePage": {
     "back": "All courses",
     "statLessons": "{count, plural, one {lesson} other {lessons}}",
-    "statModules": "{count, plural, one {module} other {modules}} with checkpoints",
+    "statModules": "{count, plural, one {module with a test} other {modules with tests}}",
     "statMinutes": "average lesson",
     "min": "min",
     "howToLearn": "How do you want to learn?",
-    "startWith": "Start with {plan}",
-    "note": "Lessons stay with you forever. Not sure? <a>Try the trial lesson first</a>.",
+    "startWith": "Choose {plan}",
+    "note": "The price is for the whole course. Lessons stay with you forever. Not sure? <a>Try the trial lesson first</a>.",
     "inside": "What's <it>inside</it>",
     "moduleMeta": "{count, plural, one {# lesson} other {# lessons}}",
     "withExam": " · checkpoint test",
@@ -475,7 +479,7 @@
     }
   },
   "landingPage": {
-    "formTitle": "Leave your number — <it>we'll call you</it>",
+    "formTitle": "Book your <it>free lesson</it>",
     "submit": "I want to try",
     "privacy": "We only need the number to call you. No newsletters.",
     "afterTitle": "What happens after the call",

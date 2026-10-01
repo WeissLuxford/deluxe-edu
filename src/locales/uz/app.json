@@ -108,7 +108,7 @@
     "nameLabel": "Ismingiz",
     "namePlaceholder": "Ism",
     "phoneLabel": "Telefon",
-    "submit": "Qo‘ng‘iroqni kutaman",
+    "submit": "Menga qo‘ng‘iroq qiling",
     "sending": "Yuborilmoqda…",
     "doneTitle": "Tayyor!",
     "doneText": "Ish vaqtida qo‘ng‘iroq qilamiz. Bu orada darajangizni aniqlash testidan o‘tib ko‘rishingiz mumkin — 15 daqiqa vaqt oladi.",
@@ -141,7 +141,7 @@
     },
     "manifesto": "Til o‘rganish — <it>iqtidorga bog‘liq emas.</it> Bu har kuni qo‘yiladigan kichik qadamlar va <soft>qiynalganingizda yo‘l ko‘rsatadigan</soft> yoningizdagi inson.",
     "feel": {
-      "title": "Darslar <it>qanday</it> o‘tadi",
+      "title": "O‘qish <it>qanday</it> o‘tadi",
       "minutes": "15–20",
       "minutesUnit": "daq",
       "oneTitle": "Bitta dars — bitta mavzu",
@@ -170,14 +170,14 @@
       },
       "s3": {
         "title": "O‘z sur’atingizda o‘qiysiz",
-        "text": "Darslar ketma-ket ochiladi, natijangiz darhol ko‘rinadi. Qiynalsangiz — o‘qituvchiga yozasiz."
+        "text": "Darslar ketma-ket ochiladi, natijangiz darhol ko‘rinadi. Qiynalsangiz — bizga yozing, tushunib olishga yordam beramiz."
       }
     },
     "pricing": {
       "title": "Narxi <it>qancha</it>",
-      "popular": "Ko‘pchilik tanlaydi",
+      "popular": "Tavsiya qilamiz",
       "choose": "{plan} tarifini tanlash",
-      "note": "Darslar sizda umrbod qoladi. O‘qituvchi bilan mashg‘ulotlar va tekshiruv — tarif muddati davomida."
+      "note": "Narx — butun kurs uchun. Darslar sizda umrbod qoladi, tekshiruv va o‘qituvchi bilan mashg‘ulotlar esa tarif muddati davomida."
     },
     "faq": {
       "title": "Ko‘p beriladigan <it>savollar</it>",
@@ -195,8 +195,12 @@
           "a": "Ha. Darslar, konspektlar va testlar telefonda qulay, jonli mashg‘ulotlar esa Zoom’da o‘tadi."
         },
         {
+          "q": "Kurs uchun qanday to‘lanadi?",
+          "a": "Kurs va tarifni tanlab, raqamingizni qoldiring — qo‘ng‘iroq qilib, to‘lovda yordam beramiz. To‘lovdan so‘ng darslarga kirish darhol ochiladi."
+        },
+        {
           "q": "Jonli mashg‘ulotlar qanday o‘tadi?",
-          "a": "Onlayn, Zoom’da: o‘qituvchi bilan shaxsiy darslar va guruh mashg‘ulotlari — bular Deluxe tarifida. Jadval doim «Efirlar» bo‘limida ko‘rinadi."
+          "a": "Onlayn, Zoom’da: o‘qituvchi bilan shaxsiy darslar va guruh mashg‘ulotlari — bular Deluxe tarifida. Jadval shaxsiy kabinetingizdagi «Efirlar» bo‘limida bo‘ladi."
         },
         {
           "q": "Tarif muddati tugasa nima bo‘ladi?",
@@ -205,8 +209,8 @@
       ]
     },
     "lead": {
-      "title": "Keling, <it>shunchaki</it> gaplashamiz",
-      "text": "Raqamingizni qoldiring — qo‘ng‘iroq qilib, darajangizni aniqlash va kurs tanlashga yordam beramiz. Hech narsani majburlamaymiz."
+      "title": "Kursni <it>birga</it> tanlaymiz",
+      "text": "Raqamingizni qoldiring — qo‘ng‘iroq qilib, maqsadlaringiz haqida so‘raymiz va mos daraja hamda kursni tavsiya qilamiz. Bu sizni hech narsaga majbur qilmaydi."
     }
   },
   "coursesPage": {
@@ -230,8 +234,8 @@
     "statMinutes": "o‘rtacha dars",
     "min": "daq",
     "howToLearn": "Qanday o‘qishni xohlaysiz?",
-    "startWith": "{plan} bilan boshlash",
-    "note": "Darslar sizda umrbod qoladi. Ikkilanyapsizmi — <a>avval sinov darsini ko‘ring</a>.",
+    "startWith": "{plan} tarifini tanlash",
+    "note": "Narx — butun kurs uchun. Darslar sizda umrbod qoladi. Ikkilanyapsizmi — <a>avval sinov darsini ko‘ring</a>.",
     "inside": "Kursda <it>nimalar bor</it>",
     "moduleMeta": "{count} ta dars",
     "withExam": " · nazorat ishi",
@@ -475,7 +479,7 @@
     }
   },
   "landingPage": {
-    "formTitle": "Raqamingizni qoldiring — <it>qo‘ng‘iroq qilamiz</it>",
+    "formTitle": "Bepul darsga <it>yoziling</it>",
     "submit": "Sinab ko‘rmoqchiman",
     "privacy": "Raqam faqat qo‘ng‘iroq qilish uchun kerak. Reklama xabarlari yubormaymiz.",
     "afterTitle": "Qo‘ng‘iroqdan keyin nima bo‘ladi",
