@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { plural } from '@/features/staff/format'
 import { ChevronUp, ChevronDown, Clock, AlertTriangle, ClipboardCheck } from 'lucide-react'
 import { deleteLesson, moveLesson } from '@/features/admin/actions'
 import {
@@ -165,7 +166,7 @@ export function CourseStructure({
 
             <ModuleTitle module={module} />
 
-            <span className="struct-module__count">{module.lessons.length} урок(ов)</span>
+            <span className="struct-module__count">{module.lessons.length} {plural(module.lessons.length, 'урок', 'урока', 'уроков')}</span>
 
             <div className="struct-module__actions">
               <Link

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { plural } from '@/features/staff/format'
 import { notFound } from 'next/navigation'
 import { Pencil } from 'lucide-react'
 import { prisma } from '@/lib/db'
@@ -84,7 +85,7 @@ export default async function EditCourse({
       <div className="card" style={{ padding: '1.5rem' }}>
         <div className="flex items-center justify-between" style={{ marginBottom: '1rem' }}>
           <h3 className="text-lg font-semibold" style={{ color: 'var(--fg)' }}>
-            Программа: {course.modules.length} модуль(ей), {lessonCount} урок(ов)
+            Программа: {course.modules.length} {plural(course.modules.length, 'модуль', 'модуля', 'модулей')}, {lessonCount} {plural(lessonCount, 'урок', 'урока', 'уроков')}
           </h3>
         </div>
 
