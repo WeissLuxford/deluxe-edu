@@ -492,7 +492,9 @@
     "write": "Написать",
     "signout": "Выйти",
     "nav": "Навигация по учёбе",
-    "coursesShort": "Курсы"
+    "coursesShort": "Курсы",
+    "themeDark": "Тёмная тема",
+    "themeLight": "Светлая тема"
   },
   "todayPage": {
     "meta": "Сегодня — Highgate",
@@ -719,7 +721,6 @@
       "devices": "Устройства"
     },
     "themes": {
-      "system": "Как в системе",
       "light": "Светлое",
       "dark": "Тёмное"
     },

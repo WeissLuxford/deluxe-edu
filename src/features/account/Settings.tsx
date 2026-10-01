@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState, useTransition, type ReactNode } from 'react'
+import { useState, useTransition, type ReactNode } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Segmented } from '@/design/components/Segmented'
+import { chooseTheme, useTheme, type Theme } from '@/design/layout/theme'
 import { revokeOwnDevice } from '@/features/dashboard/deviceActions'
 import s from './account.module.css'
 
@@ -37,34 +38,19 @@ export function SettingsList({ rows }: { rows: SettingRow[] }) {
   )
 }
 
-type Theme = 'system' | 'light' | 'dark'
-
-/** Light / dark / system, applied instantly and remembered on this device. */
+/** Light or dark, applied instantly and remembered on this device. */
 export function ThemeChoice() {
-  const t = useTranslations('accountPage.themes')
-  const [theme, setTheme] = useState<Theme>('system')
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('theme')
-      if (saved === 'light' || saved === 'dark') setTheme(saved)
-    } catch {}
-  }, [])
-
-  const apply = (next: Theme) => {
-    setTheme(next)
-    try {
-      if (next === 'system') localStorage.removeItem('theme')
-      else localStorage.setItem('theme', next)
-    } catch {}
-    const dark = next === 'dark' || (next === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    const root = document.documentElement
-    if (dark) root.setAttribute('data-theme', 'dark')
-    else root.removeAttribute('data-theme')
-    root.classList.toggle('light', !dark)
-  }
-
-  return <Segmented<Theme> label={t('system')} value={theme} onChange={apply} tone="white" options={(['system', 'light', 'dark'] as Theme[]).map(v => ({ value: v, label: t(v) }))} />
+  const t = useTranslations('accountPage')
+  const theme = useTheme()
+  return (
+    <Segmented<Theme>
+      label={t('settings.theme')}
+      value={theme}
+      onChange={chooseTheme}
+      tone="white"
+      options={(['light', 'dark'] as Theme[]).map(v => ({ value: v, label: t(`themes.${v}`) }))}
+    />
+  )
 }
 
 /** Saves the language to the profile and switches the page to it. */

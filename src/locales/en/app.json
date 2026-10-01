@@ -492,7 +492,9 @@
     "write": "Message",
     "signout": "Sign out",
     "nav": "Learning navigation",
-    "coursesShort": "Courses"
+    "coursesShort": "Courses",
+    "themeDark": "Dark theme",
+    "themeLight": "Light theme"
   },
   "todayPage": {
     "meta": "Today — Highgate",
@@ -719,7 +721,6 @@
       "devices": "Devices"
     },
     "themes": {
-      "system": "System",
       "light": "Light",
       "dark": "Dark"
     },

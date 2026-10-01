@@ -492,7 +492,9 @@
     "write": "Yozish",
     "signout": "Chiqish",
     "nav": "O‘qish bo‘yicha navigatsiya",
-    "coursesShort": "Kurslar"
+    "coursesShort": "Kurslar",
+    "themeDark": "Qorong‘i mavzu",
+    "themeLight": "Yorug‘ mavzu"
   },
   "todayPage": {
     "meta": "Bugun — Highgate",
@@ -719,7 +721,6 @@
       "devices": "Qurilmalar"
     },
     "themes": {
-      "system": "Tizimdagidek",
       "light": "Yorug‘",
       "dark": "Qorong‘i"
     },
