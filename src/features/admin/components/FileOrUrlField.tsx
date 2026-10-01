@@ -2,6 +2,7 @@
 
 import { useRef, useState, type ChangeEvent } from 'react'
 import { Upload, Loader2 } from 'lucide-react'
+import { FormError, Input, formStyles as fs } from '@/features/staff/form/Form'
 
 // Два режима: неконтролируемый (name+defaultValue, значение уходит в
 // FormData обычной server-action формы, как в LessonForm) и контролируемый
@@ -65,29 +66,17 @@ export function FileOrUrlField({
 
   return (
     <div>
-      <div className="flex items-center gap-2">
-        <input
-          name={name}
-          value={currentValue}
-          onChange={e => setValue(e.target.value)}
-          className="input"
-          placeholder={placeholder}
-          style={{ flex: 1 }}
-        />
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => inputRef.current?.click()}
-          disabled={uploading}
-        >
-          {uploading ? <Loader2 size={15} className="animate-spin" /> : <Upload size={15} />}
+      <div className={fs.withButton}>
+        <Input name={name} value={currentValue} onChange={e => setValue(e.target.value)} placeholder={placeholder} />
+        <button type="button" className={fs.sideBtn} onClick={() => inputRef.current?.click()} disabled={uploading}>
+          {uploading ? <Loader2 size={16} className={fs.spin} /> : <Upload size={16} />}
           {uploading ? 'Загружаю…' : 'Загрузить'}
         </button>
         <input ref={inputRef} type="file" accept={accept} hidden onChange={onFileChange} />
       </div>
       {error && (
-        <div className="alert alert-error" style={{ marginTop: '0.5rem' }}>
-          {error}
+        <div style={{ marginTop: 8 }}>
+          <FormError>{error}</FormError>
         </div>
       )}
     </div>

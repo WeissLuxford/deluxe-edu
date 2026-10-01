@@ -1,16 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useLocaleTab } from './LocaleTabs'
+import { Field } from '@/features/staff/form/Form'
+import { LOCALES, LocaleSwitch, useLocaleTab, type LocaleKey } from './LocaleTabs'
 import { RichTextEditor } from './RichTextEditor'
 
 type Localized = { ru?: string; uz?: string; en?: string }
-
-const LOCALES = [
-  { key: 'ru' as const, label: 'RU' },
-  { key: 'uz' as const, label: 'UZ' },
-  { key: 'en' as const, label: 'EN' }
-]
 
 // Тот же контракт FormData, что у LocalizedField (`${name}_ru` и т. д.),
 // поэтому существующие server actions (readLocalized) читают это поле, не
@@ -35,46 +30,18 @@ export function LocalizedRichField({
     en: value.en ?? ''
   })
 
-  const set = (key: 'ru' | 'uz' | 'en', html: string) => {
+  const set = (key: LocaleKey, html: string) => {
     setValues(prev => ({ ...prev, [key]: html }))
   }
 
-  return (
-    <div className="lf">
-      <div className="lf__head">
-        <label className="label">
-          {label}
-          {required && ' *'}
-        </label>
-        <div className="lf__tabs">
-          {LOCALES.map(l => {
-            const filled = (values[l.key] ?? '').replace(/<[^>]*>/g, '').trim().length > 0
-            return (
-              <button
-                key={l.key}
-                type="button"
-                className={`lf__tab${active === l.key ? ' active' : ''}${filled ? ' filled' : ''}`}
-                onClick={() => setActive(l.key)}
-                title={filled ? 'Заполнено' : 'Пусто'}
-              >
-                {l.label}
-              </button>
-            )
-          })}
-        </div>
-      </div>
+  const filled = Object.fromEntries(LOCALES.map(l => [l.key, (values[l.key] ?? '').replace(/<[^>]*>/g, '').trim().length > 0]))
 
+  return (
+    <Field label={label} required={required} hint={hint} extra={<LocaleSwitch active={active} onChange={setActive} filled={filled} />}>
       {LOCALES.map(l => (
         <input key={l.key} type="hidden" name={`${name}_${l.key}`} value={values[l.key] ?? ''} />
       ))}
-
       <RichTextEditor value={values[active] ?? ''} onChange={html => set(active, html)} />
-
-      {hint && (
-        <div className="lf__foot">
-          <span className="hint">{hint}</span>
-        </div>
-      )}
-    </div>
+    </Field>
   )
 }

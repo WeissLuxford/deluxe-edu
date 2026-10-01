@@ -1,15 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { useLocaleTab } from './LocaleTabs'
+import { Field, Input, Textarea, formStyles as s } from '@/features/staff/form/Form'
+import { LOCALES, LocaleSwitch, useLocaleTab, type LocaleKey } from './LocaleTabs'
 
 type Localized = { ru?: string; uz?: string; en?: string }
-
-const LOCALES = [
-  { key: 'ru' as const, label: 'RU' },
-  { key: 'uz' as const, label: 'UZ' },
-  { key: 'en' as const, label: 'EN' }
-]
 
 export function LocalizedField({
   name,
@@ -39,60 +34,42 @@ export function LocalizedField({
     en: value.en ?? ''
   })
 
-  const set = (key: 'ru' | 'uz' | 'en', v: string) => {
+  const set = (key: LocaleKey, v: string) => {
     setValues(prev => ({ ...prev, [key]: v }))
     if (key === 'ru') onRuChange?.(v)
   }
 
   const current = values[active] ?? ''
-  const Input: any = textarea ? 'textarea' : 'input'
+  const filled = Object.fromEntries(LOCALES.map(l => [l.key, (values[l.key] ?? '').trim().length > 0]))
+  const id = `lf-${name}`
+  const common = {
+    id,
+    value: current,
+    maxLength,
+    // Only Russian is mandatory; the other languages fall back to it.
+    required: required && active === 'ru',
+    onChange: (e: { target: { value: string } }) => set(active, e.target.value)
+  }
 
   return (
-    <div className="lf">
-      <div className="lf__head">
-        <label className="label">
-          {label}
-          {required && ' *'}
-        </label>
-        <div className="lf__tabs">
-          {LOCALES.map(l => {
-            const filled = (values[l.key] ?? '').trim().length > 0
-            return (
-              <button
-                key={l.key}
-                type="button"
-                className={`lf__tab${active === l.key ? ' active' : ''}${filled ? ' filled' : ''}`}
-                onClick={() => setActive(l.key)}
-                title={filled ? 'Заполнено' : 'Пусто'}
-              >
-                {l.label}
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
+    <Field
+      label={label}
+      required={required}
+      htmlFor={id}
+      hint={hint}
+      extra={<LocaleSwitch active={active} onChange={setActive} filled={filled} />}
+      foot={
+        maxLength ? (
+          <span className={s.counter} data-warn={current.length > maxLength * 0.9 || undefined}>
+            {current.length} / {maxLength}
+          </span>
+        ) : undefined
+      }
+    >
       {LOCALES.map(l => (
         <input key={l.key} type="hidden" name={`${name}_${l.key}`} value={values[l.key] ?? ''} />
       ))}
-
-      <Input
-        className={textarea ? 'textarea' : 'input'}
-        rows={textarea ? rows : undefined}
-        value={current}
-        maxLength={maxLength}
-        required={required && active === 'ru'}
-        onChange={(e: any) => set(active, e.target.value)}
-      />
-
-      <div className="lf__foot">
-        {hint && <span className="hint">{hint}</span>}
-        {maxLength && (
-          <span className={`lf__count${current.length > maxLength * 0.9 ? ' warn' : ''}`}>
-            {current.length} / {maxLength}
-          </span>
-        )}
-      </div>
-    </div>
+      {textarea ? <Textarea {...common} rows={rows} /> : <Input {...common} />}
+    </Field>
   )
 }

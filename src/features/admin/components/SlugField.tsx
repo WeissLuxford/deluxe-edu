@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { RefreshCw } from 'lucide-react'
+import { Field, Input, formStyles as fs } from '@/features/staff/form/Form'
 
 const MAP: Record<string, string> = {
   а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z',
@@ -39,31 +40,28 @@ export function SlugField({
   const [slug, setSlug] = useState(value)
 
   return (
-    <div>
-      <label className="label">
-        {label}
-        {required && ' *'}
-      </label>
-      <div className="slug-field">
-        <input
+    <Field label={label} required={required} htmlFor={`slug-${name}`} hint={hint}>
+      <div className={fs.withButton}>
+        <Input
+          id={`slug-${name}`}
           name={name}
           value={slug}
           onChange={e => setSlug(e.target.value)}
-          className="input"
+          className={fs.mono}
           pattern="[a-z0-9\-]+"
           required={required}
         />
         <button
           type="button"
-          className="btn btn-secondary slug-field__gen"
+          className={fs.sideBtn}
           onClick={() => setSlug(slugify(source))}
           disabled={!source.trim()}
           title="Сгенерировать из названия"
+          aria-label="Сгенерировать из названия"
         >
-          <RefreshCw size={15} />
+          <RefreshCw size={16} />
         </button>
       </div>
-      {hint && <div className="hint">{hint}</div>}
-    </div>
+    </Field>
   )
 }
