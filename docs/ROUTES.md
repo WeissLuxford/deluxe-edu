@@ -18,7 +18,7 @@
 | `/news`, `/news/[slug]` | — | ❓ |
 | `/signup` | SignUp | ✅ |
 | `/signin`, `/forgot-password`, `/reset-password`, `/resend-verification` | в стиле SignUp | ✅ |
-| `/level-test`, `/level-test/[lesson]` | LevelTest | ⬜ |
+| `/level-test` (группа `(focus)`), `/level-test/[lesson]` → редирект | LevelTest | ✅ |
 | `/trial-lesson` | Lesson (пробный) | ⬜ |
 | `/free-mock-test`, `/free-mock-test/[lesson]` | — | ❓ |
 | `/l/[campaign]` | Landing | ⬜ |
