@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { setUserRole } from '../actions'
+import { FormError, Select } from '@/features/staff/form/Form'
 
 type Role = 'STUDENT' | 'MENTOR' | 'ADMIN'
 
@@ -31,7 +32,7 @@ export function RoleSelect({
     return (
       <div>
         <span className="badge badge-primary">{LABELS[role]}</span>
-        <div className="text-xs" style={{ color: 'var(--muted)', marginTop: '0.25rem' }}>это вы</div>
+        <div className="text-xs" style={{ color: 'var(--c-muted)', marginTop: 4 }}>это ты</div>
       </div>
     )
   }
@@ -59,20 +60,24 @@ export function RoleSelect({
 
   return (
     <div>
-      <select
-        className="select"
+      <Select
+        aria-label={`Роль: ${name}`}
         value={role}
         disabled={pending}
         onChange={event => onChange(event.target.value as Role)}
-        style={{ minWidth: '11rem' }}
+        style={{ minWidth: '11rem', minHeight: 40, padding: '8px 36px 8px 14px' }}
       >
         {(Object.keys(LABELS) as Role[]).map(value => (
           <option key={value} value={value}>
             {LABELS[value]}
           </option>
         ))}
-      </select>
-      {error && <div className="alert alert-error" style={{ marginTop: '0.5rem' }}>{error}</div>}
+      </Select>
+      {error && (
+        <div style={{ marginTop: 8 }}>
+          <FormError>{error}</FormError>
+        </div>
+      )}
     </div>
   )
 }

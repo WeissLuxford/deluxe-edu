@@ -820,6 +820,88 @@
   letter-spacing: 0.02em;
 }
 
+/* ---------- rich text editor toolbar (v2 over the moved rules) ---------- */
+
+.staff .rte {
+  background: var(--c-white);
+}
+
+.staff .rte-head {
+  padding: 6px;
+  border-bottom: 1.5px solid var(--c-line-2);
+  background: var(--c-panel-alt);
+}
+
+.staff .rte-toolbar {
+  gap: 2px;
+}
+
+.staff .rte-toolbar__btn {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 10px;
+  color: var(--c-muted);
+}
+
+.staff .rte-toolbar__btn:hover {
+  background: var(--c-white);
+  color: var(--c-ink);
+}
+
+.staff .rte-toolbar__btn.active {
+  background: var(--c-lavender);
+  color: var(--c-violet-ink);
+  border-color: transparent;
+}
+
+.staff .rte-toolbar__html {
+  width: auto;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.staff .rte-toolbar__sep {
+  height: 18px;
+  margin: 0 4px;
+  background: var(--c-line);
+}
+
+.staff .rte-toolbar__colors {
+  border: 0;
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: var(--shadow-float);
+}
+
+.staff .rte-content {
+  padding: 14px 16px;
+}
+
+.staff .rte-content .ProseMirror,
+.staff .rte-content .ProseMirror :is(p, li, h2, h3) {
+  color: var(--c-ink);
+}
+
+.staff .rte-content .ProseMirror {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.staff .rte-content .ProseMirror blockquote {
+  border-left: 0;
+  border-radius: 14px;
+  background: var(--c-lavender);
+}
+
+.staff .rte-content .ProseMirror mark {
+  background: var(--c-lime);
+}
+
+.staff .rte-html {
+  padding: 14px 16px;
+}
+
 /* ---------- moved from the old globals.css / admin-structure.css ---------- */
 
 .order-controls {
