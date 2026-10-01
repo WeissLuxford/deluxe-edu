@@ -686,14 +686,6 @@
     "faqAll": "Barcha savollar",
     "hoursValue": "Har kuni, 9:00–21:00 (GMT+5)"
   },
-  "news": {
-    "title": "Yangiliklar",
-    "subtitle": "Platformada nimalar bolyapti",
-    "empty": "Hozircha yangiliklar yoq",
-    "emptyHint": "Bu yerda elonlar va yangilanishlar paydo boladi",
-    "readMore": "Oqish",
-    "backToList": "Barcha yangiliklar"
-  },
   "learn": {
     "title": "Mening ta’limim",
     "subtitle": "Siz kirish huquqiga ega kurslar",

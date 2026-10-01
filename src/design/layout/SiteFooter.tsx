@@ -33,6 +33,7 @@ export async function SiteFooter() {
             <span className={s.colTitle}>{t('school')}</span>
             <Link href={`${base}/teachers`}>{t('teachers')}</Link>
             <Link href={`${base}/results`}>{t('results')}</Link>
+            <Link href={`${base}/news`}>{t('news')}</Link>
             <Link href={`${base}/about`}>{t('about')}</Link>
           </div>
           <div className={s.col}>

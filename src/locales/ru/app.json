@@ -101,7 +101,8 @@
     "results": "Результаты",
     "about": "О нас и контакты",
     "language": "Язык сайта",
-    "copy": "© Highgate Education"
+    "copy": "© Highgate Education",
+    "news": "Новости"
   },
   "leadForm": {
     "nameLabel": "Как тебя зовут",
@@ -752,5 +753,21 @@
     "rejected": "просит повторить",
     "pending": "на проверке",
     "open": "Открыть"
+  },
+  "newsPage": {
+    "meta": {
+      "title": "Новости школы — Highgate",
+      "description": "Новости школы Highgate: наборы в группы, эфиры, результаты учеников."
+    },
+    "title": "Новости <it>школы</it>",
+    "lead": "Наборы, эфиры, результаты учеников — всё, что у нас происходит.",
+    "instagram": "Мы в Instagram",
+    "fromInstagram": "из Instagram",
+    "emptyTitle": "Пока <it>тихо</it>",
+    "emptyText": "Новостей ещё нет. Загляни чуть позже — или подпишись на нас в Instagram.",
+    "readMore": "Читать",
+    "back": "Все новости",
+    "openPost": "Открыть пост в Instagram",
+    "more": "Ещё новости"
   }
 }

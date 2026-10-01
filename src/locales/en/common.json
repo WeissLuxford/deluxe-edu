@@ -686,14 +686,6 @@
     "faqAll": "All questions",
     "hoursValue": "Every day, 9:00–21:00 (GMT+5)"
   },
-  "news": {
-    "title": "News",
-    "subtitle": "What is happening on the platform",
-    "empty": "No news yet",
-    "emptyHint": "Announcements and updates will appear here",
-    "readMore": "Read",
-    "backToList": "All news"
-  },
   "learn": {
     "title": "My learning",
     "subtitle": "Courses you have access to",

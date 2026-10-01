@@ -1,61 +1,74 @@
-import Link from 'next/link'
+import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
+import { after } from 'next/server'
 import { getTranslations } from 'next-intl/server'
-import { Calendar } from 'lucide-react'
 import { prisma } from '@/lib/db'
-import { localized } from '@/lib/localized'
+import { Reveal } from '@/design/components/Reveal'
+import { Container, Heading } from '@/design/components/Type'
+import { syncInstagram, instagramUsername } from '@/features/news/instagram'
+import { NewsCard } from '@/features/news/NewsCard'
+import s from '@/features/news/news.module.css'
 
 export const dynamic = 'force-dynamic'
 
-export default async function NewsListPage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'news' })
+type Props = { params: Promise<{ locale: string }> }
 
-  const items = await prisma.news.findMany({
-    where: { published: true, publishedAt: { lte: new Date() } },
-    orderBy: { publishedAt: 'desc' },
-    take: 50
-  })
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'newsPage.meta' })
+  return { title: t('title'), description: t('description'), alternates: { types: { 'application/rss+xml': `/${locale}/rss.xml` } } }
+}
+
+export default async function NewsListPage({ params }: Props) {
+  const { locale } = await params
+  const [t, items, username] = await Promise.all([
+    getTranslations({ locale, namespace: 'newsPage' }),
+    prisma.news.findMany({
+      where: { published: true, publishedAt: { lte: new Date() } },
+      orderBy: { publishedAt: 'desc' },
+      take: 60,
+      select: { id: true, slug: true, title: true, lead: true, coverUrl: true, publishedAt: true, instagramId: true }
+    }),
+    instagramUsername()
+  ])
+  // New Instagram posts arrive after the page is sent — the next visitor sees them.
+  after(() => syncInstagram().catch(() => undefined))
+
+  const rich = { it: (c: ReactNode) => <span className="it">{c}</span> }
+  const [first, ...rest] = items
 
   return (
-    <main>
-      <div>
-        <h1>{t('title')}</h1>
-        <p>{t('subtitle')}</p>
+    <Container>
+      <div className={s.head}>
+        <Reveal>
+          <Heading size="h1">{t.rich('title', rich)}</Heading>
+        </Reveal>
+        <Reveal delay={80} className={s.headSide}>
+          <p className={s.lead}>{t('lead')}</p>
+          {username && (
+            <a href={`https://instagram.com/${username}`} target="_blank" rel="noreferrer" className={s.igLink}>
+              <span className={s.igMark} aria-hidden="true">
+                IG
+              </span>
+              {t('instagram')} · @{username}
+            </a>
+          )}
+        </Reveal>
       </div>
 
-      <div>
-        {items.length === 0 ? (
-          <div>
-            <h3>{t('empty')}</h3>
-            <p>{t('emptyHint')}</p>
-          </div>
-        ) : (
-          <div>
-            {items.map(n => (
-              <article key={n.id}>
-                {n.coverUrl && (
-                  <Link href={`/${locale}/news/${n.slug}`}>
-                    <img src={n.coverUrl} alt="" loading="lazy" />
-                  </Link>
-                )}
-                <time dateTime={n.publishedAt?.toISOString()}>
-                  <Calendar size={13} />
-                  {n.publishedAt?.toLocaleDateString(locale, {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric'
-                  })}
-                </time>
-                <h2>
-                  <Link href={`/${locale}/news/${n.slug}`}>{localized(n.title, locale)}</Link>
-                </h2>
-                <p>{localized(n.lead, locale)}</p>
-                <Link href={`/${locale}/news/${n.slug}`}>{t('readMore')}</Link>
-              </article>
-            ))}
-          </div>
-        )}
-      </div>
-    </main>
+      {!first ? (
+        <Reveal className={s.empty}>
+          <span className={s.emptyTitle}>{t.rich('emptyTitle', rich)}</span>
+          <p className={s.emptyText}>{t('emptyText')}</p>
+        </Reveal>
+      ) : (
+        <div className={s.grid}>
+          <NewsCard item={first} locale={locale} feature labels={{ fromInstagram: t('fromInstagram'), readMore: t('readMore') }} />
+          {rest.map((n, i) => (
+            <NewsCard key={n.id} item={n} locale={locale} index={i} labels={{ fromInstagram: t('fromInstagram'), readMore: t('readMore') }} />
+          ))}
+        </div>
+      )}
+    </Container>
   )
 }

@@ -101,7 +101,8 @@
     "results": "Natijalar",
     "about": "Biz haqimizda va aloqa",
     "language": "Sayt tili",
-    "copy": "© Highgate Education"
+    "copy": "© Highgate Education",
+    "news": "Yangiliklar"
   },
   "leadForm": {
     "nameLabel": "Isming nima",
@@ -752,5 +753,21 @@
     "rejected": "takrorlashni so‘rayapti",
     "pending": "tekshirilmoqda",
     "open": "Ochish"
+  },
+  "newsPage": {
+    "meta": {
+      "title": "Maktab yangiliklari — Highgate",
+      "description": "Highgate yangiliklari: guruhlarga qabul, efirlar, o‘quvchilar natijalari."
+    },
+    "title": "Maktab <it>yangiliklari</it>",
+    "lead": "Guruhlarga qabul, efirlar, o‘quvchilar natijalari — bizda nima bo‘layotgani haqida hammasi.",
+    "instagram": "Biz Instagramda",
+    "fromInstagram": "Instagramdan",
+    "emptyTitle": "Hozircha <it>jimjitlik</it>",
+    "emptyText": "Hali yangiliklar yo‘q. Birozdan keyin qayta kiring — yoki Instagramda bizga obuna bo‘ling.",
+    "readMore": "O‘qish",
+    "back": "Barcha yangiliklar",
+    "openPost": "Postni Instagramda ochish",
+    "more": "Boshqa yangiliklar"
   }
 }

@@ -101,7 +101,8 @@
     "results": "Results",
     "about": "About and contacts",
     "language": "Site language",
-    "copy": "© Highgate Education"
+    "copy": "© Highgate Education",
+    "news": "News"
   },
   "leadForm": {
     "nameLabel": "What's your name",
@@ -752,5 +753,21 @@
     "rejected": "asks for a review",
     "pending": "being reviewed",
     "open": "Open"
+  },
+  "newsPage": {
+    "meta": {
+      "title": "School news — Highgate",
+      "description": "Highgate news: new groups, live sessions and student results."
+    },
+    "title": "School <it>news</it>",
+    "lead": "New groups, live sessions, student results — everything happening here.",
+    "instagram": "We are on Instagram",
+    "fromInstagram": "from Instagram",
+    "emptyTitle": "All <it>quiet</it> for now",
+    "emptyText": "No news yet. Check back a bit later — or follow us on Instagram.",
+    "readMore": "Read",
+    "back": "All news",
+    "openPost": "Open the post on Instagram",
+    "more": "More news"
   }
 }
