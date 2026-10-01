@@ -27,7 +27,7 @@ export default async function OpenLayout({ children, params }: { children: React
       <ThemeSync area="site" />
       <SiteHeader />
       <main className="page-in">{children}</main>
-      <SiteFooter />
+      <SiteFooter locale={locale} />
     </>
   )
 }

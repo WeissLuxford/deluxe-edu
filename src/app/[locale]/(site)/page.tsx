@@ -89,7 +89,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <span className={s.heroNote}>{t('hero.note')}</span>
           </Reveal>
         </div>
-        <HeroCollage />
+        <HeroCollage locale={locale} />
       </Container>
 
       <section className={s.bleed}>

@@ -3,8 +3,8 @@ import s from './home.module.css'
 
 // The hero illustration is the product itself: a lesson card, a streak, a
 // teacher's note and a right answer — each floats in with a small delay.
-export async function HeroCollage() {
-  const t = await getTranslations('homePage.collage')
+export async function HeroCollage({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'homePage.collage' })
 
   return (
     <div className={s.collage} aria-hidden="true">

@@ -1,11 +1,12 @@
 import Link from 'next/link'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import { CONTACTS } from '@/content/contacts'
 import s from './SiteFooter.module.css'
 
-export async function SiteFooter() {
-  const locale = await getLocale()
-  const t = await getTranslations('siteFooter')
+// The locale comes in as a prop: our middleware doesn't set next-intl's
+// request locale, so getLocale()/getTranslations() without one fall back to ru.
+export async function SiteFooter({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'siteFooter' })
   const base = `/${locale}`
 
   return (
