@@ -65,8 +65,13 @@ html[data-theme='dark'] .sidebar {
   color: var(--t-fg);
 }
 
-.sidebar > a:first-child {
+.sideTop {
+  margin-right: 22px;
   padding-left: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .nav {
@@ -338,7 +343,7 @@ html[data-theme='dark'] .rail {
     background: var(--c-ink);
     box-shadow: 0 12px 30px rgba(23, 19, 31, 0.22);
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr)) 54px;
     gap: 4px;
   }
 

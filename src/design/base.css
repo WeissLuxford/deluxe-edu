@@ -195,6 +195,22 @@ a {
   animation: page-in 420ms var(--ease-out) both;
 }
 
+/* Theme switch (design/layout/theme.ts): the page cross-fades, while the
+   toggle keeps its own live motion instead of fading between two snapshots. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 360ms;
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-old(theme-toggle) {
+  display: none;
+}
+
+::view-transition-new(theme-toggle) {
+  animation: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -7,6 +7,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import type { ReactNode } from 'react'
 import { CONTACTS } from '@/content/contacts'
 import { Logo } from '../components/Bits'
+import { ThemeToggle } from './ThemeToggle'
 import s from './app.module.css'
 
 export type AppSection = 'today' | 'courses' | 'live' | 'tasks' | 'profile'
@@ -80,7 +81,10 @@ export function AppSidebar({ coursesHref, badges = {} }: NavProps) {
 
   return (
     <aside className={s.sidebar}>
-      <Logo href={`/${locale}/learn`} ring="#e6e0fa" />
+      <div className={s.sideTop}>
+        <Logo href={`/${locale}/learn`} ring="#e6e0fa" />
+        <ThemeToggle />
+      </div>
       <nav className={s.nav} aria-label={t('nav')}>
         {items.map(item => {
           const on = item.id === active
@@ -124,6 +128,7 @@ export function AppTabBar({ coursesHref, badges = {} }: NavProps) {
           </Link>
         )
       })}
+      <ThemeToggle variant="round" />
     </nav>
   )
 }
