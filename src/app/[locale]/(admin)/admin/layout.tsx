@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/db'
 import { requireAdmin } from '@/features/admin/requireAdmin'
-import { AdminSidebar } from '@/features/admin/components/AdminSidebar'
+import { StaffShell, type StaffItem } from '@/design/layout/StaffShell'
 
 export const metadata = {
   title: 'Админка — Highgate',
@@ -15,29 +15,24 @@ export default async function AdminLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const admin = await requireAdmin(locale)
+  await requireAdmin(locale)
+  const base = `/${locale}/admin`
 
-  const [courses, students, streams, news, newContacts, teachers] = await Promise.all([
-    prisma.course.count(),
-    prisma.user.count(),
-    prisma.stream.count(),
-    prisma.news.count(),
-    prisma.contactRequest.count({ where: { status: 'NEW' } }),
-    prisma.user.count({ where: { role: 'MENTOR' } })
-  ])
+  const newLeads = await prisma.contactRequest.count({ where: { status: 'NEW' } })
+
+  const items: StaffItem[] = [
+    { href: base, label: 'Обзор', icon: 'overview', exact: true },
+    { href: `${base}/contacts`, label: 'Заявки', icon: 'leads', badge: newLeads },
+    { href: `${base}/students`, label: 'Студенты', icon: 'students' },
+    { href: `${base}/courses`, label: 'Курсы', icon: 'courses' },
+    { href: `${base}/teachers`, label: 'Преподаватели', icon: 'teachers' },
+    { href: `${base}/streams`, label: 'Эфиры', icon: 'live' },
+    { href: `${base}/news`, label: 'Новости', icon: 'news' }
+  ]
 
   return (
-    <div className="admin-shell">
-      <AdminSidebar
-        locale={locale}
-        adminName={admin.name || 'Администратор'}
-        adminPhone={admin.phone}
-        counters={{ courses, students, streams, news, newContacts, teachers }}
-      />
-
-      <main className="admin-main">
-        <div className="admin-content">{children}</div>
-      </main>
-    </div>
+    <StaffShell tone="admin" items={items} siteHref={`/${locale}`}>
+      {children}
+    </StaffShell>
   )
 }

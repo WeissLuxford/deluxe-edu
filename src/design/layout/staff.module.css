@@ -1,0 +1,238 @@
+/* ---------- frame ---------- */
+
+.shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  background: var(--c-paper);
+  color: var(--c-ink);
+}
+
+.main {
+  min-width: 0;
+  padding: 28px 32px 56px;
+}
+
+.main > div {
+  max-width: 1360px;
+}
+
+/* ---------- rail ---------- */
+
+.rail {
+  position: sticky;
+  top: 16px;
+  height: calc(100vh - 32px);
+  box-sizing: border-box;
+  margin: 16px 0 16px 16px;
+  padding: 20px 0;
+  border-radius: 32px;
+  background: var(--c-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 20;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  background: var(--c-white);
+  color: var(--c-ink);
+  font-size: 22px;
+  font-weight: 900;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.shell[data-tone='teacher'] .logo {
+  background: var(--c-violet);
+  color: var(--c-white);
+}
+
+.logo:hover {
+  color: var(--c-ink);
+  transform: rotate(-6deg);
+}
+
+.shell[data-tone='teacher'] .logo:hover {
+  color: var(--c-white);
+}
+
+.items,
+.foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.foot {
+  margin-top: auto;
+  gap: 8px;
+}
+
+.item {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--c-ink-2);
+  color: #e9e6f0;
+  font: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition:
+    background-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.foot .item {
+  width: 44px;
+  height: 44px;
+  border-radius: 15px;
+  background: transparent;
+  color: var(--c-on-ink);
+}
+
+.item:hover {
+  background: #3a3448;
+  color: var(--c-white);
+}
+
+.foot .item:hover {
+  background: var(--c-ink-2);
+}
+
+.item[data-active] {
+  background: var(--c-white);
+  color: var(--c-ink);
+}
+
+.shell[data-tone='teacher'] .item[data-active] {
+  background: var(--c-lime);
+}
+
+.badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  border-radius: 9px;
+  background: var(--c-lime);
+  color: var(--c-ink);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 17px;
+  text-align: center;
+}
+
+.shell[data-tone='teacher'] .item[data-active] .badge {
+  background: var(--c-ink);
+  color: var(--c-lime);
+}
+
+/* Name of the section, shown beside the icon on hover and keyboard focus. */
+.item::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: calc(100% + 14px);
+  top: 50%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--c-ink);
+  color: var(--c-white);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-6px, -50%);
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.item:hover::after,
+.item:focus-visible::after {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+/* ---------- phones: the rail becomes a bottom bar ---------- */
+
+@media (max-width: 900px) {
+  .shell {
+    display: block;
+  }
+
+  .main {
+    padding: 20px 16px 120px;
+  }
+
+  .rail {
+    position: fixed;
+    top: auto;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    height: auto;
+    margin: 0;
+    padding: 8px;
+    border-radius: 26px;
+    flex-direction: row;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    box-shadow: var(--shadow-float);
+  }
+
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .logo,
+  .item::after {
+    display: none;
+  }
+
+  .items,
+  .foot {
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .foot {
+    margin: 0 0 0 auto;
+  }
+
+  .item {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .item::after,
+  .logo {
+    transition: none;
+  }
+}
