@@ -410,6 +410,10 @@
       "signup": "Sign up",
       "forgot-password": "Password recovery",
       "resend-verification": "Resend email"
+    },
+    "bind": {
+      "title": "Add your <it>number</it>",
+      "lead": "Your teacher and support need it to reach you about your studies. We'll text you a code."
     }
   },
   "quiz": {
@@ -681,5 +685,72 @@
     "chatHint": "Stream chat",
     "back": "All streams",
     "joinError": "Couldn't open the stream. Try again."
+  },
+  "accountPage": {
+    "meta": "Profile — Highgate",
+    "since": "with us since {date}",
+    "edit": "Edit",
+    "close": "Done",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "saveError": "Couldn't save. Check the fields.",
+    "lessons": "{count, plural, one {lesson done} other {lessons done}}",
+    "streak": "{count, plural, one {day in a row} other {days in a row}}",
+    "certificates": "{count, plural, one {certificate} other {certificates}}",
+    "achievements": "Achievements",
+    "plan": "Your plan",
+    "planLine": "{plan} · {course}",
+    "planNote": "Lessons are yours forever. Reviews and classes last for the plan's term.",
+    "noPlan": "No course yet — pick one in the catalog.",
+    "settings": {
+      "payments": "Payments",
+      "language": "Site and explanation language",
+      "theme": "Appearance",
+      "phone": "Phone",
+      "email": "Email",
+      "devices": "Devices"
+    },
+    "themes": {
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "noEmail": "Not linked",
+    "noPhone": "Not set",
+    "changePhone": "Change number",
+    "addPhone": "Add a number",
+    "noPayments": "No payments yet.",
+    "paymentStatus": {
+      "pending": "processing",
+      "paid": "paid",
+      "failed": "failed",
+      "cancelled": "cancelled"
+    },
+    "thisDevice": "This device",
+    "revoke": "Sign out",
+    "revokeConfirm": "End the session on this device?",
+    "noDevices": "No active devices."
+  },
+  "tasksPage": {
+    "meta": "Tasks — Highgate",
+    "title": "Tasks and <it>reviews</it>",
+    "waiting": "Waiting for you",
+    "waitingEmpty": "All submitted — great work!",
+    "examReady": "Checkpoint ready to take",
+    "reviewing": "Being reviewed by the teacher",
+    "history": "Already submitted",
+    "historyEmpty": "Your tests and checkpoints will show up here.",
+    "test": "Lesson test",
+    "exam": "Checkpoint",
+    "passed": "passed",
+    "failed": "not enough",
+    "approved": "approved by the teacher",
+    "rejected": "asks for a review",
+    "pending": "being reviewed",
+    "open": "Open"
   }
 }

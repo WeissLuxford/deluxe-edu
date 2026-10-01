@@ -34,7 +34,7 @@
 | `/learn/[slug]/[lesson]` | Lesson, LessonMobile, Quiz | ✅ |
 | `/learn/[slug]/exam/[moduleId]` | Quiz (без подсказок по ходу) | ✅ |
 | `/streams`, `/streams/[id]` | Live (гость — в шапке сайта) | ✅ |
-| `/account`, `/learn/account`, `/account/phone` | Account | ⬜ |
+| `/learn/account` (+ `/account` → редирект), `/account/phone`, `/learn/tasks` | Account, сайдбар «Задания» | ✅ |
 | ~~Шаг «Диалог»~~ | — | 🗑 удалено (на будущее) |
 
 ## Преподаватель и админка (StaffShell: тёмная рейка)

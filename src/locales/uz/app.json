@@ -410,6 +410,10 @@
       "signup": "Ro‘yxatdan o‘tish",
       "forgot-password": "Parolni tiklash",
       "resend-verification": "Xatni qayta yuborish"
+    },
+    "bind": {
+      "title": "<it>Raqamingni</it> qoldir",
+      "lead": "U o‘qituvchi va yordam xizmati o‘qish bo‘yicha sen bilan bog‘lanishi uchun kerak. SMS orqali kod yuboramiz."
     }
   },
   "quiz": {
@@ -681,5 +685,72 @@
     "chatHint": "Efir chati",
     "back": "Barcha efirlar",
     "joinError": "Efirni ochib bo‘lmadi. Yana urinib ko‘r."
+  },
+  "accountPage": {
+    "meta": "Profil — Highgate",
+    "since": "{date} dan beri biz bilan",
+    "edit": "O‘zgartirish",
+    "close": "Tayyor",
+    "firstName": "Ism",
+    "lastName": "Familiya",
+    "email": "Pochta",
+    "save": "Saqlash",
+    "saving": "Saqlanmoqda…",
+    "saved": "Saqlandi",
+    "saveError": "Saqlab bo‘lmadi. Maydonlarni tekshir.",
+    "lessons": "ta dars o‘tildi",
+    "streak": "kun ketma-ket",
+    "certificates": "ta sertifikat",
+    "achievements": "Yutuqlar",
+    "plan": "Sening tarifing",
+    "planLine": "{plan} · {course}",
+    "planNote": "Darslar — abadiy. Tekshiruv va mashg‘ulotlar — tarif muddati davomida.",
+    "noPlan": "Hozircha kurs yo‘q — katalogdan tanla.",
+    "settings": {
+      "payments": "To‘lovlar",
+      "language": "Sayt va tushuntirish tili",
+      "theme": "Ko‘rinish",
+      "phone": "Telefon",
+      "email": "Pochta",
+      "devices": "Qurilmalar"
+    },
+    "themes": {
+      "system": "Tizimdagidek",
+      "light": "Yorug‘",
+      "dark": "Qorong‘i"
+    },
+    "noEmail": "Ulanmagan",
+    "noPhone": "Ko‘rsatilmagan",
+    "changePhone": "Raqamni o‘zgartirish",
+    "addPhone": "Raqam qo‘shish",
+    "noPayments": "Hozircha to‘lovlar yo‘q.",
+    "paymentStatus": {
+      "pending": "ko‘rib chiqilmoqda",
+      "paid": "to‘langan",
+      "failed": "o‘tmadi",
+      "cancelled": "bekor qilingan"
+    },
+    "thisDevice": "Shu qurilma",
+    "revoke": "Chiqish",
+    "revokeConfirm": "Bu qurilmadagi seansni yakunlaysanmi?",
+    "noDevices": "Faol qurilmalar yo‘q."
+  },
+  "tasksPage": {
+    "meta": "Topshiriqlar — Highgate",
+    "title": "Topshiriqlar va <it>tekshiruvlar</it>",
+    "waiting": "Seni kutmoqda",
+    "waitingEmpty": "Hammasi topshirildi — ajoyib ish!",
+    "examReady": "Nazorat ishini topshirish mumkin",
+    "reviewing": "O‘qituvchi tekshirmoqda",
+    "history": "Allaqachon topshirilgan",
+    "historyEmpty": "Bu yerda testlaring va nazorat ishlaring paydo bo‘ladi.",
+    "test": "Dars testi",
+    "exam": "Nazorat ishi",
+    "passed": "qabul qilindi",
+    "failed": "yetmadi",
+    "approved": "o‘qituvchi qabul qildi",
+    "rejected": "takrorlashni so‘rayapti",
+    "pending": "tekshirilmoqda",
+    "open": "Ochish"
   }
 }
