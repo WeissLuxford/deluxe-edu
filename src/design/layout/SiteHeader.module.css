@@ -46,6 +46,7 @@
   font-weight: 500;
   color: var(--c-ink);
   text-decoration: none;
+  white-space: nowrap;
   transition: background-color var(--dur) var(--ease-out), font-weight var(--dur);
 }
 
@@ -134,6 +135,7 @@
 .signin {
   font-size: 15px;
   font-weight: 600;
+  white-space: nowrap;
   color: var(--c-ink);
   text-decoration: none;
   transition: color var(--dur-fast);
@@ -152,6 +154,7 @@
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;
+  white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -215,7 +218,30 @@
   display: none;
 }
 
-@media (max-width: 960px) {
+/* Uzbek labels are longer; tighten before the burger takes over. */
+@media (max-width: 1180px) {
+  .bar {
+    gap: 16px;
+  }
+
+  .nav {
+    gap: 2px;
+  }
+
+  .link {
+    padding: 0 11px;
+  }
+
+  .right {
+    gap: 14px;
+  }
+
+  .cta {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 1040px) {
   .nav,
   .lang,
   .cta {
