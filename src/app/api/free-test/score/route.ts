@@ -5,10 +5,10 @@ import { RATE_LIMITS, clientIp, consumeRateLimit, rateLimitResponse } from '@/li
 
 export const dynamic = 'force-dynamic'
 
-// Открытые тесты — определение уровня и пробный mock test. Регистрация для них
+// Открытые тесты — определение уровня и пробный урок. Регистрация для них
 // не нужна, поэтому роут без сессии; чтобы им нельзя было перебирать ключ,
 // проверка идёт по одному разделу за раз и ограничена по IP.
-const OPEN_COURSES = ['level-test', 'free-mock-test-online', 'trial-lesson']
+const OPEN_COURSES = ['level-test', 'trial-lesson']
 
 export async function POST(request: NextRequest) {
   const limit = await consumeRateLimit(RATE_LIMITS.freeTestIp, clientIp(request.headers))

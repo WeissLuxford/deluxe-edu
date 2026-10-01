@@ -24,7 +24,7 @@ function plural(n: number, one: string, few: string, many: string) {
 }
 
 export function ReportView({ data, comment, publishedAt, actions }: { data: ReportSnapshot; comment: string | null; publishedAt: Date | null; actions?: React.ReactNode }) {
-  const { attendance, homework, lessons, rank, exams, speaking } = data
+  const { attendance, homework, lessons, rank, exams } = data
   const firstName = data.student.name.split(' ')[0] || data.student.name
 
   return (
@@ -133,12 +133,6 @@ export function ReportView({ data, comment, publishedAt, actions }: { data: Repo
               <div className={s.row}><span>Пропустил(а)</span><b>{attendance.absent}</b></div>
               <div className={s.row}><span>По уважительной</span><b>{attendance.excused}</b></div>
             </>
-          )}
-          {speaking.completed > 0 && (
-            <p className={s.empty}>
-              Разговорная практика: {speaking.completed} {plural(speaking.completed, 'диалог', 'диалога', 'диалогов')}, {speaking.recordings}{' '}
-              {plural(speaking.recordings, 'записанная реплика', 'записанные реплики', 'записанных реплик')}.
-            </p>
           )}
         </section>
       </div>

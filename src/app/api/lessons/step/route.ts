@@ -7,7 +7,7 @@ import { isLessonAccessible } from '@/features/learn/progress'
 
 const bodySchema = z.object({
   lessonId: z.string().min(1),
-  step: z.enum(['video', 'conspect', 'test', 'dialogue'])
+  step: z.enum(['video', 'conspect', 'test'])
 })
 
 export async function POST(req: NextRequest) {

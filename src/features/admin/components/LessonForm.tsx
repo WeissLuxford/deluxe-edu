@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useState, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
-import { Video, FileText, ClipboardCheck, MessagesSquare } from 'lucide-react'
+import { Video, FileText, ClipboardCheck } from 'lucide-react'
 import { LocalizedField } from './LocalizedField'
 import { LocalizedRichField } from './LocalizedRichField'
 import { SlugField } from './SlugField'
@@ -19,7 +19,6 @@ type Lesson = {
   hasVideo: boolean
   hasConspect: boolean
   hasTest: boolean
-  hasDialogue: boolean
   videoUrl: string | null
   zoomMeetingId: string | null
   moduleId: string | null
@@ -35,7 +34,6 @@ const empty: Lesson = {
   hasVideo: true,
   hasConspect: false,
   hasTest: false,
-  hasDialogue: false,
   videoUrl: null,
   zoomMeetingId: null,
   moduleId: null,
@@ -43,13 +41,12 @@ const empty: Lesson = {
   durationMin: null
 }
 
-type TabKey = 'video' | 'conspect' | 'tests' | 'dialogue'
+type TabKey = 'video' | 'conspect' | 'tests'
 
 const TABS: { key: TabKey; label: string; icon: typeof Video }[] = [
   { key: 'video', label: 'Видео', icon: Video },
   { key: 'conspect', label: 'Конспект', icon: FileText },
   { key: 'tests', label: 'Тесты', icon: ClipboardCheck },
-  { key: 'dialogue', label: 'Диалог', icon: MessagesSquare }
 ]
 
 export function LessonForm({
@@ -58,8 +55,7 @@ export function LessonForm({
   modules = [],
   submitLabel,
   redirectTo,
-  testsSlot,
-  dialogueSlot
+  testsSlot
 }: {
   action: (prev: ActionResult | null, form: FormData) => Promise<ActionResult>
   lesson?: Lesson
@@ -67,7 +63,6 @@ export function LessonForm({
   submitLabel: string
   redirectTo: string
   testsSlot?: ReactNode
-  dialogueSlot?: ReactNode
 }) {
   const router = useRouter()
   const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(action, null)
@@ -230,17 +225,6 @@ export function LessonForm({
           {!testsSlot && <p className="hint">Тест можно добавить после того, как урок будет создан.</p>}
         </section>
 
-        <section className="admin-panel" style={{ display: tab === 'dialogue' ? 'flex' : 'none' }}>
-          <label className="admin-switch">
-            <input type="checkbox" name="hasDialogue" defaultChecked={lesson.hasDialogue} />
-            <span>
-              <strong>Показывать шаг «Диалог»</strong>
-              <em>Ученик слушает диалог целиком, потом проговаривает реплики своего персонажа</em>
-            </span>
-          </label>
-
-          {!dialogueSlot && <p className="hint">Диалог можно добавить после того, как урок будет создан.</p>}
-        </section>
 
         <div className="admin-savebar">
           <button type="submit" className="btn btn-primary" disabled={pending}>
@@ -255,11 +239,6 @@ export function LessonForm({
         </div>
       )}
 
-      {dialogueSlot && (
-        <div style={{ display: tab === 'dialogue' ? 'block' : 'none', marginTop: '1rem' }}>
-          {dialogueSlot}
-        </div>
-      )}
     </>
   )
 }

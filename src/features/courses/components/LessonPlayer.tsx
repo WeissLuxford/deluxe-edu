@@ -11,7 +11,6 @@ import {
   Video,
   FileText,
   ListChecks,
-  MessagesSquare,
   Dog,
   Cat,
   Rabbit,
@@ -26,9 +25,8 @@ import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
 import { VideoStep } from './lesson-steps/VideoStep'
 import { ConspectStep } from './lesson-steps/ConspectStep'
 import { TestStep } from './lesson-steps/TestStep'
-import { DialogueStep } from './lesson-steps/DialogueStep'
 
-type Step = 'video' | 'conspect' | 'test' | 'dialogue'
+type Step = 'video' | 'conspect' | 'test'
 
 type Lesson = {
   id: string
@@ -39,19 +37,8 @@ type Lesson = {
   hasVideo: boolean
   hasConspect: boolean
   hasTest: boolean
-  hasDialogue: boolean
 }
 
-type DialogueInfo = {
-  id: string
-  title: any
-  characters: any
-  lines: any
-  attemptId: string | null
-  characterId: string | null
-  status: 'IN_PROGRESS' | 'COMPLETED' | null
-  recordings: Record<string, string>
-}
 
 type Props = {
   lesson: Lesson
@@ -59,7 +46,6 @@ type Props = {
   moduleTitle: string
   lessonIndex: number
   assignment: { id: string; title: any; prompt: any } | null
-  dialogue: DialogueInfo | null
   progress: { watched: boolean; passed: boolean }
   nextLessonSlug: string | null
   initialStep: Step | null
@@ -85,7 +71,6 @@ const STEP_META = {
   video: { icon: Video, key: 'video' },
   conspect: { icon: FileText, key: 'notes' },
   test: { icon: ListChecks, key: 'test' },
-  dialogue: { icon: MessagesSquare, key: 'dialogueStep' }
 } as const
 
 export function LessonPlayer({
@@ -94,7 +79,6 @@ export function LessonPlayer({
   moduleTitle,
   lessonIndex,
   assignment,
-  dialogue,
   progress,
   nextLessonSlug,
   initialStep,
@@ -110,7 +94,6 @@ export function LessonPlayer({
   if (lesson.hasVideo) steps.push('video')
   if (lesson.hasConspect) steps.push('conspect')
   if (lesson.hasTest) steps.push('test')
-  if (lesson.hasDialogue) steps.push('dialogue')
 
   const lessonAccent = LESSON_ANIMALS[lessonIndex % LESSON_ANIMALS.length].color
 
@@ -119,7 +102,6 @@ export function LessonPlayer({
   const [currentStepIndex, setCurrentStepIndex] = useState(startIndex)
   const [visited, setVisited] = useState<Set<Step>>(new Set(steps.slice(0, startIndex + 1)))
   const [testCompleted, setTestCompleted] = useState(progress.passed)
-  const [dialogueCompleted, setDialogueCompleted] = useState(dialogue?.status === 'COMPLETED')
   const [finishing, setFinishing] = useState(false)
   const [finishError, setFinishError] = useState<string | null>(null)
   const reportedStep = useRef<Step | null>(null)
@@ -128,8 +110,7 @@ export function LessonPlayer({
   const isLastStep = currentStepIndex === steps.length - 1
   const conspectStepIndex = steps.indexOf('conspect')
   const hasGradedTest = Boolean(assignment)
-  const canGoNext =
-    (currentStep !== 'test' || testCompleted) && (currentStep !== 'dialogue' || dialogueCompleted)
+  const canGoNext = currentStep !== 'test' || testCompleted
   // Тест сам пишет LessonProgress.passed при сдаче (submit), поэтому если
   // именно он последний и завершённый шаг — можно перейти сразу, без
   // повторного вызова /complete. Диалог этого не делает (см. complete/route.ts
@@ -214,7 +195,7 @@ export function LessonPlayer({
             const Icon = STEP_META[step].icon
             const isCurrent = index === currentStepIndex
             const isDone = visited.has(step) && index < currentStepIndex
-            const reachable = index <= currentStepIndex || (testCompleted && dialogueCompleted)
+            const reachable = index <= currentStepIndex || testCompleted
 
             return (
               <button
@@ -254,21 +235,6 @@ export function LessonPlayer({
           />
         )}
 
-        {currentStep === 'dialogue' && dialogue && (
-          <DialogueStep
-            dialogueId={dialogue.id}
-            title={localized(dialogue.title, locale)}
-            characters={dialogue.characters}
-            lines={dialogue.lines}
-            initialAttemptId={dialogue.attemptId}
-            initialCharacterId={dialogue.characterId}
-            initialStatus={dialogue.status}
-            initialRecordings={dialogue.recordings}
-            locale={locale}
-            onComplete={() => setDialogueCompleted(true)}
-            isCompleted={dialogueCompleted}
-          />
-        )}
       </div>
 
       {finishError && <div className="alert alert-error">{finishError}</div>}

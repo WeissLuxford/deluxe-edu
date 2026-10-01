@@ -3,7 +3,7 @@ import { localized } from '@/lib/localized'
 import { resolvePublicAsset } from '@/lib/publicAsset'
 import { isHardGated } from './groupGate'
 
-export type LessonStep = 'video' | 'conspect' | 'test' | 'dialogue'
+export type LessonStep = 'video' | 'conspect' | 'test'
 export type LessonStatus = 'done' | 'current' | 'locked'
 export type ModuleExamStatus = 'PENDING' | 'APPROVED' | 'REJECTED'
 
@@ -92,7 +92,7 @@ export type ResumeTarget =
       total: number
     }
 
-const STEP_VALUES: LessonStep[] = ['video', 'conspect', 'test', 'dialogue']
+const STEP_VALUES: LessonStep[] = ['video', 'conspect', 'test']
 
 function stepsOf(lesson: {
   hasVideo: boolean
@@ -104,7 +104,6 @@ function stepsOf(lesson: {
   if (lesson.hasVideo) steps.push('video')
   if (lesson.hasConspect) steps.push('conspect')
   if (lesson.hasTest) steps.push('test')
-  if (lesson.hasDialogue) steps.push('dialogue')
   return steps
 }
 

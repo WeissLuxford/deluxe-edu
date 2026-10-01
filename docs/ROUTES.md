@@ -10,17 +10,17 @@
 | `/courses` | Courses | ✅ |
 | `/courses/[slug]` | Course | ✅ |
 | `/teachers` | Teachers | ✅ |
-| `/teachers/[slug]` | — (крупный блок Teachers = профиль) | ❓ |
+| `/teachers/[slug]` | в стиле крупного блока Teachers | ⬜ (оставляем) |
 | `/results` | Results | ✅ |
 | `/certificate` → `/results#certificate`, `/certificate/[serial]` | Results (блок проверки), Certificate | ✅ |
 | `/about` | «О нас и контакты» | ✅ |
 | `/contacts` | → редирект на `/about` | ✅ |
-| `/news`, `/news/[slug]` | — | ❓ |
+| `/news`, `/news/[slug]` | в стиле сайта + синхронизация с Instagram | ⬜ (оставляем) |
 | `/signup` | SignUp | ✅ |
 | `/signin`, `/forgot-password`, `/reset-password`, `/resend-verification` | в стиле SignUp | ✅ |
 | `/level-test` (группа `(focus)`), `/level-test/[lesson]` → редирект | LevelTest | ✅ |
 | `/trial-lesson` | Lesson (пробный) | ⬜ |
-| `/free-mock-test`, `/free-mock-test/[lesson]` | — | ❓ |
+| ~~`/free-mock-test`~~ | — | 🗑 удалено |
 | `/l/[campaign]` | Landing | ✅ |
 | `/r/[token]` | Report | ✅ |
 
@@ -35,7 +35,7 @@
 | `/learn/[slug]/exam/[moduleId]` | Quiz | ⬜ |
 | `/streams`, `/streams/[id]` | Live | ⬜ |
 | `/account`, `/learn/account`, `/account/phone` | Account | ⬜ |
-| Шаг «Диалог» в уроке | — | ❓ |
+| ~~Шаг «Диалог»~~ | — | 🗑 удалено (на будущее) |
 
 ## Преподаватель и админка (StaffShell: тёмная рейка)
 
@@ -45,7 +45,7 @@
 | остальные `/teacher/*` | в стиле Teacher | ⬜ |
 | `/admin` | Admin | ⬜ |
 | остальные `/admin/*` (курсы, уроки, студенты, эфиры) | в стиле Admin | ⬜ |
-| `/admin/news*` | — | ❓ (вместе с новостями) |
+| `/admin/news*` | в стиле Admin | ⬜ (оставляем) |
 
 ## Только редиректы (оставляем как есть)
 

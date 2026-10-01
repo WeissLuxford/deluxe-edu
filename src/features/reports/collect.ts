@@ -43,7 +43,6 @@ export type ReportSnapshot = {
   lessons: { passed: number }
   rank: { position: number | null; of: number; lessonsPassed: number }
   exams: ReportExam[]
-  speaking: { completed: number; recordings: number }
 }
 
 const MONTHS = [
@@ -120,7 +119,7 @@ export async function collectMonthly(
   if (membership.joinedAt >= end) return null
   if (membership.leftAt && membership.leftAt < start) return null
 
-  const [attendanceRows, submissions, lessonsPassed, examAttempts, dialogues, rank] = await Promise.all([
+  const [attendanceRows, submissions, lessonsPassed, examAttempts, rank] = await Promise.all([
     prisma.attendance.findMany({
       where: { userId, event: { groupId, startsAt: { gte: start, lt: end } } },
       select: { status: true }
@@ -136,10 +135,6 @@ export async function collectMonthly(
       where: { userId, submittedAt: { gte: start, lt: end } },
       orderBy: { submittedAt: 'asc' },
       include: { exam: { select: { title: true } } }
-    }),
-    prisma.dialogueAttempt.findMany({
-      where: { userId, status: 'COMPLETED', completedAt: { gte: start, lt: end } },
-      select: { _count: { select: { recordings: true } } }
     }),
     rankInGroup(groupId, userId, start, end)
   ])
@@ -193,10 +188,6 @@ export async function collectMonthly(
       total: a.total,
       status: a.reviewStatus,
       note: a.reviewNote
-    })),
-    speaking: {
-      completed: dialogues.length,
-      recordings: dialogues.reduce((sum, d) => sum + d._count.recordings, 0)
-    }
+    }))
   }
 }

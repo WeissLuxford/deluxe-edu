@@ -6,7 +6,7 @@ import { getCourseTree, findLesson, type LessonStep } from '@/features/learn/pro
 import { LessonPlayer } from '@/features/courses/components/LessonPlayer'
 import { assertWithinDailyLimit } from '@/features/courses/dailyLimit'
 
-const STEPS: LessonStep[] = ['video', 'conspect', 'test', 'dialogue']
+const STEPS: LessonStep[] = ['video', 'conspect', 'test']
 
 export default async function LearnLessonPage({
   params,
@@ -43,32 +43,6 @@ export default async function LearnLessonPage({
       })
     : null
 
-  let dialogue = null
-  if (lesson.hasDialogue) {
-    const dialogueRow = await prisma.dialogue.findFirst({
-      where: { lessonId: lesson.id },
-      select: { id: true, title: true, characters: true, lines: true }
-    })
-
-    if (dialogueRow) {
-      const attempt = await prisma.dialogueAttempt.findFirst({
-        where: { dialogueId: dialogueRow.id, userId: session.user.id },
-        orderBy: { startedAt: 'desc' },
-        include: { recordings: { select: { lineId: true, audioUrl: true } } }
-      })
-
-      dialogue = {
-        id: dialogueRow.id,
-        title: dialogueRow.title,
-        characters: dialogueRow.characters,
-        lines: dialogueRow.lines,
-        attemptId: attempt?.id ?? null,
-        characterId: attempt?.characterId ?? null,
-        status: attempt?.status ?? null,
-        recordings: Object.fromEntries((attempt?.recordings ?? []).map(r => [r.lineId, r.audioUrl]))
-      }
-    }
-  }
 
   const flat = tree.modules.flatMap(m => m.lessons)
   const position = flat.findIndex(l => l.id === lesson.id)
@@ -84,7 +58,6 @@ export default async function LearnLessonPage({
       moduleTitle={found.module.title}
       lessonIndex={found.lesson.index}
       assignment={assignment}
-      dialogue={dialogue}
       progress={{ watched: found.lesson.watched, passed: found.lesson.passed }}
       nextLessonSlug={nextLesson?.slug ?? null}
       initialStep={initialStep}
