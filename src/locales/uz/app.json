@@ -472,5 +472,71 @@
     "privacy": "Raqam faqat qo‘ng‘iroq qilish uchun kerak. Hech qanday tarqatma yo‘q.",
     "afterTitle": "Qo‘ng‘iroqdan keyin nima bo‘ladi",
     "afterText": "Ingliz tili nimaga kerakligini va qancha vaqting borligini so‘raymiz. Daraja va bepul sinov darsini taklif qilamiz. Qaror — sening qo‘lingda."
+  },
+  "appNav": {
+    "today": "Bugun",
+    "courses": "Kurslarim",
+    "live": "Efirlar",
+    "tasks": "Topshiriqlar",
+    "profile": "Profil",
+    "stuckTitle": "Mavzuda qotib qoldingmi?",
+    "stuckText": "O‘qituvchiga yoz — keyingi darsda tushuntirib beradi.",
+    "write": "Yozish",
+    "signout": "Chiqish",
+    "nav": "O‘qish bo‘yicha navigatsiya",
+    "coursesShort": "Kurslar"
+  },
+  "todayPage": {
+    "meta": "Bugun — Highgate",
+    "hello": "Salom, {name}! <it>Davom etamizmi?</it>",
+    "helloNew": "Salom, {name}! <it>Boshlaymizmi?</it>",
+    "search": "Dars yoki mavzuni topish",
+    "where": {
+      "video": "Sen videodasan",
+      "conspect": "Sen konspektdasan",
+      "test": "Faqat test qoldi",
+      "start": "Yangi dars"
+    },
+    "lessonOf": "{total} tadan {n}-dars",
+    "minutes": "~{min} daq",
+    "continue": "Darsni davom ettirish",
+    "start": "Darsni boshlash",
+    "examReady": "Modul nazorat ishi",
+    "examText": "Modulning barcha darslari o‘tildi — nima esda qolganini ko‘rsatish vaqti.",
+    "openExam": "Nazorat ishiga",
+    "ofCourse": "kurs o‘tildi",
+    "week": "Shu hafta",
+    "allLive": "Barcha efirlar",
+    "today": "Bugun",
+    "event": {
+      "LESSON": "Dars",
+      "EXAM": "Nazorat ishi",
+      "OTHER": "Tadbir",
+      "SPEAKING_PRACTICE": "So‘zlashuv amaliyoti",
+      "MOCK_TEST": "Sinov imtihoni"
+    },
+    "activity": "Haftalik faollik",
+    "activityHint": "{count} ta harakat",
+    "courses": "Kurslar",
+    "streak": "kun ketma-ket",
+    "streakZero": "Seriyani boshla — bugun bitta dars",
+    "streakGood": "Bir hafta tanaffussiz. Shunday davom et!",
+    "streakKeep": "Seriyani uzma — ertaga ham kir.",
+    "reviewed": "Nazorat ishi tekshirildi · {teacher}",
+    "achievements": "Yutuqlar",
+    "plan": "{plan} tarifi",
+    "emptyTitle": "Bu yerda <it>kurslaring</it> bo‘ladi",
+    "emptyText": "Katalogdan kurs tanla — to‘lovdan so‘ng darhol shu yerda paydo bo‘ladi. Hozircha sinov darsini o‘tib ko‘rishing mumkin.",
+    "toCatalog": "Kurslarni ko‘rish",
+    "toTrial": "Sinov darsi",
+    "days": [
+      "Du",
+      "Se",
+      "Ch",
+      "Pa",
+      "Ju",
+      "Sh",
+      "Ya"
+    ]
   }
 }

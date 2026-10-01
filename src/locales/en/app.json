@@ -472,5 +472,71 @@
     "privacy": "We only need the number to call you. No newsletters.",
     "afterTitle": "What happens after the call",
     "afterText": "We'll ask why you need English and how much time you have. We'll suggest a level and a free trial lesson. The decision is yours."
+  },
+  "appNav": {
+    "today": "Today",
+    "courses": "My courses",
+    "live": "Live",
+    "tasks": "Tasks",
+    "profile": "Profile",
+    "stuckTitle": "Stuck on a topic?",
+    "stuckText": "Message your teacher — they'll go over it in the next class.",
+    "write": "Message",
+    "signout": "Sign out",
+    "nav": "Learning navigation",
+    "coursesShort": "Courses"
+  },
+  "todayPage": {
+    "meta": "Today — Highgate",
+    "hello": "Hi, {name}! <it>Shall we continue?</it>",
+    "helloNew": "Hi, {name}! <it>Shall we start?</it>",
+    "search": "Find a lesson or topic",
+    "where": {
+      "video": "You're on the video",
+      "conspect": "You're on the notes",
+      "test": "Just the test left",
+      "start": "New lesson"
+    },
+    "lessonOf": "Lesson {n} of {total}",
+    "minutes": "~{min} min",
+    "continue": "Continue the lesson",
+    "start": "Start the lesson",
+    "examReady": "Module checkpoint",
+    "examText": "All module lessons are done — time to show what stuck.",
+    "openExam": "Go to the checkpoint",
+    "ofCourse": "of the course done",
+    "week": "This week",
+    "allLive": "All live classes",
+    "today": "Today",
+    "event": {
+      "LESSON": "Class",
+      "EXAM": "Checkpoint",
+      "OTHER": "Event",
+      "SPEAKING_PRACTICE": "Speaking practice",
+      "MOCK_TEST": "Mock test"
+    },
+    "activity": "Activity this week",
+    "activityHint": "{count, plural, one {# action} other {# actions}}",
+    "courses": "Courses",
+    "streak": "{count, plural, one {day in a row} other {days in a row}}",
+    "streakZero": "Start a streak — one lesson today",
+    "streakGood": "A week without a gap. Keep it up!",
+    "streakKeep": "Don't break the streak — drop by tomorrow too.",
+    "reviewed": "Checkpoint reviewed · {teacher}",
+    "achievements": "Achievements",
+    "plan": "{plan} plan",
+    "emptyTitle": "Your courses <it>will be here</it>",
+    "emptyText": "Pick a course in the catalog — it shows up here right after payment. Meanwhile, try the trial lesson.",
+    "toCatalog": "Browse courses",
+    "toTrial": "Trial lesson",
+    "days": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ]
   }
 }
