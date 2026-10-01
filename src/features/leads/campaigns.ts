@@ -10,7 +10,6 @@ export type Campaign = {
   subhead: Record<string, string>
   offer: Record<string, string>
   bullets: Record<string, string[]>
-  image: string
 }
 
 const entries = Object.entries(raw as Record<string, unknown>).filter(
