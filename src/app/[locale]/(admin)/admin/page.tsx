@@ -6,17 +6,8 @@ import { formatPhone } from '@/features/auth/identity'
 import { requireAdmin } from '@/features/admin/requireAdmin'
 import { ago, greeting, timeFmt } from '@/features/staff/format'
 import { Reveal } from '@/design/components/Reveal'
+import { leadSource } from '@/features/admin/leadSources'
 import s from '@/features/admin/overview.module.css'
-
-// Where a lead came from — a short word and a level pastel, as on the canvas.
-const SOURCES: Record<string, { label: string; look: string }> = {
-  HOME_FORM: { label: 'Сайт', look: 'b1' },
-  COURSE_PAGE: { label: 'Курс', look: 'b1' },
-  CONTACTS_PAGE: { label: 'Контакты', look: 'b1' },
-  TRIAL_LESSON: { label: 'Пробный урок', look: 'a2' },
-  LEVEL_TEST: { label: 'Тест уровня', look: 'a1' },
-  LANDING: { label: 'Лендинг', look: 'b2' }
-}
 
 const EVENT_TYPES: Record<string, string> = {
   LESSON: 'Занятие',
@@ -126,7 +117,7 @@ export default async function AdminHome({ params }: { params: Promise<{ locale: 
             <p className={s.empty}>Заявок пока нет — как только кто-то оставит телефон, он появится здесь.</p>
           ) : (
             leads.map(l => {
-              const src = SOURCES[l.source] ?? SOURCES.HOME_FORM
+              const src = leadSource(l.source)
               const fresh = l.status === 'NEW'
               return (
                 <div key={l.id} className={s.lead} data-fresh={fresh || undefined}>

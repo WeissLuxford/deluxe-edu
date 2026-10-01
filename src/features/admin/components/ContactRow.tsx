@@ -3,6 +3,9 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { setContactStatus } from '../actions'
+import { leadSource } from '../leadSources'
+import { formatPhone } from '@/features/auth/identity'
+import { ago } from '@/features/staff/format'
 
 const STATUSES = [
   { value: 'NEW', label: 'Новая' },
@@ -12,15 +15,6 @@ const STATUSES = [
 ] as const
 
 type Status = (typeof STATUSES)[number]['value']
-
-const SOURCES: Record<string, string> = {
-  HOME_FORM: 'Форма на главной',
-  COURSE_PAGE: 'Страница курса',
-  CONTACTS_PAGE: 'Страница контактов',
-  TRIAL_LESSON: 'Пробный урок',
-  LEVEL_TEST: 'Тест уровня',
-  LANDING: 'Рекламный лендинг'
-}
 
 const LOCALES: Record<string, string> = {
   ru: 'RU',
@@ -69,45 +63,40 @@ export function ContactRow({
     })
   }
 
+  const src = leadSource(source)
+
   return (
-    <tr style={{ opacity: current === 'SPAM' ? 0.5 : 1 }}>
+    <tr data-muted={current === 'SPAM' || undefined}>
       <td>
-        <div style={{ color: 'var(--fg)' }}>{name}</div>
+        <div style={{ fontWeight: 700 }}>{name}</div>
         {email && <div className="text-xs" style={{ color: 'var(--muted)' }}>{email}</div>}
       </td>
-      <td>
-        <a href={`tel:+${phone}`} style={{ color: 'var(--ui-accent-text)' }}>+{phone}</a>
+      <td style={{ whiteSpace: 'nowrap' }}>
+        <a href={`tel:+${phone}`} style={{ color: 'var(--c-violet-ink)', fontWeight: 600, textDecoration: 'none' }}>
+          {formatPhone(phone)}
+        </a>
         <div className="text-xs" style={{ color: 'var(--muted)' }}>{LOCALES[locale] || locale.toUpperCase()}</div>
       </td>
-      <td style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>
-        <div style={{ color: 'var(--fg)' }}>{SOURCES[source] || source}</div>
-        {campaign && <div className="text-xs" style={{ fontFamily: 'monospace' }}>{campaign}</div>}
+      <td>
+        <span className="badge" style={{ background: `var(--lv-${src.look}-bg)`, color: `var(--lv-${src.look}-fg)` }}>
+          {src.label}
+        </span>
+        {campaign && <div className="text-xs" style={{ fontFamily: 'monospace', color: 'var(--muted)', marginTop: 4 }}>{campaign}</div>}
         {courseTitle && (
-          <div className="text-xs">
+          <div className="text-xs" style={{ color: 'var(--muted)', marginTop: 4 }}>
             {courseTitle}
             {plan && ` · ${plan}`}
           </div>
         )}
       </td>
-      <td style={{ maxWidth: '18rem', color: 'var(--muted)', fontSize: '0.9rem' }}>
-        {message || '—'}
-      </td>
-      <td style={{ color: 'var(--muted)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
-        {new Date(createdAt).toLocaleDateString('ru-RU', {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit'
-        })}
-      </td>
+      <td style={{ maxWidth: '18rem', color: 'var(--muted)', fontSize: '0.9rem' }}>{message || '—'}</td>
+      <td style={{ color: 'var(--muted)', fontSize: '0.875rem', whiteSpace: 'nowrap' }}>{ago(new Date(createdAt))}</td>
       <td>
-        <select
-          className="select"
-          value={current}
-          disabled={pending}
-          onChange={e => onChange(e.target.value as Status)}
-        >
+        <select className="select" value={current} disabled={pending} onChange={e => onChange(e.target.value as Status)} style={{ minWidth: '9rem' }}>
           {STATUSES.map(s => (
-            <option key={s.value} value={s.value}>{s.label}</option>
+            <option key={s.value} value={s.value}>
+              {s.label}
+            </option>
           ))}
         </select>
       </td>

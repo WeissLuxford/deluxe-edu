@@ -461,6 +461,17 @@
   color: var(--c-ink);
 }
 
+/* Spam and other set-aside rows: quieter by color, not opacity. */
+.staff .admin-table tr[data-muted] td,
+.staff .admin-table tr[data-muted] a {
+  color: var(--c-faint);
+}
+
+.staff .admin-table tr[data-muted] .badge {
+  background: var(--c-paper);
+  color: var(--c-faint);
+}
+
 /* ---------- moved from the old globals.css / admin-structure.css ---------- */
 
 .order-controls {
@@ -943,8 +954,7 @@
   content: attr(data-placeholder);
   float: left;
   height: 0;
-  color: var(--muted);
-  opacity: 0.6;
+  color: var(--c-faint);
   pointer-events: none;
 }
 
@@ -1432,7 +1442,7 @@
 
 .admin-warnings summary em {
   font-style: normal;
-  opacity: 0.75;
+  color: color-mix(in srgb, currentColor 75%, transparent);
 }
 
 .admin-warnings__items {
