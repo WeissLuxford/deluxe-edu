@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { Field, FormError, Section, Textarea, formStyles as fs } from '@/features/staff/form/Form'
 import { useRouter } from 'next/navigation'
 import { CheckCircle2, XCircle } from 'lucide-react'
 import { reviewExamAttempt } from '../examActions'
@@ -29,40 +30,23 @@ export function ExamReviewForm({ attemptId, locale }: { attemptId: string; local
   }
 
   return (
-    <section className="admin-card">
-      <h3 className="admin-card__title">Решение</h3>
+    <Section title="Решение">
+      {error && <FormError>{error}</FormError>}
 
-      {error && <div className="alert alert-error">{error}</div>}
+      <Field label="Комментарий ученику" htmlFor="review-note" hint="Необязательно. Ученик увидит его рядом с результатом.">
+        <Textarea id="review-note" rows={3} value={note} onChange={e => setNote(e.target.value)} placeholder="Что стоит повторить перед пересдачей" />
+      </Field>
 
-      <label className="label">Комментарий студенту (необязательно)</label>
-      <textarea
-        className="textarea"
-        rows={3}
-        value={note}
-        onChange={e => setNote(e.target.value)}
-        placeholder="Что стоит повторить перед пересдачей"
-      />
-
-      <div className="flex items-center gap-3" style={{ marginTop: '1rem' }}>
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => submit('APPROVED')}
-          disabled={pending}
-        >
-          <CheckCircle2 size={16} />
-          Разрешить переход дальше
+      <div className={fs.actions}>
+        <button type="button" className={fs.inlineSubmit} style={{ background: 'var(--c-lime)', color: 'var(--c-ink)' }} onClick={() => submit('APPROVED')} disabled={pending}>
+          <CheckCircle2 size={18} />
+          Засчитать — дальше по курсу
         </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => submit('REJECTED')}
-          disabled={pending}
-        >
-          <XCircle size={16} />
-          Отправить на пересдачу
+        <button type="button" className={fs.sideBtn} onClick={() => submit('REJECTED')} disabled={pending}>
+          <XCircle size={18} />
+          На пересдачу
         </button>
       </div>
-    </section>
+    </Section>
   )
 }

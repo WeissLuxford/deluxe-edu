@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState, useEffect } from 'react'
+import { Chips, Field, FormError, Input, Row, Section, Submit, Textarea } from '@/features/staff/form/Form'
 import { useRouter } from 'next/navigation'
 import type { ActionResult } from '../types'
 
@@ -42,75 +43,33 @@ export function ScheduleEventForm({
   }, [state, router, redirectTo])
 
   return (
-    <form action={formAction} className="admin-form">
-      {state && !state.ok && <div className="alert alert-error">{state.error}</div>}
+    <form action={formAction} style={{ maxWidth: 820 }}>
+      <Section title="Занятие">
+        {state && !state.ok && <FormError>{state.error}</FormError>}
 
-      <section className="admin-panel">
-        <div className="admin-grid">
-          <div>
-            <label className="label">Тип занятия</label>
-            <select name="type" className="select" defaultValue={defaultValues?.type ?? 'LESSON'}>
-              {Object.entries(TYPE_LABELS).map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
+        <Field label="Тип">
+          <Chips name="type" defaultValue={defaultValues?.type ?? 'LESSON'} options={Object.entries(TYPE_LABELS).map(([value, label]) => ({ value, label }))} />
+        </Field>
 
-          <div>
-            <label className="label">Дата и время</label>
-            <input
-              type="datetime-local"
-              name="startsAt"
-              className="input"
-              defaultValue={defaultValues ? toLocalInputValue(defaultValues.startsAt) : ''}
-              required
-            />
-          </div>
+        <Row min={220}>
+          <Field label="Дата и время" required htmlFor="ev-start">
+            <Input id="ev-start" type="datetime-local" name="startsAt" defaultValue={defaultValues ? toLocalInputValue(defaultValues.startsAt) : ''} required />
+          </Field>
+          <Field label="Длительность, мин" htmlFor="ev-duration">
+            <Input id="ev-duration" type="number" name="durationMin" defaultValue={defaultValues?.durationMin ?? 60} min={5} max={600} required />
+          </Field>
+        </Row>
 
-          <div>
-            <label className="label">Длительность, мин</label>
-            <input
-              type="number"
-              name="durationMin"
-              className="input"
-              defaultValue={defaultValues?.durationMin ?? 60}
-              min={5}
-              max={600}
-              required
-            />
-          </div>
-        </div>
+        <Field label="Заголовок" htmlFor="ev-title" hint="Необязательно. Без него в расписании будет тип занятия.">
+          <Input id="ev-title" name="title" defaultValue={defaultValues?.title ?? ''} placeholder="Итоговый мок-тест по Reading" maxLength={120} />
+        </Field>
 
-        <div style={{ marginTop: '1rem' }}>
-          <label className="label">Заголовок (необязательно)</label>
-          <input
-            name="title"
-            className="input"
-            defaultValue={defaultValues?.title ?? ''}
-            placeholder="Например: Итоговый мок-тест по Reading"
-            maxLength={120}
-          />
-        </div>
+        <Field label="Заметка для себя" htmlFor="ev-notes">
+          <Textarea id="ev-notes" name="notes" rows={3} defaultValue={defaultValues?.notes ?? ''} maxLength={2000} placeholder="Необязательно" />
+        </Field>
 
-        <div style={{ marginTop: '1rem' }}>
-          <label className="label">Заметка (необязательно)</label>
-          <textarea
-            name="notes"
-            className="input"
-            rows={3}
-            defaultValue={defaultValues?.notes ?? ''}
-            maxLength={2000}
-          />
-        </div>
-      </section>
-
-      <div className="admin-savebar">
-        <button type="submit" className="btn btn-primary" disabled={pending}>
-          {pending ? 'Сохраняю…' : submitLabel}
-        </button>
-      </div>
+        <Submit pending={pending} label={submitLabel} />
+      </Section>
     </form>
   )
 }

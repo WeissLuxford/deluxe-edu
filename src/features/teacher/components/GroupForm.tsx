@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState, useEffect } from 'react'
+import { Field, FormError, Input, Section, Submit } from '@/features/staff/form/Form'
 import { useRouter } from 'next/navigation'
 import type { ActionResult } from '../types'
 
@@ -23,27 +24,14 @@ export function GroupForm({
   }, [state, router, redirectTo])
 
   return (
-    <form action={formAction} className="admin-form">
-      {state && !state.ok && <div className="alert alert-error">{state.error}</div>}
-
-      <section className="admin-panel">
-        <label className="label">Название группы</label>
-        <input
-          name="name"
-          defaultValue={defaultName}
-          className="input"
-          placeholder="Например: 1-А"
-          maxLength={60}
-          required
-        />
-        <div className="hint">Любое короткое название, по которому вам удобно узнавать группу.</div>
-      </section>
-
-      <div className="admin-savebar">
-        <button type="submit" className="btn btn-primary" disabled={pending}>
-          {pending ? 'Сохраняю…' : submitLabel}
-        </button>
-      </div>
+    <form action={formAction} style={{ maxWidth: 640 }}>
+      <Section title="Группа">
+        {state && !state.ok && <FormError>{state.error}</FormError>}
+        <Field label="Название" required htmlFor="group-name" hint="Например «B1 · Вечерняя» — часть после точки станет курсивом в шапке группы.">
+          <Input id="group-name" name="name" defaultValue={defaultName} placeholder="B1 · Вечерняя" maxLength={60} required />
+        </Field>
+        <Submit pending={pending} label={submitLabel} />
+      </Section>
     </form>
   )
 }
