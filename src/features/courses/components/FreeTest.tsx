@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { CheckCircle2, FileQuestion } from 'lucide-react'
-import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { Button } from '@/features/ui/components/Button'
 import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
 
 type LocalizedText = string | Record<string, string>
@@ -67,7 +67,7 @@ export function FreeTest({
   if (questions.length === 0) {
     return (
       <div className="test-empty">
-        <BoilingIcon icon={FileQuestion} color="var(--gold-text)" size={40} />
+        <BoilingIcon icon={FileQuestion} color="var(--accent-amber)" size={40} />
         <h3>{t('notReadyTitle')}</h3>
         <p>{t('notReadyText')}</p>
       </div>
@@ -184,18 +184,18 @@ export function FreeTest({
       {error && <div className="alert alert-error">{error}</div>}
 
       <div className="test-nav">
-        <ChunkyButton color="neutral" disabled={index === 0} onClick={() => setIndex(i => Math.max(0, i - 1))}>
+        <Button color="neutral" disabled={index === 0} onClick={() => setIndex(i => Math.max(0, i - 1))}>
           {t('prev')}
-        </ChunkyButton>
+        </Button>
 
-        <ChunkyButton
+        <Button
           color="brand"
           className="test-nav__next"
           disabled={!answered || sending}
           onClick={() => (isLast ? submit() : setIndex(i => i + 1))}
         >
           {sending ? t('sending') : isLast ? submitLabel : t('next')}
-        </ChunkyButton>
+        </Button>
       </div>
     </div>
   )

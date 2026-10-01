@@ -1,0 +1,50 @@
+{
+  "$описание": "Профили преподавателей для /teachers. Держим в JSON, а не в базе: людей единицы, и таблица под три записи — лишняя сложность. Порядок в файле = порядок на странице.",
+  "$как_включить": "published: false — карточка не показывается нигде. Ставьте true только после того, как в записи стоят настоящее имя, настоящая фотография и credential, который человек может подтвердить документом. Придуманный сертификат хуже отсутствующей страницы: его проверяют.",
+  "$поля": {
+    "name": "Имя и фамилия как в жизни, без ролей вроде «Преподаватель»",
+    "role": "Роль на трёх языках",
+    "credentials": "Список подтверждаемых достижений: IELTS 8.0, CELTA, диплом. Пусто — если подтвердить нечем",
+    "bio": "Абзац от первого лица на трёх языках",
+    "photo": "Путь в /public. Пусто — нарисуется инициал",
+    "videoUrl": "Необязательно, ссылка на видеопрезентацию"
+  },
+  "teachers": [
+    {
+      "slug": "founder",
+      "published": false,
+      "name": "",
+      "photo": "",
+      "videoUrl": "",
+      "credentials": [],
+      "role": {
+        "ru": "Сооснователь",
+        "uz": "Hammuassis",
+        "en": "Co-founder"
+      },
+      "bio": {
+        "ru": "Увидел, как устроен рынок языковых курсов, и решил собрать платформу, где обучение прозрачно и по карману.",
+        "uz": "Til kurslari bozori qanday tuzilganini ko‘rib, ta’lim shaffof va hamyonbop bo‘ladigan platforma yig‘ishga qaror qildim.",
+        "en": "I saw how the language-course market works and set out to build a platform where studying is transparent and affordable."
+      }
+    },
+    {
+      "slug": "teacher",
+      "published": false,
+      "name": "",
+      "photo": "/media/mentor-portrait.svg",
+      "videoUrl": "",
+      "credentials": ["IELTS 8.0"],
+      "role": {
+        "ru": "Преподаватель",
+        "uz": "O‘qituvchi",
+        "en": "Teacher"
+      },
+      "bio": {
+        "ru": "Учу так, чтобы вы понимали, зачем каждое правило. Без высокомерия и без зубрёжки ради зубрёжки.",
+        "uz": "Har bir qoida nima uchun kerakligini tushunadigan qilib o‘rgataman. Manmanliksiz va quruq yodlashsiz.",
+        "en": "I teach so that you understand why each rule exists — no arrogance, no memorising for its own sake."
+      }
+    }
+  ]
+}

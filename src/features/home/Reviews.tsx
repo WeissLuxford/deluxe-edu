@@ -16,6 +16,8 @@ export async function Reviews({ locale }: { locale: string }) {
 
   return (
     <Section
+      texture="dots"
+      accent="var(--accent-cyan)"
       eyebrow={t('reviewsEyebrow')}
       title={t('reviewsTitle')}
       subtitle={t('reviewsSub')}

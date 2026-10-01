@@ -22,7 +22,7 @@ export default function FAQSection() {
   ]
 
   return (
-    <Section id="faq" title={t('faqTitle')} subtitle={t('faqLead')} width="narrow">
+    <Section id="faq" tone="raised" texture="wash" title={t('faqTitle')} subtitle={t('faqLead')} width="narrow">
       <div className="faq-root">
         {faqs.map((item, i) => {
           const isOpen = open === i

@@ -7,6 +7,7 @@ import HowItWorks from './HowItWorks'
 import CTASection from './CTASection'
 import MentorIntro from './MentorIntro'
 import FAQSection from './FAQSection'
+import SeoIntro from './SeoIntro'
 import ContactFormSection from './ContactFormSection'
 import { LearningFormat } from './LearningFormat'
 import { LevelsLadder } from './LevelsLadder'
@@ -31,6 +32,7 @@ export const HOME_SECTIONS: HomeSection[] = [
   { key: 'priceHonesty', enabled: true, render: ({ locale }) => <PriceHonesty locale={locale} /> },
   { key: 'reviews', enabled: REVIEWS.length > 0, render: ({ locale }) => <Reviews locale={locale} /> },
   { key: 'faq', enabled: true, render: () => <FAQSection /> },
+  { key: 'seoIntro', enabled: true, render: ({ base }) => <SeoIntro base={base} /> },
   { key: 'marquee', enabled: true, render: () => <BrandMarquee /> },
   { key: 'cta', enabled: true, render: ({ base }) => <CTASection base={base} /> },
   { key: 'contactForm', enabled: true, render: () => <ContactFormSection /> },

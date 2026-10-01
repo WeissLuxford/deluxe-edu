@@ -21,7 +21,7 @@ import {
   Squirrel
 } from 'lucide-react'
 import { localized } from '@/lib/localized'
-import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { Button } from '@/features/ui/components/Button'
 import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
 import { VideoStep } from './lesson-steps/VideoStep'
 import { ConspectStep } from './lesson-steps/ConspectStep'
@@ -67,10 +67,14 @@ type Props = {
   locale: string
 }
 
+// The animal's color becomes --lesson-accent, which drives the lesson's buttons
+// and chrome — so these are UI accents, not illustration colors, and the rose
+// hue is deliberately absent. Values mirror --accent-* in tokens.css (rough.js
+// draws to canvas, which can't resolve custom properties from a raw string).
 const LESSON_ANIMALS = [
-  { icon: Dog, color: '#ff5c7c' },
-  { icon: Cat, color: '#3b82f6' },
-  { icon: Rabbit, color: '#8b5cf6' },
+  { icon: Dog, color: '#3b82f6' },
+  { icon: Cat, color: '#8b5cf6' },
+  { icon: Rabbit, color: '#06b6d4' },
   { icon: Bird, color: '#22c55e' },
   { icon: Fish, color: '#f59e0b' },
   { icon: Turtle, color: '#22c55e' },
@@ -270,26 +274,26 @@ export function LessonPlayer({
       {finishError && <div className="alert alert-error">{finishError}</div>}
 
       <div className="lesson-player__nav">
-        <ChunkyButton
+        <Button
           color="neutral"
           icon={<ArrowLeft size={16} />}
           disabled={currentStepIndex === 0}
           onClick={() => setCurrentStepIndex(prev => Math.max(0, prev - 1))}
         >
           {tButtons('back')}
-        </ChunkyButton>
+        </Button>
 
         {readyToFinishDirectly ? (
-          <ChunkyButton
+          <Button
             color="success"
             className="lesson-player__forward"
             icon={<CheckCircle size={16} />}
             onClick={goToNextLesson}
           >
             {nextLessonSlug ? t('nextLesson') : t('completeCourse')}
-          </ChunkyButton>
+          </Button>
         ) : (
-          <ChunkyButton
+          <Button
             color="brand"
             className="lesson-player__forward"
             trailingIcon={<ArrowRight size={16} />}
@@ -297,7 +301,7 @@ export function LessonPlayer({
             onClick={handleNext}
           >
             {finishing ? tButtons('saving') : isLastStep ? t('finish') : tButtons('next')}
-          </ChunkyButton>
+          </Button>
         )}
       </div>
     </div>

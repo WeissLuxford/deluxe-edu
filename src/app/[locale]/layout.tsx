@@ -20,4 +20,11 @@ export default async function LocaleLayout({
   )
 }
 
-export const viewport = { themeColor: '#000000' }
+// Matches --bg in tokens.css for each theme; a flat #000 left a black bar
+// above the header that belongs to neither theme.
+export const viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f3f6fd' },
+    { media: '(prefers-color-scheme: dark)', color: '#070a14' }
+  ]
+}

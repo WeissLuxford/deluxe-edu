@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { BookOpen, MessageCircle, Rocket, Sparkles } from 'lucide-react'
-import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { Button } from '@/features/ui/components/Button'
 import { ArrowLinkButton } from '@/features/ui/components/ArrowLinkButton'
 import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
 import { PLAYFUL_PALETTE } from '@/features/ui/lib/palette'
@@ -79,8 +79,11 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
+          {/* Placeholder wordmark until the real logo lands. One letter per
+              palette color read as a nursery sign; the wordmark now sits in
+              --fg with a single accent letter, so it stays adult. */}
           {'HIGHGATE'.split('').map((letter, i) => (
-            <span key={i} style={{ color: PLAYFUL_PALETTE[i % PLAYFUL_PALETTE.length] }}>
+            <span key={i} style={i === 0 ? { color: 'var(--ui-accent)' } : undefined}>
               {letter}
             </span>
           ))}
@@ -101,9 +104,9 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <ChunkyButton href={`${base}/trial-lesson`} color="brand" size="lg">
+          <Button href={`${base}/trial-lesson`} color="brand" size="lg">
             {t('heroPrimary')}
-          </ChunkyButton>
+          </Button>
           <ArrowLinkButton href={`${base}/courses`}>{t('heroSecondary')}</ArrowLinkButton>
         </motion.div>
       </div>

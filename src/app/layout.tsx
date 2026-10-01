@@ -3,6 +3,7 @@ import "@/features/ui/styles/globals.css"
 import "@/features/ui/styles/sections.css"
 import "@/features/ui/styles/playful.css"
 import "@/features/ui/styles/admin-structure.css"
+import "@/features/ui/styles/documents.css"
 import type { ReactNode } from 'react'
 import { headers } from 'next/headers'
 import { SpeedInsights } from '@vercel/speed-insights/next'

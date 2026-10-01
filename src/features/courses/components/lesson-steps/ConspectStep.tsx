@@ -16,7 +16,7 @@ export function ConspectStep({ content }: Props) {
   if (!content.trim()) {
     return (
       <div className="test-empty">
-        <BoilingIcon icon={FileText} color="var(--gold-text)" size={40} />
+        <BoilingIcon icon={FileText} color="var(--accent-violet)" size={40} />
         <h3>{t('notesEmptyTitle')}</h3>
         <p>{t('notesEmptyText')}</p>
       </div>

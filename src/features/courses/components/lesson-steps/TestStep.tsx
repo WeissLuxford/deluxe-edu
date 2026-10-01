@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { CheckCircle2, XCircle, RefreshCw, BookOpen, MessageCircle, FileQuestion } from 'lucide-react'
-import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { Button } from '@/features/ui/components/Button'
 import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
 import { Checkmark } from '@/features/ui/components/Checkmark'
 import { Confetti } from '@/features/ui/components/Confetti'
@@ -77,7 +77,7 @@ export function TestStep({
   if (questions.length === 0) {
     return (
       <div className="test-empty">
-        <BoilingIcon icon={FileQuestion} color="var(--gold-text)" size={40} />
+        <BoilingIcon icon={FileQuestion} color="var(--accent-green)" size={40} />
         <h3>{t('notReadyTitle')}</h3>
         <p>{t('notReadyText')}</p>
       </div>
@@ -174,25 +174,25 @@ export function TestStep({
         {!passed && (
           <div className="test-actions">
             {onReviewConspect && (
-              <ChunkyButton color="neutral" onClick={onReviewConspect} icon={<BookOpen size={16} />}>
+              <Button color="neutral" onClick={onReviewConspect} icon={<BookOpen size={16} />}>
                 {t('reviewConspect')}
-              </ChunkyButton>
+              </Button>
             )}
-            <ChunkyButton color="brand" onClick={retry} icon={<RefreshCw size={16} />}>
+            <Button color="brand" onClick={retry} icon={<RefreshCw size={16} />}>
               {t('retry')}
-            </ChunkyButton>
+            </Button>
           </div>
         )}
 
         {(enrollmentPlan === 'PRO' || enrollmentPlan === 'DELUXE') && (
-          <ChunkyButton
+          <Button
             color="neutral"
             fullWidth
             onClick={() => alert('Telegram: @hge')}
             icon={<MessageCircle size={16} />}
           >
             {t('askMentor')}
-          </ChunkyButton>
+          </Button>
         )}
       </div>
     )
@@ -270,22 +270,22 @@ export function TestStep({
       {error && <div className="alert alert-error">{error}</div>}
 
       <div className="test-nav">
-        <ChunkyButton
+        <Button
           color="neutral"
           disabled={currentIndex === 0}
           onClick={() => setCurrentIndex(i => Math.max(0, i - 1))}
         >
           {t('prev')}
-        </ChunkyButton>
+        </Button>
 
-        <ChunkyButton
+        <Button
           color="brand"
           className="test-nav__next"
           disabled={!answered || submitting}
           onClick={() => (isLast ? submit() : setCurrentIndex(i => i + 1))}
         >
           {submitting ? t('sending') : isLast ? t('submit') : t('next')}
-        </ChunkyButton>
+        </Button>
       </div>
     </div>
   )

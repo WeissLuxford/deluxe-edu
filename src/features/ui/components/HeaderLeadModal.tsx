@@ -10,16 +10,16 @@ export function HeaderLeadModal({ onClose }: { onClose: () => void }) {
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      style={{ background: 'rgba(0, 0, 0, 0.7)' }}
+      style={{ background: 'var(--scrim)' }}
       onClick={onClose}
     >
       <div
         className="w-full max-w-md rounded-2xl p-6"
-        style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-gold)' }}
+        style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-lg)' }}
         onClick={e => e.stopPropagation()}
       >
         <div className="mb-4 flex items-start justify-between gap-4">
-          <h3 className="text-xl font-bold" style={{ color: 'var(--brand-text)' }}>{tLead('title')}</h3>
+          <h3 className="text-xl font-bold" style={{ color: 'var(--fg)' }}>{tLead('title')}</h3>
           <button
             type="button"
             onClick={onClose}

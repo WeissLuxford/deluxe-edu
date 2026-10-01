@@ -8,7 +8,7 @@ import PhoneField, { isPhoneComplete } from '@/features/auth/components/PhoneFie
 import { PHONE_PREFIX, normalizePhone } from '@/features/auth/identity'
 import Turnstile, { turnstileEnabled } from '@/features/auth/components/Turnstile'
 import { Section } from '@/features/ui/components/Section'
-import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { Button } from '@/features/ui/components/Button'
 import { Reveal } from '@/features/ui/components/Reveal'
 
 export default function ContactFormSection() {
@@ -81,7 +81,15 @@ export default function ContactFormSection() {
   }
 
   return (
-    <Section id="contact-form" tone="raised" width="narrow" title={t('formTitle')} subtitle={t('formLead')}>
+    <Section
+      id="contact-form"
+      tone="raised"
+      texture="grid"
+      accent="var(--accent-blue)"
+      width="narrow"
+      title={t('formTitle')}
+      subtitle={t('formLead')}
+    >
       <Reveal as="form" onSubmit={handleSubmit} className="space-y-4">
         <div className="form-grid-2">
           <div>
@@ -147,9 +155,9 @@ export default function ContactFormSection() {
 
         {status === 'error' && <div className="alert alert-error">{errorMessage}</div>}
 
-        <ChunkyButton type="submit" color="brand" fullWidth disabled={status === 'loading' || !ready} icon={<Send size={18} />}>
+        <Button type="submit" color="brand" fullWidth disabled={status === 'loading' || !ready} icon={<Send size={18} />}>
           {status === 'loading' ? tLead('sending') : t('fSend')}
-        </ChunkyButton>
+        </Button>
 
         <p className="section-sub" style={{ textAlign: 'center' }}>
           {t('formDirectLine')}:{' '}

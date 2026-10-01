@@ -54,11 +54,11 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
 
   if (showContactModal) {
     return (
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={onClose}>
-        <div className="w-full max-w-md rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-gold)' }} onClick={(e) => e.stopPropagation()}>
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" style={{ background: 'var(--scrim)' }} onClick={onClose}>
+        <div className="w-full max-w-md rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-lg)' }} onClick={(e) => e.stopPropagation()}>
           <div className="mb-4 flex items-start justify-between gap-4">
             <div>
-              <h3 className="text-xl font-bold" style={{ color: 'var(--brand-text)' }}>{tLead('courseTitle')}</h3>
+              <h3 className="text-xl font-bold" style={{ color: 'var(--fg)' }}>{tLead('courseTitle')}</h3>
               <p className="mt-1 text-sm" style={{ color: 'var(--muted)' }}>
                 {courseTitle} · {plans.find(p => p.id === selectedPlan)?.name}
               </p>
@@ -77,8 +77,8 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto p-4" style={{ background: 'rgba(0, 0, 0, 0.7)' }} onClick={onClose}>
-      <div className="w-full max-w-5xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-gold)' }} onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto p-4" style={{ background: 'var(--scrim)' }} onClick={onClose}>
+      <div className="w-full max-w-5xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-lg)' }} onClick={(e) => e.stopPropagation()}>
         <div className="mb-6 flex items-start justify-between">
           <div>
             <h2 className="text-2xl font-bold" style={{ color: 'var(--fg)' }}>{t('choose')}</h2>
@@ -91,7 +91,7 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {plans.map((plan) => (
-            <div key={plan.id} className="glass-tier" style={{ borderColor: plan.popular ? 'var(--gold)' : 'var(--border)', position: 'relative' }}>
+            <div key={plan.id} className="glass-tier" style={{ borderColor: plan.popular ? 'var(--ui-accent)' : 'var(--border)', position: 'relative' }}>
               {plan.popular && (
                 <div className="badge badge-primary" style={{ position: 'absolute', top: '-0.75rem', left: '50%', transform: 'translateX(-50%)' }}>{t('popular')}</div>
               )}
@@ -99,13 +99,13 @@ export function PlanModal({ courseId, courseSlug, courseTitle, priceBasic, price
               <div className="vx-tier">
                 <div>
                   <h3 className="text-lg font-bold" style={{ color: 'var(--fg)' }}>{plan.name}</h3>
-                  <div className="mt-2 text-3xl font-bold" style={{ color: 'var(--gold-text)' }}>{formatPrice(plan.price)}</div>
+                  <div className="mt-2 text-3xl font-bold" style={{ color: 'var(--fg)' }}>{formatPrice(plan.price)}</div>
                   {plan.price > 0 && <div className="text-sm" style={{ color: 'var(--muted)' }}>one-time payment</div>}
 
                   <ul className="mt-4 space-y-2">
                     {plan.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-sm" style={{ color: 'var(--fg)' }}>
-                        <span style={{ color: 'var(--gold-text)' }}>✓</span>
+                        <span style={{ color: 'var(--muted)' }}>✓</span>
                         <span>{feature}</span>
                       </li>
                     ))}

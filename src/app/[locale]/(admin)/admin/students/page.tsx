@@ -107,7 +107,7 @@ export default async function AdminStudents({
                     <td>
                       <Link
                         href={`/${locale}/admin/students/${u.id}`}
-                        style={{ color: 'var(--brand-text)', fontWeight: 600 }}
+                        style={{ color: 'var(--ui-accent-text)', fontWeight: 600 }}
                       >
                         {u.name || 'без имени'}
                       </Link>

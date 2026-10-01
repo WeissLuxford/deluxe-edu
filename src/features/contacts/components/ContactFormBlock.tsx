@@ -1,19 +1,25 @@
-'use client';
+'use client'
 
-import { useTranslations } from 'next-intl';
-
-import { MessageCircle } from 'lucide-react';
-import LeadForm from '@/features/leads/LeadForm';
+import { useTranslations } from 'next-intl'
+import { Section } from '@/features/ui/components/Section'
+import LeadForm from '@/features/leads/LeadForm'
 
 export function ContactFormBlock() {
-  const t = useTranslations('contacts');
-  return (
-    <section>
-      <MessageCircle size={48} />
-      <h2>{t('formTitle')}</h2>
-      <p>{t('formLead')}</p>
+  const t = useTranslations('contacts')
 
-      <LeadForm source="CONTACTS_PAGE" />
-    </section>
-  );
+  return (
+    <Section
+      id="contact-form"
+      tone="raised"
+      texture="wash"
+      accent="var(--accent-violet)"
+      title={t('formTitle')}
+      subtitle={t('formLead')}
+      width="narrow"
+    >
+      <div className="contact-form-card">
+        <LeadForm source="CONTACTS_PAGE" />
+      </div>
+    </Section>
+  )
 }

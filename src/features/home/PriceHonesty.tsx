@@ -13,11 +13,12 @@ export async function PriceHonesty({ locale }: { locale: string }) {
     <Section
       id="price-honesty"
       tone="raised"
+      texture="grid"
+      accent="var(--accent-amber)"
       eyebrow={t('priceEyebrow')}
       title={t('priceTitle')}
       subtitle={t('priceSub')}
     >
-      <span className="deco-grid" aria-hidden="true" />
       <div className="compare">
         <Reveal x={-24} y={0} className="compare__col compare__col--us">
           <h3 className="compare__title">{t('priceUsTitle')}</h3>

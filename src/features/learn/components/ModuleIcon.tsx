@@ -6,5 +6,5 @@ import { BoilingIcon } from '@/features/ui/components/BoilingIcon'
 const MODULE_ICONS = [BookOpen, Target, Medal, Compass, Rocket, Globe]
 
 export function ModuleIcon({ index, size = 32 }: { index: number; size?: number }) {
-  return <BoilingIcon icon={MODULE_ICONS[index % MODULE_ICONS.length]} color="var(--brand-text)" size={size} />
+  return <BoilingIcon icon={MODULE_ICONS[index % MODULE_ICONS.length]} color="var(--ui-accent-text)" size={size} />
 }

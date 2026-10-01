@@ -18,7 +18,8 @@ const SOURCES: Record<string, string> = {
   COURSE_PAGE: 'Страница курса',
   CONTACTS_PAGE: 'Страница контактов',
   TRIAL_LESSON: 'Пробный урок',
-  LEVEL_TEST: 'Тест уровня'
+  LEVEL_TEST: 'Тест уровня',
+  LANDING: 'Рекламный лендинг'
 }
 
 const LOCALES: Record<string, string> = {
@@ -36,6 +37,7 @@ export function ContactRow({
   createdAt,
   status,
   source,
+  campaign,
   courseTitle,
   plan,
   locale
@@ -48,6 +50,7 @@ export function ContactRow({
   createdAt: string
   status: string
   source: string
+  campaign: string | null
   courseTitle: string | null
   plan: string | null
   locale: string
@@ -73,11 +76,12 @@ export function ContactRow({
         {email && <div className="text-xs" style={{ color: 'var(--muted)' }}>{email}</div>}
       </td>
       <td>
-        <a href={`tel:+${phone}`} style={{ color: 'var(--gold-text)' }}>+{phone}</a>
+        <a href={`tel:+${phone}`} style={{ color: 'var(--ui-accent-text)' }}>+{phone}</a>
         <div className="text-xs" style={{ color: 'var(--muted)' }}>{LOCALES[locale] || locale.toUpperCase()}</div>
       </td>
       <td style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>
         <div style={{ color: 'var(--fg)' }}>{SOURCES[source] || source}</div>
+        {campaign && <div className="text-xs" style={{ fontFamily: 'monospace' }}>{campaign}</div>}
         {courseTitle && (
           <div className="text-xs">
             {courseTitle}

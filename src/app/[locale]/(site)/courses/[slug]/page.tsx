@@ -8,9 +8,23 @@ import { prisma } from '@/lib/db'
 import { LessonsList } from '@/features/courses/components/LessonsList'
 import { CoursePlans } from '@/features/courses/components/CoursePlans'
 import { localized } from '@/lib/localized'
+import { courseJsonLd } from '@/features/seo/jsonLd'
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { locale, slug } = await params
+  const course = await prisma.course.findUnique({
+    where: { slug, published: true, visible: true },
+    select: { title: true, description: true }
+  })
+  if (!course) return {}
+
+  const title = localized(course.title, locale)
+  const description = localized(course.description, locale)
+  return { title: `${title} — Highgate`, description }
 }
 
 export default async function CoursePage({ params }: Props) {
@@ -48,6 +62,14 @@ export default async function CoursePage({ params }: Props) {
 
   return (
     <main>
+      {/* Разметка курса: страница курса — это то, что ищут по названию уровня,
+          и без Course-разметки она в выдаче выглядит как обычный текст. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(courseJsonLd({ title, description, slug, locale }))
+        }}
+      />
       <div>
         <nav>
           <Link href={`/${locale}/courses`}>{tCourses('title')}</Link>

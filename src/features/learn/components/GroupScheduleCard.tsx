@@ -116,7 +116,7 @@ export async function GroupScheduleCard({
                 <li
                   key={entry.userId}
                   className="flex items-center justify-between"
-                  style={entry.isCurrentUser ? { color: 'var(--gold-text)', fontWeight: 600 } : undefined}
+                  style={entry.isCurrentUser ? { color: 'var(--ui-accent-text)', fontWeight: 600 } : undefined}
                 >
                   <span>
                     {index + 1}. {entry.name}

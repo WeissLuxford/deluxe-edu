@@ -5,6 +5,8 @@ import { prisma } from '@/lib/db'
 import { revokeEnrollment } from '@/features/admin/actions'
 import { revokeDevice } from '@/features/admin/deviceActions'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
+import { CertificatePanel } from '@/features/certificates/CertificatePanel'
+import { issueCertificate, revokeCertificate } from '@/features/certificates/actions'
 import { Avatar } from '@/features/ui/components/Avatar'
 import { localized } from '@/lib/localized'
 import { summarizeUserAgent } from '@/lib/userAgent'
@@ -44,6 +46,7 @@ export default async function StudentCard({
               id: true,
               title: true,
               slug: true,
+              level: true,
               modules: {
                 orderBy: { order: 'asc' },
                 select: { id: true, title: true, lessons: { select: { id: true } } }
@@ -64,6 +67,19 @@ export default async function StudentCard({
   })
 
   if (!user) notFound()
+
+  const certificates = await prisma.certificate.findMany({
+    where: { userId: id },
+    orderBy: { issuedAt: 'desc' },
+    select: {
+      id: true,
+      serial: true,
+      level: true,
+      issuedAt: true,
+      revokedAt: true,
+      course: { select: { title: true } }
+    }
+  })
 
   const activeDevices = user.devices.filter(d => !d.revokedAt)
   const atDeviceLimit = activeDevices.length >= DEVICE_LIMIT
@@ -264,6 +280,24 @@ export default async function StudentCard({
             </ul>
           )}
         </section>
+
+        <CertificatePanel
+          certificates={certificates.map(c => ({
+            id: c.id,
+            serial: c.serial,
+            courseTitle: ru(c.course.title),
+            level: c.level,
+            issuedAt: c.issuedAt.toISOString(),
+            revokedAt: c.revokedAt?.toISOString() ?? null
+          }))}
+          courses={user.enrollments.map(e => ({
+            id: e.course.id,
+            title: ru(e.course.title),
+            level: e.course.level
+          }))}
+          issue={issueCertificate.bind(null, id)}
+          revoke={revokeCertificate}
+        />
       </div>
     </div>
   )

@@ -366,6 +366,7 @@
     "fMessage": "Message (optional)",
     "fSend": "Send",
     "fDirect": "Or contact us directly",
+    "tiersEyebrow": "What you get",
     "tiersTitle": "Plans",
     "tiersLead": "Materials are yours for good. Live sessions and feedback run for as long as your plan does",
     "tierBasic": "Basic",
@@ -414,7 +415,13 @@
     "ctaLead": "The first lesson's free — no card, no strings. See how we teach, then decide",
     "ctaStart": "Start for free",
     "ctaBrowse": "Browse courses",
-    "formDirectLine": "Or directly"
+    "formDirectLine": "Or directly",
+    "meetTeachers": "Who teaches you",
+    "seoTitle": "Learning English online in Uzbekistan: how it works here",
+    "seoBody1": "We teach English online — from Tashkent, Samarkand, Andijan or from home, it makes no difference. Lessons run in a group with a teacher, and between them you keep a platform with lessons, grammar breakdowns and recordings of your own speech. Lesson recordings stay yours, so a missed class does not drop you out of the programme.",
+    "seoBody2": "You set the pace. The programme is split into levels from beginner to advanced, the next module opens once the previous one is done, and you can go back over anything at any time. That is the difference between a fixed two-month course and studying that fits around work.",
+    "seoBody3": "Prices are published on the site — every tier, with no “call us to find out”. You can check your level for free: the level test and the mock exam are open without signing up and without payment.",
+    "seoCta": "Take the free level test"
   },
   "footer": {
     "product": "Product",
@@ -676,7 +683,8 @@
     "quickTitle": "Where to start",
     "quickLead": "Or just explore on your own",
     "faqLead": "Still have questions? Check the full list or message us",
-    "faqAll": "All questions"
+    "faqAll": "All questions",
+    "hoursValue": "Every day, 9:00–21:00 (GMT+5)"
   },
   "news": {
     "title": "News",
@@ -816,6 +824,7 @@
     "levelPreIntermediate": "You hold everyday conversations and write without a dictionary",
     "levelIntermediate": "You work in English: emails, calls, documents",
     "levelUpper": "You argue and joke freely, and you are ready for IELTS",
+    "levelProficient": "You understand native speakers effortlessly and sound like a local",
     "priceEyebrow": "Straight about money",
     "priceTitle": "Why we cost less",
     "priceSub": "We do not think English should cost as much as a used car",
@@ -927,5 +936,42 @@
     "mockResultTitle": "Mock test result",
     "mockAdviceTitle": "What is next",
     "mockAdviceText": "A mock test shows how ready you are for the exam format. Going through mistakes with a teacher moves the score faster than rereading theory"
+  },
+  "certificate": {
+    "title": "Verify a certificate",
+    "lead": "Enter the number printed on the certificate. We will show who issued it, when, and whether it is still valid.",
+    "placeholder": "HG-2026-XXXXX-XXXXX",
+    "submit": "Verify",
+    "help": "The number is printed at the bottom of the certificate. Case and dashes do not matter.",
+    "badFormat": "That does not look like a certificate number. Check that every character was copied.",
+    "valid": "Certificate is valid",
+    "revoked": "Certificate has been revoked",
+    "notFound": "No certificate was issued with this number",
+    "notFoundHint": "Check the number again. If it is copied correctly, this document was not issued by our school.",
+    "student": "Issued to",
+    "course": "Course",
+    "level": "Level",
+    "issued": "Issue date",
+    "revokedOn": "Revoked",
+    "serial": "Number",
+    "checkAnother": "Verify another number",
+    "print": "Print or save as PDF"
+  },
+  "teachers": {
+    "title": "Teachers",
+    "lead": "The people who actually run the lessons — with names, not “a team of professionals”.",
+    "empty": "Teacher profiles will appear here soon.",
+    "credentials": "Verified qualifications",
+    "watch": "Video introduction",
+    "back": "All teachers",
+    "oneMentor": "One teacher who knows your name"
+  },
+  "results": {
+    "title": "Student results",
+    "lead": "Real stories and real certificates only. There are not many yet, and we say so.",
+    "empty": "Student stories will appear here once there are some. We will not invent reviews.",
+    "certificatesIssued": "certificates issued",
+    "verify": "Verify a certificate",
+    "reviewsTitle": "Reviews"
   }
 }

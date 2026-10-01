@@ -23,7 +23,14 @@ export const RATE_LIMITS = {
   forgotIdentifier: { action: 'forgot:identifier', limit: 3, windowMs: 60 * 60 * 1000 },
   resendEmail: { action: 'resend:email', limit: 3, windowMs: 60 * 60 * 1000 },
   freeTestIp: { action: 'freetest:ip', limit: 120, windowMs: 60 * 60 * 1000 },
-  mobileRefreshIp: { action: 'mobile:refresh:ip', limit: 30, windowMs: 15 * 60 * 1000 }
+  mobileRefreshIp: { action: 'mobile:refresh:ip', limit: 30, windowMs: 15 * 60 * 1000 },
+  // Ad-traffic form: tighter than the site form, because a landing is a single
+  // screen and nobody legitimately submits it four times in half an hour.
+  landingLeadIp: { action: 'landing:ip', limit: 3, windowMs: 30 * 60 * 1000 },
+  // Public token pages. Generous for a parent re-opening a report, low enough
+  // that enumerating tokens is pointless.
+  publicReportIp: { action: 'report:ip', limit: 60, windowMs: 60 * 60 * 1000 },
+  certVerifyIp: { action: 'cert:verify:ip', limit: 30, windowMs: 60 * 60 * 1000 }
 } satisfies Record<string, RateLimitRule>
 
 const CLEANUP_CHANCE = 0.02

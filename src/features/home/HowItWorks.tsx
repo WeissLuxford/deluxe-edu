@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { UserPlus, PlayCircle, Radio } from 'lucide-react'
 import { Section } from '@/features/ui/components/Section'
 import { Reveal } from '@/features/ui/components/Reveal'
-import { PLAYFUL_PALETTE } from '@/features/ui/lib/palette'
+import { SECTION_ACCENTS } from '@/features/ui/lib/palette'
 
 export default function HowItWorks() {
   const t = useTranslations('home')
@@ -16,7 +16,15 @@ export default function HowItWorks() {
   ]
 
   return (
-    <Section id="how-it-works" title={t('howTitle')} subtitle={t('howLead')} width="narrow">
+    <Section
+      id="how-it-works"
+      tone="raised"
+      texture="wash"
+      accent="var(--accent-violet)"
+      title={t('howTitle')}
+      subtitle={t('howLead')}
+      width="narrow"
+    >
       <ol className="format-steps">
         {steps.map((step, index) => {
           const Icon = step.icon
@@ -28,8 +36,8 @@ export default function HowItWorks() {
               className="format-step"
               style={
                 {
-                  '--step-accent': PLAYFUL_PALETTE[index % PLAYFUL_PALETTE.length],
-                  '--step-accent-soft': `color-mix(in srgb, ${PLAYFUL_PALETTE[index % PLAYFUL_PALETTE.length]} 16%, transparent)`
+                  '--step-accent': SECTION_ACCENTS[index % SECTION_ACCENTS.length],
+                  '--step-accent-soft': `color-mix(in srgb, ${SECTION_ACCENTS[index % SECTION_ACCENTS.length]} 16%, transparent)`
                 } as CSSProperties
               }
             >

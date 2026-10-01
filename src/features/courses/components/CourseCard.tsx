@@ -59,7 +59,7 @@ export function CourseCard({
 
         <div className="flex items-center justify-between pt-4" style={{ borderTop: '1px solid var(--border)' }}>
           <div className="flex flex-col">
-            <span className="text-2xl font-bold" style={{ color: 'var(--gold-text)' }}>
+            <span className="text-2xl font-bold" style={{ color: 'var(--fg)' }}>
               {isFree
                 ? t('free')
                 : new Intl.NumberFormat(locale, {
@@ -75,7 +75,7 @@ export function CourseCard({
 
           <button
             className="btn btn-primary"
-            style={{ background: 'var(--gold)', color: 'var(--bg)', padding: '0.625rem 1.25rem' }}
+            style={{ background: 'var(--ui-accent)', color: 'var(--on-accent)', padding: '0.625rem 1.25rem' }}
           >
             {isEnrolled ? t('continue') : t('choosePlan')}
           </button>

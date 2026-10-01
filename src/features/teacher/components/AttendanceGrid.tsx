@@ -13,6 +13,13 @@ const STATUS_LABELS: Record<Status, string> = {
   EXCUSED: 'Уважительная'
 }
 
+const STATUS_BADGE_CLASS: Record<Status, string> = {
+  PRESENT: 'badge-success',
+  ABSENT: 'badge-error',
+  LATE: 'badge-warning',
+  EXCUSED: 'badge-info'
+}
+
 type Member = { userId: string; name: string; contact: string; status: Status | null }
 
 export function AttendanceGrid({ eventId, members }: { eventId: string; members: Member[] }) {
@@ -100,7 +107,7 @@ export function AttendanceGrid({ eventId, members }: { eventId: string; members:
                         type="button"
                         className={
                           values[m.userId] === status
-                            ? 'badge badge-primary toggle-badge'
+                            ? `badge ${STATUS_BADGE_CLASS[status]} toggle-badge`
                             : 'badge toggle-badge'
                         }
                         onClick={() => setStatus(m.userId, status)}

@@ -41,7 +41,7 @@ export default async function AdminNews({ params }: { params: Promise<{ locale: 
               {items.map(n => (
                 <tr key={n.id}>
                   <td>
-                    <Link href={`/${locale}/admin/news/${n.id}`} style={{ color: 'var(--gold-text)' }}>
+                    <Link href={`/${locale}/admin/news/${n.id}`} style={{ color: 'var(--ui-accent-text)' }}>
                       {localized(n.title, 'ru')}
                     </Link>
                   </td>

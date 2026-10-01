@@ -173,13 +173,13 @@
 }
 
 .hg-tooltip[data-variant='accent']::before {
-  background: var(--brand);
-  color: var(--brand-fg);
-  border-color: var(--brand);
+  background: var(--ui-accent);
+  color: var(--on-accent);
+  border-color: var(--ui-accent);
 }
 
 .hg-tooltip[data-variant='accent']::after {
-  border-top-color: var(--brand) !important;
+  border-top-color: var(--ui-accent) !important;
 }
 
 .hg-tooltip[data-variant='danger']::before {
@@ -250,7 +250,7 @@
 /* ---------- Hand-drawn mark ---------- */
 
 .hg-mark {
-  --hg-mark-color: var(--brand-soft);
+  --hg-mark-color: var(--warning-soft);
   display: inline-block;
   position: relative;
   background-color: unset;
@@ -282,7 +282,7 @@
    Highlight extension), not the <Mark> React component — style it the same
    way so a teacher's highlight gets the hand-drawn look for free. */
 .conspect mark {
-  --hg-mark-color: var(--brand-soft);
+  --hg-mark-color: var(--warning-soft);
   display: inline-block;
   position: relative;
   background-color: unset;
@@ -311,120 +311,6 @@
   display: block;
 }
 
-/* ---------- Chunky button ---------- */
-
-.chunky-btn {
-  --lift: 6px;
-  /* Falls back to --lesson-accent when set (e.g. inside .lesson-player, where
-     each lesson's chunky buttons pick up its animal icon's color) so "brand"
-     buttons aren't stuck on one color everywhere. */
-  --chunky-brand: var(--lesson-accent, var(--brand));
-  display: inline-block;
-  position: relative;
-  border: none;
-  padding: 0 0 var(--lift) 0;
-  border-radius: 20px;
-  background: color-mix(in srgb, var(--chunky-brand) 65%, black);
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.chunky-btn[data-color='success'] {
-  background: color-mix(in srgb, var(--success) 65%, black);
-}
-
-.chunky-btn[data-color='danger'] {
-  background: color-mix(in srgb, var(--danger) 65%, black);
-}
-
-.chunky-btn[data-color='info'] {
-  background: color-mix(in srgb, var(--info) 65%, black);
-}
-
-.chunky-btn[data-color='neutral'] {
-  background: color-mix(in srgb, var(--fg) 45%, black);
-}
-
-.chunky-btn--full {
-  display: block;
-  width: 100%;
-}
-
-.chunky-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
-.chunky-btn__face {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  gap: 0.5em;
-  border-radius: 18px;
-  border: 2px solid color-mix(in srgb, var(--chunky-brand) 70%, white);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--chunky-brand) 100%, white 18%), var(--chunky-brand));
-  color: var(--brand-fg);
-  font-weight: 700;
-  white-space: nowrap;
-  transform: translateY(0);
-  transition: transform 0.12s ease;
-}
-
-.chunky-btn--sm .chunky-btn__face {
-  padding: 0.55em 1.1em;
-  font-size: 0.85rem;
-}
-
-.chunky-btn--md .chunky-btn__face {
-  padding: 0.8em 1.5em;
-  font-size: 0.95rem;
-}
-
-.chunky-btn--lg .chunky-btn__face {
-  padding: 1em 2em;
-  font-size: 1.1rem;
-}
-
-.chunky-btn[data-color='success'] .chunky-btn__face {
-  border-color: color-mix(in srgb, var(--success) 70%, white);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--success) 100%, white 18%), var(--success));
-  color: #06280f;
-}
-
-.chunky-btn[data-color='danger'] .chunky-btn__face {
-  border-color: color-mix(in srgb, var(--danger) 70%, white);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--danger) 100%, white 18%), var(--danger));
-  color: #2a0a0a;
-}
-
-.chunky-btn[data-color='info'] .chunky-btn__face {
-  border-color: color-mix(in srgb, var(--info) 70%, white);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--info) 100%, white 18%), var(--info));
-  color: #06122a;
-}
-
-.chunky-btn[data-color='neutral'] .chunky-btn__face {
-  border-color: color-mix(in srgb, var(--fg) 60%, white);
-  background: linear-gradient(180deg, var(--surface-3), var(--surface-2));
-  color: var(--fg);
-}
-
-.chunky-btn:active .chunky-btn__face,
-.chunky-btn[data-pressed='true'] .chunky-btn__face {
-  transform: translateY(var(--lift));
-}
-
-.chunky-btn__icon {
-  display: inline-flex;
-  align-items: center;
-}
-
-.chunky-btn__icon svg {
-  width: 1.1em;
-  height: 1.1em;
-}
-
 /* ---------- Arrow link button (quiet secondary action) ---------- */
 
 .arrow-link-btn {
@@ -442,8 +328,8 @@
 }
 
 .arrow-link-btn:hover {
-  border-color: var(--brand-border);
-  background: var(--brand-soft);
+  border-color: var(--ui-accent-border);
+  background: var(--ui-accent-soft);
 }
 
 .arrow-link-btn[data-tone='invert'] {

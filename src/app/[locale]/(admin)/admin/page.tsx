@@ -202,9 +202,7 @@ export default async function AdminHome({ params }: { params: Promise<{ locale: 
               {latestContacts.map(c => (
                 <li key={c.id}>
                   <Link href={`${base}/contacts`}>
-                    <strong>
-                      {c.firstName} {c.lastName}
-                    </strong>
+                    <strong>{[c.firstName, c.lastName].filter(Boolean).join(' ')}</strong>
                     <span>+{c.phone}</span>
                   </Link>
                   <time>{dateFmt.format(c.createdAt)}</time>

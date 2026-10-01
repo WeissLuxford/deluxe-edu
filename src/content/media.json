@@ -1,9 +1,9 @@
 {
   "$описание": "Реестр картинок сайта. Файлы кладём в public/media/** (бренд-картинки — в public/brand/**), сюда пишем путь от корня сайта. Пустой src — на месте картинки появится подсказка с именем слота, вёрстка не поедет. alt обязателен для всего, что несёт смысл; у декора его можно оставить пустым.",
   "brand.header.logo": {
-    "$комментарий": "Логотип в шапке сайта. src — тёмная тема, srcLight — светлая. Файлы временные (Vertex), заменить на Highgate когда будут готовы.",
-    "src": "/brand/vertex-dark.png",
-    "srcLight": "/brand/vertex-light.png",
+    "$комментарий": "Логотип в шапке сайта. src — тёмная тема, srcLight — светлая. Пока файлов нет по этим путям, компонент показывает текст 'Highgate' — просто положи PNG сюда с этими именами, и текст сам сменится на картинку.",
+    "src": "/brand/highgate-dark.png",
+    "srcLight": "/brand/highgate-light.png",
     "alt": {
       "ru": "Highgate",
       "uz": "Highgate",
@@ -13,9 +13,9 @@
     "height": 309
   },
   "brand.footer.logo": {
-    "$комментарий": "Логотип в подвале сайта (окаймлённый вариант). src — тёмная тема, srcLight — светлая. Файлы временные (Vertex), заменить на Highgate когда будут готовы.",
-    "src": "/brand/vertex_border-dark.png",
-    "srcLight": "/brand/vertex_border-light.png",
+    "$комментарий": "Логотип в подвале сайта (окаймлённый вариант). src — тёмная тема, srcLight — светлая. Пока файлов нет по этим путям, компонент показывает текст 'Highgate' — просто положи PNG сюда с этими именами, и текст сам сменится на картинку.",
+    "src": "/brand/highgate_border-dark.png",
+    "srcLight": "/brand/highgate_border-light.png",
     "alt": {
       "ru": "Highgate",
       "uz": "Highgate",
@@ -26,6 +26,7 @@
   },
   "home.mentor.portrait": {
     "src": "/media/mentor-portrait.svg",
+    "srcLight": "/media/mentor-portrait-light.svg",
     "alt": {
       "ru": "Преподаватель Highgate",
       "uz": "Highgate o‘qituvchisi",

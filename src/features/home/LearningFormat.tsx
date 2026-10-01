@@ -18,11 +18,12 @@ export async function LearningFormat({ locale }: { locale: string }) {
     <Section
       id="format"
       tone="raised"
+      texture="grid"
+      accent="var(--accent-blue)"
       eyebrow={t('formatEyebrow')}
       title={t('formatTitle')}
       subtitle={t('formatSub')}
     >
-      <span className="deco-grid" aria-hidden="true" />
       <div className="fmt-grid">
         {steps.map((step, index) => {
           const Icon = step.icon

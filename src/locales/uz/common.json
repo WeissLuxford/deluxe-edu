@@ -372,6 +372,7 @@
     "fMessage": "Xabar (ixtiyoriy)",
     "fSend": "Yuborish",
     "fDirect": "Yoki togridan-togri yozing",
+    "tiersEyebrow": "Nimalar kiradi",
     "tiersTitle": "Tariflar",
     "tiersLead": "Materiallar sizda abadiy qoladi. Jonli darslar va tahlil — tarif davomida",
     "tierBasic": "Basic",
@@ -420,7 +421,13 @@
     "ctaLead": "Birinchi dars bepul — karta va majburiyatlarsiz. Qanday oʻqitishimizni koʻring va hal qiling",
     "ctaStart": "Bepul boshlash",
     "ctaBrowse": "Kurslarni koʻrish",
-    "formDirectLine": "Yoki togridan-togri"
+    "formDirectLine": "Yoki togridan-togri",
+    "meetTeachers": "Darslarni kim olib boradi",
+    "seoTitle": "O‘zbekistonda ingliz tili onlayn: bizda bu qanday ishlaydi",
+    "seoBody1": "Biz ingliz tilini onlayn o‘rgatamiz — Toshkentdanmi, Samarqanddanmi, Andijondanmi yoki uydanmi, farqi yo‘q. Darslar o‘qituvchi bilan guruhda o‘tadi, ular orasida esa darslar, grammatika tahlili va o‘z nutqingizni yozib olish imkoni bo‘lgan platforma qoladi. Dars yozuvlari sizda qoladi: qoldirilgan dars dasturdan tushib qolmaydi.",
+    "seoBody2": "Sur’atni o‘zingiz belgilaysiz. Dastur boshlang‘ichdan yuqori darajagacha bosqichlarga bo‘lingan, keyingi modul avvalgisidan so‘ng ochiladi, o‘tilganiga esa istalgan vaqtda qaytish mumkin. «Ikki oylik kurs» bilan ish va o‘qishga moslashadigan ta’lim o‘rtasidagi farq ana shu.",
+    "seoBody3": "Narxlar saytda e’lon qilingan — barcha tariflar, «telefon orqali aniqlang»siz. Darajangizni bepul aniqlash mumkin: sinov darajasi testi va mock-imtihon ro‘yxatdan o‘tmasdan va to‘lovsiz mavjud.",
+    "seoCta": "Bepul daraja testini topshirish"
   },
   "footer": {
     "product": "Mahsulot",
@@ -682,7 +689,8 @@
     "quickTitle": "Nimadan boshlash",
     "quickLead": "Yoki shunchaki o’zingiz ko’ring",
     "faqLead": "Savollar qoldimi? To’liq ro’yxatga qarang yoki bizga yozing",
-    "faqAll": "Barcha savollar"
+    "faqAll": "Barcha savollar",
+    "hoursValue": "Har kuni, 9:00–21:00 (GMT+5)"
   },
   "news": {
     "title": "Yangiliklar",
@@ -822,6 +830,7 @@
     "levelPreIntermediate": "Kundalik suhbat quriladi, lug‘atsiz xabar yozasiz",
     "levelIntermediate": "Ingliz tilida ishlaysiz: xatlar, qo‘ng‘iroqlar, hujjatlar",
     "levelUpper": "Erkin bahslashasiz va hazillashasiz, IELTS ga tayyorsiz",
+    "levelProficient": "Ona tilida so‘zlashuvchilarni bemalol tushunasiz, mahalliy kabi gapirasiz",
     "priceEyebrow": "Pul haqida ochiq",
     "priceTitle": "Nega bizda arzonroq",
     "priceSub": "Ingliz tili ishlatilgan mashina narxida bo‘lishi shart emas",
@@ -933,5 +942,42 @@
     "mockResultTitle": "Mock test natijasi",
     "mockAdviceTitle": "Keyin nima",
     "mockAdviceText": "Mock test imtihon formatiga tayyorlikni ko’rsatadi. Xatolarni o’qituvchi bilan tahlil qilish nazariyani qayta o’qishdan ko’ra tezroq natija beradi"
+  },
+  "certificate": {
+    "title": "Sertifikatni tekshirish",
+    "lead": "Sertifikatdagi raqamni kiriting — kim va qachon bergani hamda hozir amal qilishini ko‘rsatamiz.",
+    "placeholder": "HG-2026-XXXXX-XXXXX",
+    "submit": "Tekshirish",
+    "help": "Raqam sertifikatning pastida chop etilgan. Katta-kichik harf va chiziqcha muhim emas.",
+    "badFormat": "Bu sertifikat raqamiga o‘xshamaydi. Barcha belgilar to‘g‘ri ko‘chirilganini tekshiring.",
+    "valid": "Sertifikat haqiqiy",
+    "revoked": "Sertifikat bekor qilingan",
+    "notFound": "Bunday raqamli sertifikat berilmagan",
+    "notFoundHint": "Raqamni yana bir bor tekshiring. To‘g‘ri ko‘chirilgan bo‘lsa, hujjat bizning maktabimiz tomonidan berilmagan.",
+    "student": "Kimga berilgan",
+    "course": "Kurs",
+    "level": "Daraja",
+    "issued": "Berilgan sana",
+    "revokedOn": "Bekor qilingan",
+    "serial": "Raqam",
+    "checkAnother": "Boshqa raqamni tekshirish",
+    "print": "Chop etish yoki PDF sifatida saqlash"
+  },
+  "teachers": {
+    "title": "O‘qituvchilar",
+    "lead": "Darslarni olib boradigan odamlar. Ism bilan, «professionallar jamoasi» emas.",
+    "empty": "O‘qituvchilar profillari tez orada shu yerda paydo bo‘ladi.",
+    "credentials": "Tasdiqlangan sertifikatlar",
+    "watch": "Videotanishtiruv",
+    "back": "Barcha o‘qituvchilarga",
+    "oneMentor": "Sizni ism bilan biladigan bitta o‘qituvchi"
+  },
+  "results": {
+    "title": "O‘quvchilar natijalari",
+    "lead": "Faqat haqiqiy hikoyalar va haqiqiy sertifikatlar. Hozircha ular kam — shundayligicha yozilgan.",
+    "empty": "O‘quvchilar hikoyalari paydo bo‘lganda shu yerda chiqadi. Sharhlarni o‘ylab topmaymiz.",
+    "certificatesIssued": "sertifikat berilgan",
+    "verify": "Sertifikatni tekshirish",
+    "reviewsTitle": "Sharhlar"
   }
 }

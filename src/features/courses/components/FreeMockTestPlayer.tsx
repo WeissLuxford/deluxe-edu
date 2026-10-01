@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { ArrowRight, RotateCcw } from 'lucide-react'
 import LeadForm from '@/features/leads/LeadForm'
 import { RichText } from '@/features/ui/components/RichText'
-import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { Button } from '@/features/ui/components/Button'
 import { Checkmark } from '@/features/ui/components/Checkmark'
 import { Confetti } from '@/features/ui/components/Confetti'
 import { StickerReward } from '@/features/ui/components/StickerReward'
@@ -121,14 +121,14 @@ export function FreeMockTestPlayer({
             <p className="test-result__text">{t('sectionDoneText', { section: nextSection.title })}</p>
           </div>
 
-          <ChunkyButton
+          <Button
             href={`/${locale}/free-mock-test/${nextSection.slug}`}
             color="brand"
             fullWidth
             trailingIcon={<ArrowRight size={16} />}
           >
             {t('nextSection')}
-          </ChunkyButton>
+          </Button>
         </div>
       </div>
     )
@@ -169,12 +169,12 @@ export function FreeMockTestPlayer({
           <h3 className="level-advice__title">{t('mockAdviceTitle')}</h3>
           <p className="level-advice__text">{t('mockAdviceText')}</p>
           <div className="level-advice__actions">
-            <ChunkyButton href={`/${locale}/courses`} color="brand">
+            <Button href={`/${locale}/courses`} color="brand">
               {t('toCourses')}
-            </ChunkyButton>
-            <ChunkyButton color="neutral" onClick={restart} icon={<RotateCcw size={16} />}>
+            </Button>
+            <Button color="neutral" onClick={restart} icon={<RotateCcw size={16} />}>
               {t('restart')}
-            </ChunkyButton>
+            </Button>
           </div>
         </div>
 

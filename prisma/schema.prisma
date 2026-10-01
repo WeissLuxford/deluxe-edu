@@ -8,36 +8,40 @@ datasource db {
 }
 
 model User {
-  id                String              @id @default(cuid())
-  phone             String?             @unique
-  name              String?
-  image             String?
-  role              Role                @default(STUDENT)
-  locale            String              @default("ru")
-  passwordHash      String?
-  passwordChangedAt DateTime?
-  firstName         String?
-  lastName          String?
-  email             String?             @unique
-  emailVerified     DateTime?
-  phoneVerified     DateTime?
-  avatarSkinId      String?
-  enrollments       Enrollment[]
-  submissions       Submission[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  Payment           Payment[]
-  LessonProgress    LessonProgress[]
-  tokens            VerificationToken[]
-  oauthAccounts     OAuthAccount[]
-  groups            Group[]             @relation("TeacherGroups")
-  groupMemberships  GroupMembership[]   @relation("GroupMemberships")
-  attendanceRecords Attendance[]        @relation("AttendanceRecords")
-  devices           UserDevice[]
-  achievements      UserAchievement[]
-  examAttempts      ExamAttempt[]       @relation("ExamAttempts")
-  examReviews       ExamAttempt[]       @relation("ExamReviewer")
-  dialogueAttempts  DialogueAttempt[]
+  id                 String              @id @default(cuid())
+  phone              String?             @unique
+  name               String?
+  image              String?
+  role               Role                @default(STUDENT)
+  locale             String              @default("ru")
+  passwordHash       String?
+  passwordChangedAt  DateTime?
+  firstName          String?
+  lastName           String?
+  email              String?             @unique
+  emailVerified      DateTime?
+  phoneVerified      DateTime?
+  avatarSkinId       String?
+  enrollments        Enrollment[]
+  submissions        Submission[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  Payment            Payment[]
+  LessonProgress     LessonProgress[]
+  tokens             VerificationToken[]
+  oauthAccounts      OAuthAccount[]
+  groups             Group[]             @relation("TeacherGroups")
+  groupMemberships   GroupMembership[]   @relation("GroupMemberships")
+  attendanceRecords  Attendance[]        @relation("AttendanceRecords")
+  devices            UserDevice[]
+  achievements       UserAchievement[]
+  examAttempts       ExamAttempt[]       @relation("ExamAttempts")
+  examReviews        ExamAttempt[]       @relation("ExamReviewer")
+  dialogueAttempts   DialogueAttempt[]
+  monthlyReports     MonthlyReport[]     @relation("MonthlyReports")
+  authoredReports    MonthlyReport[]     @relation("MonthlyReportAuthor")
+  certificates       Certificate[]       @relation("Certificates")
+  issuedCertificates Certificate[]       @relation("CertificateIssuer")
 
   @@index([phone])
   @@index([email])
@@ -139,25 +143,26 @@ enum EmailTokenPurpose {
 }
 
 model Course {
-  id          String           @id @default(cuid())
-  slug        String           @unique
-  title       Json
-  description Json
-  priceBasic  Int              @default(200000)
-  pricePro    Int              @default(400000)
-  priceDeluxe Int              @default(800000)
-  lessons     Lesson[]
-  modules     Module[]
-  level       String           @default("Beginner")
-  coverUrl    String?
-  badge       String?
-  published   Boolean          @default(false)
-  visible     Boolean          @default(true)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  Enrollment  Enrollment[]
-  Payment     Payment[]
-  leads       ContactRequest[]
+  id           String           @id @default(cuid())
+  slug         String           @unique
+  title        Json
+  description  Json
+  priceBasic   Int              @default(200000)
+  pricePro     Int              @default(400000)
+  priceDeluxe  Int              @default(800000)
+  lessons      Lesson[]
+  modules      Module[]
+  level        String           @default("Beginner")
+  coverUrl     String?
+  badge        String?
+  published    Boolean          @default(false)
+  visible      Boolean          @default(true)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  Enrollment   Enrollment[]
+  Payment      Payment[]
+  leads        ContactRequest[]
+  certificates Certificate[]
 }
 
 model Module {
@@ -410,11 +415,16 @@ model News {
 model ContactRequest {
   id        String        @id @default(cuid())
   firstName String
-  lastName  String
+  // Nullable since the campaign landings (/l/[campaign]) ask for a name and a
+  // phone number and nothing else. Readers must not interpolate it directly.
+  lastName  String?
   phone     String
   email     String?
   message   String?
   source    LeadSource    @default(HOME_FORM)
+  // Slug from src/content/campaigns.json, set only when source = LANDING.
+  campaign  String?
+  utm       Json?
   courseId  String?
   plan      Plan?
   locale    String        @default("ru")
@@ -427,6 +437,7 @@ model ContactRequest {
   @@index([status])
   @@index([createdAt])
   @@index([courseId])
+  @@index([campaign])
 }
 
 enum Role {
@@ -448,6 +459,7 @@ model Group {
   teacher User              @relation("TeacherGroups", fields: [teacherId], references: [id])
   members GroupMembership[]
   events  ScheduleEvent[]
+  reports MonthlyReport[]
 
   @@index([teacherId, archived])
 }
@@ -513,6 +525,83 @@ model Attendance {
   @@index([userId])
 }
 
+// --- Public documents: parent reports, certificates --------------------
+//
+// Both carry their own public link. Deliberately not reusing VerificationToken:
+// that model is one-shot and expiring (usedAt / expiresAt, built for email
+// confirmation). These links are long-lived, viewed repeatedly by someone who
+// never signs in, and revocable by the person who issued them.
+
+model MonthlyReport {
+  id      String @id @default(cuid())
+  userId  String
+  // A student in two groups gets one report per group.
+  groupId String
+
+  periodStart DateTime
+  periodEnd   DateTime
+
+  // Frozen snapshot, written once at generation time. A March report must not
+  // drift when April's attendance lands, and the teacher's comment is written
+  // against the numbers they actually saw. Regeneration overwrites a DRAFT and
+  // refuses to touch a PUBLISHED report.
+  data    Json
+  comment String?
+
+  status      MonthlyReportStatus @default(DRAFT)
+  token       String              @unique
+  publishedAt DateTime?
+  revokedAt   DateTime?
+
+  viewCount    Int       @default(0)
+  lastViewedAt DateTime?
+
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user      User  @relation("MonthlyReports", fields: [userId], references: [id], onDelete: Cascade)
+  group     Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  createdBy User  @relation("MonthlyReportAuthor", fields: [createdById], references: [id])
+
+  @@unique([userId, groupId, periodStart])
+  @@index([groupId, periodStart])
+  @@index([status])
+}
+
+enum MonthlyReportStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Certificate {
+  id       String @id @default(cuid())
+  userId   String
+  courseId String
+  level    String
+
+  // Unguessable on its own, which is why verification needs no date-of-birth
+  // gate — we do not store birth dates and should not start collecting them.
+  serial String @unique
+
+  issuedAt   DateTime  @default(now())
+  issuedById String
+  // A revoked certificate stays visible as revoked. "Issued and withdrawn" is
+  // different information from "never existed".
+  revokedAt  DateTime?
+  note       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User   @relation("Certificates", fields: [userId], references: [id], onDelete: Cascade)
+  course   Course @relation(fields: [courseId], references: [id])
+  issuedBy User   @relation("CertificateIssuer", fields: [issuedById], references: [id])
+
+  @@index([userId])
+  @@index([courseId])
+}
+
 enum Plan {
   FREE
   BASIC
@@ -544,4 +633,5 @@ enum LeadSource {
   CONTACTS_PAGE
   TRIAL_LESSON
   LEVEL_TEST
+  LANDING
 }

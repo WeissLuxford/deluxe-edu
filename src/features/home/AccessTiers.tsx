@@ -2,9 +2,10 @@
 
 import { useTranslations } from 'next-intl'
 import { Check } from 'lucide-react'
-import { ChunkyButton } from '@/features/ui/components/ChunkyButton'
+import { Button } from '@/features/ui/components/Button'
 import { ArrowLinkButton } from '@/features/ui/components/ArrowLinkButton'
 import { Reveal } from '@/features/ui/components/Reveal'
+import { Section } from '@/features/ui/components/Section'
 
 export default function AccessTiers({ base }: { base: string }) {
   const t = useTranslations('home')
@@ -29,43 +30,43 @@ export default function AccessTiers({ base }: { base: string }) {
   ]
 
   return (
-    <section id="block-access" data-section="access-tiers">
-      <div className="container">
-        <div className="access-head">
-          <h2 className="section-title">{t('tiersTitle')}</h2>
-          <p className="section-sub">{t('tiersLead')}</p>
-        </div>
+    <Section
+      id="block-access"
+      texture="dots"
+      accent="var(--accent-cyan)"
+      eyebrow={t('tiersEyebrow')}
+      title={t('tiersTitle')}
+      subtitle={t('tiersLead')}
+    >
+      <div className="access-grid">
+        {tiers.map((tier, i) => (
+          <Reveal key={i} delay={i * 0.08} className={`plan-card${tier.highlight ? ' accent' : ''}`}>
+            {tier.highlight && <span className="plan-card__badge">{tier.title}</span>}
 
-        <div className="access-grid">
-          {tiers.map((tier, i) => (
-            <Reveal key={i} delay={i * 0.08} className={`plan-card${tier.highlight ? ' accent' : ''}`}>
-              {tier.highlight && <span className="plan-card__badge">{tier.title}</span>}
+            <span className="plan-card__name">{tier.title}</span>
+            <p className="plan-card__kind">{tier.desc}</p>
+            <p className="plan-card__kind">{t('tierPriceHint')}</p>
 
-              <span className="plan-card__name">{tier.title}</span>
-              <p className="plan-card__kind">{tier.desc}</p>
-              <p className="plan-card__kind">{t('tierPriceHint')}</p>
+            <ul className="plan-card__list">
+              {tier.features.map((feature, idx) => (
+                <li key={idx} className="plan-card__includes">
+                  <Check size={14} />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
 
-              <ul className="plan-card__list">
-                {tier.features.map((feature, idx) => (
-                  <li key={idx} className="plan-card__includes">
-                    <Check size={14} />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <ChunkyButton href={`${base}/courses`} color={tier.highlight ? 'brand' : 'neutral'} fullWidth>
-                {t('tierCta')}
-              </ChunkyButton>
-            </Reveal>
-          ))}
-        </div>
-
-        <div className="access-footer">
-          <p className="section-sub">{t('tiersUnsure')}</p>
-          <ArrowLinkButton href={`${base}/trial-lesson`}>{t('tiersTry')}</ArrowLinkButton>
-        </div>
+            <Button href={`${base}/courses`} color={tier.highlight ? 'brand' : 'neutral'} fullWidth>
+              {t('tierCta')}
+            </Button>
+          </Reveal>
+        ))}
       </div>
-    </section>
+
+      <div className="access-footer">
+        <p className="section-sub">{t('tiersUnsure')}</p>
+        <ArrowLinkButton href={`${base}/trial-lesson`}>{t('tiersTry')}</ArrowLinkButton>
+      </div>
+    </Section>
   )
 }

@@ -54,7 +54,7 @@ export default async function AdminStreams({ params }: { params: Promise<{ local
                 return (
                   <tr key={s.id}>
                     <td>
-                      <Link href={`/${locale}/admin/streams/${s.id}`} style={{ color: 'var(--gold-text)' }}>
+                      <Link href={`/${locale}/admin/streams/${s.id}`} style={{ color: 'var(--ui-accent-text)' }}>
                         {ru(s.title)}
                       </Link>
                     </td>

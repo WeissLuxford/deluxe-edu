@@ -106,7 +106,7 @@
 }
 
 .struct-lesson__title {
-  color: var(--brand-text);
+  color: var(--ui-accent-text);
   font-size: 0.875rem;
   font-weight: 600;
 }
@@ -160,8 +160,8 @@
 }
 
 .struct-move__btn:hover {
-  border-color: var(--brand-border);
-  color: var(--brand-text);
+  border-color: var(--ui-accent-border);
+  color: var(--ui-accent-text);
 }
 
 .row-actions {
@@ -186,13 +186,13 @@
 }
 
 .row-icon-btn:hover {
-  border-color: var(--brand-border);
-  color: var(--brand-text);
+  border-color: var(--ui-accent-border);
+  color: var(--ui-accent-text);
 }
 
 .row-icon-btn--danger:hover {
-  border-color: #ef4444;
-  color: #ef4444;
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
 .row-icon-btn:disabled {
@@ -238,7 +238,7 @@
 }
 
 .admin-stat:hover {
-  border-color: var(--brand-border);
+  border-color: var(--ui-accent-border);
 }
 
 .admin-stat__label {
@@ -249,7 +249,7 @@
 .admin-stat__value {
   font-size: 1.85rem;
   font-weight: 700;
-  color: var(--brand-text);
+  color: var(--ui-accent-text);
   line-height: 1.1;
 }
 
@@ -361,7 +361,7 @@
 }
 
 .admin-warnings__items a:hover {
-  color: var(--brand-text);
+  color: var(--ui-accent-text);
 }
 
 .admin-feed {
@@ -457,7 +457,7 @@
 }
 
 .student-course__head a {
-  color: var(--brand-text);
+  color: var(--ui-accent-text);
   font-weight: 600;
 }
 

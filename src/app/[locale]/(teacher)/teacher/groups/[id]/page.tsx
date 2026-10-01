@@ -196,6 +196,9 @@ export default async function TeacherGroupDetail({
           ← К списку групп
         </Link>
         <div className="flex items-center gap-2">
+          <Link href={`/${locale}/teacher/groups/${id}/reports`} className="btn btn-ghost">
+            Отчёты родителям
+          </Link>
           {group.archived ? (
             <ActionButton action={setGroupArchived.bind(null, id, false)} className="btn btn-ghost">
               Вернуть из архива
@@ -311,7 +314,7 @@ export default async function TeacherGroupDetail({
                                 className="progress-bar"
                                 style={{
                                   width: `${progress}%`,
-                                  ...(progress < AT_RISK_PROGRESS ? { background: '#ef4444' } : {})
+                                  ...(progress < AT_RISK_PROGRESS ? { background: 'var(--danger)' } : {})
                                 }}
                               />
                             </div>

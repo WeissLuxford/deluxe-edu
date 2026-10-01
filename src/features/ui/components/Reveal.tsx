@@ -6,11 +6,17 @@ type RevealProps = {
   delay?: number
   y?: number
   x?: number
-  as?: 'div' | 'li' | 'form'
+  as?: 'div' | 'li' | 'form' | 'article'
 } & HTMLMotionProps<'div'>
 
 export function Reveal({ delay = 0, y = 20, x = 0, as = 'div', ...rest }: RevealProps) {
-  const MotionTag = (as === 'li' ? motion.li : as === 'form' ? motion.form : motion.div) as typeof motion.div
+  const TAGS = {
+    li: motion.li,
+    form: motion.form,
+    article: motion.article,
+    div: motion.div
+  } as const
+  const MotionTag = TAGS[as] as typeof motion.div
   return (
     <MotionTag
       initial={{ opacity: 0, y, x }}

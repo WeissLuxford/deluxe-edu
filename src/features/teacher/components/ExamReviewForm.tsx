@@ -46,7 +46,7 @@ export function ExamReviewForm({ attemptId, locale }: { attemptId: string; local
       <div className="flex items-center gap-3" style={{ marginTop: '1rem' }}>
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-success"
           onClick={() => submit('APPROVED')}
           disabled={pending}
         >
