@@ -15,7 +15,7 @@
 | `/certificate` → `/results#certificate`, `/certificate/[serial]` | Results (блок проверки), Certificate | ✅ |
 | `/about` | «О нас и контакты» | ✅ |
 | `/contacts` | → редирект на `/about` | ✅ |
-| `/news`, `/news/[slug]` | в стиле сайта + синхронизация с Instagram | ⬜ (оставляем) |
+| `/news`, `/news/[slug]` | в стиле сайта + синхронизация с Instagram | ✅ (Instagram ждёт ключ) |
 | `/signup` | SignUp | ✅ |
 | `/signin`, `/forgot-password`, `/reset-password`, `/resend-verification` | в стиле SignUp | ✅ |
 | `/level-test` (группа `(focus)`), `/level-test/[lesson]` → редирект | LevelTest | ✅ |
@@ -46,7 +46,7 @@
 | остальные `/teacher/*` | набор `features/staff/kit.css` | 🟨 стили v2, вёрстка старая |
 | `/admin` | Admin | ✅ |
 | остальные `/admin/*` (курсы, уроки, студенты, эфиры) | набор `features/staff/kit.css` | 🟨 стили v2, вёрстка старая |
-| `/admin/news*` | в стиле Admin | ⬜ (оставляем) |
+| `/admin/news*` | в стиле Admin, панель Instagram | ✅ |
 
 ## Только редиректы (оставляем как есть)
 

@@ -122,6 +122,11 @@
   min-height: 360px;
 }
 
+/* No photo: a calendar page needs less height than a photo does. */
+.media:has(.face) {
+  aspect-ratio: 4 / 3;
+}
+
 .cover {
   width: 100%;
   height: 100%;
@@ -396,6 +401,19 @@
   .card,
   .featureLink {
     border-radius: 28px;
+  }
+
+  .media:has(.face),
+  .featureLink .media:has(.face) {
+    aspect-ratio: 2 / 1;
+  }
+
+  .faceDay {
+    font-size: 72px;
+  }
+
+  .face {
+    padding: 20px 22px;
   }
 }
 
