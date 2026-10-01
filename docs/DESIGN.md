@@ -82,5 +82,7 @@ src/design/
 `input`, `admin-table`, `admin-panel`, `rte`, `lf__*`…) живёт в
 `src/features/staff/kit.css` и действует только внутри `.staff` (корень
 `StaffShell`). Там же старые имена токенов (`--fg`, `--border`…) переназначены на
-v2. Новые экраны персонала пишем CSS-модулями (`overview.module.css`,
-`journal.module.css`), kit — для старой вёрстки форм, пока её не переписали.
+v2. Формы персонала — набор `src/features/staff/form/Form.tsx` (FormLayout с липкой
+правой колонкой, Section, Field, Row, Input/Select/Textarea, Toggle, Chips,
+LevelPicker, SaveBox, Submit, Tabs). Новые экраны — CSS-модули; kit — только для
+старой вёрстки, пока её не переписали.
