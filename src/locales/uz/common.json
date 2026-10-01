@@ -949,15 +949,6 @@
     "checkAnother": "Boshqa raqamni tekshirish",
     "print": "Chop etish yoki PDF sifatida saqlash"
   },
-  "teachers": {
-    "title": "O‘qituvchilar",
-    "lead": "Darslarni olib boradigan odamlar. Ism bilan, «professionallar jamoasi» emas.",
-    "empty": "O‘qituvchilar profillari tez orada shu yerda paydo bo‘ladi.",
-    "credentials": "Tasdiqlangan sertifikatlar",
-    "watch": "Videotanishtiruv",
-    "back": "Barcha o‘qituvchilarga",
-    "oneMentor": "Sizni ism bilan biladigan bitta o‘qituvchi"
-  },
   "results": {
     "title": "O‘quvchilar natijalari",
     "lead": "Faqat haqiqiy hikoyalar va haqiqiy sertifikatlar. Hozircha ular kam — shundayligicha yozilgan.",

@@ -252,7 +252,10 @@
     "studyWith": "Study with {name}",
     "emptyTitle": "Meet them <it>soon</it>",
     "emptyText": "We're putting together teacher profiles — with real photos and documents. Meanwhile, come to a trial lesson and see for yourself.",
-    "emptyCta": "Trial lesson"
+    "emptyCta": "Trial lesson",
+    "back": "All teachers",
+    "others": "Other teachers",
+    "video": "Video introduction"
   },
   "resultsPage": {
     "meta": {

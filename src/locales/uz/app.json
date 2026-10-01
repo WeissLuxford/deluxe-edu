@@ -252,7 +252,10 @@
     "studyWith": "{name} bilan o‘qish",
     "emptyTitle": "Tez orada <it>tanishtiramiz</it>",
     "emptyText": "O‘qituvchilar profillarini haqiqiy surat va hujjatlar bilan tayyorlayapmiz. Hozircha sinov darsiga kelib, hammasini o‘zing ko‘rishing mumkin.",
-    "emptyCta": "Sinov darsi"
+    "emptyCta": "Sinov darsi",
+    "back": "Barcha o‘qituvchilar",
+    "others": "Boshqa o‘qituvchilar",
+    "video": "Video-tanishuv"
   },
   "resultsPage": {
     "meta": {

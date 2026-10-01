@@ -949,15 +949,6 @@
     "checkAnother": "Verify another number",
     "print": "Print or save as PDF"
   },
-  "teachers": {
-    "title": "Teachers",
-    "lead": "The people who actually run the lessons — with names, not “a team of professionals”.",
-    "empty": "Teacher profiles will appear here soon.",
-    "credentials": "Verified qualifications",
-    "watch": "Video introduction",
-    "back": "All teachers",
-    "oneMentor": "One teacher who knows your name"
-  },
   "results": {
     "title": "Student results",
     "lead": "Real stories and real certificates only. There are not many yet, and we say so.",
