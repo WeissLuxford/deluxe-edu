@@ -14,6 +14,7 @@ type Source = 'HOME_FORM' | 'COURSE_PAGE' | 'CONTACTS_PAGE' | 'TRIAL_LESSON' | '
 type Props = {
   source: Source
   courseId?: string
+  plan?: 'BASIC' | 'PRO' | 'DELUXE'
   campaign?: string
   utm?: Record<string, string>
   /** Button style: on a lime block the button is ink, on ink it is lime. */
@@ -23,7 +24,7 @@ type Props = {
 
 // Name + phone, nothing else: every extra field costs requests. The success
 // state replaces the form in place with the same height, so nothing jumps.
-export function CallbackForm({ source, courseId, campaign, utm, tone = 'onLime', submitLabel }: Props) {
+export function CallbackForm({ source, courseId, plan, campaign, utm, tone = 'onLime', submitLabel }: Props) {
   const t = useTranslations('leadForm')
   const locale = useLocale()
   const [name, setName] = useState('')
@@ -41,7 +42,7 @@ export function CallbackForm({ source, courseId, campaign, utm, tone = 'onLime',
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName: name.trim(), phone, source, courseId, campaign, utm, locale, turnstileToken: token })
+        body: JSON.stringify({ firstName: name.trim(), phone, source, courseId, plan, campaign, utm, locale, turnstileToken: token })
       })
       if (res.status === 429) return setState('limited')
       setState(res.ok ? 'done' : 'error')

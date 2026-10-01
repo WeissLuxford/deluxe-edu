@@ -1,0 +1,14 @@
+{
+  "$описание": "Дополнения к странице курса, которых нет в базе: что человек сможет после курса и кто его ведёт. Ключ — slug курса. Пустой список outcomes — блок «После курса ты сможешь» не показывается. teacher — slug из teachers.json, показывается только если профиль опубликован.",
+  "$пример": {
+    "intermediate-grammar": {
+      "teacher": "teacher",
+      "outcomes": {
+        "ru": ["Выбирать время, не задумываясь", "Рассказать историю в прошлом без ошибок"],
+        "uz": ["Zamonni o‘ylamasdan tanlash", "O‘tgan zamonda xatosiz hikoya qilish"],
+        "en": ["Pick the right tense without thinking", "Tell a story in the past without mistakes"]
+      }
+    }
+  },
+  "courses": {}
+}

@@ -7,8 +7,8 @@
 | Адрес | Артборд | Статус |
 |---|---|---|
 | `/` | Home, HomeMobile | ✅ |
-| `/courses` | Courses | ⬜ |
-| `/courses/[slug]` | Course | ⬜ |
+| `/courses` | Courses | ✅ |
+| `/courses/[slug]` | Course | ✅ |
 | `/teachers` | Teachers | ⬜ |
 | `/teachers/[slug]` | — (крупный блок Teachers = профиль) | ❓ |
 | `/results` | Results | ⬜ |

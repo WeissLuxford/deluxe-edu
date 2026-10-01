@@ -15,6 +15,10 @@
 
 ## Не забыть
 
+- У курса нет поля «тема» — пока берётся из slug (`topicOf` в `features/courses/catalog.ts`); добавить колонку, когда будет dev-база
+- «После курса ты сможешь» и «Ведёт курс» — заполнить `src/content/courseExtras.json` (пусто → блоки скрыты)
+- Контакты в `src/content/contacts.ts` — заглушки, заменить настоящими
+
 - Отдельная dev-база (Neon branch) — локальный `.env` смотрит в прод
 - Оплата Payme/Click: нет колбэков провайдеров (`AUDIT.md`, этап 5)
 - Прод: `ESKIZ_TEST_MODE=false`, `TURNSTILE_SECRET_KEY`, `NEXTAUTH_URL=https://highgate.uz`

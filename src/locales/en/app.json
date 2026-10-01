@@ -1,20 +1,81 @@
 {
   "ui": {
     "levels": {
-      "A1": { "title": "Starting from zero", "desc": "First words, phrases and confidence", "short": "From zero" },
-      "A2": { "title": "I know the basics", "desc": "But I'm shy to speak out loud", "short": "Know the basics" },
-      "B1": { "title": "I understand, but mix things up", "desc": "Tenses, prepositions and all that", "short": "Understand, but mix up" },
-      "B2": { "title": "I speak, want to be freer", "desc": "Conversation practice and work", "short": "Speak freely" },
-      "C1": { "title": "I want the fine points", "desc": "IELTS, academic writing", "short": "IELTS and nuance" }
+      "A1": {
+        "title": "Starting from zero",
+        "desc": "First words, phrases and confidence",
+        "short": "From zero"
+      },
+      "A2": {
+        "title": "I know the basics",
+        "desc": "But I'm shy to speak out loud",
+        "short": "Know the basics"
+      },
+      "B1": {
+        "title": "I understand, but mix things up",
+        "desc": "Tenses, prepositions and all that",
+        "short": "Understand, but mix up"
+      },
+      "B2": {
+        "title": "I speak, want to be freer",
+        "desc": "Conversation practice and work",
+        "short": "Speak freely"
+      },
+      "C1": {
+        "title": "I want the fine points",
+        "desc": "IELTS, academic writing",
+        "short": "IELTS and nuance"
+      }
     },
     "plans": {
-      "BASIC": { "name": "Basic", "tagline": "On your own", "desc": "Every lesson of the course: videos, notes, tests and materials. Learn at your own pace." },
-      "PRO": { "name": "Pro", "tagline": "With review", "desc": "Everything in Basic, plus a teacher reviews your tests and tells you what to work on." },
-      "DELUXE": { "name": "Deluxe", "tagline": "With a teacher", "desc": "Everything in Pro, plus one-on-one lessons with a teacher and group classes with people on your plan." }
+      "BASIC": {
+        "name": "Basic",
+        "tagline": "On your own",
+        "desc": "Every lesson of the course: videos, notes, tests and materials. Learn at your own pace.",
+        "points": [
+          "Every lesson: videos, notes, tests",
+          "Learn at your own pace",
+          "Materials are yours forever"
+        ]
+      },
+      "PRO": {
+        "name": "Pro",
+        "tagline": "With review",
+        "desc": "Everything in Basic, plus a teacher reviews your tests and tells you what to work on.",
+        "points": [
+          "Everything in Basic",
+          "A teacher reviews your tests",
+          "Tells you what to work on and how"
+        ]
+      },
+      "DELUXE": {
+        "name": "Deluxe",
+        "tagline": "With a teacher",
+        "desc": "Everything in Pro, plus one-on-one lessons with a teacher and group classes with people on your plan.",
+        "points": [
+          "Everything in Pro",
+          "One-on-one lessons with a teacher",
+          "Group classes with people on your plan"
+        ]
+      }
     },
     "from": "from {price}",
     "sum": "{amount} UZS",
-    "langName": { "ru": "Русский", "uz": "O‘zbekcha", "en": "English" }
+    "langName": {
+      "ru": "Русский",
+      "uz": "O‘zbekcha",
+      "en": "English"
+    },
+    "all": "All",
+    "lessonsCount": "{count, plural, one {# lesson} other {# lessons}}",
+    "topics": {
+      "grammar": "Grammar",
+      "speaking": "Speaking",
+      "exams": "Exams",
+      "work": "For work",
+      "writing": "Writing",
+      "general": "General English"
+    }
   },
   "siteNav": {
     "courses": "Courses",
@@ -98,9 +159,18 @@
       "unknownDesc": "A 15-minute test — and we'll suggest a course right away"
     },
     "steps": {
-      "s1": { "title": "Try it for free", "text": "A trial lesson and a level test — no payment. See the format and decide if it's for you." },
-      "s2": { "title": "Choose how to learn", "text": "On your own, with review or with a teacher. The lessons stay with you forever." },
-      "s3": { "title": "Go at your own pace", "text": "Lessons open in order and your progress is visible right away. Stuck — message your teacher." }
+      "s1": {
+        "title": "Try it for free",
+        "text": "A trial lesson and a level test — no payment. See the format and decide if it's for you."
+      },
+      "s2": {
+        "title": "Choose how to learn",
+        "text": "On your own, with review or with a teacher. The lessons stay with you forever."
+      },
+      "s3": {
+        "title": "Go at your own pace",
+        "text": "Lessons open in order and your progress is visible right away. Stuck — message your teacher."
+      }
     },
     "pricing": {
       "title": "What it <it>costs</it>",
@@ -111,16 +181,64 @@
     "faq": {
       "title": "Common <it>questions</it>",
       "items": [
-        { "q": "What if I'm a total beginner?", "a": "Then we start at A1 — with the very first words and phrases. Explanations in your language, nobody will rush you." },
-        { "q": "How much time do I need a day?", "a": "15–20 minutes is enough — that's one lesson. A little every day beats three hours once a week." },
-        { "q": "Can I learn only from my phone?", "a": "Yes. Lessons, notes and tests work well on a phone, and live classes run on Zoom." },
-        { "q": "How do live classes work?", "a": "Online, on Zoom: one-on-one lessons with a teacher and group classes — that's the Deluxe plan. The schedule is always in the Live section." },
-        { "q": "What happens when my plan ends?", "a": "The lessons and materials stay with you. Only reviews and teacher sessions end." }
+        {
+          "q": "What if I'm a total beginner?",
+          "a": "Then we start at A1 — with the very first words and phrases. Explanations in your language, nobody will rush you."
+        },
+        {
+          "q": "How much time do I need a day?",
+          "a": "15–20 minutes is enough — that's one lesson. A little every day beats three hours once a week."
+        },
+        {
+          "q": "Can I learn only from my phone?",
+          "a": "Yes. Lessons, notes and tests work well on a phone, and live classes run on Zoom."
+        },
+        {
+          "q": "How do live classes work?",
+          "a": "Online, on Zoom: one-on-one lessons with a teacher and group classes — that's the Deluxe plan. The schedule is always in the Live section."
+        },
+        {
+          "q": "What happens when my plan ends?",
+          "a": "The lessons and materials stay with you. Only reviews and teacher sessions end."
+        }
       ]
     },
     "lead": {
       "title": "Let's <it>just</it> talk",
       "text": "Leave your number — we'll call back, help you find your level and choose a course. No pressure, honestly."
     }
+  },
+  "coursesPage": {
+    "meta": {
+      "title": "English courses from A1 to C1 — Highgate",
+      "description": "English courses by level, A1–C1: grammar, speaking, exams and English for work. Short lessons and a real teacher."
+    },
+    "title": "Courses for <it>your</it> level",
+    "hint": "Not sure which to pick? <a>Take a 15-minute test</a> — we'll suggest one.",
+    "levelFilter": "Level",
+    "topicFilter": "Topic",
+    "empty": "Nothing here yet. Check back later or take the test — we'll suggest where to start.",
+    "trialTitle": "<it>Try</it> it first — it's free",
+    "trialText": "A 20-minute trial lesson: video, notes and a short test.",
+    "trialCta": "Open the trial lesson"
+  },
+  "coursePage": {
+    "back": "All courses",
+    "statLessons": "{count, plural, one {lesson} other {lessons}}",
+    "statModules": "{count, plural, one {module} other {modules}} with checkpoints",
+    "statMinutes": "average lesson",
+    "min": "min",
+    "howToLearn": "How do you want to learn?",
+    "startWith": "Start with {plan}",
+    "note": "Lessons stay with you forever. Not sure? <a>Try the trial lesson first</a>.",
+    "inside": "What's <it>inside</it>",
+    "moduleMeta": "{count, plural, one {# lesson} other {# lessons}}",
+    "withExam": " · checkpoint test",
+    "outcomes": "After the course <it>you'll be able to</it>",
+    "teacher": "Your teacher",
+    "meet": "Meet them",
+    "leadTitle": "Leave your number — <it>we'll open access</it>",
+    "leadText": "We'll call back, help with payment and suggest where to start.",
+    "leadBack": "Back to plans"
   }
 }

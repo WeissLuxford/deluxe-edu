@@ -1,141 +1,68 @@
+import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
-import { ArrowRight, GraduationCap } from 'lucide-react'
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/db'
-import { CourseArticle } from '@/features/courses/components/CourseArticle'
-import { SpecialOffersSection } from '@/features/courses/components/SpecialOffersSection'
-import { getEnrolledCourseIds } from '@/features/learn/progress'
-import { localized } from '@/lib/localized'
-import { resolvePublicAsset } from '@/lib/publicAsset'
+import { Button } from '@/design/components/Button'
+import { Reveal } from '@/design/components/Reveal'
+import { Container, Heading } from '@/design/components/Type'
+import { LEVEL_CODES, type LevelCode } from '@/design/levels'
+import { catalogCourses, TOPICS, type Topic } from '@/features/courses/catalog'
+import { CatalogGrid } from '@/features/courses/CatalogGrid'
+import { formatSum } from '@/features/pricing/planPrices'
+import s from '@/features/courses/catalog.module.css'
 
 type Props = {
   params: Promise<{ locale: string }>
-  searchParams?: Promise<{ level?: string }>
+  searchParams: Promise<{ level?: string; topic?: string }>
 }
 
-const LEVELS = [
-  'Beginner',
-  'Elementary',
-  'Pre-Intermediate',
-  'Intermediate',
-  'Upper-Intermediate',
-  'Advanced'
-]
-
-const SPECIAL_SLUGS = ['level-test', 'trial-lesson']
-const isSpecial = (slug: string) => SPECIAL_SLUGS.includes(slug) || slug.includes('mock-test')
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'coursesPage.meta' })
+  return { title: t('title'), description: t('description') }
+}
 
 export default async function CoursesPage({ params, searchParams }: Props) {
   const { locale } = await params
-  const resolved = await searchParams
-  const selectedLevel = resolved?.level || null
-
-  const [t, tLearn] = await Promise.all([
-    getTranslations({ locale, namespace: 'courses' }),
-    getTranslations({ locale, namespace: 'learn' })
-  ])
-
+  const query = await searchParams
+  const t = await getTranslations({ locale, namespace: 'coursesPage' })
+  const tu = await getTranslations({ locale, namespace: 'ui' })
   const session = await getServerSession(authOptions)
-  const userId = session?.user?.id ?? null
+  const courses = await catalogCourses(locale, session?.user?.id ?? null)
 
-  const courses = await prisma.course.findMany({
-    where: { published: true, visible: true },
-    orderBy: { createdAt: 'desc' },
-    include: {
-      lessons: { orderBy: { order: 'asc' }, select: { id: true, durationMin: true } }
-    }
-  })
+  const level = (LEVEL_CODES as string[]).includes(query.level ?? '') ? (query.level as LevelCode) : null
+  const topic = (TOPICS as string[]).includes(query.topic ?? '') ? (query.topic as Topic) : null
+  const fromLabels = Object.fromEntries(courses.map(c => [c.id, tu('from', { price: tu('sum', { amount: formatSum(c.fromPrice) }) })]))
 
-  const hasLevelTest = courses.some(c => c.slug === 'level-test')
-  const hasFreeMockTest = courses.some(c => c.slug.includes('mock-test') && c.priceBasic === 0)
-
-  const enrolledIds = userId ? await getEnrolledCourseIds(userId) : new Set<string>()
-
-  const catalogue = courses.filter(
-    c => !isSpecial(c.slug) && c.lessons.length > 0 && !enrolledIds.has(c.id)
-  )
-
-  const levelsWithCourses = LEVELS.filter(l => catalogue.some(c => c.level === l))
-  const filtered = selectedLevel ? catalogue.filter(c => c.level === selectedLevel) : catalogue
+  const rich = {
+    it: (c: ReactNode) => <span className="it">{c}</span>,
+    a: (c: ReactNode) => <Link href={`/${locale}/level-test`}>{c}</Link>
+  }
 
   return (
-    <main>
-      <div>
-        <h1>{t('title')}</h1>
-        <p>{t('subtitle')}</p>
+    <Container>
+      <div className={s.head}>
+        <Reveal>
+          <Heading size="h1">{t.rich('title', rich)}</Heading>
+        </Reveal>
+        <Reveal delay={80}>
+          <p className={s.hint}>{t.rich('hint', rich)}</p>
+        </Reveal>
       </div>
 
-      <div>
-        {enrolledIds.size > 0 && (
-          <Link href={`/${locale}/learn`}>
-            <GraduationCap size={18} />
-            <span>
-              {t('myCourses')}: {enrolledIds.size}
-            </span>
-            <strong>
-              {tLearn('resumeAction')}
-              <ArrowRight size={15} />
-            </strong>
-          </Link>
-        )}
+      <CatalogGrid courses={courses} initialLevel={level} initialTopic={topic} fromLabels={fromLabels} />
 
-        <section>
-          <div>
-            <h2>{t('available')}</h2>
-            <p>{t('availableHint')}</p>
-          </div>
-
-          {levelsWithCourses.length > 1 && (
-            <div>
-              <Link href={`/${locale}/courses`} aria-current={!selectedLevel ? 'page' : undefined}>
-                {t('allLevels')}
-              </Link>
-              {levelsWithCourses.map(l => (
-                <Link
-                  key={l}
-                  href={`/${locale}/courses?level=${encodeURIComponent(l)}`}
-                  aria-current={selectedLevel === l ? 'page' : undefined}
-                >
-                  {l}
-                </Link>
-              ))}
-            </div>
-          )}
-
-          {filtered.length > 0 ? (
-            <div>
-              {filtered.map(course => (
-                <CourseArticle
-                  key={course.id}
-                  id={course.id}
-                  slug={course.slug}
-                  title={localized(course.title, locale) || course.slug}
-                  description={localized(course.description, locale)}
-                  level={course.level}
-                  lessonsCount={course.lessons.length}
-                  totalMinutes={course.lessons.reduce((sum, l) => sum + (l.durationMin ?? 0), 0)}
-                  coverUrl={resolvePublicAsset(course.coverUrl)}
-                  badge={course.badge}
-                  priceBasic={course.priceBasic}
-                  pricePro={course.pricePro}
-                  priceDeluxe={course.priceDeluxe}
-                  locale={locale}
-                />
-              ))}
-            </div>
-          ) : (
-            <p>{selectedLevel ? t('emptyLevel') : t('empty')}</p>
-          )}
-        </section>
-
-        <SpecialOffersSection
-          hasLevelTest={hasLevelTest}
-          hasFreeMockTest={hasFreeMockTest}
-          locale={locale}
-        />
-      </div>
-    </main>
+      <Reveal className={s.trial}>
+        <span className={s.trialText}>
+          <span className={s.trialTitle}>{t.rich('trialTitle', rich)}</span>
+          <span className={s.trialSub}>{t('trialText')}</span>
+        </span>
+        <Button href={`/${locale}/trial-lesson`} variant="lime" size="lg">
+          {t('trialCta')}
+        </Button>
+      </Reveal>
+    </Container>
   )
 }
