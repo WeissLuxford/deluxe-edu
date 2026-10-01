@@ -1,17 +1,7 @@
-import { ContactHero } from '@/features/contacts/components/ContactHero';
-import { ContactMethods } from '@/features/contacts/components/ContactMethods';
-import { ContactFormBlock } from '@/features/contacts/components/ContactFormBlock';
-import { FAQPreview } from '@/features/contacts/components/FAQPreview';
-import { QuickLinks } from '@/features/contacts/components/QuickLinks';
+import { permanentRedirect } from 'next/navigation'
 
-export default async function ContactsPage() {
-  return (
-    <main>
-      <ContactHero />
-      <ContactMethods />
-      <ContactFormBlock />
-      <QuickLinks />
-      <FAQPreview />
-    </main>
-  );
+// "About" and "Contacts" are one page on the design canvas.
+export default async function ContactsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  permanentRedirect(`/${locale}/about`)
 }

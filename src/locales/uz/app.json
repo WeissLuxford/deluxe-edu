@@ -240,5 +240,69 @@
     "leadTitle": "Raqamingni qoldir — <it>kirishni ochamiz</it>",
     "leadText": "Qo‘ng‘iroq qilamiz, to‘lovda yordam beramiz va qayerdan boshlashni aytamiz.",
     "leadBack": "Tariflarga qaytish"
+  },
+  "teachersPage": {
+    "meta": {
+      "title": "O‘qituvchilar — Highgate",
+      "description": "Topshiriqlarni tekshiradigan, jonli darslar o‘tadigan va savollarga javob beradigan insonlar."
+    },
+    "title": "Ular bilan xato qilish <it>qo‘rqinchli emas</it>",
+    "lead": "Ular topshiriqlarni tekshiradi, jonli darslar o‘tadi va savollarga javob beradi. Mensimaslik yo‘q — shunchaki boshqacha qilib yana tushuntiradi.",
+    "studyWith": "{name} bilan o‘qish",
+    "emptyTitle": "Tez orada <it>tanishtiramiz</it>",
+    "emptyText": "O‘qituvchilar profillarini haqiqiy surat va hujjatlar bilan tayyorlayapmiz. Hozircha sinov darsiga kelib, hammasini o‘zing ko‘rishing mumkin.",
+    "emptyCta": "Sinov darsi"
+  },
+  "resultsPage": {
+    "meta": {
+      "title": "O‘quvchilar natijalari — Highgate",
+      "description": "Highgate o‘quvchilarining haqiqiy hikoyalari va sertifikatni raqam bo‘yicha tekshirish."
+    },
+    "title": "Kichik <it>katta</it> g‘alabalar",
+    "lead": "Bu yerda faqat o‘quvchilarning haqiqiy hikoyalari — ularning ruxsati bilan. To‘qib chiqarilgan raqamlar yo‘q.",
+    "emptyTitle": "Hikoyalar <it>tez orada</it>",
+    "emptyText": "O‘quvchilar o‘zlari ruxsat bermaguncha fikrlarni e’lon qilmaymiz. Birinchilari yo‘lda.",
+    "certificates": "ta sertifikat berildi",
+    "certificatesHint": "har birini quyida tekshirish mumkin",
+    "verified": "Sertifikat bo‘yicha tekshirilgan"
+  },
+  "certificatePage": {
+    "title": "<it>Sertifikatni</it> tekshirish",
+    "lead": "Raqam sertifikatning pastki qismida yozilgan. Katta-kichik harf va chiziqchalar muhim emas — qulay tarzda kirit.",
+    "placeholder": "HG-2026-XXXXX-XXXXX",
+    "submit": "Tekshirish",
+    "badFormat": "Bu sertifikat raqamiga o‘xshamaydi. Barcha belgilar joyidaligini tekshir.",
+    "valid": "Sertifikat haqiqiy",
+    "revoked": "Sertifikat bekor qilingan",
+    "revokedOn": "{date} da bekor qilingan",
+    "missing": "Bunday sertifikatni biz bermaganmiz",
+    "missingHint": "Raqamni yana bir bor tekshir. Agar to‘g‘ri yozilgan bo‘lsa — bu hujjat biz tomondan berilmagan.",
+    "kicker": "SERTIFIKAT",
+    "confirms": "tasdiqlaydiki,",
+    "completed": "<b>{course}</b> kursini {level} darajasida tamomladi.",
+    "date": "Sana",
+    "number": "Raqam",
+    "passed": "O‘TILDI",
+    "checkAt": "Haqiqiyligini tekshirish:",
+    "checkAnother": "Boshqa raqamni tekshirish",
+    "print": "Chop etish yoki PDF saqlash"
+  },
+  "aboutPage": {
+    "meta": {
+      "title": "Biz haqimizda va aloqa — Highgate",
+      "description": "Biz kimmiz, qanday o‘qitamiz va biz bilan qanday bog‘lanish mumkin."
+    },
+    "title": "Salom, biz <it>Highgate</it>",
+    "story": "Ingliz tili <hl>tushunarli va bosimsiz</hl> bo‘lishini xohladik — shuning uchun shunday o‘qitamiz: qisqa darslar, o‘z tilingda va yoningda jonli inson bilan.",
+    "fastest": "Eng tezi",
+    "call": "Qo‘ng‘iroq qilish",
+    "hours": "Javob beramiz",
+    "hoursValue": "Har kuni, ish vaqtida",
+    "v1Title": "Yana tushuntiramiz",
+    "v1Text": "Mavzuni tushunmadingmi — bu normal. So‘ra, senga boshqacha tushuntirishadi.",
+    "v2Title": "Mo‘jiza va’da qilmaymiz",
+    "v2Text": "Tilni bir oyda o‘rganib bo‘lmaydi. Lekin bir oyda sezilarli oldinga siljish mumkin — va buni his qilasan.",
+    "v3Title": "Darslar — abadiy",
+    "v3Text": "Kursni sotib olding — tarif tugasa ham materiallar sen bilan qoladi."
   }
 }

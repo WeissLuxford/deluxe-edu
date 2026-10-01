@@ -1,9 +1,11 @@
 'use client'
 
+import { Button } from '@/design/components/Button'
+
 export function PrintButton({ label }: { label: string }) {
   return (
-    <button type="button" className="btn btn-ghost" onClick={() => window.print()}>
+    <Button variant="ink" size="md" dot onClick={() => window.print()}>
       {label}
-    </button>
+    </Button>
   )
 }

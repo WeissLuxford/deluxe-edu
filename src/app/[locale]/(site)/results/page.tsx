@@ -1,75 +1,97 @@
+import type { Metadata } from 'next'
+import type { CSSProperties, ReactNode } from 'react'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { BadgeCheck } from 'lucide-react'
-import { realReviews, issuedCertificateCount } from '@/features/results/registry'
+import { Reveal } from '@/design/components/Reveal'
+import { Container, Heading } from '@/design/components/Type'
+import { CertificateLookup } from '@/features/certificates/CertificateLookup'
+import { issuedCertificateCount, realReviews } from '@/features/results/registry'
+import s from '@/features/site/info.module.css'
+import cs from '@/features/certificates/certificate.module.css'
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+type Props = { params: Promise<{ locale: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'results' })
-  return { title: `${t('title')} — Highgate`, description: t('lead') }
+  const t = await getTranslations({ locale, namespace: 'resultsPage.meta' })
+  return { title: t('title'), description: t('description') }
 }
 
-export default async function ResultsPage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'results' })
+// Story cards rotate through these looks so the wall feels like a pinboard.
+const LOOKS: CSSProperties[] = [
+  { background: 'var(--c-violet)', color: 'var(--c-white)' },
+  { background: 'var(--c-lime)', color: 'var(--c-ink)' },
+  { background: 'var(--c-white)', color: 'var(--c-ink)' },
+  { background: 'var(--lv-b2-bg)', color: '#5a2508' },
+  { background: 'var(--c-white)', color: 'var(--c-ink)' },
+  { background: 'var(--lv-a2-bg)', color: 'var(--lv-a2-fg)' }
+]
 
-  const [reviews, certificates] = await Promise.all([
-    Promise.resolve(realReviews()),
-    issuedCertificateCount()
-  ])
+export default async function ResultsPage({ params }: Props) {
+  const { locale } = await params
+  const [t, tc] = await Promise.all([getTranslations({ locale, namespace: 'resultsPage' }), getTranslations({ locale, namespace: 'certificatePage' })])
+  const [reviews, certificates] = await Promise.all([Promise.resolve(realReviews()), issuedCertificateCount()])
+  const rich = { it: (c: ReactNode) => <span className="it">{c}</span> }
 
   return (
-    <main className="doc-page">
-      <div style={{ maxWidth: '52rem', margin: '0 auto' }}>
-        <h1 className="doc-title">{t('title')}</h1>
-        <p className="doc-sub" style={{ marginBottom: '2rem' }}>{t('lead')}</p>
-
-        {/* Счётчик показывается только когда есть что считать: «0 сертификатов»
-            это не скромность, это антиреклама. */}
-        {certificates > 0 && (
-          <div className="doc-stats" style={{ marginBottom: '2rem' }}>
-            <div className="doc-stat">
-              <div className="doc-stat__value">{certificates}</div>
-              <div className="doc-stat__label">{t('certificatesIssued')}</div>
-              <div className="doc-stat__hint">
-                <Link href={`/${locale}/certificate`}>{t('verify')}</Link>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {reviews.length === 0 ? (
-          <p className="doc-empty">{t('empty')}</p>
-        ) : (
-          <section className="doc-section">
-            <h2 className="doc-section__title">{t('reviewsTitle')}</h2>
-            <div style={{ display: 'grid', gap: '1rem' }}>
-              {reviews.map(review => (
-                <article key={review.name + review.text.slice(0, 20)} className="doc-comment">
-                  <p style={{ margin: 0 }}>{review.text}</p>
-                  <p className="doc-comment__author">
-                    — {review.name}
-                    {review.result ? ` · ${review.result}` : ''}
-                  </p>
-                  {review.certificateSerial && (
-                    <p style={{ margin: '0.5rem 0 0', fontSize: '0.8125rem' }}>
-                      <BadgeCheck size={14} aria-hidden="true" />{' '}
-                      <Link
-                        href={`/${locale}/certificate/${review.certificateSerial}`}
-                        className="doc-serial"
-                      >
-                        {review.certificateSerial}
-                      </Link>
-                    </p>
-                  )}
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
+    <Container>
+      <div className={s.headSplit}>
+        <Reveal>
+          <Heading size="h1">{t.rich('title', rich)}</Heading>
+        </Reveal>
+        <Reveal delay={80}>
+          <p className={s.lead}>{t('lead')}</p>
+        </Reveal>
       </div>
-    </main>
+
+      {reviews.length === 0 ? (
+        <Reveal className={s.empty}>
+          <div>
+            <span className={s.emptyTitle}>{t.rich('emptyTitle', rich)}</span>
+            <p className={s.emptyText}>{t('emptyText')}</p>
+          </div>
+        </Reveal>
+      ) : (
+        <div className={s.wall}>
+          {reviews.map((review, i) => (
+            <Reveal key={review.name + i} delay={(i % 4) * 70} className={`${s.story} ${i % 5 === 0 || review.text.length > 160 ? s.storyWide : ''}`} style={LOOKS[i % LOOKS.length]}>
+              {review.result && <span className={s.storyResult}>{review.result}</span>}
+              <span className={s.storyText}>«{review.text}»</span>
+              <span className={s.storyWho}>
+                {review.name}
+                {review.certificateSerial && (
+                  <>
+                    {' · '}
+                    <Link href={`/${locale}/certificate/${review.certificateSerial}`} className={s.storySerial}>
+                      {t('verified')}
+                    </Link>
+                  </>
+                )}
+              </span>
+            </Reveal>
+          ))}
+          {certificates > 0 && (
+            <Reveal className={`${s.story} ${s.counter}`}>
+              <span className={s.counterNum}>{certificates}</span>
+              <span className={s.storyWho}>
+                {t('certificates')}
+                <br />
+                {t('certificatesHint')}
+              </span>
+            </Reveal>
+          )}
+        </div>
+      )}
+
+      <Reveal className={cs.check}>
+        <div className={cs.checkText} id="certificate">
+          <Heading size="h3" as="h2">{tc.rich('title', rich)}</Heading>
+          <p className={cs.checkLead}>{tc('lead')}</p>
+        </div>
+        <CertificateLookup />
+      </Reveal>
+    </Container>
   )
 }

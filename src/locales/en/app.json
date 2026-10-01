@@ -240,5 +240,69 @@
     "leadTitle": "Leave your number — <it>we'll open access</it>",
     "leadText": "We'll call back, help with payment and suggest where to start.",
     "leadBack": "Back to plans"
+  },
+  "teachersPage": {
+    "meta": {
+      "title": "Teachers — Highgate",
+      "description": "The people who review your work, run live classes and answer questions."
+    },
+    "title": "People you're <it>not afraid</it> to make mistakes with",
+    "lead": "They review your work, run live classes and answer questions. No condescension — they simply explain again, a different way.",
+    "studyWith": "Study with {name}",
+    "emptyTitle": "Meet them <it>soon</it>",
+    "emptyText": "We're putting together teacher profiles — with real photos and documents. Meanwhile, come to a trial lesson and see for yourself.",
+    "emptyCta": "Trial lesson"
+  },
+  "resultsPage": {
+    "meta": {
+      "title": "Student results — Highgate",
+      "description": "Real stories from Highgate students and certificate verification by number."
+    },
+    "title": "Small <it>big</it> wins",
+    "lead": "Only real student stories here — shared with their permission. No made-up numbers.",
+    "emptyTitle": "Stories <it>coming soon</it>",
+    "emptyText": "We don't publish reviews until students give their permission. The first ones are on the way.",
+    "certificates": "certificates issued",
+    "certificatesHint": "each can be verified below",
+    "verified": "Verified by certificate"
+  },
+  "certificatePage": {
+    "title": "Verify a <it>certificate</it>",
+    "lead": "The number is printed at the bottom of the certificate. Case and dashes don't matter — type it however you like.",
+    "placeholder": "HG-2026-XXXXX-XXXXX",
+    "submit": "Verify",
+    "badFormat": "That doesn't look like a certificate number. Check that every character is there.",
+    "valid": "The certificate is genuine",
+    "revoked": "The certificate was revoked",
+    "revokedOn": "Revoked on {date}",
+    "missing": "We never issued this certificate",
+    "missingHint": "Check the number again. If it's copied correctly, this document wasn't issued by us.",
+    "kicker": "CERTIFICATE",
+    "confirms": "confirms that",
+    "completed": "completed the <b>{course}</b> course at level {level}.",
+    "date": "Date",
+    "number": "Number",
+    "passed": "PASSED",
+    "checkAt": "Verify authenticity:",
+    "checkAnother": "Check another number",
+    "print": "Print or save as PDF"
+  },
+  "aboutPage": {
+    "meta": {
+      "title": "About and contacts — Highgate",
+      "description": "Who we are, how we teach and how to reach us."
+    },
+    "title": "Hi, we're <it>Highgate</it>",
+    "story": "We wanted English to be <hl>clear and pressure-free</hl> — so that's how we teach: short lessons, in your language, with a real person nearby.",
+    "fastest": "Fastest",
+    "call": "Call us",
+    "hours": "We reply",
+    "hoursValue": "Every day, during working hours",
+    "v1Title": "We explain again",
+    "v1Text": "Didn't get a topic? That's normal. Ask, and it'll be explained a different way.",
+    "v2Title": "No miracles promised",
+    "v2Text": "You can't learn a language in a month. But in a month you can move forward noticeably — and feel it.",
+    "v3Title": "Lessons are yours forever",
+    "v3Text": "Bought a course — the materials stay with you even after your plan ends."
   }
 }

@@ -9,12 +9,12 @@
 | `/` | Home, HomeMobile | ✅ |
 | `/courses` | Courses | ✅ |
 | `/courses/[slug]` | Course | ✅ |
-| `/teachers` | Teachers | ⬜ |
+| `/teachers` | Teachers | ✅ |
 | `/teachers/[slug]` | — (крупный блок Teachers = профиль) | ❓ |
-| `/results` | Results | ⬜ |
-| `/certificate`, `/certificate/[serial]` | Results (блок проверки), Certificate | ⬜ |
-| `/about` | «О нас и контакты» | ⬜ |
-| `/contacts` | → редирект на `/about` | ⬜ |
+| `/results` | Results | ✅ |
+| `/certificate` → `/results#certificate`, `/certificate/[serial]` | Results (блок проверки), Certificate | ✅ |
+| `/about` | «О нас и контакты» | ✅ |
+| `/contacts` | → редирект на `/about` | ✅ |
 | `/news`, `/news/[slug]` | — | ❓ |
 | `/signup` | SignUp | ⬜ |
 | `/signin`, `/forgot-password`, `/reset-password`, `/resend-verification` | в стиле SignUp | ⬜ |
