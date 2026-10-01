@@ -61,6 +61,14 @@
   --t-track: var(--c-line-2);
   --t-accent-text: var(--c-violet);
   --t-link: var(--c-violet-ink);
+  /* Roles the staff area needs on top of the above. */
+  --t-faint: var(--c-faint);
+  --t-line-2: var(--c-line-2);
+  --t-panel-alt: var(--c-panel-alt);
+  --t-soft: var(--c-lavender);
+  --t-soft-2: var(--c-lavender-2);
+  --t-soft-line: var(--c-lavender-3);
+  --t-hover: rgba(23, 19, 31, 0.04);
 
   --r-xs: 10px;
   --r-sm: 14px;
@@ -99,5 +107,12 @@ html[data-theme='dark'] {
   --t-track: #2e2939;
   --t-accent-text: var(--c-violet-soft);
   --t-link: var(--c-violet-soft);
+  --t-faint: #7d768c;
+  --t-line-2: #262131;
+  --t-panel-alt: #1a1624;
+  --t-soft: #2a2346;
+  --t-soft-2: #332a55;
+  --t-soft-line: #4a3d7a;
+  --t-hover: rgba(255, 255, 255, 0.05);
   color-scheme: dark;
 }
