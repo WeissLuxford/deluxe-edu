@@ -1,5 +1,109 @@
-/* Global base for design v2. Loaded after the legacy stylesheets so it wins
-   while old pages are still being ported (docs/ROUTES.md). */
+/* Global base for design v2: a small reset (what Tailwind's preflight used to
+   give us), then page defaults. Component styles live in CSS modules. */
+
+/* ---------- reset ---------- */
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border: 0 solid;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+a {
+  text-decoration: inherit;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+optgroup,
+textarea {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background-color: transparent;
+  border-radius: 0;
+  opacity: 1;
+}
+
+button,
+input:where([type='button'], [type='reset'], [type='submit']) {
+  appearance: button;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+textarea {
+  resize: vertical;
+}
+
+::placeholder {
+  opacity: 1;
+  color: color-mix(in oklab, currentColor 50%, transparent);
+}
+
+table {
+  border-collapse: collapse;
+  text-indent: 0;
+  border-color: inherit;
+}
+
+[hidden]:where(:not([hidden='until-found'])) {
+  display: none !important;
+}
+
+/* ---------- page defaults ---------- */
 
 html {
   -webkit-font-smoothing: antialiased;

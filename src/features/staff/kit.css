@@ -43,6 +43,27 @@
   color: var(--c-ink);
 }
 
+/* ---------- layout helpers the staff pages use (former Tailwind utilities) ---------- */
+
+.staff .flex { display: flex; }
+.staff .flex-wrap { flex-wrap: wrap; }
+.staff .items-center { align-items: center; }
+.staff .items-end { align-items: flex-end; }
+.staff .justify-between { justify-content: space-between; }
+.staff .gap-1 { gap: 4px; }
+.staff .gap-2 { gap: 8px; }
+.staff .gap-3 { gap: 12px; }
+.staff .space-y-1 > * + * { margin-top: 4px; }
+.staff .space-y-2 > * + * { margin-top: 8px; }
+.staff .space-y-3 > * + * { margin-top: 12px; }
+.staff .space-y-4 > * + * { margin-top: 16px; }
+.staff .space-y-6 > * + * { margin-top: 24px; }
+.staff .text-xs { font-size: 12px; line-height: 1.4; }
+.staff .text-sm { font-size: 14px; line-height: 1.45; }
+.staff .text-lg { font-size: 18px; line-height: 1.4; }
+.staff .text-xl { font-size: 20px; line-height: 1.35; }
+.staff .font-semibold { font-weight: 600; }
+
 /* ---------- primitives (shared names, v2 shapes) ---------- */
 
 .staff .btn,
