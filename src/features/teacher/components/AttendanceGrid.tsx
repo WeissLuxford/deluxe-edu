@@ -1,24 +1,22 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { FormError, Section, formStyles as fs } from '@/features/staff/form/Form'
+import a from './attendance.module.css'
 import { useRouter } from 'next/navigation'
 import { saveAttendance, markAllPresent } from '../attendanceActions'
 
 type Status = 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED'
 
+// Same words and colors as the group journal.
 const STATUS_LABELS: Record<Status, string> = {
-  PRESENT: 'Был',
-  ABSENT: 'Не был',
-  LATE: 'Опоздал',
-  EXCUSED: 'Уважительная'
+  PRESENT: 'был',
+  LATE: 'опоздал',
+  ABSENT: 'пропустил',
+  EXCUSED: 'по причине'
 }
 
-const STATUS_BADGE_CLASS: Record<Status, string> = {
-  PRESENT: 'badge-success',
-  ABSENT: 'badge-error',
-  LATE: 'badge-warning',
-  EXCUSED: 'badge-info'
-}
+const AVATARS = ['var(--lv-a1-bg)', 'var(--lv-a2-bg)', 'var(--lv-b1-bg)', 'var(--lv-b2-bg)', 'var(--lv-c1-bg)', 'var(--c-butter)']
 
 type Member = { userId: string; name: string; contact: string; status: Status | null }
 
@@ -62,78 +60,66 @@ export function AttendanceGrid({ eventId, members }: { eventId: string; members:
 
   if (members.length === 0) {
     return (
-      <section className="admin-card">
-        <h3 className="admin-card__title">Посещаемость</h3>
-        <div className="admin-empty">В группе пока нет студентов.</div>
-      </section>
+      <Section title="Посещаемость">
+        <p className={fs.hint}>В группе пока нет учеников.</p>
+      </Section>
     )
   }
 
+  const marked = Object.values(values).filter(Boolean).length
+
   return (
-    <section className="admin-card">
-      <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
-        <h3 className="admin-card__title" style={{ marginBottom: 0 }}>
-          Посещаемость
-        </h3>
-        <button type="button" className="btn btn-ghost" onClick={allPresent} disabled={pending}>
-          Отметить всех «был»
+    <Section
+      title="Посещаемость"
+      action={
+        <button type="button" className={fs.sideBtn} onClick={allPresent} disabled={pending}>
+          Все были
         </button>
-      </div>
+      }
+    >
+      {error && <FormError>{error}</FormError>}
 
-      {error && <div className="alert alert-error">{error}</div>}
+      <ul className={a.list}>
+        {members.map((m, i) => (
+          <li key={m.userId} className={a.row}>
+            <span className={a.who}>
+              <span className={a.avatar} style={{ background: AVATARS[i % AVATARS.length] }}>
+                {m.name.charAt(0).toUpperCase()}
+              </span>
+              <span className={a.names}>
+                <span className={a.name}>{m.name}</span>
+                <span className={a.contact}>{m.contact}</span>
+              </span>
+            </span>
+            <span className={a.marks} role="radiogroup" aria-label={m.name}>
+              {(Object.keys(STATUS_LABELS) as Status[]).map(status => (
+                <button
+                  key={status}
+                  type="button"
+                  role="radio"
+                  aria-checked={values[m.userId] === status}
+                  className={a.mark}
+                  data-status={status}
+                  data-on={values[m.userId] === status || undefined}
+                  onClick={() => setStatus(m.userId, status)}
+                  disabled={pending}
+                >
+                  {STATUS_LABELS[status]}
+                </button>
+              ))}
+            </span>
+          </li>
+        ))}
+      </ul>
 
-      <div className="admin-table-wrap">
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Студент</th>
-              <th>Статус</th>
-            </tr>
-          </thead>
-          <tbody>
-            {members.map(m => (
-              <tr key={m.userId}>
-                <td>
-                  <span style={{ color: 'var(--fg)' }}>{m.name}</span>
-                  <div className="text-xs" style={{ color: 'var(--muted)' }}>
-                    {m.contact}
-                  </div>
-                </td>
-                <td>
-                  <div className="flex items-center gap-2" style={{ flexWrap: 'wrap' }}>
-                    {(Object.keys(STATUS_LABELS) as Status[]).map(status => (
-                      <button
-                        key={status}
-                        type="button"
-                        className={
-                          values[m.userId] === status
-                            ? `badge ${STATUS_BADGE_CLASS[status]} toggle-badge`
-                            : 'badge toggle-badge'
-                        }
-                        onClick={() => setStatus(m.userId, status)}
-                        disabled={pending}
-                      >
-                        {STATUS_LABELS[status]}
-                      </button>
-                    ))}
-                    {values[m.userId] == null && (
-                      <span className="text-xs" style={{ color: 'var(--muted)' }}>
-                        не отмечено
-                      </span>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="admin-savebar">
-        <button type="button" className="btn btn-primary" onClick={save} disabled={pending}>
+      <div className={fs.actions}>
+        <button type="button" className={fs.inlineSubmit} onClick={save} disabled={pending}>
           {pending ? 'Сохраняю…' : 'Сохранить посещаемость'}
         </button>
+        <span className={fs.hint}>
+          Отмечено {marked} из {members.length}
+        </span>
       </div>
-    </section>
+    </Section>
   )
 }

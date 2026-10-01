@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState, useEffect, useState } from 'react'
+import { FormError, FormOk, Select, Submit, formStyles as fs } from '@/features/staff/form/Form'
 import { useRouter } from 'next/navigation'
 import { addMember } from '../groupActions'
 import type { ActionResult } from '../types'
@@ -21,35 +22,23 @@ export function AddMemberForm({ groupId, students }: { groupId: string; students
   }, [state, router])
 
   if (students.length === 0) {
-    return (
-      <div className="hint">
-        Нет студентов, которых можно добавить — либо все уже в группе, либо студентов пока нет.
-      </div>
-    )
+    return <p className={fs.hint}>Добавить некого — все ученики уже в группе или их пока нет.</p>
   }
 
   return (
-    <form action={formAction} className="flex items-center gap-2" style={{ flexWrap: 'wrap' }}>
-      {state && !state.ok && <div className="alert alert-error">{state.error}</div>}
-      {done && <div className="alert alert-success">Студент добавлен</div>}
-
-      <select
-        name="userId"
-        className="select"
-        required
-        onChange={() => setDone(false)}
-        style={{ minWidth: '16rem' }}
-      >
-        {students.map(s => (
-          <option key={s.id} value={s.id}>
-            {s.label}
-          </option>
-        ))}
-      </select>
-
-      <button type="submit" className="btn btn-primary" disabled={pending}>
-        {pending ? 'Добавляю…' : 'Добавить в группу'}
-      </button>
+    <form action={formAction} className={fs.stack}>
+      {state && !state.ok && <FormError>{state.error}</FormError>}
+      {done && <FormOk>Ученик добавлен</FormOk>}
+      <div className={fs.withButton}>
+        <Select name="userId" required onChange={() => setDone(false)} aria-label="Ученик">
+          {students.map(s => (
+            <option key={s.id} value={s.id}>
+              {s.label}
+            </option>
+          ))}
+        </Select>
+        <Submit pending={pending} label="Добавить в группу" pendingLabel="Добавляю…" />
+      </div>
     </form>
   )
 }
