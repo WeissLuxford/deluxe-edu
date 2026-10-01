@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { saveExam, deleteExam } from '@/features/admin/examActions'
-import { ExamBuilder } from '@/features/admin/components/ExamBuilder'
+import { TestBuilder } from '@/features/admin/components/TestBuilder'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { localized } from '@/lib/localized'
 import { requireAdmin } from '@/features/admin/requireAdmin'
@@ -69,7 +69,8 @@ export default async function ModuleExamPage({
       </div>
 
       <LocaleTabsProvider>
-        <ExamBuilder
+        <TestBuilder
+          kind="exam"
           save={saveExam.bind(null, moduleId)}
           remove={deleteExam.bind(null, moduleId)}
           initialTitle={toLocalized(mod.exam?.title)}

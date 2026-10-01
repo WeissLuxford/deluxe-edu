@@ -1,0 +1,243 @@
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.question {
+  background: var(--c-white);
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px transparent;
+  transition: box-shadow var(--dur) var(--ease-out);
+}
+
+.question[data-open] {
+  box-shadow: inset 0 0 0 2px var(--c-lavender-2);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px 10px 10px;
+}
+
+.toggle {
+  flex-grow: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  font: inherit;
+  color: var(--c-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.toggle:hover {
+  background: var(--c-panel-alt);
+}
+
+.num {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--c-lavender);
+  color: var(--c-violet-ink);
+  font-size: 15px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.type {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-muted);
+}
+
+.text {
+  font-size: 15px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tools {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tool {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--c-paper);
+  color: var(--c-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.tool:hover:not(:disabled) {
+  background: var(--c-lavender);
+  color: var(--c-violet-ink);
+}
+
+.danger:hover:not(:disabled) {
+  background: var(--c-err-soft);
+  color: var(--c-err-ink);
+}
+
+.tool:disabled {
+  background: transparent;
+  color: var(--c-line);
+  cursor: default;
+}
+
+.body {
+  padding: 4px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: open var(--dur) var(--ease-out);
+}
+
+@keyframes open {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Tick that marks the right answer: a circle for one answer, a square for several. */
+.mark {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 18px;
+  background: var(--c-paper);
+  box-shadow: inset 0 0 0 2px var(--c-line);
+  color: var(--c-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.mark[data-multi] {
+  border-radius: 11px;
+}
+
+.mark:hover {
+  box-shadow: inset 0 0 0 2px var(--c-ok);
+}
+
+.mark[data-right] {
+  background: var(--c-ok);
+  box-shadow: none;
+}
+
+.add {
+  height: 56px;
+  border: 2px dashed var(--c-lavender-3);
+  border-radius: 26px;
+  background: transparent;
+  color: var(--c-violet-ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.add:hover {
+  background: var(--c-white);
+  border-color: var(--c-violet);
+}
+
+.removeAll {
+  height: 48px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  color: var(--c-err-ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.removeAll:hover:not(:disabled) {
+  background: var(--c-err-soft);
+}
+
+@media (max-width: 640px) {
+  .head {
+    flex-wrap: wrap;
+  }
+
+  .tools {
+    margin-left: auto;
+  }
+
+  .body {
+    padding: 4px 14px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .body {
+    animation: none;
+  }
+}

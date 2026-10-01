@@ -4,7 +4,7 @@ import { prisma } from '@/lib/db'
 import { updateLesson } from '@/features/admin/actions'
 import { saveAssignment, deleteAssignment } from '@/features/admin/assignmentActions'
 import { LessonForm } from '@/features/admin/components/LessonForm'
-import { AssignmentBuilder } from '@/features/admin/components/AssignmentBuilder'
+import { TestBuilder } from '@/features/admin/components/TestBuilder'
 import { LocaleTabsProvider } from '@/features/admin/components/LocaleTabs'
 import { requireAdmin } from '@/features/admin/requireAdmin'
 
@@ -100,10 +100,8 @@ export default async function EditLesson({
           redirectTo={`/${locale}/admin/courses/${lesson.course.id}`}
           testsSlot={
             <>
-              <div className="hint" style={{ marginBottom: '1rem' }}>
-                Студент проходит к следующему уроку, только набрав 70% и выше.
-              </div>
-              <AssignmentBuilder
+              <TestBuilder
+                kind="test"
                 save={saveAssignment.bind(null, id)}
                 remove={deleteAssignment.bind(null, id)}
                 initialTitle={toLocalized(assignment?.title)}
