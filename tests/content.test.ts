@@ -1,7 +1,4 @@
 import { describe, expect, it } from 'vitest'
-import en from '@/locales/en/common.json'
-import ru from '@/locales/ru/common.json'
-import uz from '@/locales/uz/common.json'
 import enApp from '@/locales/en/app.json'
 import ruApp from '@/locales/ru/app.json'
 import uzApp from '@/locales/uz/app.json'
@@ -13,9 +10,9 @@ function keys(obj: unknown, prefix = ''): string[] {
 }
 
 describe('locales', () => {
-  const ruKeys = new Set([...keys(ru), ...keys(ruApp)])
+  const ruKeys = new Set(keys(ruApp))
 
-  it.each([['en', { ...en, ...enApp }], ['uz', { ...uz, ...uzApp }]])('%s has exactly the same keys as ru', (_, dict) => {
+  it.each([['en', enApp], ['uz', uzApp]])('%s has exactly the same keys as ru', (_, dict) => {
     const other = new Set(keys(dict))
     expect([...ruKeys].filter(k => !other.has(k)), 'missing').toEqual([])
     expect([...other].filter(k => !ruKeys.has(k)), 'extra').toEqual([])

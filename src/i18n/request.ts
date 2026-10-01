@@ -7,10 +7,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale
   const locale = SUPPORTED.includes(requested as any) ? (requested as string) : DEFAULT_LOCALE
 
-  const common = (await import(`@/locales/${locale}/common.json`)).default
-  // Design v2 strings. Old namespaces in common.json go away as pages are ported.
-  const app = (await import(`@/locales/${locale}/app.json`)).default
-  const messages = { ...common, ...app }
+  const messages = (await import(`@/locales/${locale}/app.json`)).default
 
   return { locale, messages }
 })
