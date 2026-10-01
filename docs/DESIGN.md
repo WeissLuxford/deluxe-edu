@@ -75,8 +75,8 @@ src/design/
 ```
 
 Стили компонентов — CSS-модули рядом с компонентом. Глобальный CSS — только
-`tokens.css` и `base.css`. Tailwind и старые `features/ui/styles/*` уходят по
-мере переноса страниц.
+`tokens.css` и `base.css` (в нём же небольшой сброс вместо preflight Tailwind).
+Tailwind и старые `features/ui/styles/*` удалены 01.10.2026 — не возвращать.
 
 Исключение — админка и кабинет преподавателя: их общий словарь классов (`btn`,
 `input`, `admin-table`, `admin-panel`, `rte`, `lf__*`…) живёт в
