@@ -319,6 +319,12 @@ html[data-theme='dark'] .rail {
     padding: 0 16px 24px;
   }
 
+  /* The dark tints belong to the desktop tray; on phones they left a seam. */
+  html[data-theme='dark'] .tray,
+  html[data-theme='dark'] .rail {
+    background: none;
+  }
+
   .tabbar {
     position: fixed;
     left: 16px;

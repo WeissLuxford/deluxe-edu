@@ -203,7 +203,7 @@ export default async function TodayPage({ params }: Props) {
                     {tree.title}
                     <span>{tree.percent}%</span>
                   </span>
-                  <Bar percent={tree.percent} color={color} track="var(--c-white)" />
+                  <Bar percent={tree.percent} color={color} track="var(--t-surface)" />
                 </Link>
               )
             })}

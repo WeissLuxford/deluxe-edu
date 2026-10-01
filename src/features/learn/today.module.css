@@ -279,7 +279,7 @@
 }
 
 .barEmpty {
-  background: var(--c-line);
+  background: var(--t-line);
 }
 
 .barDay {
