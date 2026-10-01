@@ -1,0 +1,126 @@
+{
+  "ui": {
+    "levels": {
+      "A1": { "title": "Noldan boshlayman", "desc": "Birinchi so‘zlar, iboralar va ishonch", "short": "Noldan" },
+      "A2": { "title": "Asoslarini bilaman", "desc": "Lekin ovoz chiqarib gapirishga uyalaman", "short": "Asoslarini bilaman" },
+      "B1": { "title": "Tushunaman, lekin adashaman", "desc": "Zamonlar, predloglar va boshqalar", "short": "Tushunaman, lekin adashaman" },
+      "B2": { "title": "Gapiraman, erkinroq bo‘lishni xohlayman", "desc": "So‘zlashuv amaliyoti va ish", "short": "Erkin gapiraman" },
+      "C1": { "title": "Nozik jihatlarni xohlayman", "desc": "IELTS, akademik yozuv", "short": "IELTS va nozikliklar" }
+    },
+    "plans": {
+      "BASIC": { "name": "Basic", "tagline": "Mustaqil", "desc": "Kursning barcha darslari: video, konspekt, testlar va materiallar. O‘z sur’atingda o‘qiysan." },
+      "PRO": { "name": "Pro", "tagline": "Tekshiruv bilan", "desc": "Basic’dagi hamma narsa, ustiga o‘qituvchi testlaringni tekshiradi va nimani kuchaytirish kerakligini yozadi." },
+      "DELUXE": { "name": "Deluxe", "tagline": "O‘qituvchi bilan", "desc": "Pro’dagi hamma narsa, ustiga o‘qituvchi bilan shaxsiy darslar va tarifingdagi o‘quvchilar bilan guruh darslari." }
+    },
+    "from": "{price} dan",
+    "sum": "{amount} so‘m",
+    "langName": { "ru": "Русский", "uz": "O‘zbekcha", "en": "English" }
+  },
+  "siteNav": {
+    "courses": "Kurslar",
+    "teachers": "O‘qituvchilar",
+    "results": "Natijalar",
+    "about": "Biz haqimizda",
+    "signin": "Kirish",
+    "myLearning": "O‘qishim",
+    "start": "Bepul boshlash",
+    "menu": "Menyu",
+    "close": "Yopish",
+    "language": "Sayt tili"
+  },
+  "siteFooter": {
+    "say": "Biror narsa tushunarsiz bo‘lsa, yoz.",
+    "sayIt": "Bizda odamlar javob beradi.",
+    "learn": "O‘qish",
+    "allCourses": "Barcha kurslar",
+    "levelTest": "Daraja testi",
+    "trial": "Sinov darsi",
+    "school": "Maktab",
+    "teachers": "O‘qituvchilar",
+    "results": "Natijalar",
+    "about": "Biz haqimizda va aloqa",
+    "language": "Sayt tili",
+    "copy": "© Highgate Education"
+  },
+  "leadForm": {
+    "nameLabel": "Isming nima",
+    "namePlaceholder": "Ism",
+    "phoneLabel": "Telefon",
+    "submit": "Qo‘ng‘iroqni kutaman",
+    "sending": "Yuborilmoqda…",
+    "doneTitle": "Tayyor!",
+    "doneText": "Ish vaqtida qo‘ng‘iroq qilamiz. Hozircha daraja testini topshirib ko‘rishing mumkin — 15 daqiqa.",
+    "doneAction": "Testni boshlash",
+    "error": "Yuborib bo‘lmadi. Raqamni tekshirib, qaytadan urinib ko‘r.",
+    "tooMany": "Urinishlar juda ko‘p. Birozdan keyin urinib ko‘r."
+  },
+  "homePage": {
+    "meta": {
+      "title": "Highgate — nihoyat chiqadigan ingliz tili",
+      "description": "A1 dan C1 gacha onlayn ingliz tili: qisqa darslar, tushunarli tushuntirishlar va jonli o‘qituvchi. Bepul darsdan boshla."
+    },
+    "hero": {
+      "chip": "Jonli o‘qituvchi bilan ingliz tili",
+      "title": "Ingliz tili, <it>nihoyat</it> <hl>chiqadi.</hl>",
+      "lead": "Yod olishsiz va xatolardan uyalmasdan. Qisqa darslar, tushunarli tushuntirishlar va rostdan javob beradigan o‘qituvchi. Bepul darsdan boshla — shunchaki qanday ekanini ko‘r.",
+      "primary": "Bepul sinab ko‘rish",
+      "secondary": "Darajamni bilish",
+      "note": "To‘lovsiz. O‘zing so‘ramasang, qo‘ng‘iroq qilmaymiz."
+    },
+    "collage": {
+      "lessonMeta": "3-dars · 16 daqiqa",
+      "lessonTitle": "Present Perfect",
+      "streakDays": "kun ketma-ket.",
+      "streakCheer": "Shunday davom et!",
+      "noteFrom": "O‘qituvchi · 2 daqiqa oldin",
+      "note": "Zamonlar bilan zo‘r! Juma kuni Past Perfect’ni ko‘ramiz — u ko‘ringanidan osonroq.",
+      "quizRight": "To‘g‘ri!",
+      "quizText": "She has been to London"
+    },
+    "manifesto": "Til o‘rganish — <it>iste’dod haqida emas.</it> Bu har kungi kichik qadamlar va <soft>qiynalganingda yordam beradigan</soft> yoningdagi inson haqida.",
+    "feel": {
+      "title": "Bu qanday <it>his qilinadi</it>",
+      "minutes": "15–20",
+      "minutesUnit": "daq",
+      "oneTitle": "Bitta dars — bitta mavzu",
+      "oneText": "Tushlikda yoki yo‘lda ulgurasan. Video, qisqa konspekt va test — hammasi bitta sahifada, hech narsa qidirish shart emas.",
+      "mistakesTitle": "Xato qilish — normal",
+      "mistakesText": "Darsdan keyingi test baho qo‘yish uchun emas, mavzuni tushunish uchun. Chiqmadimi — yana topshirasan.",
+      "humanTitle": "Yoningda jonli inson",
+      "humanText": "O‘qituvchi topshiriqlarni tekshiradi, xatolarni tushuntiradi va savollarga javob beradi. Pro va Deluxe tariflarida.",
+      "langTitle": "Tushunarli tilda tushuntiramiz",
+      "langText": "Rus, o‘zbek yoki ingliz tili — o‘zing tanlaysan va xohlagan payt almashtirasan."
+    },
+    "levels": {
+      "title": "Qaysi darajadan <it>boshlaymiz?</it>",
+      "lead": "O‘zingga mos kelganini tanla. Adashish qo‘rqinchli emas — darajani almashtirish mumkin.",
+      "unknownTitle": "Darajamni bilmayman",
+      "unknownDesc": "15 daqiqalik test — va darhol kurs tavsiya qilamiz"
+    },
+    "steps": {
+      "s1": { "title": "Bepul sinab ko‘rasan", "text": "Sinov darsi va daraja testi — to‘lovsiz. Formatni ko‘rib, senga mosmi yoki yo‘qligini tushunasan." },
+      "s2": { "title": "Qanday o‘qishni tanlaysan", "text": "Mustaqil, tekshiruv bilan yoki o‘qituvchi bilan. Darslar sen bilan abadiy qoladi." },
+      "s3": { "title": "O‘z sur’atingda borasan", "text": "Darslar tartib bilan ochiladi, natija darhol ko‘rinadi. Qiynaldingmi — o‘qituvchiga yozasan." }
+    },
+    "pricing": {
+      "title": "Bu qancha <it>turadi</it>",
+      "popular": "Ko‘pchilik tanlaydi",
+      "choose": "{plan} ni tanlash",
+      "note": "Darslar sen bilan abadiy qoladi. O‘qituvchi bilan mashg‘ulotlar va tekshiruv — tarif muddati davomida."
+    },
+    "faq": {
+      "title": "Ko‘p beriladigan <it>savollar</it>",
+      "items": [
+        { "q": "Agar men umuman noldan bo‘lsam-chi?", "a": "Unda A1 dan — eng birinchi so‘z va iboralardan boshlaymiz. Tushuntirishlar o‘z tilingda, hech kim shoshiltirmaydi." },
+        { "q": "Kuniga qancha vaqt kerak?", "a": "15–20 daqiqa yetadi — bu bitta dars. Haftada bir marta uch soatdan ko‘ra, har kuni ozdan yaxshiroq." },
+        { "q": "Faqat telefondan o‘qisa bo‘ladimi?", "a": "Ha. Darslar, konspektlar va testlarni telefondan o‘tish qulay, jonli mashg‘ulotlar esa Zoom’da." },
+        { "q": "Jonli mashg‘ulotlar qanday o‘tadi?", "a": "Onlayn, Zoom’da: o‘qituvchi bilan shaxsiy darslar va guruh mashg‘ulotlari — bu Deluxe tarifi. Jadval doim «Efirlar» bo‘limida ko‘rinadi." },
+        { "q": "Tarif tugasa nima bo‘ladi?", "a": "Darslar va materiallar sen bilan qoladi. Faqat topshiriqlarni tekshirish va o‘qituvchi bilan mashg‘ulotlar tugaydi." }
+      ]
+    },
+    "lead": {
+      "title": "Kel, <it>shunchaki</it> gaplashaylik",
+      "text": "Raqamingni qoldir — qo‘ng‘iroq qilamiz, darajangni aniqlash va kurs tanlashga yordam beramiz. Majburlashsiz, rostdan."
+    }
+  }
+}

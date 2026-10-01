@@ -1,0 +1,203 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--r-pill);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  background: var(--t-surface-2);
+  color: var(--t-fg);
+}
+
+.chipLime {
+  background: var(--c-lime);
+  color: var(--c-ink);
+}
+
+.chipViolet {
+  background: var(--c-violet);
+  color: var(--c-white);
+}
+
+.chipInk {
+  background: var(--c-ink);
+  color: var(--c-white);
+}
+
+.chipWhite {
+  background: var(--c-white);
+  color: var(--c-ink);
+}
+
+.chipLevel {
+  font-weight: 800;
+}
+
+.sticker {
+  height: var(--sticker-h, 300px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-radius: 30px;
+  padding: 22px;
+  text-decoration: none;
+  transform: rotate(var(--tilt, 0deg));
+  transition:
+    transform var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out);
+}
+
+a.sticker:hover {
+  transform: rotate(0deg) translateY(-6px);
+  box-shadow: 0 24px 40px rgba(60, 40, 140, 0.14);
+}
+
+.stickerCode {
+  font-size: clamp(44px, 5vw, 64px);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.stickerTitle {
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.stickerDesc {
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+.ring {
+  --size: 84px;
+  --stroke: 10px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--ring-color) calc(var(--p) * 1%), var(--ring-track) 0);
+  transition: --p var(--dur-slow) var(--ease-out);
+  flex-shrink: 0;
+}
+
+.ringInner {
+  width: calc(var(--size) - var(--stroke) * 2);
+  height: calc(var(--size) - var(--stroke) * 2);
+  border-radius: 50%;
+  background: var(--ring-hole);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.bar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--t-track);
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.barFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transform-origin: left;
+  transition: width var(--dur-slow) var(--ease-out);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.logoMark {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--c-violet);
+  color: var(--c-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.logoMark::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--c-lime);
+  border: 2px solid var(--logo-ring, var(--c-white));
+}
+
+.logoWord {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t-muted);
+}
+
+.input {
+  height: 58px;
+  border: 1.5px solid var(--t-line);
+  border-radius: 20px;
+  padding: 0 20px;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--t-fg);
+  background: var(--t-surface);
+  transition:
+    border-color var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--c-violet);
+  box-shadow: 0 0 0 4px rgba(106, 76, 255, 0.14);
+}
+
+.input::placeholder {
+  color: var(--c-faint);
+}
+
+.inputFlat {
+  border-color: transparent;
+}
+
+.fieldError {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-err-ink);
+}

@@ -1,0 +1,103 @@
+/* Design v2 tokens. Spec: docs/DESIGN.md.
+   --c-* are fixed brand colors (the same in every theme).
+   --t-* are theme roles; only these flip in dark mode, so an "ink" button stays
+   dark while page text turns light. */
+
+:root {
+  --c-ink: #17131f;
+  --c-ink-2: #2a2535;
+  --c-ink-3: #4a4458;
+  --c-muted: #5f5a6b;
+  --c-faint: #8a8496;
+  --c-on-ink: #b7b0c8;
+  --c-on-ink-2: #d3cde0;
+
+  --c-violet: #6a4cff;
+  --c-violet-ink: #4b2fd6;
+  --c-violet-soft: #a996ff;
+  --c-violet-wash: #dcd3ff;
+  --c-lavender: #ece6ff;
+  --c-lavender-2: #e4dbff;
+  --c-lavender-3: #cdbfff;
+
+  --c-lime: #d6ff3d;
+  --c-lime-ink: #2e3a00;
+
+  --c-paper: #f4f1fa;
+  --c-white: #ffffff;
+  --c-line: #e7e3ef;
+  --c-line-2: #efecf4;
+  --c-panel-alt: #fbfafd;
+
+  --c-ok: #16a34a;
+  --c-ok-ink: #15803d;
+  --c-ok-soft: #dcf5e4;
+  --c-err: #e5484d;
+  --c-err-ink: #b4232a;
+  --c-err-soft: #fde6e7;
+  --c-warn: #f5a524;
+
+  --lv-a1-bg: #c9f2d9;
+  --lv-a1-fg: #0f5132;
+  --lv-a2-bg: #cfe8ff;
+  --lv-a2-fg: #0b4a7a;
+  --lv-b1-bg: #e4dbff;
+  --lv-b1-fg: #3e2a9e;
+  --lv-b2-bg: #ffe1cc;
+  --lv-b2-fg: #8a3b0e;
+  --lv-c1-bg: #ffd3e6;
+  --lv-c1-fg: #8c1d4f;
+  --c-butter: #fff1b8;
+  --c-butter-ink: #6b4f00;
+
+  --app-gradient: linear-gradient(140deg, #cfe0ff 0%, #e3d6ff 45%, #ffddeb 100%);
+
+  --t-bg: var(--c-paper);
+  --t-surface: var(--c-white);
+  --t-surface-2: var(--c-paper);
+  --t-fg: var(--c-ink);
+  --t-muted: var(--c-muted);
+  --t-line: var(--c-line);
+  --t-track: var(--c-line-2);
+  --t-accent-text: var(--c-violet);
+  --t-link: var(--c-violet-ink);
+
+  --r-xs: 10px;
+  --r-sm: 14px;
+  --r-md: 22px;
+  --r-lg: 28px;
+  --r-xl: 36px;
+  --r-2xl: 44px;
+  --r-pill: 999px;
+
+  --shadow-card: 0 1px 0 rgba(23, 19, 31, 0.04), 0 10px 30px rgba(60, 40, 140, 0.08);
+  --shadow-float: 0 30px 60px rgba(60, 40, 140, 0.14);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur: 260ms;
+  --dur-slow: 520ms;
+
+  --container: 1240px;
+  --gutter: 32px;
+}
+
+@media (max-width: 720px) {
+  :root {
+    --gutter: 16px;
+  }
+}
+
+html[data-theme='dark'] {
+  --t-bg: #100d17;
+  --t-surface: #1e1a28;
+  --t-surface-2: #17131f;
+  --t-fg: #f4f1fa;
+  --t-muted: #a9a2b8;
+  --t-line: #2e2939;
+  --t-track: #2e2939;
+  --t-accent-text: var(--c-violet-soft);
+  --t-link: var(--c-violet-soft);
+  color-scheme: dark;
+}

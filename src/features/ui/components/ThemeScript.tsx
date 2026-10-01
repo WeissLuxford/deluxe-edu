@@ -1,6 +1,8 @@
 const script = `
 (function(){
   try {
+    var root = document.documentElement;
+    root.classList.add('js');
     var appAreas = ['admin','teacher','learn','dashboard','account','streams','free-lesson','free-mock-test','level-test','trial-lesson'];
     var firstSegment = location.pathname.split('/')[2] || '';
     if (appAreas.indexOf(firstSegment) === -1) {
@@ -9,6 +11,7 @@ const script = `
       var saved = localStorage.getItem('theme');
       var light = saved ? saved === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
       document.documentElement.classList.toggle('light', light);
+      if (!light) root.setAttribute('data-theme', 'dark');
     }
   } catch (e) {}
 })();

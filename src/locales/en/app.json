@@ -1,0 +1,126 @@
+{
+  "ui": {
+    "levels": {
+      "A1": { "title": "Starting from zero", "desc": "First words, phrases and confidence", "short": "From zero" },
+      "A2": { "title": "I know the basics", "desc": "But I'm shy to speak out loud", "short": "Know the basics" },
+      "B1": { "title": "I understand, but mix things up", "desc": "Tenses, prepositions and all that", "short": "Understand, but mix up" },
+      "B2": { "title": "I speak, want to be freer", "desc": "Conversation practice and work", "short": "Speak freely" },
+      "C1": { "title": "I want the fine points", "desc": "IELTS, academic writing", "short": "IELTS and nuance" }
+    },
+    "plans": {
+      "BASIC": { "name": "Basic", "tagline": "On your own", "desc": "Every lesson of the course: videos, notes, tests and materials. Learn at your own pace." },
+      "PRO": { "name": "Pro", "tagline": "With review", "desc": "Everything in Basic, plus a teacher reviews your tests and tells you what to work on." },
+      "DELUXE": { "name": "Deluxe", "tagline": "With a teacher", "desc": "Everything in Pro, plus one-on-one lessons with a teacher and group classes with people on your plan." }
+    },
+    "from": "from {price}",
+    "sum": "{amount} UZS",
+    "langName": { "ru": "Русский", "uz": "O‘zbekcha", "en": "English" }
+  },
+  "siteNav": {
+    "courses": "Courses",
+    "teachers": "Teachers",
+    "results": "Results",
+    "about": "About",
+    "signin": "Sign in",
+    "myLearning": "My learning",
+    "start": "Start for free",
+    "menu": "Menu",
+    "close": "Close",
+    "language": "Site language"
+  },
+  "siteFooter": {
+    "say": "Write to us if something is unclear.",
+    "sayIt": "Real people answer.",
+    "learn": "Learn",
+    "allCourses": "All courses",
+    "levelTest": "Level test",
+    "trial": "Trial lesson",
+    "school": "School",
+    "teachers": "Teachers",
+    "results": "Results",
+    "about": "About and contacts",
+    "language": "Site language",
+    "copy": "© Highgate Education"
+  },
+  "leadForm": {
+    "nameLabel": "What's your name",
+    "namePlaceholder": "Name",
+    "phoneLabel": "Phone",
+    "submit": "Call me",
+    "sending": "Sending…",
+    "doneTitle": "Done!",
+    "doneText": "We'll call you back during working hours. Meanwhile, you can take the level test — it's 15 minutes.",
+    "doneAction": "Take the test",
+    "error": "Couldn't send it. Check the number and try again.",
+    "tooMany": "Too many attempts. Try again a bit later."
+  },
+  "homePage": {
+    "meta": {
+      "title": "Highgate — English that finally clicks",
+      "description": "Online English from A1 to C1: short lessons, clear explanations and a real teacher. Start with a free lesson."
+    },
+    "hero": {
+      "chip": "English with a real teacher",
+      "title": "English that <it>finally</it> <hl>clicks.</hl>",
+      "lead": "No cramming and no shame about mistakes. Short lessons, clear explanations and a teacher who actually answers. Start with a free lesson — just see how it feels.",
+      "primary": "Try for free",
+      "secondary": "Find out your level",
+      "note": "No payment. We won't call unless you ask."
+    },
+    "collage": {
+      "lessonMeta": "Lesson 3 · 16 minutes",
+      "lessonTitle": "Present Perfect",
+      "streakDays": "days in a row.",
+      "streakCheer": "Keep it up!",
+      "noteFrom": "Teacher · 2 min ago",
+      "note": "Great work with tenses! On Friday we'll cover Past Perfect — it's easier than it looks.",
+      "quizRight": "Correct!",
+      "quizText": "She has been to London"
+    },
+    "manifesto": "Learning a language <it>isn't about talent.</it> It's about small steps every day and a person nearby who'll <soft>help when you get stuck.</soft>",
+    "feel": {
+      "title": "How it <it>feels</it>",
+      "minutes": "15–20",
+      "minutesUnit": "min",
+      "oneTitle": "One lesson, one topic",
+      "oneText": "Fits into a lunch break or a commute. Video, short notes and a test — all on one page, nothing to hunt for.",
+      "mistakesTitle": "Mistakes are fine",
+      "mistakesText": "The test after a lesson is there to help you get the topic, not to grade you. Didn't work out — try again.",
+      "humanTitle": "A real person nearby",
+      "humanText": "A teacher reviews your work, explains mistakes and answers questions. On Pro and Deluxe.",
+      "langTitle": "Explained in a language you get",
+      "langText": "Russian, Uzbek or English — you choose and can switch anytime."
+    },
+    "levels": {
+      "title": "Where shall we <it>start?</it>",
+      "lead": "Pick what sounds like you. Getting it wrong is fine — you can change your level.",
+      "unknownTitle": "I don't know my level",
+      "unknownDesc": "A 15-minute test — and we'll suggest a course right away"
+    },
+    "steps": {
+      "s1": { "title": "Try it for free", "text": "A trial lesson and a level test — no payment. See the format and decide if it's for you." },
+      "s2": { "title": "Choose how to learn", "text": "On your own, with review or with a teacher. The lessons stay with you forever." },
+      "s3": { "title": "Go at your own pace", "text": "Lessons open in order and your progress is visible right away. Stuck — message your teacher." }
+    },
+    "pricing": {
+      "title": "What it <it>costs</it>",
+      "popular": "Most popular",
+      "choose": "Choose {plan}",
+      "note": "Lessons stay with you forever. Teacher sessions and reviews last for the plan's term."
+    },
+    "faq": {
+      "title": "Common <it>questions</it>",
+      "items": [
+        { "q": "What if I'm a total beginner?", "a": "Then we start at A1 — with the very first words and phrases. Explanations in your language, nobody will rush you." },
+        { "q": "How much time do I need a day?", "a": "15–20 minutes is enough — that's one lesson. A little every day beats three hours once a week." },
+        { "q": "Can I learn only from my phone?", "a": "Yes. Lessons, notes and tests work well on a phone, and live classes run on Zoom." },
+        { "q": "How do live classes work?", "a": "Online, on Zoom: one-on-one lessons with a teacher and group classes — that's the Deluxe plan. The schedule is always in the Live section." },
+        { "q": "What happens when my plan ends?", "a": "The lessons and materials stay with you. Only reviews and teacher sessions end." }
+      ]
+    },
+    "lead": {
+      "title": "Let's <it>just</it> talk",
+      "text": "Leave your number — we'll call back, help you find your level and choose a course. No pressure, honestly."
+    }
+  }
+}

@@ -1,0 +1,47 @@
+.root {
+  position: relative;
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 4px;
+  padding: 5px;
+  border-radius: var(--r-md);
+  background: var(--t-surface-2);
+}
+
+.onWhite {
+  background: var(--c-white);
+}
+
+.thumb {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 0;
+  border-radius: 18px;
+  background: var(--c-ink);
+  transition:
+    transform var(--dur) var(--ease-out),
+    width var(--dur) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+}
+
+.option {
+  position: relative;
+  z-index: 1;
+  height: 48px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--t-fg);
+  cursor: pointer;
+  transition: color var(--dur) var(--ease-out);
+}
+
+.active {
+  color: var(--c-white);
+}

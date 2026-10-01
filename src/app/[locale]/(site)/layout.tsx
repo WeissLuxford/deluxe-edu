@@ -1,12 +1,12 @@
 import { ReactNode } from 'react'
-import SiteHeader from '@/features/ui/components/SiteHeader'
-import SiteFooter from '@/features/ui/components/SiteFooter'
+import { SiteHeader } from '@/design/layout/SiteHeader'
+import { SiteFooter } from '@/design/layout/SiteFooter'
 
 export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <SiteHeader />
-      {children}
+      <main>{children}</main>
       <SiteFooter />
     </>
   )
