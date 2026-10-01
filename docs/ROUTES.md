@@ -41,10 +41,11 @@
 
 | Адрес | Артборд | Статус |
 |---|---|---|
-| `/teacher/groups/[id]` | Teacher | ⬜ |
-| остальные `/teacher/*` | в стиле Teacher | ⬜ |
-| `/admin` | Admin | ⬜ |
-| остальные `/admin/*` (курсы, уроки, студенты, эфиры) | в стиле Admin | ⬜ |
+| `/teacher/groups/[id]` | Teacher (журнал `GroupJournal`) | ✅ |
+| `/teacher` | «Расписание» в стиле Teacher | ✅ |
+| остальные `/teacher/*` | набор `features/staff/kit.css` | 🟨 стили v2, вёрстка старая |
+| `/admin` | Admin | ✅ |
+| остальные `/admin/*` (курсы, уроки, студенты, эфиры) | набор `features/staff/kit.css` | 🟨 стили v2, вёрстка старая |
 | `/admin/news*` | в стиле Admin | ⬜ (оставляем) |
 
 ## Только редиректы (оставляем как есть)
