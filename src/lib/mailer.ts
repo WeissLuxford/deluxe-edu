@@ -62,13 +62,13 @@ const COPY = {
     ignore: 'Если это был не ты, просто не обращай внимания на письмо — ничего не изменится.'
   },
   uz: {
-    verifySubject: 'Emailni tasdiqlash — Highgate',
-    verifyBody: 'Elektron pochta manzilingizni tasdiqlang',
-    verifyAction: 'Emailni tasdiqlash',
-    resetSubject: 'Parolni tiklash — Highgate',
-    resetBody: 'Siz parolni tiklashni soʻradingiz',
-    resetAction: 'Yangi parol oʻrnatish',
-    ignore: 'Agar bu siz boʻlmasangiz, xatni eʼtiborsiz qoldiring'
+    verifySubject: 'E-pochtangizni tasdiqlang — Highgate',
+    verifyBody: 'Bir qadam qoldi: e-pochtangizni tasdiqlang va kirishingiz mumkin.',
+    verifyAction: 'E-pochtani tasdiqlash',
+    resetSubject: 'Yangi parol — Highgate',
+    resetBody: 'Yangi parol o‘rnatish uchun tugmani bosing. Havola 30 daqiqa amal qiladi.',
+    resetAction: 'Yangi parol o‘rnatish',
+    ignore: 'Agar bu so‘rovni siz yubormagan bo‘lsangiz, xatga e’tibor bermang — hech narsa o‘zgarmaydi.'
   },
   en: {
     verifySubject: 'Verify your email — Highgate',

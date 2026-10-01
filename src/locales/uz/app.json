@@ -3,77 +3,77 @@
     "levels": {
       "A1": {
         "title": "Noldan boshlayman",
-        "desc": "Birinchi so‘zlar, iboralar va ishonch",
+        "desc": "Ilk so‘zlar, iboralar va o‘ziga ishonch",
         "short": "Noldan"
       },
       "A2": {
-        "title": "Asoslarini bilaman",
-        "desc": "Lekin ovoz chiqarib gapirishga uyalaman",
-        "short": "Asoslarini bilaman"
+        "title": "Asoslarni bilaman",
+        "desc": "Lekin gapirishga tortinaman",
+        "short": "Asoslarni bilaman"
       },
       "B1": {
-        "title": "Tushunaman, lekin adashaman",
-        "desc": "Zamonlar, predloglar va boshqalar",
-        "short": "Tushunaman, lekin adashaman"
+        "title": "Tushunaman, lekin chalkashtiraman",
+        "desc": "Zamonlar, predloglar va shunga o‘xshashlar",
+        "short": "Tushunaman, lekin chalkashtiraman"
       },
       "B2": {
-        "title": "Gapiraman, erkinroq bo‘lishni xohlayman",
-        "desc": "So‘zlashuv amaliyoti va ish",
-        "short": "Erkin gapiraman"
+        "title": "Gapiraman, erkinroq gapirmoqchiman",
+        "desc": "So‘zlashuv amaliyoti va ish uchun ingliz tili",
+        "short": "Erkinroq gapirmoqchiman"
       },
       "C1": {
-        "title": "Nozik jihatlarni xohlayman",
-        "desc": "IELTS, akademik yozuv",
-        "short": "IELTS va nozikliklar"
+        "title": "Tilni sayqallayman",
+        "desc": "IELTS, akademik yozuv, uslub",
+        "short": "Tilni sayqallayman"
       }
     },
     "plans": {
       "BASIC": {
         "name": "Basic",
         "tagline": "Mustaqil",
-        "desc": "Kursning barcha darslari: video, konspekt, testlar va materiallar. O‘z sur’atingda o‘qiysan.",
+        "desc": "Kursning barcha darslari: video, konspekt, testlar va materiallar. O‘zingizga qulay sur’atda o‘qiysiz.",
         "points": [
           "Barcha darslar: video, konspekt, testlar",
-          "O‘z sur’atingda o‘qiysan",
-          "Materiallar — abadiy"
+          "O‘zingizga qulay sur’atda",
+          "Materiallar umrbod sizda qoladi"
         ]
       },
       "PRO": {
         "name": "Pro",
         "tagline": "Tekshiruv bilan",
-        "desc": "Basic’dagi hamma narsa, ustiga o‘qituvchi testlaringni tekshiradi va nimani kuchaytirish kerakligini yozadi.",
+        "desc": "Basic’dagi hamma narsa, bundan tashqari o‘qituvchi testlaringizni tekshirib, nimaga e’tibor berish kerakligini yozadi.",
         "points": [
           "Basic’dagi hamma narsa",
           "O‘qituvchi testlarni tekshiradi",
-          "Nimani va qanday kuchaytirishni yozadi"
+          "Nimani va qanday yaxshilashni yozadi"
         ]
       },
       "DELUXE": {
         "name": "Deluxe",
         "tagline": "O‘qituvchi bilan",
-        "desc": "Pro’dagi hamma narsa, ustiga o‘qituvchi bilan shaxsiy darslar va tarifingdagi o‘quvchilar bilan guruh darslari.",
+        "desc": "Pro’dagi hamma narsa, bundan tashqari o‘qituvchi bilan shaxsiy darslar va Deluxe o‘quvchilari bilan guruh darslari.",
         "points": [
           "Pro’dagi hamma narsa",
           "O‘qituvchi bilan shaxsiy darslar",
-          "Tarifdagi o‘quvchilar bilan guruh darslari"
+          "Deluxe o‘quvchilari bilan guruh darslari"
         ]
       }
     },
-    "from": "{price} dan",
+    "from": "{price}dan",
     "sum": "{amount} so‘m",
     "langName": {
       "ru": "Русский",
       "uz": "O‘zbekcha",
       "en": "English"
     },
-    "all": "Hammasi",
+    "all": "Barchasi",
     "lessonsCount": "{count} ta dars",
     "topics": {
       "grammar": "Grammatika",
       "speaking": "So‘zlashuv",
       "exams": "Imtihonlar",
       "work": "Ish uchun",
-      "writing": "Yozuv",
+      "writing": "Yozish",
       "general": "Umumiy ingliz tili"
     }
   },
@@ -83,18 +83,18 @@
     "results": "Natijalar",
     "about": "Biz haqimizda",
     "signin": "Kirish",
-    "myLearning": "O‘qishim",
+    "myLearning": "Shaxsiy kabinet",
     "start": "Bepul boshlash",
     "menu": "Menyu",
     "close": "Yopish",
     "language": "Sayt tili"
   },
   "siteFooter": {
-    "say": "Biror narsa tushunarsiz bo‘lsa, yoz.",
-    "sayIt": "Bizda odamlar javob beradi.",
+    "say": "Biror narsa tushunarsiz bo‘lsa, yozing.",
+    "sayIt": "Bot emas, tirik odamlar javob beradi.",
     "learn": "O‘qish",
     "allCourses": "Barcha kurslar",
-    "levelTest": "Daraja testi",
+    "levelTest": "Darajani aniqlash testi",
     "trial": "Sinov darsi",
     "school": "Maktab",
     "teachers": "O‘qituvchilar",
@@ -105,309 +105,309 @@
     "news": "Yangiliklar"
   },
   "leadForm": {
-    "nameLabel": "Isming nima",
+    "nameLabel": "Ismingiz",
     "namePlaceholder": "Ism",
     "phoneLabel": "Telefon",
     "submit": "Qo‘ng‘iroqni kutaman",
     "sending": "Yuborilmoqda…",
     "doneTitle": "Tayyor!",
-    "doneText": "Ish vaqtida qo‘ng‘iroq qilamiz. Hozircha daraja testini topshirib ko‘rishing mumkin — 15 daqiqa.",
-    "doneAction": "Testni boshlash",
-    "error": "Yuborib bo‘lmadi. Raqamni tekshirib, qaytadan urinib ko‘r.",
-    "tooMany": "Urinishlar juda ko‘p. Birozdan keyin urinib ko‘r."
+    "doneText": "Ish vaqtida qo‘ng‘iroq qilamiz. Bu orada darajangizni aniqlash testidan o‘tib ko‘rishingiz mumkin — 15 daqiqa vaqt oladi.",
+    "doneAction": "Testdan o‘tish",
+    "error": "Yuborib bo‘lmadi. Raqamni tekshirib, qaytadan urinib ko‘ring.",
+    "tooMany": "Urinishlar juda ko‘p bo‘ldi. Birozdan so‘ng qayta urinib ko‘ring."
   },
   "homePage": {
     "meta": {
-      "title": "Highgate — nihoyat chiqadigan ingliz tili",
-      "description": "A1 dan C1 gacha onlayn ingliz tili: qisqa darslar, tushunarli tushuntirishlar va jonli o‘qituvchi. Bepul darsdan boshla."
+      "title": "Highgate — ingliz tilini nihoyat o‘rganib olasiz",
+      "description": "A1 dan C1 gacha onlayn ingliz tili: qisqa darslar, tushunarli izohlar va jonli o‘qituvchi. Bepul darsdan boshlang."
     },
     "hero": {
       "chip": "Jonli o‘qituvchi bilan ingliz tili",
-      "title": "Ingliz tili, <it>nihoyat</it> <hl>chiqadi.</hl>",
-      "lead": "Yod olishsiz va xatolardan uyalmasdan. Qisqa darslar, tushunarli tushuntirishlar va rostdan javob beradigan o‘qituvchi. Bepul darsdan boshla — shunchaki qanday ekanini ko‘r.",
+      "title": "Ingliz tilini <it>nihoyat</it> <hl>o‘rganib olasiz.</hl>",
+      "lead": "Yodlashsiz va xatolardan uyalmasdan. Qisqa darslar, tushunarli izohlar va savollaringizga rostdan javob beradigan o‘qituvchi. Bepul darsdan boshlang — shunchaki sizga yoqadimi, ko‘ring.",
       "primary": "Bepul sinab ko‘rish",
-      "secondary": "Darajamni bilish",
-      "note": "To‘lovsiz. O‘zing so‘ramasang, qo‘ng‘iroq qilmaymiz."
+      "secondary": "Darajamni aniqlash",
+      "note": "To‘lov shart emas. O‘zingiz so‘ramasangiz, qo‘ng‘iroq qilmaymiz."
     },
     "collage": {
       "lessonMeta": "3-dars · 16 daqiqa",
       "lessonTitle": "Present Perfect",
       "streakDays": "kun ketma-ket.",
-      "streakCheer": "Shunday davom et!",
+      "streakCheer": "Barakalla, davom eting!",
       "noteFrom": "O‘qituvchi · 2 daqiqa oldin",
-      "note": "Zamonlar bilan zo‘r! Juma kuni Past Perfect’ni ko‘ramiz — u ko‘ringanidan osonroq.",
+      "note": "Zamonlarni zo‘r o‘zlashtiribsiz! Juma kuni Past Perfect’ni ko‘ramiz — u ko‘rinishidan osonroq.",
       "quizRight": "To‘g‘ri!",
       "quizText": "She has been to London"
     },
-    "manifesto": "Til o‘rganish — <it>iste’dod haqida emas.</it> Bu har kungi kichik qadamlar va <soft>qiynalganingda yordam beradigan</soft> yoningdagi inson haqida.",
+    "manifesto": "Til o‘rganish — <it>iqtidorga bog‘liq emas.</it> Bu har kuni qo‘yiladigan kichik qadamlar va <soft>qiynalganingizda yo‘l ko‘rsatadigan</soft> yoningizdagi inson.",
     "feel": {
-      "title": "Bu qanday <it>his qilinadi</it>",
+      "title": "Darslar <it>qanday</it> o‘tadi",
       "minutes": "15–20",
       "minutesUnit": "daq",
       "oneTitle": "Bitta dars — bitta mavzu",
-      "oneText": "Tushlikda yoki yo‘lda ulgurasan. Video, qisqa konspekt va test — hammasi bitta sahifada, hech narsa qidirish shart emas.",
-      "mistakesTitle": "Xato qilish — normal",
-      "mistakesText": "Darsdan keyingi test baho qo‘yish uchun emas, mavzuni tushunish uchun. Chiqmadimi — yana topshirasan.",
-      "humanTitle": "Yoningda jonli inson",
-      "humanText": "O‘qituvchi topshiriqlarni tekshiradi, xatolarni tushuntiradi va savollarga javob beradi. Pro va Deluxe tariflarida.",
+      "oneText": "Tushlikda yoki yo‘lda ham ulgurasiz. Video, qisqa konspekt va test — hammasi bitta sahifada, hech narsa qidirish shart emas.",
+      "mistakesTitle": "Xato qilish — tabiiy hol",
+      "mistakesText": "Darsdan keyingi test baho uchun emas, mavzuni mustahkamlash uchun. Chiqmadimi — yana bir bor topshirasiz.",
+      "humanTitle": "Yoningizda tirik inson",
+      "humanText": "O‘qituvchi topshiriqlarni tekshiradi, xatolarni tahlil qiladi va savollarga javob beradi. Pro va Deluxe tariflarida.",
       "langTitle": "Tushunarli tilda tushuntiramiz",
-      "langText": "Rus, o‘zbek yoki ingliz tili — o‘zing tanlaysan va xohlagan payt almashtirasan."
+      "langText": "O‘zbek, rus yoki ingliz tilida — o‘zingiz tanlaysiz va istalgan payt o‘zgartirasiz."
     },
     "levels": {
       "title": "Qaysi darajadan <it>boshlaymiz?</it>",
-      "lead": "O‘zingga mos kelganini tanla. Adashish qo‘rqinchli emas — darajani almashtirish mumkin.",
+      "lead": "O‘zingizga mosini tanlang. Adashsangiz ham qo‘rqmang — darajani keyin o‘zgartirish mumkin.",
       "unknownTitle": "Darajamni bilmayman",
-      "unknownDesc": "15 daqiqalik test — va darhol kurs tavsiya qilamiz"
+      "unknownDesc": "15 daqiqalik test — va darhol mos kursni aytamiz"
     },
     "steps": {
       "s1": {
-        "title": "Bepul sinab ko‘rasan",
-        "text": "Sinov darsi va daraja testi — to‘lovsiz. Formatni ko‘rib, senga mosmi yoki yo‘qligini tushunasan."
+        "title": "Bepul sinab ko‘rasiz",
+        "text": "Sinov darsi va daraja testi — bepul. Formatni ko‘rib, sizga mos kelish-kelmasligini bilib olasiz."
       },
       "s2": {
-        "title": "Qanday o‘qishni tanlaysan",
-        "text": "Mustaqil, tekshiruv bilan yoki o‘qituvchi bilan. Darslar sen bilan abadiy qoladi."
+        "title": "Qanday o‘qishni tanlaysiz",
+        "text": "Mustaqil, tekshiruv bilan yoki o‘qituvchi bilan. Darslar sizda umrbod qoladi."
       },
       "s3": {
-        "title": "O‘z sur’atingda borasan",
-        "text": "Darslar tartib bilan ochiladi, natija darhol ko‘rinadi. Qiynaldingmi — o‘qituvchiga yozasan."
+        "title": "O‘z sur’atingizda o‘qiysiz",
+        "text": "Darslar ketma-ket ochiladi, natijangiz darhol ko‘rinadi. Qiynalsangiz — o‘qituvchiga yozasiz."
       }
     },
     "pricing": {
-      "title": "Bu qancha <it>turadi</it>",
+      "title": "Narxi <it>qancha</it>",
       "popular": "Ko‘pchilik tanlaydi",
-      "choose": "{plan} ni tanlash",
-      "note": "Darslar sen bilan abadiy qoladi. O‘qituvchi bilan mashg‘ulotlar va tekshiruv — tarif muddati davomida."
+      "choose": "{plan} tarifini tanlash",
+      "note": "Darslar sizda umrbod qoladi. O‘qituvchi bilan mashg‘ulotlar va tekshiruv — tarif muddati davomida."
     },
     "faq": {
       "title": "Ko‘p beriladigan <it>savollar</it>",
       "items": [
         {
-          "q": "Agar men umuman noldan bo‘lsam-chi?",
-          "a": "Unda A1 dan — eng birinchi so‘z va iboralardan boshlaymiz. Tushuntirishlar o‘z tilingda, hech kim shoshiltirmaydi."
+          "q": "Men mutlaqo noldan boshlasam-chi?",
+          "a": "Unda A1 dan — eng birinchi so‘z va iboralardan boshlaymiz. Tushuntirishlar o‘z tilingizda, hech kim shoshiltirmaydi."
         },
         {
           "q": "Kuniga qancha vaqt kerak?",
-          "a": "15–20 daqiqa yetadi — bu bitta dars. Haftada bir marta uch soatdan ko‘ra, har kuni ozdan yaxshiroq."
+          "a": "15–20 daqiqa yetarli — bu bitta dars. Haftada bir marta uch soat o‘tirgandan ko‘ra, har kuni ozgina shug‘ullangan yaxshiroq."
         },
         {
-          "q": "Faqat telefondan o‘qisa bo‘ladimi?",
-          "a": "Ha. Darslar, konspektlar va testlarni telefondan o‘tish qulay, jonli mashg‘ulotlar esa Zoom’da."
+          "q": "Faqat telefonda o‘qisa bo‘ladimi?",
+          "a": "Ha. Darslar, konspektlar va testlar telefonda qulay, jonli mashg‘ulotlar esa Zoom’da o‘tadi."
         },
         {
           "q": "Jonli mashg‘ulotlar qanday o‘tadi?",
-          "a": "Onlayn, Zoom’da: o‘qituvchi bilan shaxsiy darslar va guruh mashg‘ulotlari — bu Deluxe tarifi. Jadval doim «Efirlar» bo‘limida ko‘rinadi."
+          "a": "Onlayn, Zoom’da: o‘qituvchi bilan shaxsiy darslar va guruh mashg‘ulotlari — bular Deluxe tarifida. Jadval doim «Efirlar» bo‘limida ko‘rinadi."
         },
         {
-          "q": "Tarif tugasa nima bo‘ladi?",
-          "a": "Darslar va materiallar sen bilan qoladi. Faqat topshiriqlarni tekshirish va o‘qituvchi bilan mashg‘ulotlar tugaydi."
+          "q": "Tarif muddati tugasa nima bo‘ladi?",
+          "a": "Darslar va materiallar sizda qoladi. Faqat topshiriqlarni tekshirish va o‘qituvchi bilan mashg‘ulotlar to‘xtaydi."
         }
       ]
     },
     "lead": {
-      "title": "Kel, <it>shunchaki</it> gaplashaylik",
-      "text": "Raqamingni qoldir — qo‘ng‘iroq qilamiz, darajangni aniqlash va kurs tanlashga yordam beramiz. Majburlashsiz, rostdan."
+      "title": "Keling, <it>shunchaki</it> gaplashamiz",
+      "text": "Raqamingizni qoldiring — qo‘ng‘iroq qilib, darajangizni aniqlash va kurs tanlashga yordam beramiz. Hech narsani majburlamaymiz."
     }
   },
   "coursesPage": {
     "meta": {
-      "title": "A1 dan C1 gacha ingliz tili kurslari — Highgate",
-      "description": "Darajalar bo‘yicha ingliz tili kurslari, A1–C1: grammatika, so‘zlashuv, imtihonlar va ish uchun ingliz tili. Qisqa darslar va jonli o‘qituvchi."
+      "title": "Ingliz tili kurslari A1 dan C1 gacha — Highgate",
+      "description": "Darajalar bo‘yicha ingliz tili kurslari (A1–C1): grammatika, so‘zlashuv, imtihonlar va ish uchun ingliz tili. Qisqa darslar va jonli o‘qituvchi."
     },
-    "title": "<it>Sening</it> darajangga mos kurslar",
-    "hint": "Qaysi birini tanlashni bilmayapsanmi? <a>15 daqiqalik testni topshir</a> — maslahat beramiz.",
+    "title": "<it>Darajangizga</it> mos kurslar",
+    "hint": "Qaysi birini tanlashni bilmayapsizmi? <a>15 daqiqalik testdan o‘ting</a> — maslahat beramiz.",
     "levelFilter": "Daraja",
     "topicFilter": "Mavzu",
-    "empty": "Hozircha bu yer bo‘sh. Keyinroq qara yoki testni topshir — qayerdan boshlashni aytamiz.",
-    "trialTitle": "Avval <it>sinab ko‘r</it> — bu bepul",
+    "empty": "Hozircha bu yer bo‘sh. Keyinroq kiring yoki testdan o‘ting — qayerdan boshlashni aytamiz.",
+    "trialTitle": "Avval <it>sinab ko‘ring</it> — bu bepul",
     "trialText": "20 daqiqalik sinov darsi: video, konspekt va kichik test.",
     "trialCta": "Sinov darsini ochish"
   },
   "coursePage": {
     "back": "Barcha kurslar",
     "statLessons": "ta dars",
-    "statModules": "ta modul va nazorat ishlari",
+    "statModules": "ta modul, nazorat ishlari bilan",
     "statMinutes": "o‘rtacha dars",
     "min": "daq",
-    "howToLearn": "Qanday o‘qishni xohlaysan?",
+    "howToLearn": "Qanday o‘qishni xohlaysiz?",
     "startWith": "{plan} bilan boshlash",
-    "note": "Darslar sen bilan abadiy qoladi. Ikkilanyapsanmi — <a>avval sinov darsi</a>.",
-    "inside": "Ichida <it>nima bor</it>",
+    "note": "Darslar sizda umrbod qoladi. Ikkilanyapsizmi — <a>avval sinov darsini ko‘ring</a>.",
+    "inside": "Kursda <it>nimalar bor</it>",
     "moduleMeta": "{count} ta dars",
     "withExam": " · nazorat ishi",
-    "outcomes": "Kursdan keyin <it>sen qila olasan</it>",
+    "outcomes": "Kursdan so‘ng <it>siz quyidagilarni uddalaysiz</it>",
     "teacher": "Kursni olib boradi",
     "meet": "Tanishish",
-    "leadTitle": "Raqamingni qoldir — <it>kirishni ochamiz</it>",
+    "leadTitle": "Raqamingizni qoldiring — <it>kursni ochib beramiz</it>",
     "leadText": "Qo‘ng‘iroq qilamiz, to‘lovda yordam beramiz va qayerdan boshlashni aytamiz.",
     "leadBack": "Tariflarga qaytish"
   },
   "teachersPage": {
     "meta": {
       "title": "O‘qituvchilar — Highgate",
-      "description": "Topshiriqlarni tekshiradigan, jonli darslar o‘tadigan va savollarga javob beradigan insonlar."
+      "description": "Topshiriqlarni tekshiradigan, jonli darslar o‘tadigan va savollarga javob beradigan ustozlar."
     },
     "title": "Ular bilan xato qilish <it>qo‘rqinchli emas</it>",
-    "lead": "Ular topshiriqlarni tekshiradi, jonli darslar o‘tadi va savollarga javob beradi. Mensimaslik yo‘q — shunchaki boshqacha qilib yana tushuntiradi.",
-    "studyWith": "{name} bilan o‘qish",
+    "lead": "Ular topshiriqlarni tekshiradi, jonli darslar o‘tadi va savollarga javob beradi. Kamsitmasdan — shunchaki boshqacha qilib yana bir bor tushuntiradi.",
+    "studyWith": "Sinov darsiga yozilish",
     "emptyTitle": "Tez orada <it>tanishtiramiz</it>",
-    "emptyText": "O‘qituvchilar profillarini haqiqiy surat va hujjatlar bilan tayyorlayapmiz. Hozircha sinov darsiga kelib, hammasini o‘zing ko‘rishing mumkin.",
+    "emptyText": "O‘qituvchilar sahifalarini haqiqiy suratlar va hujjatlar bilan tayyorlayapmiz. Hozircha sinov darsiga kelib, hammasini o‘z ko‘zingiz bilan ko‘rishingiz mumkin.",
     "emptyCta": "Sinov darsi",
     "back": "Barcha o‘qituvchilar",
     "others": "Boshqa o‘qituvchilar",
-    "video": "Video-tanishuv"
+    "video": "Tanishuv videosi"
   },
   "resultsPage": {
     "meta": {
       "title": "O‘quvchilar natijalari — Highgate",
-      "description": "Highgate o‘quvchilarining haqiqiy hikoyalari va sertifikatni raqam bo‘yicha tekshirish."
+      "description": "Highgate o‘quvchilarining haqiqiy hikoyalari va sertifikatni raqami bo‘yicha tekshirish."
     },
-    "title": "Kichik <it>katta</it> g‘alabalar",
-    "lead": "Bu yerda faqat o‘quvchilarning haqiqiy hikoyalari — ularning ruxsati bilan. To‘qib chiqarilgan raqamlar yo‘q.",
+    "title": "Kichik, lekin <it>katta</it> g‘alabalar",
+    "lead": "Bu yerda faqat o‘quvchilarimizning haqiqiy hikoyalari — ularning roziligi bilan. To‘qima raqamlar yo‘q.",
     "emptyTitle": "Hikoyalar <it>tez orada</it>",
-    "emptyText": "O‘quvchilar o‘zlari ruxsat bermaguncha fikrlarni e’lon qilmaymiz. Birinchilari yo‘lda.",
+    "emptyText": "O‘quvchilar o‘zlari rozilik bermaguncha fikrlarini e’lon qilmaymiz. Birinchilari tayyorlanmoqda.",
     "certificates": "ta sertifikat berildi",
     "certificatesHint": "har birini quyida tekshirish mumkin",
-    "verified": "Sertifikat bo‘yicha tekshirilgan"
+    "verified": "Sertifikat orqali tasdiqlangan"
   },
   "certificatePage": {
     "title": "<it>Sertifikatni</it> tekshirish",
-    "lead": "Raqam sertifikatning pastki qismida yozilgan. Katta-kichik harf va chiziqchalar muhim emas — qulay tarzda kirit.",
+    "lead": "Raqam sertifikatning pastki qismida yozilgan. Katta-kichik harflar va chiziqchalar ahamiyatsiz — qanday qulay bo‘lsa, shunday kiriting.",
     "placeholder": "HG-2026-XXXXX-XXXXX",
     "submit": "Tekshirish",
-    "badFormat": "Bu sertifikat raqamiga o‘xshamaydi. Barcha belgilar joyidaligini tekshir.",
+    "badFormat": "Bu sertifikat raqamiga o‘xshamaydi. Barcha belgilar to‘g‘ri kiritilganini tekshiring.",
     "valid": "Sertifikat haqiqiy",
     "revoked": "Sertifikat bekor qilingan",
-    "revokedOn": "{date} da bekor qilingan",
+    "revokedOn": "{date} sanasida bekor qilingan",
     "missing": "Bunday sertifikatni biz bermaganmiz",
-    "missingHint": "Raqamni yana bir bor tekshir. Agar to‘g‘ri yozilgan bo‘lsa — bu hujjat biz tomondan berilmagan.",
+    "missingHint": "Raqamni yana bir bor tekshiring. Agar to‘g‘ri yozilgan bo‘lsa — bu hujjat biz tomonimizdan berilmagan.",
     "kicker": "SERTIFIKAT",
-    "confirms": "tasdiqlaydiki,",
-    "completed": "<b>{course}</b> kursini {level} darajasida tamomladi.",
+    "confirms": "shuni tasdiqlaydiki,",
+    "completed": "<b>{course}</b> kursini ({level} darajasi) muvaffaqiyatli tamomladi.",
     "date": "Sana",
     "number": "Raqam",
-    "passed": "O‘TILDI",
+    "passed": "TAMOMLANDI",
     "checkAt": "Haqiqiyligini tekshirish:",
     "checkAnother": "Boshqa raqamni tekshirish",
-    "print": "Chop etish yoki PDF saqlash"
+    "print": "Chop etish yoki PDF sifatida saqlash"
   },
   "aboutPage": {
     "meta": {
       "title": "Biz haqimizda va aloqa — Highgate",
       "description": "Biz kimmiz, qanday o‘qitamiz va biz bilan qanday bog‘lanish mumkin."
     },
-    "title": "Salom, biz <it>Highgate</it>",
-    "story": "Ingliz tili <hl>tushunarli va bosimsiz</hl> bo‘lishini xohladik — shuning uchun shunday o‘qitamiz: qisqa darslar, o‘z tilingda va yoningda jonli inson bilan.",
-    "fastest": "Eng tezi",
+    "title": "Salom, biz — <it>Highgate</it>",
+    "story": "Ingliz tili <hl>tushunarli va bosimsiz</hl> bo‘lishini istadik — shuning uchun shunday o‘qitamiz: qisqa darslar, o‘z tilingizda va yoningizda tirik inson bilan.",
+    "fastest": "Eng tez yo‘li",
     "call": "Qo‘ng‘iroq qilish",
     "hours": "Javob beramiz",
     "hoursValue": "Har kuni, ish vaqtida",
     "v1Title": "Yana tushuntiramiz",
-    "v1Text": "Mavzuni tushunmadingmi — bu normal. So‘ra, senga boshqacha tushuntirishadi.",
+    "v1Text": "Mavzuni tushunmadingizmi — bu tabiiy. So‘rang, sizga boshqacha qilib tushuntirib berishadi.",
     "v2Title": "Mo‘jiza va’da qilmaymiz",
-    "v2Text": "Tilni bir oyda o‘rganib bo‘lmaydi. Lekin bir oyda sezilarli oldinga siljish mumkin — va buni his qilasan.",
-    "v3Title": "Darslar — abadiy",
-    "v3Text": "Kursni sotib olding — tarif tugasa ham materiallar sen bilan qoladi."
+    "v2Text": "Tilni bir oyda o‘rganib bo‘lmaydi. Lekin bir oyda sezilarli oldinga siljish mumkin — va buni o‘zingiz his qilasiz.",
+    "v3Title": "Darslar — umrbod",
+    "v3Text": "Kursni sotib oldingizmi — tarif tugasa ham materiallar sizda qoladi."
   },
   "authFlow": {
     "phone": "Telefon",
-    "email": "Pochta",
+    "email": "E-pochta",
     "or": "yoki",
     "google": "Google orqali kirish",
     "back": "Orqaga",
-    "name": "Isming nima",
+    "name": "Ismingiz",
     "namePlaceholder": "Ism",
-    "emailLabel": "Pochta",
+    "emailLabel": "E-pochta",
     "password": "Parol",
-    "passwordNew": "Parol o‘ylab top",
+    "passwordNew": "Parol o‘ylab toping",
     "passwordHint": "Kamida 6 ta belgi: lotin harflari va raqamlar",
     "show": "Parolni ko‘rsatish",
     "hide": "Parolni yashirish",
-    "code": "SMS kod",
+    "code": "SMS’dagi kod",
     "codeSentTo": "Kodni {phone} raqamiga yubordik",
     "resend": {
       "title": "Xat <it>kelmadimi?</it>",
-      "lead": "Pochtangni kirit — havolani qayta yuboramiz. «Spam» papkasini ham tekshir.",
+      "lead": "E-pochtangizni kiriting — havolani qayta yuboramiz. «Spam» jildini ham tekshiring.",
       "send": "Qayta yuborish",
-      "sent": "Tayyor! Pochtangni tekshir — yangi havola o‘sha yerda."
+      "sent": "Tayyor! E-pochtangizni tekshiring — yangi havola o‘sha yerda."
     },
-    "resendIn": "0:{seconds} dan keyin qayta yuborish",
+    "resendIn": "0:{seconds} dan so‘ng qayta yuborish",
     "changeNumber": "Boshqa raqam",
     "signin": {
-      "title": "<it>Xush kelibsan!</it>",
-      "lead": "Telefon raqami yoki pochta — qaysi biri bilan ro‘yxatdan o‘tgan bo‘lsang.",
-      "identifier": "Telefon yoki pochta",
+      "title": "<it>Xush kelibsiz!</it>",
+      "lead": "Ro‘yxatdan o‘tishda ko‘rsatgan telefon raqamingiz yoki e-pochtangiz.",
+      "identifier": "Telefon yoki e-pochta",
       "identifierPlaceholder": "90 123 45 67 yoki name@mail.uz",
       "submit": "Kirish",
       "submitting": "Kirilmoqda…",
-      "forgot": "Parolni unutdingmi?",
-      "noAccount": "Hali akkaunt yo‘qmi?",
+      "forgot": "Parolni unutdingizmi?",
+      "noAccount": "Hali akkauntingiz yo‘qmi?",
       "signup": "Ro‘yxatdan o‘tish",
-      "wrong": "Mos kelmadi. Raqam yoki pochta va parolni tekshir."
+      "wrong": "Ma’lumotlar mos kelmadi. Raqam yoki e-pochta va parolni tekshiring."
     },
     "signup": {
-      "title": "Salom! <it>Kel, tanishaylik</it>",
-      "lead": "Raqam darslarga kirish yo‘qolmasligi uchun kerak. SMS orqali kod yuboramiz.",
+      "title": "Salom! <it>Keling, tanishamiz</it>",
+      "lead": "Raqamingiz orqali darslaringizga doim qaytib kira olasiz. SMS orqali kod yuboramiz.",
       "sendCode": "Kodni olish",
       "sending": "Yuborilmoqda…",
-      "codeTitle": "Deyarli! <it>Kodni kirit</it>",
+      "codeTitle": "Oz qoldi! <it>Kodni kiriting</it>",
       "verify": "Tasdiqlash",
       "verifying": "Tekshirilmoqda…",
       "passwordTitle": "Oxirgi qadam — <it>parol</it>",
-      "passwordLead": "U bilan istalgan qurilmada kirasan.",
-      "create": "Tayyor, ketdik",
+      "passwordLead": "U bilan istalgan qurilmadan kirasiz.",
+      "create": "Tayyor, boshladik",
       "creating": "Yaratilmoqda…",
-      "emailTitle": "<it>Pochta orqali</it> ro‘yxatdan o‘tish",
-      "emailSentTitle": "<it>Pochtangni</it> tekshir",
-      "emailSent": "{email} manziliga xat yubordik. Havolani och — va kirishing mumkin.",
-      "emailFailed": "Akkaunt yaratildi, lekin xat ketmadi. Bizga yoz — kirishni qo‘lda ochamiz.",
-      "haveAccount": "Akkaunting bormi?",
+      "emailTitle": "<it>E-pochta orqali</it> ro‘yxatdan o‘tish",
+      "emailSentTitle": "<it>E-pochtangizni</it> tekshiring",
+      "emailSent": "{email} manziliga xat yubordik. Havolani oching — va kirishingiz mumkin.",
+      "emailFailed": "Akkaunt yaratildi, lekin xat yuborilmadi. Bizga yozing — kirishni o‘zimiz ochib beramiz.",
+      "haveAccount": "Akkauntingiz bormi?",
       "signin": "Kirish"
     },
     "forgot": {
-      "title": "Parolni unutdingmi? <it>Bo‘lib turadi</it>",
-      "lead": "Tasdiqlashni qayerga yuborishni tanla.",
+      "title": "Parolni unutdingizmi? <it>Hech gap emas</it>",
+      "lead": "Tasdiqlash kodini qayerga yuborishni tanlang.",
       "send": "Yuborish",
-      "codeTitle": "<it>Kodni</it> kirit",
+      "codeTitle": "<it>Kodni</it> kiriting",
       "passwordTitle": "Yangi <it>parol</it>",
       "save": "Saqlash va kirish",
-      "emailSentTitle": "<it>Pochtangni</it> tekshir",
-      "emailSent": "Agar bunday akkaunt bo‘lsa, xat allaqachon yo‘lda. Havola 30 daqiqa ishlaydi.",
-      "backToSignin": "Kirishga qaytish"
+      "emailSentTitle": "<it>E-pochtangizni</it> tekshiring",
+      "emailSent": "Agar bunday akkaunt mavjud bo‘lsa, xat allaqachon yo‘lda. Havola 30 daqiqa amal qiladi.",
+      "backToSignin": "Kirish sahifasiga qaytish"
     },
     "reset": {
       "title": "Yangi <it>parol</it>",
       "save": "Saqlash va kirish",
-      "invalid": "Havola ishlamayapti.",
+      "invalid": "Havola yaroqsiz.",
       "used": "Bu havoladan allaqachon foydalanilgan.",
-      "expired": "Havola eskirgan — ular 30 daqiqa yashaydi.",
+      "expired": "Havola muddati o‘tgan — u 30 daqiqa amal qiladi.",
       "again": "Yangisini so‘rash"
     },
     "errors": {
-      "phone_taken": "Bu raqam allaqachon ro‘yxatdan o‘tgan — kirib ko‘r.",
-      "email_taken": "Bu pochta band — kirib ko‘r.",
-      "weak_password": "Parol kuchsiz: kamida 6 ta belgi, harflar va raqamlar.",
+      "phone_taken": "Bu raqam allaqachon ro‘yxatdan o‘tgan — kirib ko‘ring.",
+      "email_taken": "Bu e-pochta allaqachon ro‘yxatdan o‘tgan — kirib ko‘ring.",
+      "weak_password": "Parol juda oddiy: kamida 6 ta belgi, harflar va raqamlar bo‘lsin.",
       "password_mismatch": "Parollar mos kelmadi.",
-      "invalid_code": "Kod noto‘g‘ri. SMS’ni tekshir.",
-      "code_expired": "Kod eskirgan — yangisini so‘ra.",
-      "code_locked": "Urinishlar juda ko‘p. Yangi kod so‘ra.",
-      "invalid_ticket": "Tasdiqlash eskirdi, qaytadan boshlaymiz.",
-      "ticket_expired": "Tasdiqlash eskirdi, qaytadan boshlaymiz.",
-      "invalid_token": "Havola ishlamayapti.",
+      "invalid_code": "Kod noto‘g‘ri. SMS’ni tekshiring.",
+      "code_expired": "Kod muddati o‘tgan — yangisini so‘rang.",
+      "code_locked": "Urinishlar juda ko‘p bo‘ldi. Yangi kod so‘rang.",
+      "invalid_ticket": "Tasdiqlash muddati o‘tdi, keling, qaytadan boshlaymiz.",
+      "ticket_expired": "Tasdiqlash muddati o‘tdi, keling, qaytadan boshlaymiz.",
+      "invalid_token": "Havola yaroqsiz.",
       "used_token": "Bu havoladan allaqachon foydalanilgan.",
-      "expired_token": "Havola eskirgan.",
-      "captcha_failed": "Robot emasligingni tekshirib bo‘lmadi. Yana urinib ko‘r.",
-      "captcha_required": "Robot emasligingni tasdiqla.",
-      "rate_limited": "Urinishlar juda ko‘p. Bir-ikki daqiqa dam ol.",
-      "sms_failed": "SMS ketmadi. Birozdan keyin urinib ko‘r.",
-      "email_unverified": "Avval xatdagi havola orqali pochtangni tasdiqla.",
-      "unauthorized": "Akkauntga kirish kerak.",
-      "invalid_input": "Hammasi to‘g‘ri to‘ldirilganini tekshir.",
-      "signin_after_register": "Akkaunt yaratildi! Xuddi shu parol bilan qo‘lda kir.",
-      "google_unverified": "Google pochtani tasdiqlamadi. Boshqa usulni sinab ko‘r.",
-      "link_required": "Bu pochta bizda bor. Parol bilan kir, keyin profilda Google’ni ulab qo‘y.",
-      "server": "Nimadir xato ketdi. Yana urinib ko‘r.",
-      "network": "Aloqa yo‘q. Internetni tekshir."
+      "expired_token": "Havola muddati o‘tgan.",
+      "captcha_failed": "Robot emasligingizni tekshirib bo‘lmadi. Yana urinib ko‘ring.",
+      "captcha_required": "Robot emasligingizni tasdiqlang.",
+      "rate_limited": "Urinishlar juda ko‘p. Bir-ikki daqiqa kutib turing.",
+      "sms_failed": "SMS yuborilmadi. Birozdan so‘ng urinib ko‘ring.",
+      "email_unverified": "Avval xatdagi havola orqali e-pochtangizni tasdiqlang.",
+      "unauthorized": "Akkauntingizga kirishingiz kerak.",
+      "invalid_input": "Hammasi to‘g‘ri to‘ldirilganini tekshiring.",
+      "signin_after_register": "Akkaunt yaratildi! Endi o‘sha parol bilan kiring.",
+      "google_unverified": "Google e-pochtani tasdiqlamadi. Boshqa usulni sinab ko‘ring.",
+      "link_required": "Bu e-pochta bizda allaqachon bor. Parol bilan kiring, so‘ng profilda Google’ni ulang.",
+      "server": "Nimadir xato ketdi. Yana urinib ko‘ring.",
+      "network": "Internet aloqasi yo‘q. Ulanishni tekshiring."
     },
     "meta": {
       "signin": "Kirish",
@@ -416,37 +416,37 @@
       "resend-verification": "Xatni qayta yuborish"
     },
     "bind": {
-      "title": "<it>Raqamingni</it> qoldir",
-      "lead": "U o‘qituvchi va yordam xizmati o‘qish bo‘yicha sen bilan bog‘lanishi uchun kerak. SMS orqali kod yuboramiz."
+      "title": "<it>Raqamingizni</it> qoldiring",
+      "lead": "O‘qituvchi va yordam xizmati o‘qishingiz bo‘yicha siz bilan bog‘lana olishi uchun kerak. SMS orqali kod yuboramiz."
     }
   },
   "quiz": {
-    "pick": "Mosini tanla",
+    "pick": "Mos javobni tanlang",
     "pickMany": "Bir nechtasini tanlash mumkin",
-    "type": "Javobni yoz",
-    "typePlaceholder": "Javobing",
+    "type": "Javobni yozing",
+    "typePlaceholder": "Javobingiz",
     "next": "Keyingisi",
     "check": "Tekshirish",
     "skip": "Bilmayman — o‘tkazib yuborish",
     "close": "Yopish",
     "counter": "{current} / {total}",
     "sending": "Hisoblanmoqda…",
-    "sendError": "Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘r.",
-    "right": "To‘g‘ri",
-    "yours": "Sening javobing",
-    "empty": "Savollar hali tayyorlanmoqda — birozdan keyin qara."
+    "sendError": "Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring.",
+    "right": "To‘g‘ri javob",
+    "yours": "Sizning javobingiz",
+    "empty": "Savollar hali tayyorlanmoqda — birozdan so‘ng kiring."
   },
   "levelTestPage": {
     "meta": {
-      "title": "Ingliz tili daraja testi — Highgate",
-      "description": "15 daqiqa — va A1 dan C1 gacha ingliz tili darajangni hamda qaysi kursdan boshlashni bilib olasan. Bepul."
+      "title": "Ingliz tili darajasini aniqlash testi — Highgate",
+      "description": "15 daqiqada ingliz tili darajangizni (A1 dan C1 gacha) va qaysi kursdan boshlash kerakligini bilib olasiz. Bepul."
     },
-    "introTitle": "<it>Darajangni</it> aniqlaymiz",
-    "introLead": "{questions} ta savol, taxminan 15 daqiqa. Ro‘yxatdan o‘tmasdan. Javobni bilmasang — bemalol o‘tkazib yubor, natija aniqroq chiqadi.",
+    "introTitle": "<it>Darajangizni</it> aniqlaymiz",
+    "introLead": "{questions} ta savol, taxminan 15 daqiqa. Ro‘yxatdan o‘tish shart emas. Javobini bilmasangiz — bemalol o‘tkazib yuboring, shunda natija aniqroq chiqadi.",
     "start": "Testni boshlash",
     "section": "Bo‘lim: {title}",
-    "readFirst": "Avval matnni o‘qi",
-    "resultKicker": "Tayyor! Darajang, shekilli —",
+    "readFirst": "Avval matnni o‘qing",
+    "resultKicker": "Tayyor! Darajangiz, ehtimol —",
     "score": "{total} tadan {correct} tasi to‘g‘ri",
     "seeCourse": "Kursni ko‘rish",
     "allCourses": "Shu darajadagi kurslar",
@@ -454,32 +454,32 @@
     "results": {
       "A1": {
         "title": "Noldan boshlaymiz — <it>bu ajoyib</it>",
-        "text": "Eng birinchi so‘z va iboralardan boshlaymiz. Hammasini o‘z tilingda tushuntiramiz."
+        "text": "Eng birinchi so‘z va iboralardan boshlaymiz. Hammasini o‘z tilingizda tushuntiramiz."
       },
       "A2": {
-        "title": "Asos bor — <it>gapirish vaqti</it>",
-        "text": "Asoslarni bilasan. Endi uyalishni bas qilib, gapirishni boshlash vaqti."
+        "title": "Asos bor — <it>endi gapirish vaqti</it>",
+        "text": "Asoslarni bilasiz. Endi tortinishni qo‘yib, gapirishni boshlash vaqti keldi."
       },
       "B1": {
-        "title": "Ko‘p narsani tushunasan, lekin <it>zamonlarda adashasan</it>",
-        "text": "Buni tuzatish oson — hammasini joy-joyiga qo‘yamiz."
+        "title": "Ko‘p narsani tushunasiz, lekin <it>zamonlarni chalkashtirasiz</it>",
+        "text": "Buni tuzatish oson — hammasini tartibga solamiz."
       },
       "B2": {
-        "title": "Ishonchli! <it>Erkinlik qo‘shamiz</it>",
-        "text": "Sen gapirasan. Endi — ko‘proq amaliyot va kamroq pauza."
+        "title": "Yaxshi daraja! <it>Endi erkinlik qo‘shamiz</it>",
+        "text": "Siz gapira olasiz. Endi ko‘proq amaliyot va kamroq to‘xtalishlar."
       },
       "C1": {
-        "title": "Voy. <it>Bu yuqori daraja</it>",
-        "text": "Nozikliklar qoldi: IELTS, akademik yozuv, uslub."
+        "title": "Voy! <it>Bu yuqori daraja</it>",
+        "text": "Nozik jihatlar qoldi: IELTS, akademik yozuv, uslub."
       }
     }
   },
   "landingPage": {
-    "formTitle": "Raqamingni qoldir — <it>qo‘ng‘iroq qilamiz</it>",
+    "formTitle": "Raqamingizni qoldiring — <it>qo‘ng‘iroq qilamiz</it>",
     "submit": "Sinab ko‘rmoqchiman",
-    "privacy": "Raqam faqat qo‘ng‘iroq qilish uchun kerak. Hech qanday tarqatma yo‘q.",
+    "privacy": "Raqam faqat qo‘ng‘iroq qilish uchun kerak. Reklama xabarlari yubormaymiz.",
     "afterTitle": "Qo‘ng‘iroqdan keyin nima bo‘ladi",
-    "afterText": "Ingliz tili nimaga kerakligini va qancha vaqting borligini so‘raymiz. Daraja va bepul sinov darsini taklif qilamiz. Qaror — sening qo‘lingda."
+    "afterText": "Ingliz tili sizga nima uchun kerakligini va qancha vaqtingiz borligini so‘raymiz. Darajangizga mos kurs va bepul sinov darsini taklif qilamiz. Qarorni o‘zingiz qabul qilasiz."
   },
   "appNav": {
     "today": "Bugun",
@@ -487,34 +487,34 @@
     "live": "Efirlar",
     "tasks": "Topshiriqlar",
     "profile": "Profil",
-    "stuckTitle": "Mavzuda qotib qoldingmi?",
-    "stuckText": "O‘qituvchiga yoz — keyingi darsda tushuntirib beradi.",
+    "stuckTitle": "Mavzuda qiynaldingizmi?",
+    "stuckText": "Telegram’da bizga yozing — tushunib olishga yordam beramiz.",
     "write": "Yozish",
     "signout": "Chiqish",
-    "nav": "O‘qish bo‘yicha navigatsiya",
+    "nav": "O‘qish bo‘limlari",
     "coursesShort": "Kurslar",
-    "themeDark": "Qorong‘i mavzu",
-    "themeLight": "Yorug‘ mavzu"
+    "themeDark": "Tungi rejim",
+    "themeLight": "Kunduzgi rejim"
   },
   "todayPage": {
     "meta": "Bugun — Highgate",
     "hello": "Salom, {name}! <it>Davom etamizmi?</it>",
     "helloNew": "Salom, {name}! <it>Boshlaymizmi?</it>",
-    "search": "Dars yoki mavzuni topish",
+    "search": "Dars yoki mavzu qidirish",
     "where": {
-      "video": "Sen videodasan",
-      "conspect": "Sen konspektdasan",
+      "video": "Navbatda — video",
+      "conspect": "Navbatda — konspekt",
       "test": "Faqat test qoldi",
       "start": "Yangi dars"
     },
-    "lessonOf": "{total} tadan {n}-dars",
+    "lessonOf": "{n}-dars, jami {total} ta",
     "minutes": "~{min} daq",
     "continue": "Darsni davom ettirish",
     "start": "Darsni boshlash",
-    "examReady": "Modul nazorat ishi",
-    "examText": "Modulning barcha darslari o‘tildi — nima esda qolganini ko‘rsatish vaqti.",
-    "openExam": "Nazorat ishiga",
-    "ofCourse": "kurs o‘tildi",
+    "examReady": "Modul bo‘yicha nazorat ishi",
+    "examText": "Modulning barcha darslari tugadi — endi nimalar esda qolganini ko‘rsatish vaqti.",
+    "openExam": "Nazorat ishiga o‘tish",
+    "ofCourse": "kurs tugallandi",
     "week": "Shu hafta",
     "allLive": "Barcha efirlar",
     "today": "Bugun",
@@ -529,14 +529,14 @@
     "activityHint": "{count} ta harakat",
     "courses": "Kurslar",
     "streak": "kun ketma-ket",
-    "streakZero": "Seriyani boshla — bugun bitta dars",
-    "streakGood": "Bir hafta tanaffussiz. Shunday davom et!",
-    "streakKeep": "Seriyani uzma — ertaga ham kir.",
+    "streakZero": "Bugun bitta dars o‘ting — ketma-ketlik shundan boshlanadi",
+    "streakGood": "Bir hafta tanaffussiz. Barakalla!",
+    "streakKeep": "Ketma-ketlikni uzmang — ertaga ham kiring.",
     "reviewed": "Nazorat ishi tekshirildi · {teacher}",
     "achievements": "Yutuqlar",
     "plan": "{plan} tarifi",
-    "emptyTitle": "Bu yerda <it>kurslaring</it> bo‘ladi",
-    "emptyText": "Katalogdan kurs tanla — to‘lovdan so‘ng darhol shu yerda paydo bo‘ladi. Hozircha sinov darsini o‘tib ko‘rishing mumkin.",
+    "emptyTitle": "Bu yerda <it>kurslaringiz</it> bo‘ladi",
+    "emptyText": "Katalogdan kurs tanlang — to‘lovdan so‘ng u darhol shu yerda paydo bo‘ladi. Hozircha sinov darsini ko‘rishingiz mumkin.",
     "toCatalog": "Kurslarni ko‘rish",
     "toTrial": "Sinov darsi",
     "days": [
@@ -551,47 +551,47 @@
   },
   "programPage": {
     "plan": "{plan} tarifi",
-    "progress": "{total} tadan {done}",
+    "progress": "{done} / {total}",
     "tabProgram": "Dastur",
     "tabAbout": "Kurs haqida",
-    "moduleStatus": "{total} tadan {done}",
-    "moduleDone": "O‘tildi",
-    "moduleLocked": "tez orada",
+    "moduleStatus": "{done} / {total}",
+    "moduleDone": "Tugallandi",
+    "moduleLocked": "keyinroq ochiladi",
     "lessonDone": "Takrorlash",
     "lessonCurrent": "Davom ettirish",
     "lessonStart": "Boshlash",
     "where": {
-      "video": "sen videodasan",
-      "conspect": "sen konspektdasan",
+      "video": "navbatda — video",
+      "conspect": "navbatda — konspekt",
       "test": "faqat test qoldi"
     },
     "lessonN": "{n}-dars",
     "min": "{min} daq",
-    "lockedAfter": "«{title}» ni o‘tganingdan keyin ochiladi",
+    "lockedAfter": "«{title}» darsini tugatganingizdan so‘ng ochiladi",
     "lockedExam": "«{title}» nazorat ishi tekshirilgach ochiladi",
     "lockedModule": "Modul navbati kelganda ochiladi",
-    "exam": "Modul nazorat ishi",
+    "exam": "Modul bo‘yicha nazorat ishi",
     "examPending": "O‘qituvchi tekshirmoqda",
     "examApproved": "Qabul qilindi · {grade}%",
-    "examRejected": "Qayta yozish kerak",
+    "examRejected": "Qayta topshirish kerak",
     "examReady": "Topshirish mumkin",
-    "examLater": "Modulning barcha darslaridan keyin",
+    "examLater": "Modulning barcha darslaridan so‘ng",
     "examOpen": "Topshirish",
     "nextExam": "Keyingi nazorat ishi",
-    "nextExamText": "Modulning barcha darslarini o‘tgach ochiladi. O‘qituvchi tekshiradi — odatda 1–2 kunda.",
-    "upsellTitle": "Jonli darslarni xohlaysanmi?",
-    "upsellText": "Deluxe’da — o‘qituvchi bilan shaxsiy darslar va guruh.",
-    "upsellLink": "Deluxe’ni ko‘rish",
-    "courseDone": "Kurs tugadi! <it>Barakalla</it>",
-    "courseDoneText": "Barcha darslar va nazorat ishlari ortda. Materiallar sen bilan qoladi — takrorlash uchun qayt.",
+    "nextExamText": "Modulning barcha darslarini tugatgach ochiladi. O‘qituvchi tekshiradi — odatda 1–2 kun ichida.",
+    "upsellTitle": "Jonli darslar kerakmi?",
+    "upsellText": "Deluxe tarifida — o‘qituvchi bilan shaxsiy darslar va guruh mashg‘ulotlari.",
+    "upsellLink": "Deluxe haqida",
+    "courseDone": "Kurs tugallandi! <it>Barakalla</it>",
+    "courseDoneText": "Barcha darslar va nazorat ishlari ortda qoldi. Materiallar sizda qoladi — takrorlash uchun istalgan payt qayting.",
     "limitTitle": "Bugunga yetarli — <it>miyaga ham dam kerak</it>",
-    "limitText": "Bepul kirishda kuniga {limit} ta dars. Ertaga davom etamiz yoki cheksiz kirishni och.",
-    "emptyCourse": "Darslar tez orada paydo bo‘ladi — birozdan keyin qara.",
+    "limitText": "Bepul rejimda kuniga {limit} ta dars. Ertaga davom etamiz — yoki to‘liq kirishni oching.",
+    "emptyCourse": "Darslar tez orada qo‘shiladi — birozdan so‘ng kiring.",
     "aboutLessons": "ta dars",
     "aboutModules": "ta modul",
-    "aboutPlan": "sening tarifing",
-    "upgrade": "Ko‘proq xohlaysanmi — tekshiruv yoki o‘qituvchi bilan?",
-    "upgradeText": "Raqamingni qoldir — qo‘ng‘iroq qilib, boshqa tarifga o‘tishga yordam beramiz. Natijang saqlanadi.",
+    "aboutPlan": "sizning tarifingiz",
+    "upgrade": "Ko‘proq kerakmi — tekshiruv yoki o‘qituvchi bilan?",
+    "upgradeText": "Raqamingizni qoldiring — qo‘ng‘iroq qilib, boshqa tarifga o‘tishga yordam beramiz. Natijalaringiz saqlanib qoladi.",
     "outline": "Kurs dasturi"
   },
   "lessonFlow": {
@@ -602,127 +602,127 @@
     },
     "meta": "{n}-dars",
     "metaMin": "{n}-dars · {min} daqiqa",
-    "videoEmpty": "Bu dars uchun video hali tayyorlanmoqda — konspektdan boshla.",
+    "videoEmpty": "Bu dars uchun video hali tayyorlanmoqda — konspektdan boshlang.",
     "notesEmpty": "Bu dars uchun konspekt hali tayyorlanmoqda.",
-    "testEmpty": "Test savollari hali tayyorlanmoqda — birozdan keyin qara.",
-    "toNotes": "Konspektga",
-    "toTest": "Testga · {count} ta savol",
+    "testEmpty": "Test savollari hali tayyorlanmoqda — birozdan so‘ng kiring.",
+    "toNotes": "Konspektga o‘tish",
+    "toTest": "Testga o‘tish · {count} ta savol",
     "finish": "Darsni yakunlash",
     "finishing": "Saqlanmoqda…",
     "nextLesson": "Keyingi dars",
-    "toCourse": "Dasturga",
-    "rewatch": "Video · qayta ko‘rish",
+    "toCourse": "Dasturga qaytish",
+    "rewatch": "Videoni qayta ko‘rish",
     "inLesson": "Bu darsda",
     "askTitle": "Nimadir tushunarsizmi?",
-    "askText": "O‘qituvchidan so‘ra — Telegram’da javob beradi.",
-    "askBtn": "So‘rash",
+    "askText": "Telegram’da bizga yozing — tushuntirib beramiz.",
+    "askBtn": "Yozish",
     "check": "Tekshirish",
     "checking": "Tekshirilmoqda…",
     "next": "Keyingisi",
     "done": "Tayyor",
     "sending": "Hisoblanmoqda…",
     "right": "Ha! Aynan shunday",
-    "wrong": "Deyarli! To‘g‘ri javob yashil bilan belgilangan",
-    "rightText": "To‘g‘ri: {answer}",
-    "calm": "Xatolar qo‘rqinchli emas — testni qayta topshirish mumkin.",
-    "passedTitle": "Mavzu seniki! <it>{grade}%</it>",
-    "passedText": "Dars hisoblandi. Davom etamizmi?",
-    "failedTitle": "Deyarli chiqdi — <it>{grade}%</it>",
-    "failedText": "Dars hisoblanishi uchun {score}% kerak. Konspektga qarab, yana urinib ko‘r.",
+    "wrong": "Oz qoldi! To‘g‘ri javob yashil rangda belgilangan",
+    "rightText": "To‘g‘ri javob: {answer}",
+    "calm": "Xatodan qo‘rqmang — testni qayta topshirish mumkin.",
+    "passedTitle": "Mavzuni o‘zlashtirdingiz! <it>{grade}%</it>",
+    "passedText": "Dars hisobga olindi. Davom etamizmi?",
+    "failedTitle": "Oz qoldi — <it>{grade}%</it>",
+    "failedText": "Dars hisobga olinishi uchun {score}% kerak. Konspektni ko‘zdan kechirib, yana urinib ko‘ring.",
     "correctOf": "{total} tadan {correct} tasi to‘g‘ri",
     "retry": "Qayta topshirish",
     "reviewNotes": "Konspektni ochish",
-    "teacherNote": "O‘qituvchi testingni ko‘rib, nimani kuchaytirish kerakligini yozadi.",
-    "error": "Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘r.",
+    "teacherNote": "O‘qituvchi testingizni ko‘rib chiqib, nimalarga e’tibor berish kerakligini yozadi.",
+    "error": "Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring.",
     "limit": "Bugunga yetarli — miyaga ham dam kerak. Ertaga davom etamiz.",
     "trialBadge": "Sinov darsi",
-    "trialEndTitle": "Qalay? <it>Bu sinov darsi edi</it>",
-    "trialEndText": "Keyingisi — darajalar bo‘yicha to‘liq kurslar. O‘zingnikini tanla yoki darajangni 15 daqiqada bil.",
+    "trialEndTitle": "Qalay bo‘ldi? <it>Bu sinov darsi edi</it>",
+    "trialEndText": "Keyin — darajalar bo‘yicha to‘liq kurslar. O‘zingizga mosini tanlang yoki 15 daqiqada darajangizni aniqlang.",
     "toCourses": "Kurs tanlash",
-    "toLevelTest": "Darajamni bilish",
+    "toLevelTest": "Darajamni aniqlash",
     "nextTrial": "Keyingi dars"
   },
   "examPage": {
-    "kicker": "Modul nazorat ishi",
-    "introTitle": "Nima <it>esda qolganini</it> ko‘rsat",
-    "introText": "«{module}» moduli bo‘yicha {count} ta savol. Yo‘l-yo‘lakay maslahat yo‘q — natijani oxirida ko‘rasan. {score}% kerak.",
+    "kicker": "Modul bo‘yicha nazorat ishi",
+    "introTitle": "Nimalar <it>esda qolganini</it> ko‘rsating",
+    "introText": "«{module}» moduli bo‘yicha {count} ta savol. Jarayonda maslahatlar bo‘lmaydi — natijani oxirida ko‘rasiz. O‘tish uchun {score}% kerak.",
     "start": "Boshlash",
     "next": "Keyingisi",
     "submit": "Topshirish",
     "sending": "Yuborilmoqda…",
     "back": "Orqaga",
-    "error": "Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘r.",
+    "error": "Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring.",
     "score": "{total} tadan {correct} tasi to‘g‘ri · {grade}%",
     "passedTitle": "Topshirildi! <it>{grade}%</it>",
     "failedTitle": "Hozircha yetmadi — <it>{grade}%</it>",
-    "failedText": "{score}% kerak. Modul darslarini takrorlab, yana urinib ko‘r.",
+    "failedText": "{score}% kerak. Modul darslarini takrorlab, yana urinib ko‘ring.",
     "pendingTitle": "<it>O‘qituvchiga</it> yuborildi",
-    "pendingText": "U javoblarni ko‘rib, davom etish mumkinligini hal qiladi. Odatda bir kun ichida.",
+    "pendingText": "Javoblaringizni tekshirib, keyingi bosqichga o‘tish mumkinligini aytishadi. Odatda bu 1–2 kun oladi.",
     "approvedTitle": "Qabul qilindi! <it>Davom etamiz</it>",
-    "rejectedTitle": "O‘qituvchi <it>takrorlashni</it> so‘rayapti",
+    "rejectedTitle": "O‘qituvchi <it>qayta topshirishni</it> so‘rayapti",
     "note": "O‘qituvchi izohi",
     "retry": "Qayta topshirish",
-    "toCourse": "Dasturga",
+    "toCourse": "Dasturga qaytish",
     "empty": "Nazorat ishi savollari hali tayyorlanmoqda."
   },
   "livePage": {
     "meta": "Efirlar — Highgate",
-    "title": "Efirlar — <it>jonli gaplashamiz</it>",
+    "title": "Efirlar — <it>jonli muloqot</it>",
     "liveNow": "Hozir efirda",
-    "startsIn": "{time} dan keyin boshlanadi",
+    "startsIn": "{time} dan so‘ng boshlanadi",
     "minutes": "{count} daq",
     "hours": "{count} soat",
-    "join": "Efirga kirish",
+    "join": "Efirga qo‘shilish",
     "opening": "Ochilmoqda…",
     "watch": "Ko‘rish",
     "recording": "Yozuvni ko‘rish",
     "schedule": "Jadval",
     "records": "O‘tgan efirlar yozuvlari",
-    "emptyTitle": "Hozircha jim — <it>efirlar tez orada</it>",
-    "emptyText": "O‘qituvchi efir qo‘yishi bilan u shu yerda paydo bo‘ladi.",
+    "emptyTitle": "Hozircha jimjit — <it>efirlar tez orada</it>",
+    "emptyText": "O‘qituvchi efirni rejalashtirishi bilan u shu yerda paydo bo‘ladi.",
     "needPlan": "{plan} tarifida mavjud",
-    "needSignIn": "Ko‘rish uchun kir",
+    "needSignIn": "Ko‘rish uchun kiring",
     "openToAll": "Hamma uchun",
     "groupClass": "«{name}» guruhi",
     "duration": "{min} daq",
-    "notStarted": "Efir hali boshlanmadi — vaqtiga yaqin kir.",
+    "notStarted": "Efir hali boshlanmadi — vaqtiga yaqin kiring.",
     "ended": "Efir tugadi.",
     "noRecording": "Bu efirning yozuvi yo‘q.",
     "chatHint": "Efir chati",
     "back": "Barcha efirlar",
-    "joinError": "Efirni ochib bo‘lmadi. Yana urinib ko‘r."
+    "joinError": "Efirni ochib bo‘lmadi. Yana urinib ko‘ring."
   },
   "accountPage": {
     "meta": "Profil — Highgate",
     "since": "{date} dan beri biz bilan",
-    "edit": "O‘zgartirish",
+    "edit": "Tahrirlash",
     "close": "Tayyor",
     "firstName": "Ism",
     "lastName": "Familiya",
-    "email": "Pochta",
+    "email": "E-pochta",
     "save": "Saqlash",
     "saving": "Saqlanmoqda…",
     "saved": "Saqlandi",
-    "saveError": "Saqlab bo‘lmadi. Maydonlarni tekshir.",
-    "lessons": "ta dars o‘tildi",
+    "saveError": "Saqlab bo‘lmadi. Maydonlarni tekshiring.",
+    "lessons": "ta dars tugallandi",
     "streak": "kun ketma-ket",
     "certificates": "ta sertifikat",
     "achievements": "Yutuqlar",
-    "plan": "Sening tarifing",
+    "plan": "Sizning tarifingiz",
     "planLine": "{plan} · {course}",
-    "planNote": "Darslar — abadiy. Tekshiruv va mashg‘ulotlar — tarif muddati davomida.",
-    "noPlan": "Hozircha kurs yo‘q — katalogdan tanla.",
+    "planNote": "Darslar — umrbod. Tekshiruv va mashg‘ulotlar — tarif muddati davomida.",
+    "noPlan": "Hozircha kurs yo‘q — katalogdan tanlang.",
     "settings": {
       "payments": "To‘lovlar",
-      "language": "Sayt va tushuntirish tili",
+      "language": "Sayt va tushuntirishlar tili",
       "theme": "Ko‘rinish",
       "phone": "Telefon",
-      "email": "Pochta",
+      "email": "E-pochta",
       "devices": "Qurilmalar"
     },
     "themes": {
-      "light": "Yorug‘",
-      "dark": "Qorong‘i"
+      "light": "Kunduzgi",
+      "dark": "Tungi"
     },
     "noEmail": "Ulanmagan",
     "noPhone": "Ko‘rsatilmagan",
@@ -732,29 +732,29 @@
     "paymentStatus": {
       "pending": "ko‘rib chiqilmoqda",
       "paid": "to‘langan",
-      "failed": "o‘tmadi",
+      "failed": "amalga oshmadi",
       "cancelled": "bekor qilingan"
     },
     "thisDevice": "Shu qurilma",
     "revoke": "Chiqish",
-    "revokeConfirm": "Bu qurilmadagi seansni yakunlaysanmi?",
+    "revokeConfirm": "Bu qurilmadagi seans yakunlansinmi?",
     "noDevices": "Faol qurilmalar yo‘q."
   },
   "tasksPage": {
     "meta": "Topshiriqlar — Highgate",
     "title": "Topshiriqlar va <it>tekshiruvlar</it>",
-    "waiting": "Seni kutmoqda",
-    "waitingEmpty": "Hammasi topshirildi — ajoyib ish!",
+    "waiting": "Sizni kutmoqda",
+    "waitingEmpty": "Hammasi topshirildi — zo‘r ish!",
     "examReady": "Nazorat ishini topshirish mumkin",
     "reviewing": "O‘qituvchi tekshirmoqda",
-    "history": "Allaqachon topshirilgan",
-    "historyEmpty": "Bu yerda testlaring va nazorat ishlaring paydo bo‘ladi.",
+    "history": "Topshirilganlar",
+    "historyEmpty": "Bu yerda testlaringiz va nazorat ishlaringiz paydo bo‘ladi.",
     "test": "Dars testi",
     "exam": "Nazorat ishi",
-    "passed": "qabul qilindi",
+    "passed": "o‘tdi",
     "failed": "yetmadi",
     "approved": "o‘qituvchi qabul qildi",
-    "rejected": "takrorlashni so‘rayapti",
+    "rejected": "qayta topshirish kerak",
     "pending": "tekshirilmoqda",
     "open": "Ochish"
   },
@@ -764,14 +764,14 @@
       "description": "Highgate yangiliklari: guruhlarga qabul, efirlar, o‘quvchilar natijalari."
     },
     "title": "Maktab <it>yangiliklari</it>",
-    "lead": "Guruhlarga qabul, efirlar, o‘quvchilar natijalari — bizda nima bo‘layotgani haqida hammasi.",
-    "instagram": "Biz Instagramda",
-    "fromInstagram": "Instagramdan",
-    "emptyTitle": "Hozircha <it>jimjitlik</it>",
-    "emptyText": "Hali yangiliklar yo‘q. Birozdan keyin qayta kiring — yoki Instagramda bizga obuna bo‘ling.",
-    "readMore": "O‘qish",
+    "lead": "Guruhlarga qabul, efirlar, o‘quvchilar natijalari — bizdagi barcha yangiliklar.",
+    "instagram": "Biz Instagram’da",
+    "fromInstagram": "Instagram’dan",
+    "emptyTitle": "Hozircha <it>jimjit</it>",
+    "emptyText": "Hali yangiliklar yo‘q. Birozdan so‘ng kiring — yoki Instagram’da bizga obuna bo‘ling.",
+    "readMore": "Batafsil",
     "back": "Barcha yangiliklar",
-    "openPost": "Postni Instagramda ochish",
+    "openPost": "Postni Instagram’da ochish",
     "more": "Boshqa yangiliklar"
   }
 }
