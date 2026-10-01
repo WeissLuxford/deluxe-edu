@@ -25,18 +25,18 @@ export default async function AdminTeachers({ params }: { params: Promise<{ loca
 
   return (
     <div className="space-y-4">
-      <AdminPageHead title="Учителя" subtitle={`Всего ${teachers.length}`} />
+      <AdminPageHead title="Преподаватели" subtitle={`Всего ${teachers.length}`} />
 
       {teachers.length === 0 ? (
         <div className="admin-empty">
-          Учителей пока нет. Назначить роль «Преподаватель» можно на странице студента.
+          Преподавателей пока нет. Назначить роль «Преподаватель» можно на странице студента.
         </div>
       ) : (
         <div className="admin-table-wrap">
           <table className="admin-table">
             <thead>
               <tr>
-                <th>Учитель</th>
+                <th>Преподаватель</th>
                 <th className="num">Групп</th>
                 <th className="num">Студентов</th>
                 <th />

@@ -29,7 +29,7 @@ export default async function AdminTeacherDetail({
         ← К списку учителей
       </Link>
 
-      <AdminPageHead title={teacher.name || 'Учитель'} subtitle={`Групп: ${teacher.groups.length}`} />
+      <AdminPageHead title={teacher.name || 'Преподаватель'} subtitle={`Групп: ${teacher.groups.length}`} />
 
       {teacher.groups.length === 0 ? (
         <div className="admin-empty">У этого учителя пока нет групп.</div>

@@ -26,7 +26,7 @@ export default async function AdminStreams({ params }: { params: Promise<{ local
   return (
     <div className="space-y-4">
       <AdminPageHead
-        title="Трансляции"
+        title="Эфиры"
         subtitle={`Всего ${streams.length}`}
         action={
           <Link href={`/${locale}/admin/streams/new`} className="btn btn-primary">
