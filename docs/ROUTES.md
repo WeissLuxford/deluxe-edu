@@ -10,7 +10,7 @@
 | `/courses` | Courses | ✅ |
 | `/courses/[slug]` | Course | ✅ |
 | `/teachers` | Teachers | ✅ |
-| `/teachers/[slug]` | в стиле крупного блока Teachers | ⬜ (оставляем) |
+| `/teachers/[slug]` | в стиле крупного блока Teachers | ✅ (профили ещё не опубликованы в teachers.json) |
 | `/results` | Results | ✅ |
 | `/certificate` → `/results#certificate`, `/certificate/[serial]` | Results (блок проверки), Certificate | ✅ |
 | `/about` | «О нас и контакты» | ✅ |
