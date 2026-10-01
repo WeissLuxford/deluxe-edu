@@ -1,119 +1,60 @@
 'use client'
 
-import { useState } from 'react'
-import { useTranslations, useLocale } from 'next-intl'
+import { useState, type FormEvent, type ReactNode } from 'react'
 import Link from 'next/link'
-import { Mail } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
+import { Button } from '@/design/components/Button'
+import { Field } from '@/design/components/Bits'
 import Turnstile, { turnstileEnabled } from '@/features/auth/components/Turnstile'
+import { AuthShell, ErrorNote, Step, postJson } from '@/features/auth/ui/kit'
+import s from '@/features/auth/ui/auth.module.css'
 
 export default function ResendVerificationPage() {
-  const t = useTranslations('auth')
-  const tSignup = useTranslations('signup')
-  const tErrors = useTranslations('authErrors')
-  const tForgot = useTranslations('forgot')
+  const t = useTranslations('authFlow')
   const locale = useLocale()
-  const validLocale = ['ru', 'uz', 'en'].includes(locale) ? locale : 'ru'
-
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
+  const [token, setToken] = useState<string | null>(null)
+  const [state, setState] = useState<'idle' | 'loading' | 'sent'>('idle')
   const [error, setError] = useState('')
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const rich = { it: (c: ReactNode) => <span className="it">{c}</span> }
 
-  const captchaReady = !turnstileEnabled() || Boolean(turnstileToken)
-
-  const submit = async (e: React.FormEvent) => {
+  async function submit(e: FormEvent) {
     e.preventDefault()
-    setStatus('loading')
+    setState('loading')
     setError('')
-
-    const res = await fetch('/api/resend-verification', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.trim(), turnstileToken })
-    }).catch(() => null)
-
-    if (!res) {
-      setError(tErrors('network'))
-      setStatus('error')
+    const res = await postJson('/api/resend-verification', { email: email.trim(), turnstileToken: token })
+    if (!res.ok || res.data.delivered === false) {
+      setError(res.ok ? t('signup.emailFailed') : t(`errors.${res.error ?? 'server'}`))
+      setState('idle')
       return
     }
-
-    const data = await res.json().catch(() => ({}))
-
-    if (!res.ok) {
-      setError(tErrors(data.error || 'server'))
-      setStatus('error')
-      return
-    }
-
-    if (data.delivered === false) {
-      setError(tSignup('verifyEmailFailed'))
-      setStatus('error')
-      return
-    }
-
-    setStatus('sent')
+    setState('sent')
   }
 
   return (
-    <main className="auth-shell">
-      <div className="auth-card">
-        <h1 className="auth-title">{t('resend')}</h1>
-
-        {status === 'sent' ? (
-          <div style={{ display: 'grid', gap: '1rem' }}>
-            <div className="alert alert-success" style={{ padding: '1rem', borderRadius: 'var(--radius)' }}>
-              {t('resent')}
-            </div>
-            <Link href={`/${validLocale}/signin`} className="auth-link" style={{ textAlign: 'center' }}>
-              {tForgot('back')}
-            </Link>
-          </div>
-        ) : (
-          <form onSubmit={submit} style={{ display: 'grid', gap: '1.25rem' }}>
-            {error && (
-              <p
-                className="auth-error"
-                style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '0.75rem', borderRadius: 'var(--radius)' }}
-              >
-                {error}
-              </p>
-            )}
-
-            <div>
-              <label className="label" htmlFor="email">{tSignup('emailLabel')}</label>
-              <div style={{ position: 'relative' }}>
-                <Mail
-                  size={20}
-                  style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }}
-                />
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="input"
-                  style={{ paddingLeft: '3rem' }}
-                  placeholder="name@example.com"
-                  autoFocus
-                  required
-                />
-              </div>
-            </div>
-
-            <Turnstile onToken={setTurnstileToken} />
-
-            <button
-              type="submit"
-              className="iridescent vx w-full"
-              disabled={status === 'loading' || !captchaReady}
-            >
-              {status === 'loading' ? tSignup('sending') : t('resend')}
-              <span className="drop-shadow" />
-            </button>
+    <AuthShell title={t.rich('resend.title', rich)} lead={state === 'sent' ? undefined : t('resend.lead')}>
+      {state === 'sent' ? (
+        <Step id="sent">
+          <p className={s.notice}>{t('resend.sent')}</p>
+          <Button href={`/${locale}/signin`} size="lg" block>
+            {t('signup.signin')}
+          </Button>
+        </Step>
+      ) : (
+        <Step id="form">
+          <form className={s.step} onSubmit={submit}>
+            <Field label={t('emailLabel')} type="email" placeholder="name@mail.uz" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" autoFocus required />
+            <Turnstile onToken={setToken} />
+            <ErrorNote message={error} />
+            <Button type="submit" size="lg" block dot disabled={state === 'loading' || !email.includes('@') || (turnstileEnabled() && !token)}>
+              {t('resend.send')}
+            </Button>
           </form>
-        )}
-      </div>
-    </main>
+          <p className={s.muted}>
+            <Link href={`/${locale}/signin`}>{t('forgot.backToSignin')}</Link>
+          </p>
+        </Step>
+      )}
+    </AuthShell>
   )
 }

@@ -16,8 +16,8 @@
 | `/about` | «О нас и контакты» | ✅ |
 | `/contacts` | → редирект на `/about` | ✅ |
 | `/news`, `/news/[slug]` | — | ❓ |
-| `/signup` | SignUp | ⬜ |
-| `/signin`, `/forgot-password`, `/reset-password`, `/resend-verification` | в стиле SignUp | ⬜ |
+| `/signup` | SignUp | ✅ |
+| `/signin`, `/forgot-password`, `/reset-password`, `/resend-verification` | в стиле SignUp | ✅ |
 | `/level-test`, `/level-test/[lesson]` | LevelTest | ⬜ |
 | `/trial-lesson` | Lesson (пробный) | ⬜ |
 | `/free-mock-test`, `/free-mock-test/[lesson]` | — | ❓ |

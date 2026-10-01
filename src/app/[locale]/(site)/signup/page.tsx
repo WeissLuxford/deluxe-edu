@@ -1,415 +1,221 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
-import { useState } from 'react'
-import { useTranslations, useLocale } from 'next-intl'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useState, type FormEvent, type ReactNode } from 'react'
 import Link from 'next/link'
-import { Phone, Mail } from 'lucide-react'
-import PhoneField, { isPhoneComplete } from '@/features/auth/components/PhoneField'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import { useLocale, useTranslations } from 'next-intl'
+import { Button } from '@/design/components/Button'
+import { Field } from '@/design/components/Bits'
+import { PhoneInput, isPhoneComplete } from '@/design/components/PhoneInput'
+import { Segmented } from '@/design/components/Segmented'
 import Turnstile, { turnstileEnabled } from '@/features/auth/components/Turnstile'
+import { emailSignupEnabled } from '@/features/auth/flags'
 import { PHONE_PREFIX, normalizePhone, safeNext } from '@/features/auth/identity'
 import { PASSWORD_PATTERN } from '@/features/auth/password'
-import { NameFields, PasswordFields } from '@/features/auth/components/AccountFields'
-import GoogleButton, { googleEnabled } from '@/features/auth/components/GoogleButton'
-import { emailSignupEnabled } from '@/features/auth/flags'
+import { AuthShell, CodeBoxes, Divider, ErrorNote, GoogleAuthButton, PasswordField, Step, postJson, useCooldown } from '@/features/auth/ui/kit'
+import s from '@/features/auth/ui/auth.module.css'
 
 type Method = 'phone' | 'email'
-type Step = 'method' | 'phone' | 'code' | 'details' | 'emailSent'
+type StepId = 'start' | 'code' | 'password' | 'emailSent'
 
 export default function SignUpPage() {
-  const t = useTranslations('signup')
-  const tMethod = useTranslations('authMethod')
-  const tErrors = useTranslations('authErrors')
+  const t = useTranslations('authFlow')
   const locale = useLocale()
   const router = useRouter()
   const search = useSearchParams()
-
-  const validLocale = ['ru', 'uz', 'en'].includes(locale) ? locale : 'ru'
-  const next = safeNext(search.get('next'), validLocale)
-
-  const showEmail = emailSignupEnabled()
-  const showGoogle = googleEnabled()
-  const onlyPhone = !showEmail && !showGoogle
+  const next = safeNext(search.get('next'), locale)
+  const emailOn = emailSignupEnabled()
 
   const [method, setMethod] = useState<Method>('phone')
-  const [step, setStep] = useState<Step>(onlyPhone ? 'phone' : 'method')
+  const [step, setStep] = useState<StepId>('start')
+  const [name, setName] = useState('')
   const [phone, setPhone] = useState(PHONE_PREFIX)
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
   const [ticket, setTicket] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
   const [password, setPassword] = useState('')
-  const [confirm, setConfirm] = useState('')
+  const [token, setToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [cooldown, setCooldown] = useState(0)
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   const [emailDelivered, setEmailDelivered] = useState(true)
+  const cooldown = useCooldown()
 
-  const captchaReady = !turnstileEnabled() || Boolean(turnstileToken)
+  const rich = { it: (c: ReactNode) => <span className="it">{c}</span> }
+  const captchaReady = !turnstileEnabled() || Boolean(token)
   const passwordOk = PASSWORD_PATTERN.test(password)
-  const mismatch = confirm.length > 0 && password !== confirm
-  const detailsReady =
-    firstName.trim().length > 0 && lastName.trim().length > 0 && passwordOk && password === confirm
 
-  const startCooldown = () => {
-    setCooldown(60)
-    const timer = setInterval(() => {
-      setCooldown(value => {
-        if (value <= 1) {
-          clearInterval(timer)
-          return 0
-        }
-        return value - 1
-      })
-    }, 1000)
-  }
-
-  const show = (key: string) => {
-    setError(tErrors(key))
+  const fail = (code: string | null) => {
+    setError(t(`errors.${code ?? 'server'}`))
     setLoading(false)
   }
 
-  const requestCode = async () => {
+  async function requestCode() {
     setLoading(true)
     setError('')
-
-    const res = await fetch('/api/auth/phone/code', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone: normalizePhone(phone), purpose: 'REGISTER', turnstileToken })
-    }).catch(() => null)
-
-    if (!res) return show('network')
-
-    const data = await res.json().catch(() => ({}))
-    if (!res.ok) return show(data.error || 'server')
-
-    startCooldown()
+    const res = await postJson('/api/auth/phone/code', { phone: normalizePhone(phone), purpose: 'REGISTER', turnstileToken: token })
+    if (!res.ok) return fail(res.error)
+    cooldown.start()
+    setCode('')
     setStep('code')
     setLoading(false)
   }
 
-  const submitCode = async () => {
+  async function verifyCode(e?: FormEvent) {
+    e?.preventDefault()
     setLoading(true)
     setError('')
-
-    const res = await fetch('/api/auth/phone/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone: normalizePhone(phone), purpose: 'REGISTER', code })
-    }).catch(() => null)
-
-    if (!res) return show('network')
-
-    const data = await res.json().catch(() => ({}))
-    if (!res.ok) return show(data.error || 'server')
-
-    setTicket(data.ticket)
-    setStep('details')
+    const res = await postJson('/api/auth/phone/verify', { phone: normalizePhone(phone), purpose: 'REGISTER', code })
+    if (!res.ok) return fail(res.error)
+    setTicket(String(res.data.ticket))
+    setStep('password')
     setLoading(false)
   }
 
-  const register = async () => {
+  async function register(e: FormEvent) {
+    e.preventDefault()
     setLoading(true)
     setError('')
-
-    const res = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        method,
-        phone: method === 'phone' ? normalizePhone(phone) : undefined,
-        ticket: method === 'phone' ? ticket : undefined,
-        email: method === 'email' ? email.trim() : undefined,
-        firstName,
-        lastName,
-        password,
-        confirm,
-        locale: validLocale,
-        turnstileToken
-      })
-    }).catch(() => null)
-
-    if (!res) return show('network')
-
-    const data = await res.json().catch(() => ({}))
-    if (!res.ok) return show(data.error || 'server')
-
-    if (!data.canSignIn) {
-      setEmailDelivered(data.emailDelivered !== false)
+    const res = await postJson('/api/auth/register', {
+      method,
+      phone: method === 'phone' ? normalizePhone(phone) : undefined,
+      ticket: method === 'phone' ? ticket : undefined,
+      email: method === 'email' ? email.trim() : undefined,
+      firstName: name.trim(),
+      password,
+      confirm: password,
+      locale,
+      turnstileToken: token
+    })
+    if (!res.ok) {
+      if (res.error === 'invalid_ticket') setStep('start')
+      return fail(res.error)
+    }
+    if (!res.data.canSignIn) {
+      setEmailDelivered(res.data.emailDelivered !== false)
       setStep('emailSent')
       setLoading(false)
       return
     }
-
-    const result = await signIn('credentials', {
-      identifier: data.identifier,
-      password,
-      redirect: false
-    })
-
-    setLoading(false)
-
-    if (result?.ok) {
+    const signed = await signIn('credentials', { identifier: String(res.data.identifier), password, redirect: false })
+    if (signed?.ok) {
       router.push(next)
       router.refresh()
       return
     }
-
-    setError(tErrors('signin_after_register'))
+    fail('signin_after_register')
   }
 
-  const errorBox = error ? (
-    <div
-      className="auth-error"
-      style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '0.75rem', borderRadius: 'var(--radius)' }}
-    >
-      {error}
-    </div>
-  ) : null
-
-  const title =
-    step === 'code' ? t('verifyTitle') : step === 'details' ? t('detailsTitle') : t('title')
+  const titles: Record<StepId, string> = {
+    start: method === 'email' ? 'signup.emailTitle' : 'signup.title',
+    code: 'signup.codeTitle',
+    password: 'signup.passwordTitle',
+    emailSent: 'signup.emailSentTitle'
+  }
+  const leads: Partial<Record<StepId, string>> = {
+    start: method === 'phone' ? t('signup.lead') : undefined,
+    code: t('codeSentTo', { phone }),
+    password: t('signup.passwordLead')
+  }
 
   return (
-    <main className="auth-shell">
-      <div className="auth-card">
-        <h1 className="auth-title">{title}</h1>
-
-        {errorBox}
-
-        {step === 'method' && (
-          <div style={{ display: 'grid', gap: '1rem' }}>
-            <p className="auth-hint">{tMethod('hint')}</p>
-
-            <button
-              type="button"
-              className="iridescent vx w-full"
-              onClick={() => {
-                setMethod('phone')
-                setStep('phone')
+    <AuthShell title={t.rich(titles[step], rich)} lead={leads[step]}>
+      {step === 'start' && (
+        <Step id={`start-${method}`}>
+          {emailOn && (
+            <Segmented<Method>
+              label={t('phone')}
+              value={method}
+              onChange={m => {
+                setMethod(m)
+                setError('')
               }}
-            >
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Phone size={18} />
-                {tMethod('phone')}
-              </span>
-              <span className="drop-shadow" />
-            </button>
-
-            {showEmail && (
-              <button
-                type="button"
-                className="btn btn-secondary w-full"
-                onClick={() => {
-                  setMethod('email')
-                  setStep('details')
-                }}
-              >
-                <Mail size={18} style={{ marginRight: '0.5rem' }} />
-                {tMethod('email')}
-              </button>
-            )}
-
-            {showGoogle && (
+              tone="white"
+              options={[
+                { value: 'phone', label: t('phone') },
+                { value: 'email', label: t('email') }
+              ]}
+            />
+          )}
+          <form
+            className={s.step}
+            onSubmit={e => {
+              e.preventDefault()
+              if (method === 'phone') requestCode()
+              else register(e)
+            }}
+          >
+            <Field label={t('name')} placeholder={t('namePlaceholder')} value={name} onChange={e => setName(e.target.value)} autoComplete="given-name" maxLength={100} required />
+            {method === 'phone' ? (
+              <PhoneInput label={t('phone')} value={phone} onChange={setPhone} />
+            ) : (
               <>
-                <p className="auth-hint" style={{ textAlign: 'center' }}>{tMethod('or')}</p>
-                <GoogleButton callbackUrl={next} />
+                <Field label={t('emailLabel')} type="email" placeholder="name@mail.uz" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" required />
+                <PasswordField label={t('passwordNew')} value={password} onChange={setPassword} hint={t('passwordHint')} autoComplete="new-password" />
               </>
             )}
+            <Turnstile onToken={setToken} />
+            <ErrorNote message={error} />
+            {method === 'phone' ? (
+              <Button type="submit" size="lg" block dot disabled={loading || !name.trim() || !isPhoneComplete(phone) || !captchaReady}>
+                {loading ? t('signup.sending') : t('signup.sendCode')}
+              </Button>
+            ) : (
+              <Button type="submit" size="lg" block dot disabled={loading || !name.trim() || !email.includes('@') || !passwordOk || !captchaReady}>
+                {loading ? t('signup.creating') : t('signup.create')}
+              </Button>
+            )}
+          </form>
+          <Divider />
+          <GoogleAuthButton callbackUrl={next} />
+          <p className={s.muted}>
+            {t('signup.haveAccount')} <Link href={`/${locale}/signin?next=${encodeURIComponent(next)}`}>{t('signup.signin')}</Link>
+          </p>
+        </Step>
+      )}
 
-            <p className="auth-note">
-              {t('haveAccount')}{' '}
-              <Link href={`/${validLocale}/signin?next=${encodeURIComponent(next)}`} className="auth-link">
-                {t('signIn')}
-              </Link>
-            </p>
-          </div>
-        )}
-
-        {step === 'phone' && (
-          <form
-            onSubmit={e => {
-              e.preventDefault()
-              requestCode()
-            }}
-            style={{ display: 'grid', gap: '1.25rem' }}
-          >
-            <div>
-              <PhoneField value={phone} onChange={setPhone} label={t('phone')} autoFocus />
-              <p className="auth-hint" style={{ marginTop: '0.5rem' }}>{t('codeSent')}</p>
-            </div>
-
-            <Turnstile onToken={setTurnstileToken} />
-
-            <button
-              type="submit"
-              className="iridescent vx w-full"
-              disabled={loading || !isPhoneComplete(phone) || !captchaReady}
-            >
-              {loading ? t('sending') : t('sendCode')}
-              <span className="drop-shadow" />
-            </button>
-
-            {!onlyPhone && (
-              <button type="button" className="btn-ghost" onClick={() => setStep('method')} disabled={loading}>
-                {t('back')}
+      {step === 'code' && (
+        <Step id="code">
+          <form className={s.step} onSubmit={verifyCode}>
+            <CodeBoxes label={t('code')} value={code} onChange={setCode} />
+            <div className={s.row}>
+              <button type="button" className={s.link} disabled={cooldown.left > 0 || loading} onClick={requestCode}>
+                {cooldown.left > 0 ? t('resendIn', { seconds: String(cooldown.left).padStart(2, '0') }) : t('resend')}
               </button>
-            )}
-
-            <p className="auth-note">
-              {t('haveAccount')}{' '}
-              <Link href={`/${validLocale}/signin?next=${encodeURIComponent(next)}`} className="auth-link">
-                {t('signIn')}
-              </Link>
-            </p>
-          </form>
-        )}
-
-        {step === 'code' && (
-          <form
-            onSubmit={e => {
-              e.preventDefault()
-              submitCode()
-            }}
-            style={{ display: 'grid', gap: '1.25rem' }}
-          >
-            <div>
-              <label className="label" htmlFor="code">{t('code')}</label>
-              <input
-                id="code"
-                type="text"
-                inputMode="numeric"
-                placeholder={t('codePlaceholder')}
-                value={code}
-                onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="input auth-code-input"
-                style={{ textAlign: 'center' }}
-                maxLength={6}
-                autoFocus
-                required
-              />
-              <p className="auth-hint" style={{ marginTop: '0.5rem', textAlign: 'center' }}>
-                {t('codeSentTo', { phone })}
-              </p>
+              <button type="button" className={s.link} onClick={() => setStep('start')}>
+                {t('changeNumber')}
+              </button>
             </div>
-
-            <button type="submit" className="iridescent vx w-full" disabled={loading || code.length !== 6}>
-              {loading ? t('verifying') : t('verifyCode')}
-              <span className="drop-shadow" />
-            </button>
-
-            <button
-              type="button"
-              className="auth-link"
-              onClick={requestCode}
-              disabled={loading || cooldown > 0}
-            >
-              {cooldown > 0 ? t('resendIn', { seconds: cooldown }) : t('resendCode')}
-            </button>
-
-            <button type="button" className="btn-ghost" onClick={() => setStep('phone')} disabled={loading}>
-              {t('changeNumber')}
-            </button>
+            <ErrorNote message={error} />
+            <Button type="submit" size="lg" block dot disabled={loading || code.length !== 6}>
+              {loading ? t('signup.verifying') : t('signup.verify')}
+            </Button>
           </form>
-        )}
+        </Step>
+      )}
 
-        {step === 'details' && (
-          <form
-            onSubmit={e => {
-              e.preventDefault()
-              register()
-            }}
-            style={{ display: 'grid', gap: '1.25rem' }}
-          >
-            <NameFields
-              firstName={firstName}
-              lastName={lastName}
-              onFirstName={setFirstName}
-              onLastName={setLastName}
-              labels={{ firstName: t('firstName'), lastName: t('lastName') }}
-            />
-
-            {method === 'email' && (
-              <div>
-                <label className="label" htmlFor="email">{t('emailLabel')}</label>
-                <div style={{ position: 'relative' }}>
-                  <Mail
-                    size={20}
-                    style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }}
-                  />
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    className="input"
-                    style={{ paddingLeft: '3rem' }}
-                    placeholder="name@example.com"
-                    required
-                  />
-                </div>
-              </div>
-            )}
-
-            <PasswordFields
-              password={password}
-              confirm={confirm}
-              onPassword={setPassword}
-              onConfirm={setConfirm}
-              labels={{
-                password: t('password'),
-                passwordPlaceholder: t('passwordPlaceholder'),
-                confirm: t('confirm'),
-                confirmPlaceholder: t('confirmPlaceholder'),
-                hint: t('passwordHint'),
-                mismatch: t('mismatch')
-              }}
-              showHint={password.length > 0 && !passwordOk}
-              showMismatch={mismatch}
-            />
-
-            {method === 'email' && <Turnstile onToken={setTurnstileToken} />}
-
-            <button
-              type="submit"
-              className="iridescent vx w-full"
-              disabled={loading || !detailsReady || (method === 'email' && (!captchaReady || !email.trim()))}
-            >
-              {loading ? t('creating') : t('create')}
-              <span className="drop-shadow" />
-            </button>
-
-            <button
-              type="button"
-              className="btn-ghost"
-              onClick={() => setStep(method === 'email' ? 'method' : 'code')}
-              disabled={loading}
-            >
-              {t('back')}
-            </button>
+      {step === 'password' && (
+        <Step id="password">
+          <form className={s.step} onSubmit={register}>
+            <PasswordField label={t('passwordNew')} value={password} onChange={setPassword} hint={t('passwordHint')} autoComplete="new-password" autoFocus />
+            <ErrorNote message={error} />
+            <Button type="submit" size="lg" block arrow disabled={loading || !passwordOk}>
+              {loading ? t('signup.creating') : t('signup.create')}
+            </Button>
           </form>
-        )}
+        </Step>
+      )}
 
-        {step === 'emailSent' && (
-          <div style={{ display: 'grid', gap: '1rem' }}>
-            <div
-              className={emailDelivered ? 'alert alert-success' : 'alert alert-error'}
-              style={{ padding: '1rem', borderRadius: 'var(--radius)' }}
-            >
-              {emailDelivered ? t('verifyEmailSent', { email }) : t('verifyEmailFailed')}
-            </div>
-            <p className="auth-hint">{emailDelivered ? t('verifyEmailHint') : t('verifyEmailFailedHint')}</p>
-            <Link href={`/${validLocale}/signin`} className="iridescent vx w-full" style={{ textAlign: 'center' }}>
-              {t('signIn')}
-              <span className="drop-shadow" />
-            </Link>
-          </div>
-        )}
-      </div>
-    </main>
+      {step === 'emailSent' && (
+        <Step id="emailSent">
+          <p className={[s.notice, !emailDelivered && s.noticeWarn].filter(Boolean).join(' ')}>
+            {emailDelivered ? t('signup.emailSent', { email }) : t('signup.emailFailed')}
+          </p>
+          <Button href={`/${locale}/signin`} size="lg" block>
+            {t('signup.signin')}
+          </Button>
+        </Step>
+      )}
+    </AuthShell>
   )
 }

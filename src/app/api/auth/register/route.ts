@@ -36,7 +36,8 @@ export async function POST(request: NextRequest) {
   const confirm = String(body.confirm || '')
   const locale = LOCALES.includes(String(body.locale)) ? String(body.locale) : 'ru'
 
-  if (!firstName || !lastName || firstName.length > 100 || lastName.length > 100) {
+  // The design asks only for a first name; a last name is still accepted if sent.
+  if (!firstName || firstName.length > 100 || lastName.length > 100) {
     return fail('invalid_input', 400)
   }
 
@@ -45,8 +46,8 @@ export async function POST(request: NextRequest) {
 
   const common = {
     firstName,
-    lastName,
-    name: `${firstName} ${lastName}`,
+    lastName: lastName || null,
+    name: [firstName, lastName].filter(Boolean).join(' '),
     role: 'STUDENT' as const,
     locale,
     passwordHash: await hashPassword(password),

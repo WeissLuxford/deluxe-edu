@@ -1,64 +1,45 @@
-import Link from 'next/link'
+import type { ReactNode } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { prisma } from '@/lib/db'
-import ResetPasswordForm from '@/features/auth/components/ResetPasswordForm'
+import { Button } from '@/design/components/Button'
+import { ResetForm } from '@/features/auth/ui/ResetForm'
+import s from '@/features/auth/ui/auth.module.css'
 
 export const dynamic = 'force-dynamic'
+export const metadata = { robots: { index: false, follow: false } }
 
-export const metadata = {
-  robots: { index: false, follow: false }
-}
+type Props = { params: Promise<{ locale: string }>; searchParams: Promise<{ token?: string }> }
 
-export default async function ResetPasswordPage({
-  params,
-  searchParams
-}: {
-  params: Promise<{ locale: string }>
-  searchParams: Promise<{ token?: string }>
-}) {
+export default async function ResetPasswordPage({ params, searchParams }: Props) {
   const { locale } = await params
   const { token } = await searchParams
-  const t = await getTranslations('reset')
+  const t = await getTranslations({ locale, namespace: 'authFlow' })
+  const rich = { it: (c: ReactNode) => <span className="it">{c}</span> }
 
   const record = token
-    ? await prisma.verificationToken.findUnique({
-        where: { token },
-        select: { purpose: true, usedAt: true, expiresAt: true }
-      })
+    ? await prisma.verificationToken.findUnique({ where: { token }, select: { purpose: true, usedAt: true, expiresAt: true } })
     : null
 
-  let problem: string | null = null
-
-  if (!record || record.purpose !== 'PASSWORD_RESET') problem = 'invalidLink'
-  else if (record.usedAt) problem = 'usedLink'
-  else if (record.expiresAt < new Date()) problem = 'expiredLink'
-
-  if (problem) {
-    return (
-      <main className="auth-shell">
-        <div className="auth-card">
-          <h1 className="auth-title">{t('title')}</h1>
-          <p
-            className="auth-error"
-            style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '0.75rem', borderRadius: 'var(--radius)' }}
-          >
-            {t(problem)}
-          </p>
-          <Link href={`/${locale}/forgot-password`} className="iridescent vx w-full" style={{ textAlign: 'center' }}>
-            {t('requestAgain')}
-            <span className="drop-shadow" />
-          </Link>
-        </div>
-      </main>
-    )
-  }
+  let problem: 'invalid' | 'used' | 'expired' | null = null
+  if (!record || record.purpose !== 'PASSWORD_RESET') problem = 'invalid'
+  else if (record.usedAt) problem = 'used'
+  else if (record.expiresAt < new Date()) problem = 'expired'
 
   return (
-    <main className="auth-shell">
-      <div className="auth-card">
-        <h1 className="auth-title">{t('title')}</h1>
-        <ResetPasswordForm token={token as string} locale={locale} />
+    <div className={s.shell}>
+      <div className={s.head}>
+        <h1 className={s.title}>{t.rich('reset.title', rich)}</h1>
       </div>
-    </main>
+      {problem ? (
+        <div className={s.step}>
+          <p className={`${s.notice} ${s.noticeWarn}`}>{t(`reset.${problem}`)}</p>
+          <Button href={`/${locale}/forgot-password`} size="lg" block dot>
+            {t('reset.again')}
+          </Button>
+        </div>
+      ) : (
+        <ResetForm token={token as string} />
+      )}
+    </div>
   )
 }

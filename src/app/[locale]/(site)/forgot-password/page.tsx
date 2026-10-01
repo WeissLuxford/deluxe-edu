@@ -1,341 +1,182 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
-import { useState } from 'react'
-import { useTranslations, useLocale } from 'next-intl'
-import { useRouter } from 'next/navigation'
+import { useState, type FormEvent, type ReactNode } from 'react'
 import Link from 'next/link'
-import { Mail } from 'lucide-react'
-import PhoneField, { isPhoneComplete } from '@/features/auth/components/PhoneField'
+import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import { useLocale, useTranslations } from 'next-intl'
+import { Button } from '@/design/components/Button'
+import { Field } from '@/design/components/Bits'
+import { PhoneInput, isPhoneComplete } from '@/design/components/PhoneInput'
+import { Segmented } from '@/design/components/Segmented'
 import Turnstile, { turnstileEnabled } from '@/features/auth/components/Turnstile'
+import { emailSignupEnabled } from '@/features/auth/flags'
 import { PHONE_PREFIX, normalizePhone } from '@/features/auth/identity'
 import { PASSWORD_PATTERN } from '@/features/auth/password'
-import { PasswordFields } from '@/features/auth/components/AccountFields'
-import { emailSignupEnabled } from '@/features/auth/flags'
+import { AuthShell, CodeBoxes, ErrorNote, PasswordField, Step, postJson, useCooldown } from '@/features/auth/ui/kit'
+import s from '@/features/auth/ui/auth.module.css'
 
-type Tab = 'phone' | 'email'
-type Step = 'request' | 'code' | 'password' | 'emailSent'
+type Via = 'phone' | 'email'
+type StepId = 'request' | 'code' | 'password' | 'emailSent'
 
 export default function ForgotPasswordPage() {
-  const t = useTranslations('forgot')
-  const tSignup = useTranslations('signup')
-  const tErrors = useTranslations('authErrors')
+  const t = useTranslations('authFlow')
   const locale = useLocale()
   const router = useRouter()
-  const validLocale = ['ru', 'uz', 'en'].includes(locale) ? locale : 'ru'
+  const emailOn = emailSignupEnabled()
 
-  const [tab, setTab] = useState<Tab>('phone')
-  const [step, setStep] = useState<Step>('request')
+  const [via, setVia] = useState<Via>('phone')
+  const [step, setStep] = useState<StepId>('request')
   const [phone, setPhone] = useState(PHONE_PREFIX)
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
   const [ticket, setTicket] = useState('')
   const [password, setPassword] = useState('')
-  const [confirm, setConfirm] = useState('')
+  const [token, setToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [cooldown, setCooldown] = useState(0)
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const cooldown = useCooldown()
 
-  const captchaReady = !turnstileEnabled() || Boolean(turnstileToken)
-  const passwordOk = PASSWORD_PATTERN.test(password)
-
-  const show = (key: string) => {
-    setError(tErrors(key))
+  const rich = { it: (c: ReactNode) => <span className="it">{c}</span> }
+  const captchaReady = !turnstileEnabled() || Boolean(token)
+  const fail = (code: string | null) => {
+    setError(t(`errors.${code ?? 'server'}`))
     setLoading(false)
   }
 
-  const startCooldown = () => {
-    setCooldown(60)
-    const timer = setInterval(() => {
-      setCooldown(value => {
-        if (value <= 1) {
-          clearInterval(timer)
-          return 0
-        }
-        return value - 1
-      })
-    }, 1000)
-  }
-
-  const requestPhoneCode = async () => {
+  async function requestCode() {
     setLoading(true)
     setError('')
-
-    const res = await fetch('/api/auth/phone/code', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone: normalizePhone(phone), purpose: 'RESET', turnstileToken })
-    }).catch(() => null)
-
-    if (!res) return show('network')
-
-    const data = await res.json().catch(() => ({}))
-    if (!res.ok) return show(data.error || 'server')
-
-    startCooldown()
+    const res = await postJson('/api/auth/phone/code', { phone: normalizePhone(phone), purpose: 'RESET', turnstileToken: token })
+    if (!res.ok) return fail(res.error)
+    cooldown.start()
+    setCode('')
     setStep('code')
     setLoading(false)
   }
 
-  const submitCode = async () => {
+  async function requestEmail() {
     setLoading(true)
     setError('')
-
-    const res = await fetch('/api/auth/phone/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone: normalizePhone(phone), purpose: 'RESET', code })
-    }).catch(() => null)
-
-    if (!res) return show('network')
-
-    const data = await res.json().catch(() => ({}))
-    if (!res.ok) return show(data.error || 'server')
-
-    setTicket(data.ticket)
-    setStep('password')
-    setLoading(false)
-  }
-
-  const requestEmailLink = async () => {
-    setLoading(true)
-    setError('')
-
-    const res = await fetch('/api/auth/password/forgot', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.trim(), turnstileToken })
-    }).catch(() => null)
-
-    if (!res) return show('network')
-
-    const data = await res.json().catch(() => ({}))
-    if (!res.ok) return show(data.error || 'server')
-
+    const res = await postJson('/api/auth/password/forgot', { email: email.trim(), turnstileToken: token })
+    if (!res.ok) return fail(res.error)
     setStep('emailSent')
     setLoading(false)
   }
 
-  const savePassword = async () => {
+  async function verifyCode(e: FormEvent) {
+    e.preventDefault()
     setLoading(true)
     setError('')
-
-    const res = await fetch('/api/auth/password/reset', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ticket, password, confirm })
-    }).catch(() => null)
-
-    if (!res) return show('network')
-
-    const data = await res.json().catch(() => ({}))
-    if (!res.ok) return show(data.error || 'server')
-
-    const result = await signIn('credentials', {
-      identifier: data.identifier,
-      password,
-      redirect: false
-    })
-
+    const res = await postJson('/api/auth/phone/verify', { phone: normalizePhone(phone), purpose: 'RESET', code })
+    if (!res.ok) return fail(res.error)
+    setTicket(String(res.data.ticket))
+    setStep('password')
     setLoading(false)
+  }
 
-    if (result?.ok) {
-      router.push(`/${validLocale}/learn`)
-      router.refresh()
-      return
-    }
+  async function save(e: FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    const res = await postJson('/api/auth/password/reset', { ticket, password, confirm: password })
+    if (!res.ok) return fail(res.error)
+    const signed = await signIn('credentials', { identifier: String(res.data.identifier), password, redirect: false })
+    router.push(signed?.ok ? `/${locale}/learn` : `/${locale}/signin`)
+    router.refresh()
+  }
 
-    router.push(`/${validLocale}/signin`)
+  const titles: Record<StepId, string> = {
+    request: 'forgot.title',
+    code: 'forgot.codeTitle',
+    password: 'forgot.passwordTitle',
+    emailSent: 'forgot.emailSentTitle'
   }
 
   return (
-    <main className="auth-shell">
-      <div className="auth-card">
-        <h1 className="auth-title">{t('title')}</h1>
-
-        {error && (
-          <p
-            className="auth-error"
-            style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '0.75rem', borderRadius: 'var(--radius)' }}
-          >
-            {error}
-          </p>
-        )}
-
-        {step === 'request' && (
-          <div style={{ display: 'grid', gap: '1.25rem' }}>
-            <p className="auth-hint">{t('lead')}</p>
-
-            {emailSignupEnabled() && (
-              <div className="auth-grid2">
-                <button
-                  type="button"
-                  className={tab === 'phone' ? 'iridescent vx w-full' : 'btn-ghost'}
-                  onClick={() => setTab('phone')}
-                >
-                  {t('byPhone')}
-                  {tab === 'phone' && <span className="drop-shadow" />}
-                </button>
-                <button
-                  type="button"
-                  className={tab === 'email' ? 'iridescent vx w-full' : 'btn-ghost'}
-                  onClick={() => setTab('email')}
-                >
-                  {t('byEmail')}
-                  {tab === 'email' && <span className="drop-shadow" />}
-                </button>
-              </div>
-            )}
-
-            {tab === 'phone' ? (
-              <form
-                onSubmit={e => {
-                  e.preventDefault()
-                  requestPhoneCode()
-                }}
-                style={{ display: 'grid', gap: '1.25rem' }}
-              >
-                <PhoneField value={phone} onChange={setPhone} label={tSignup('phone')} autoFocus />
-                <Turnstile onToken={setTurnstileToken} />
-                <button
-                  type="submit"
-                  className="iridescent vx w-full"
-                  disabled={loading || !isPhoneComplete(phone) || !captchaReady}
-                >
-                  {loading ? tSignup('sending') : t('send')}
-                  <span className="drop-shadow" />
-                </button>
-              </form>
-            ) : (
-              <form
-                onSubmit={e => {
-                  e.preventDefault()
-                  requestEmailLink()
-                }}
-                style={{ display: 'grid', gap: '1.25rem' }}
-              >
-                <div>
-                  <label className="label" htmlFor="email">{tSignup('emailLabel')}</label>
-                  <div style={{ position: 'relative' }}>
-                    <Mail
-                      size={20}
-                      style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }}
-                    />
-                    <input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      className="input"
-                      style={{ paddingLeft: '3rem' }}
-                      placeholder="name@example.com"
-                      autoFocus
-                      required
-                    />
-                  </div>
-                </div>
-                <Turnstile onToken={setTurnstileToken} />
-                <button type="submit" className="iridescent vx w-full" disabled={loading || !captchaReady}>
-                  {loading ? tSignup('sending') : t('send')}
-                  <span className="drop-shadow" />
-                </button>
-              </form>
-            )}
-
-            <p className="auth-note">
-              <Link href={`/${validLocale}/signin`} className="auth-link">{t('back')}</Link>
-            </p>
-          </div>
-        )}
-
-        {step === 'code' && (
-          <form
-            onSubmit={e => {
-              e.preventDefault()
-              submitCode()
-            }}
-            style={{ display: 'grid', gap: '1.25rem' }}
-          >
-            <div>
-              <label className="label" htmlFor="code">{tSignup('code')}</label>
-              <input
-                id="code"
-                type="text"
-                inputMode="numeric"
-                placeholder={tSignup('codePlaceholder')}
-                value={code}
-                onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="input"
-                style={{ textAlign: 'center', fontSize: '1.5rem', letterSpacing: '0.5rem' }}
-                maxLength={6}
-                autoFocus
-                required
-              />
-              <p className="auth-hint" style={{ marginTop: '0.5rem', textAlign: 'center' }}>
-                {tSignup('codeSentTo', { phone })}
-              </p>
-            </div>
-
-            <button type="submit" className="iridescent vx w-full" disabled={loading || code.length !== 6}>
-              {loading ? tSignup('verifying') : tSignup('verifyCode')}
-              <span className="drop-shadow" />
-            </button>
-
-            <button type="button" className="auth-link" onClick={requestPhoneCode} disabled={loading || cooldown > 0}>
-              {cooldown > 0 ? tSignup('resendIn', { seconds: cooldown }) : tSignup('resendCode')}
-            </button>
-          </form>
-        )}
-
-        {step === 'password' && (
-          <form
-            onSubmit={e => {
-              e.preventDefault()
-              savePassword()
-            }}
-            style={{ display: 'grid', gap: '1.25rem' }}
-          >
-            <PasswordFields
-              password={password}
-              confirm={confirm}
-              onPassword={setPassword}
-              onConfirm={setConfirm}
-              labels={{
-                password: t('newPassword'),
-                passwordPlaceholder: tSignup('passwordPlaceholder'),
-                confirm: tSignup('confirm'),
-                confirmPlaceholder: tSignup('confirmPlaceholder'),
-                hint: tSignup('passwordHint'),
-                mismatch: tSignup('mismatch')
+    <AuthShell title={t.rich(titles[step], rich)} lead={step === 'request' ? t('forgot.lead') : step === 'code' ? t('codeSentTo', { phone }) : undefined}>
+      {step === 'request' && (
+        <Step id={`request-${via}`}>
+          {emailOn && (
+            <Segmented<Via>
+              label={t('forgot.lead')}
+              value={via}
+              onChange={v => {
+                setVia(v)
+                setError('')
               }}
-              showHint={password.length > 0 && !passwordOk}
-              showMismatch={confirm.length > 0 && password !== confirm}
+              tone="white"
+              options={[
+                { value: 'phone', label: t('phone') },
+                { value: 'email', label: t('email') }
+              ]}
             />
-
-            <button
-              type="submit"
-              className="iridescent vx w-full"
-              disabled={loading || !passwordOk || password !== confirm}
-            >
-              {loading ? tSignup('creating') : t('save')}
-              <span className="drop-shadow" />
-            </button>
+          )}
+          <form
+            className={s.step}
+            onSubmit={e => {
+              e.preventDefault()
+              if (via === 'phone') requestCode()
+              else requestEmail()
+            }}
+          >
+            {via === 'phone' ? (
+              <PhoneInput label={t('phone')} value={phone} onChange={setPhone} autoFocus />
+            ) : (
+              <Field label={t('emailLabel')} type="email" placeholder="name@mail.uz" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" autoFocus required />
+            )}
+            <Turnstile onToken={setToken} />
+            <ErrorNote message={error} />
+            <Button type="submit" size="lg" block dot disabled={loading || !captchaReady || (via === 'phone' ? !isPhoneComplete(phone) : !email.includes('@'))}>
+              {t('forgot.send')}
+            </Button>
           </form>
-        )}
+          <p className={s.muted}>
+            <Link href={`/${locale}/signin`}>{t('forgot.backToSignin')}</Link>
+          </p>
+        </Step>
+      )}
 
-        {step === 'emailSent' && (
-          <div style={{ display: 'grid', gap: '1rem' }}>
-            <div className="alert alert-success" style={{ padding: '1rem', borderRadius: 'var(--radius)' }}>
-              {t('sent')}
+      {step === 'code' && (
+        <Step id="code">
+          <form className={s.step} onSubmit={verifyCode}>
+            <CodeBoxes label={t('code')} value={code} onChange={setCode} />
+            <div className={s.row}>
+              <button type="button" className={s.link} disabled={cooldown.left > 0 || loading} onClick={requestCode}>
+                {cooldown.left > 0 ? t('resendIn', { seconds: String(cooldown.left).padStart(2, '0') }) : t('resend')}
+              </button>
+              <button type="button" className={s.link} onClick={() => setStep('request')}>
+                {t('changeNumber')}
+              </button>
             </div>
-            <p className="auth-hint">{t('sentEmailHint')}</p>
-            <Link href={`/${validLocale}/signin`} className="auth-link" style={{ textAlign: 'center' }}>
-              {t('back')}
-            </Link>
-          </div>
-        )}
-      </div>
-    </main>
+            <ErrorNote message={error} />
+            <Button type="submit" size="lg" block dot disabled={loading || code.length !== 6}>
+              {t('signup.verify')}
+            </Button>
+          </form>
+        </Step>
+      )}
+
+      {step === 'password' && (
+        <Step id="password">
+          <form className={s.step} onSubmit={save}>
+            <PasswordField label={t('passwordNew')} value={password} onChange={setPassword} hint={t('passwordHint')} autoComplete="new-password" autoFocus />
+            <ErrorNote message={error} />
+            <Button type="submit" size="lg" block arrow disabled={loading || !PASSWORD_PATTERN.test(password)}>
+              {t('forgot.save')}
+            </Button>
+          </form>
+        </Step>
+      )}
+
+      {step === 'emailSent' && (
+        <Step id="emailSent">
+          <p className={s.notice}>{t('forgot.emailSent')}</p>
+          <Button href={`/${locale}/signin`} size="lg" block variant="ghost">
+            {t('forgot.backToSignin')}
+          </Button>
+        </Step>
+      )}
+    </AuthShell>
   )
 }
