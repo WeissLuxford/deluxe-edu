@@ -1,68 +1,51 @@
-import { redirect, notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
-import { getCourseTree } from '@/features/learn/progress'
 import { isHardGated } from '@/features/learn/groupGate'
-import { ExamPlayer } from '@/features/courses/components/ExamPlayer'
+import { getCourseTree } from '@/features/learn/progress'
+import { ExamView } from '@/features/lesson/ExamView'
+import { readQuestions } from '@/features/quiz/questions'
 
-export default async function ModuleExamPage({
-  params
-}: {
-  params: Promise<{ locale: string; slug: string; moduleId: string }>
-}) {
+type Props = { params: Promise<{ locale: string; slug: string; moduleId: string }> }
+
+export default async function ModuleExamPage({ params }: Props) {
   const { locale, slug, moduleId } = await params
-
   const session = await getServerSession(authOptions)
-  if (!session?.user?.id) {
-    redirect(`/${locale}/signin?next=/${locale}/learn/${slug}/exam/${moduleId}`)
-  }
+  const userId = session!.user.id
 
-  const tree = await getCourseTree(session.user.id, slug, locale)
+  const tree = await getCourseTree(userId, slug, locale)
   if (!tree) redirect(`/${locale}/courses/${slug}`)
 
   const mod = tree.modules.find(m => m.id === moduleId)
-  if (!mod || !mod.exam) notFound()
+  if (!mod?.exam) notFound()
+  if (!(mod.total > 0 && mod.done === mod.total)) redirect(`/${locale}/learn/${slug}`)
 
-  const moduleDone = mod.total > 0 && mod.done === mod.total
-  if (!moduleDone) redirect(`/${locale}/learn/${slug}`)
-
-  const exam = await prisma.exam.findUnique({
-    where: { id: mod.exam.id },
-    select: { id: true, title: true, prompt: true, passingScore: true }
-  })
+  const [exam, prior, hardGated] = await Promise.all([
+    prisma.exam.findUnique({ where: { id: mod.exam.id }, select: { id: true, prompt: true, passingScore: true } }),
+    prisma.examAttempt.findFirst({
+      where: { examId: mod.exam.id, userId },
+      orderBy: { submittedAt: 'desc' },
+      select: { grade: true, correct: true, total: true, reviewStatus: true, reviewNote: true }
+    }),
+    isHardGated(userId)
+  ])
   if (!exam) notFound()
 
-  const priorAttempt = await prisma.examAttempt.findFirst({
-    where: { examId: exam.id, userId: session.user.id },
-    orderBy: { submittedAt: 'desc' },
-    select: { grade: true, correct: true, total: true, reviewStatus: true, reviewNote: true }
-  })
-
-  const hardGated = await isHardGated(session.user.id)
-
   return (
-    <div className="lesson-player">
-      <header className="lesson-player__head">
-        <div className="lesson-player__meta">
-          <span className="lesson-player__module">{mod.title}</span>
-          <h1 className="lesson-player__title">{mod.exam.title}</h1>
-        </div>
-      </header>
-
-      <div className="lesson-player__body">
-        <ExamPlayer
-          examId={exam.id}
-          title={mod.exam.title}
-          prompt={exam.prompt}
-          passingScore={exam.passingScore}
-          courseSlug={tree.slug}
-          moduleTitle={mod.title}
-          hardGated={hardGated}
-          priorAttempt={priorAttempt}
-          locale={locale}
-        />
-      </div>
-    </div>
+    <ExamView
+      examId={exam.id}
+      title={mod.exam.title}
+      moduleTitle={mod.title}
+      passingScore={exam.passingScore}
+      questions={readQuestions(exam.prompt, locale)}
+      hardGated={hardGated}
+      prior={
+        prior
+          ? { grade: prior.grade, correct: prior.correct, total: prior.total, passed: prior.grade >= exam.passingScore, reviewStatus: prior.reviewStatus, note: prior.reviewNote }
+          : null
+      }
+      courseHref={`/${locale}/learn/${slug}`}
+    />
   )
 }

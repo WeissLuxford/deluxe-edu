@@ -32,7 +32,7 @@
 | `/learn/[slug]` | Program | ✅ |
 | `/learn/[slug]/about` | Course (вкладка «О курсе») | ✅ |
 | `/learn/[slug]/[lesson]` | Lesson, LessonMobile, Quiz | ✅ |
-| `/learn/[slug]/exam/[moduleId]` | Quiz | ⬜ |
+| `/learn/[slug]/exam/[moduleId]` | Quiz (без подсказок по ходу) | ✅ |
 | `/streams`, `/streams/[id]` | Live | ⬜ |
 | `/account`, `/learn/account`, `/account/phone` | Account | ⬜ |
 | ~~Шаг «Диалог»~~ | — | 🗑 удалено (на будущее) |

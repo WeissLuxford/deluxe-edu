@@ -631,5 +631,28 @@
     "toCourses": "Kurs tanlash",
     "toLevelTest": "Darajamni bilish",
     "nextTrial": "Keyingi dars"
+  },
+  "examPage": {
+    "kicker": "Modul nazorat ishi",
+    "introTitle": "Nima <it>esda qolganini</it> ko‘rsat",
+    "introText": "«{module}» moduli bo‘yicha {count} ta savol. Yo‘l-yo‘lakay maslahat yo‘q — natijani oxirida ko‘rasan. {score}% kerak.",
+    "start": "Boshlash",
+    "next": "Keyingisi",
+    "submit": "Topshirish",
+    "sending": "Yuborilmoqda…",
+    "back": "Orqaga",
+    "error": "Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘r.",
+    "score": "{total} tadan {correct} tasi to‘g‘ri · {grade}%",
+    "passedTitle": "Topshirildi! <it>{grade}%</it>",
+    "failedTitle": "Hozircha yetmadi — <it>{grade}%</it>",
+    "failedText": "{score}% kerak. Modul darslarini takrorlab, yana urinib ko‘r.",
+    "pendingTitle": "<it>O‘qituvchiga</it> yuborildi",
+    "pendingText": "U javoblarni ko‘rib, davom etish mumkinligini hal qiladi. Odatda bir kun ichida.",
+    "approvedTitle": "Qabul qilindi! <it>Davom etamiz</it>",
+    "rejectedTitle": "O‘qituvchi <it>takrorlashni</it> so‘rayapti",
+    "note": "O‘qituvchi izohi",
+    "retry": "Qayta topshirish",
+    "toCourse": "Dasturga",
+    "empty": "Nazorat ishi savollari hali tayyorlanmoqda."
   }
 }

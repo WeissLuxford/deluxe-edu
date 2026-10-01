@@ -631,5 +631,28 @@
     "toCourses": "Choose a course",
     "toLevelTest": "Find my level",
     "nextTrial": "Next lesson"
+  },
+  "examPage": {
+    "kicker": "Module checkpoint",
+    "introTitle": "Show what <it>stuck</it>",
+    "introText": "{count, plural, one {# question} other {# questions}} on “{module}”. No hints along the way — you'll see your result at the end. You need {score}%.",
+    "start": "Start",
+    "next": "Next",
+    "submit": "Submit",
+    "sending": "Sending…",
+    "back": "Back",
+    "error": "Couldn't send. Check your internet and try again.",
+    "score": "{correct} of {total} correct · {grade}%",
+    "passedTitle": "Passed! <it>{grade}%</it>",
+    "failedTitle": "Not quite yet — <it>{grade}%</it>",
+    "failedText": "You need {score}%. Review the module lessons and try again.",
+    "pendingTitle": "Sent to <it>your teacher</it>",
+    "pendingText": "They'll look at your answers and decide if you can move on. Usually within a day.",
+    "approvedTitle": "Approved! <it>Let's move on</it>",
+    "rejectedTitle": "Your teacher asks you to <it>review</it>",
+    "note": "Teacher's comment",
+    "retry": "Take it again",
+    "toCourse": "Back to the program",
+    "empty": "The checkpoint questions are still being prepared."
   }
 }
