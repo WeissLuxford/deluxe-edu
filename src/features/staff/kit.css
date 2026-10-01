@@ -767,6 +767,8 @@
 /* ---------- parent report cards (documents.css names, v2 look) ---------- */
 
 .staff .doc-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   gap: 10px;
 }
 
@@ -778,6 +780,8 @@
 }
 
 .staff .doc-stat__value {
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
   font-size: 26px;
   font-weight: 900;
   letter-spacing: -0.03em;
@@ -785,6 +789,7 @@
 }
 
 .staff .doc-stat__label {
+  margin-top: 4px;
   font-size: 13px;
   color: var(--c-muted);
 }
