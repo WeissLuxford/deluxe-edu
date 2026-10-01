@@ -20,11 +20,9 @@ export default async function LocaleLayout({
   )
 }
 
-// Matches --bg in tokens.css for each theme; a flat #000 left a black bar
-// above the header that belongs to neither theme.
+// The page tone (--c-paper in tokens.css). One colour, not one per OS scheme:
+// the site is always light and the app is light unless the person picks dark,
+// so following the device would paint a dark bar over a light page.
 export const viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f3f6fd' },
-    { media: '(prefers-color-scheme: dark)', color: '#070a14' }
-  ]
+  themeColor: '#f4f1fa'
 }
