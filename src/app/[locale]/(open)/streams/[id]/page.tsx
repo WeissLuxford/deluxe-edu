@@ -2,79 +2,51 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
-import { Calendar, Clock } from 'lucide-react'
 import { authOptions } from '@/lib/auth'
-import { StreamPlayer } from '@/features/streams/components/StreamPlayer'
-import {
-  canWatch,
-  getStreamById,
-  getUserPlanRank,
-  statusOf
-} from '@/features/streams/utils/streamHelpers'
 import { localized } from '@/lib/localized'
+import { Container } from '@/design/components/Type'
+import { PanelGrid } from '@/design/layout/AppShell'
+import { StreamStage } from '@/features/streams/StreamStage'
+import { canWatch, getStreamById, getUserPlanRank, statusOf } from '@/features/streams/utils/streamHelpers'
+import s from '@/features/streams/live.module.css'
 
 export const dynamic = 'force-dynamic'
 
-export default async function StreamPage({
-  params
-}: {
-  params: Promise<{ locale: string; id: string }>
-}) {
-  const { locale, id } = await params
-  const t = await getTranslations({ locale, namespace: 'streams' })
+type Props = { params: Promise<{ locale: string; id: string }> }
 
+export async function generateMetadata({ params }: Props) {
+  const { locale, id } = await params
+  const stream = await getStreamById(id)
+  return stream ? { title: `${localized(stream.title, locale)} — Highgate` } : {}
+}
+
+export default async function StreamPage({ params }: Props) {
+  const { locale, id } = await params
   const stream = await getStreamById(id)
   if (!stream) notFound()
 
   const session = await getServerSession(authOptions)
   const userId = session?.user?.id ?? null
-  const planRank = await getUserPlanRank(userId)
+  if (!canWatch(stream.requiredPlan, await getUserPlanRank(userId))) redirect(`/${locale}/streams`)
 
-  if (!canWatch(stream.requiredPlan, planRank)) {
-    redirect(`/${locale}/streams`)
-  }
-
+  const t = await getTranslations({ locale, namespace: 'livePage' })
   const status = statusOf(stream.startsAt, stream.durationMin)
-  const title = localized(stream.title, locale)
   const description = localized(stream.description, locale)
+  const when = new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : 'ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(stream.startsAt)
 
-  return (
-    <main className="page-shell">
-      <div className="page-hero">
-        <div className="container">
-          <nav className="breadcrumb">
-            <Link href={`/${locale}/streams`}>{t('title')}</Link>
-          </nav>
-
-          <h1 className="page-hero__title">{title}</h1>
-          {description && <p className="page-hero__sub">{description}</p>}
-
-          <div className="course-hero__meta">
-            <span>
-              <Calendar size={15} />
-              {stream.startsAt.toLocaleString(locale, {
-                day: '2-digit',
-                month: 'short',
-                hour: '2-digit',
-                minute: '2-digit'
-              })}
-            </span>
-            <span>
-              <Clock size={15} />
-              {t('duration', { minutes: stream.durationMin })}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="container page-body">
-        <StreamPlayer
-          kind={stream.kind}
-          youtubeId={stream.youtubeId}
-          recordingUrl={stream.recordingUrl}
-          status={status}
-        />
-      </div>
-    </main>
+  const content = (
+    <>
+      <Link href={`/${locale}/streams`} className={s.back}>
+        ← {t('back')}
+      </Link>
+      <h1 className={s.title}>{localized(stream.title, locale)}</h1>
+      <span className={s.meta}>
+        {status === 'live' ? t('liveNow') : when} · {t('duration', { min: stream.durationMin })}
+      </span>
+      {description && <p className={s.meta}>{description}</p>}
+      <StreamStage kind={stream.kind} youtubeId={stream.youtubeId} recordingUrl={stream.recordingUrl} status={status} />
+    </>
   )
+
+  return userId ? <PanelGrid>{content}</PanelGrid> : <Container className={s.guest}>{content}</Container>
 }

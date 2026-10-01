@@ -654,5 +654,32 @@
     "retry": "Qayta topshirish",
     "toCourse": "Dasturga",
     "empty": "Nazorat ishi savollari hali tayyorlanmoqda."
+  },
+  "livePage": {
+    "meta": "Efirlar — Highgate",
+    "title": "Efirlar — <it>jonli gaplashamiz</it>",
+    "liveNow": "Hozir efirda",
+    "startsIn": "{time} dan keyin boshlanadi",
+    "minutes": "{count} daq",
+    "hours": "{count} soat",
+    "join": "Efirga kirish",
+    "opening": "Ochilmoqda…",
+    "watch": "Ko‘rish",
+    "recording": "Yozuvni ko‘rish",
+    "schedule": "Jadval",
+    "records": "O‘tgan efirlar yozuvlari",
+    "emptyTitle": "Hozircha jim — <it>efirlar tez orada</it>",
+    "emptyText": "O‘qituvchi efir qo‘yishi bilan u shu yerda paydo bo‘ladi.",
+    "needPlan": "{plan} tarifida mavjud",
+    "needSignIn": "Ko‘rish uchun kir",
+    "openToAll": "Hamma uchun",
+    "groupClass": "«{name}» guruhi",
+    "duration": "{min} daq",
+    "notStarted": "Efir hali boshlanmadi — vaqtiga yaqin kir.",
+    "ended": "Efir tugadi.",
+    "noRecording": "Bu efirning yozuvi yo‘q.",
+    "chatHint": "Efir chati",
+    "back": "Barcha efirlar",
+    "joinError": "Efirni ochib bo‘lmadi. Yana urinib ko‘r."
   }
 }

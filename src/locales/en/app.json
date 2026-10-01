@@ -654,5 +654,32 @@
     "retry": "Take it again",
     "toCourse": "Back to the program",
     "empty": "The checkpoint questions are still being prepared."
+  },
+  "livePage": {
+    "meta": "Live — Highgate",
+    "title": "Live — <it>let's talk for real</it>",
+    "liveNow": "Live now",
+    "startsIn": "Starts in {time}",
+    "minutes": "{count} min",
+    "hours": "{count} h",
+    "join": "Join the stream",
+    "opening": "Opening…",
+    "watch": "Watch",
+    "recording": "Watch the recording",
+    "schedule": "Schedule",
+    "records": "Past stream recordings",
+    "emptyTitle": "Quiet for now — <it>streams are coming</it>",
+    "emptyText": "As soon as a teacher schedules a stream, it shows up here.",
+    "needPlan": "Available on the {plan} plan",
+    "needSignIn": "Sign in to watch",
+    "openToAll": "Open to all",
+    "groupClass": "“{name}” group",
+    "duration": "{min} min",
+    "notStarted": "The stream hasn't started yet — come back closer to the time.",
+    "ended": "The stream has ended.",
+    "noRecording": "There's no recording of this stream.",
+    "chatHint": "Stream chat",
+    "back": "All streams",
+    "joinError": "Couldn't open the stream. Try again."
   }
 }
