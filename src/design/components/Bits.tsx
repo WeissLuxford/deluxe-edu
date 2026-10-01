@@ -90,10 +90,10 @@ export function Bar({ percent, color = 'var(--c-violet)', height = 8, track }: {
   )
 }
 
-export function Logo({ href, ring, word = true }: { href?: string; ring?: string; word?: boolean }) {
+export function Logo({ href, ring, word = true, inverse }: { href?: string; ring?: string; word?: boolean; inverse?: boolean }) {
   const body = (
     <>
-      <span className={s.logoMark} style={ring ? ({ ['--logo-ring' as string]: ring } as CSSProperties) : undefined}>h</span>
+      <span className={[s.logoMark, inverse && s.logoMarkInverse].filter(Boolean).join(' ')} style={ring ? ({ ['--logo-ring' as string]: ring } as CSSProperties) : undefined}>h</span>
       {word && <span className={s.logoWord}>highgate</span>}
     </>
   )

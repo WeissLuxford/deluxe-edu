@@ -1,15 +1,20 @@
+import { Logo } from '@/design/components/Bits'
 import type { ReportSnapshot } from './collect'
+import s from './report.module.css'
 
-const dateFmt = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' })
+// The report is written to a parent, so unlike the rest of the site it says
+// «вы». It is Russian-only for now, like the snapshot it renders.
+
+const dateFmt = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })
 const shortFmt = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: '2-digit' })
 
 const EXAM_STATUS: Record<ReportSnapshot['exams'][number]['status'], { label: string; cls: string }> = {
-  APPROVED: { label: 'зачтено', cls: 'doc-badge--ok' },
-  PENDING: { label: 'на проверке', cls: 'doc-badge--wait' },
-  REJECTED: { label: 'не зачтено', cls: 'doc-badge--stop' }
+  APPROVED: { label: 'зачтено', cls: s.ok },
+  PENDING: { label: 'на проверке', cls: s.wait },
+  REJECTED: { label: 'не зачтено', cls: s.stop }
 }
 
-// «1 урок», «2 урока», «5 уроков» — иначе отчёт читается как машинный.
+// «1 урок», «2 урока», «5 уроков» — otherwise the report reads like a machine wrote it.
 function plural(n: number, one: string, few: string, many: string) {
   const mod10 = n % 10
   const mod100 = n % 100
@@ -18,189 +23,132 @@ function plural(n: number, one: string, few: string, many: string) {
   return many
 }
 
-export function ReportView({
-  data,
-  comment,
-  publishedAt
-}: {
-  data: ReportSnapshot
-  comment: string | null
-  publishedAt: Date | null
-}) {
+export function ReportView({ data, comment, publishedAt, actions }: { data: ReportSnapshot; comment: string | null; publishedAt: Date | null; actions?: React.ReactNode }) {
   const { attendance, homework, lessons, rank, exams, speaking } = data
-  const joined = new Date(data.membership.joinedAt)
+  const firstName = data.student.name.split(' ')[0] || data.student.name
 
   return (
-    <article className="doc">
-      <header className="doc-head">
-        <span className="doc-brand">Highgate · отчёт за месяц</span>
-        <span className="doc-period">{data.period.label}</span>
+    <article className={s.sheet}>
+      <header className={s.top}>
+        <Logo />
+        <span className={s.period}>Отчёт за {data.period.label}</span>
       </header>
 
-      <h1 className="doc-title">{data.student.name}</h1>
-      <p className="doc-sub">
-        Группа «{data.group.name}» · преподаватель {data.group.teacherName}
-      </p>
-
-      {data.membership.partial && (
-        <p className="doc-note">
-          {data.membership.leftAt
-            ? `Отчёт охватывает часть месяца: занятия в группе закончились ${dateFmt.format(
-                new Date(data.membership.leftAt)
-              )}.`
-            : `Отчёт охватывает часть месяца: занятия в группе начались ${dateFmt.format(joined)}.`}
+      <div className={s.intro}>
+        <h1 className={s.title}>
+          Как дела у {firstName} <span className="it">в этом месяце</span>
+        </h1>
+        <p className={s.lead}>
+          Здравствуйте! Это короткий отчёт от преподавателя группы «{data.group.name}». Здесь всё, что важно знать за месяц.
         </p>
-      )}
-
-      <section className="doc-section">
-        <h2 className="doc-section__title">Коротко</h2>
-        <div className="doc-stats">
-          <div className="doc-stat">
-            <div className="doc-stat__value">
-              {homework.averageGrade != null ? homework.averageGrade : '—'}
-            </div>
-            <div className="doc-stat__label">Средний балл за домашние</div>
-            <div className="doc-stat__hint">
-              {homework.graded > 0
-                ? `проверено ${homework.graded} из ${homework.submitted}`
-                : 'проверенных работ нет'}
-            </div>
-          </div>
-
-          <div className="doc-stat">
-            <div className="doc-stat__value">
-              {attendance.ratePercent != null ? `${attendance.ratePercent}%` : '—'}
-            </div>
-            <div className="doc-stat__label">Посещаемость</div>
-            <div className="doc-stat__hint">
-              {attendance.countable > 0
-                ? `${attendance.present + attendance.late} из ${attendance.countable} занятий`
-                : 'занятий в этом месяце не было'}
-            </div>
-          </div>
-
-          <div className="doc-stat">
-            <div className="doc-stat__value">{lessons.passed}</div>
-            <div className="doc-stat__label">
-              {plural(lessons.passed, 'Урок пройден', 'Урока пройдено', 'Уроков пройдено')}
-            </div>
-            <div className="doc-stat__hint">за {data.period.label}</div>
-          </div>
-
-          <div className="doc-stat">
-            <div className="doc-stat__value">
-              {rank.position != null ? rank.position : '—'}
-              {rank.position != null && (
-                <span style={{ fontSize: '1rem', color: 'var(--muted)' }}> из {rank.of}</span>
-              )}
-            </div>
-            <div className="doc-stat__label">Место в группе</div>
-            <div className="doc-stat__hint">по урокам за месяц</div>
-          </div>
-        </div>
-      </section>
-
-      <section className="doc-section">
-        <h2 className="doc-section__title">Посещаемость</h2>
-        {attendance.events === 0 ? (
-          <p className="doc-empty">В этом месяце занятий по расписанию не было.</p>
-        ) : (
-          <div className="doc-table-wrap">
-            <table className="doc-table">
-              <thead>
-                <tr>
-                  <th>Был</th>
-                  <th>Опоздал</th>
-                  <th>Пропустил</th>
-                  <th>По уважительной</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="num">{attendance.present}</td>
-                  <td className="num">{attendance.late}</td>
-                  <td className="num">{attendance.absent}</td>
-                  <td className="num">{attendance.excused}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
-
-      <section className="doc-section">
-        <h2 className="doc-section__title">Контрольные</h2>
-        {exams.length === 0 ? (
-          <p className="doc-empty">Контрольных в этом месяце не было.</p>
-        ) : (
-          <div className="doc-table-wrap">
-            <table className="doc-table">
-              <thead>
-                <tr>
-                  <th>Работа</th>
-                  <th>Дата</th>
-                  <th>Результат</th>
-                  <th>Статус</th>
-                </tr>
-              </thead>
-              <tbody>
-                {exams.map((exam, i) => (
-                  <tr key={i}>
-                    <td>
-                      {exam.title}
-                      {exam.note && (
-                        <div style={{ color: 'var(--muted)', fontSize: '0.8125rem', marginTop: '0.25rem' }}>
-                          {exam.note}
-                        </div>
-                      )}
-                    </td>
-                    <td className="num">{shortFmt.format(new Date(exam.submittedAt))}</td>
-                    <td className="num">
-                      {/* Пока работу не проверили, оценка — ещё не оценка. */}
-                      {exam.status === 'PENDING' ? '—' : `${exam.grade}% · ${exam.correct} из ${exam.total}`}
-                    </td>
-                    <td>
-                      <span className={`doc-badge ${EXAM_STATUS[exam.status].cls}`}>
-                        {EXAM_STATUS[exam.status].label}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
-
-      {speaking.completed > 0 && (
-        <section className="doc-section">
-          <h2 className="doc-section__title">Разговорная практика</h2>
-          <p className="doc-sub">
-            {speaking.completed}{' '}
-            {plural(speaking.completed, 'диалог пройден', 'диалога пройдено', 'диалогов пройдено')}, записано{' '}
-            {speaking.recordings} {plural(speaking.recordings, 'реплика', 'реплики', 'реплик')}.
+        {data.membership.partial && (
+          <p className={s.note}>
+            {data.membership.leftAt
+              ? `Отчёт охватывает часть месяца: занятия в группе закончились ${dateFmt.format(new Date(data.membership.leftAt))}.`
+              : `Отчёт охватывает часть месяца: занятия в группе начались ${dateFmt.format(new Date(data.membership.joinedAt))}.`}
           </p>
-        </section>
-      )}
+        )}
+      </div>
 
-      <section className="doc-section">
-        <h2 className="doc-section__title">Комментарий преподавателя</h2>
+      <div className={s.stats}>
+        <div className={`${s.stat} ${s.mint}`}>
+          <span className={s.statNum}>
+            {attendance.countable > 0 ? (
+              <>
+                {attendance.present + attendance.late}
+                <small>/{attendance.countable}</small>
+              </>
+            ) : (
+              '—'
+            )}
+          </span>
+          <span className={s.statLabel}>{attendance.countable > 0 ? 'занятий посетил(а)' : 'занятий по расписанию не было'}</span>
+        </div>
+        <div className={`${s.stat} ${s.lilac}`}>
+          <span className={s.statNum}>{lessons.passed}</span>
+          <span className={s.statLabel}>{plural(lessons.passed, 'урок пройден', 'урока пройдено', 'уроков пройдено')}</span>
+        </div>
+        <div className={`${s.stat} ${s.lime}`}>
+          <span className={s.statNum}>{homework.averageGrade != null ? `${homework.averageGrade}%` : '—'}</span>
+          <span className={s.statLabel}>{homework.graded > 0 ? 'средний балл за тесты' : 'проверенных работ нет'}</span>
+        </div>
+        {rank.position != null && (
+          <div className={`${s.stat} ${s.sky}`}>
+            <span className={s.statNum}>
+              {rank.position}
+              <small>/{rank.of}</small>
+            </span>
+            <span className={s.statLabel}>место в группе по урокам</span>
+          </div>
+        )}
+      </div>
+
+      <div className={s.comment}>
+        <span className={s.commentLabel}>Слово преподавателя</span>
         {comment ? (
           <>
-            <div className="doc-comment">{comment}</div>
-            <p className="doc-comment__author">— {data.group.teacherName}</p>
+            <p className={s.commentText}>
+              <span className="it">«</span>
+              {comment}
+              <span className="it">»</span>
+            </p>
+            <span className={s.commentLabel}>{data.group.teacherName}</span>
           </>
         ) : (
-          <p className="doc-empty">Преподаватель не оставил комментарий к этому месяцу.</p>
+          <p className={s.commentText}>Преподаватель не оставил комментарий к этому месяцу.</p>
         )}
-      </section>
+      </div>
 
-      <footer className="doc-foot">
-        Отчёт сформирован {dateFmt.format(new Date(data.generatedAt))}
-        {publishedAt ? `, отправлен ${dateFmt.format(publishedAt)}` : ''}. Числа в нём зафиксированы на
-        момент составления и больше не меняются.
-        <br />
-        Ссылка личная — она открывает только этот отчёт.
+      <div className={s.columns}>
+        <section className={s.col}>
+          <h2 className={s.h2}>Контрольные</h2>
+          {exams.length === 0 ? (
+            <p className={s.empty}>Контрольных в этом месяце не было.</p>
+          ) : (
+            exams.map((exam, i) => (
+              <div key={i} className={s.row}>
+                <span className={s.rowMain}>
+                  <span>{exam.title}</span>
+                  <span className={s.rowSub}>
+                    {shortFmt.format(new Date(exam.submittedAt))}
+                    {exam.note ? ` · ${exam.note}` : ''}
+                  </span>
+                </span>
+                <span className={s.rowSide}>
+                  {exam.status !== 'PENDING' && <b>{exam.grade}%</b>}
+                  <span className={`${s.badge} ${EXAM_STATUS[exam.status].cls}`}>{EXAM_STATUS[exam.status].label}</span>
+                </span>
+              </div>
+            ))
+          )}
+        </section>
+        <section className={s.col}>
+          <h2 className={s.h2}>Посещаемость</h2>
+          {attendance.events === 0 ? (
+            <p className={s.empty}>В этом месяце занятий по расписанию не было.</p>
+          ) : (
+            <>
+              <div className={s.row}><span>Был(а)</span><b>{attendance.present}</b></div>
+              <div className={s.row}><span>Опоздал(а)</span><b>{attendance.late}</b></div>
+              <div className={s.row}><span>Пропустил(а)</span><b>{attendance.absent}</b></div>
+              <div className={s.row}><span>По уважительной</span><b>{attendance.excused}</b></div>
+            </>
+          )}
+          {speaking.completed > 0 && (
+            <p className={s.empty}>
+              Разговорная практика: {speaking.completed} {plural(speaking.completed, 'диалог', 'диалога', 'диалогов')}, {speaking.recordings}{' '}
+              {plural(speaking.recordings, 'записанная реплика', 'записанные реплики', 'записанных реплик')}.
+            </p>
+          )}
+        </section>
+      </div>
+
+      <footer className={s.foot}>
+        <span>
+          Отчёт сформирован {dateFmt.format(new Date(data.generatedAt))}
+          {publishedAt ? `, отправлен ${dateFmt.format(publishedAt)}` : ''}. Числа зафиксированы на момент составления. Ссылка личная — она открывает только этот отчёт.
+        </span>
+        {actions}
       </footer>
     </article>
   )

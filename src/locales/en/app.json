@@ -465,5 +465,12 @@
         "text": "What's left is nuance: IELTS, academic writing, style."
       }
     }
+  },
+  "landingPage": {
+    "formTitle": "Leave your number — <it>we'll call you</it>",
+    "submit": "I want to try",
+    "privacy": "We only need the number to call you. No newsletters.",
+    "afterTitle": "What happens after the call",
+    "afterText": "We'll ask why you need English and how much time you have. We'll suggest a level and a free trial lesson. The decision is yours."
   }
 }

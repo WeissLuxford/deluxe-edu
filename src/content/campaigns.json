@@ -2,14 +2,14 @@
   "$описание": "Реестр рекламных лендингов /l/[campaign]. Новая кампания — это правка этого файла, а не экран в админке: пока кампаний единицы, PR дешевле и надёжнее таблицы. Ключ объекта = слаг в адресе, он же попадает в ContactRequest.campaign. Слаг: латиница в нижнем регистре, цифры, дефис и подчёркивание.",
   "tg-online": {
     "headline": {
-      "ru": "Английский онлайн — в своём темпе, с живым преподавателем",
-      "uz": "Ingliz tili onlayn — o‘z sur’atingizda, jonli o‘qituvchi bilan",
-      "en": "English online — at your own pace, with a real teacher"
+      "ru": "Английский онлайн — <it>в своём темпе</it>, с живым преподавателем",
+      "uz": "Ingliz tili onlayn — <it>o‘z sur’atingda</it>, jonli o‘qituvchi bilan",
+      "en": "English online — <it>at your own pace</it>, with a real teacher"
     },
     "subhead": {
-      "ru": "Оставьте номер — перезвоним, определим уровень и подберём группу. Без регистрации и без оплаты на этом шаге.",
-      "uz": "Raqamingizni qoldiring — qo‘ng‘iroq qilamiz, darajangizni aniqlaymiz va guruh tanlaymiz. Ro‘yxatdan o‘tish va to‘lov shart emas.",
-      "en": "Leave your number — we will call back, check your level and pick a group. No signup, no payment at this step."
+      "ru": "Оставь номер — перезвоним, определим уровень и подберём группу. Без регистрации и без оплаты на этом шаге.",
+      "uz": "Raqamingni qoldir — qo‘ng‘iroq qilamiz, darajangni aniqlaymiz va guruh tanlaymiz. Bu qadamda ro‘yxatdan o‘tish va to‘lov shart emas.",
+      "en": "Leave your number — we'll call back, check your level and pick a group. No sign-up, no payment at this step."
     },
     "offer": {
       "ru": "Первое занятие — бесплатно",
@@ -18,21 +18,22 @@
     },
     "bullets": {
       "ru": [
-        "Занятия онлайн, записи остаются вам",
-        "Один преподаватель, который знает вас по имени",
+        "Занятия онлайн, записи остаются с тобой",
+        "Один преподаватель, который знает тебя по имени",
         "Отчёт об учёбе родителям раз в месяц"
       ],
       "uz": [
-        "Onlayn darslar, yozuvlar sizda qoladi",
-        "Sizni ism bilan biladigan bitta o‘qituvchi",
-        "Ota-onalarga oyiga bir marta hisobot"
+        "Onlayn darslar, yozuvlar sen bilan qoladi",
+        "Seni ism bilan biladigan bitta o‘qituvchi",
+        "Ota-onalarga oyiga bir marta o‘qish hisoboti"
       ],
       "en": [
-        "Online lessons, recordings stay yours",
-        "One teacher who knows your name",
+        "Online lessons, recordings stay with you",
+        "One teacher who knows you by name",
         "A monthly progress report for parents"
       ]
     },
     "image": "/media/peak-orbit.svg"
-  }
+  },
+  "$разметка": "В headline можно выделить 1–2 слова курсивом: <it>слово</it>. Тексты — на «ты», как на всём сайте."
 }

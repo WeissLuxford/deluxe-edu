@@ -152,6 +152,11 @@ a.sticker:hover {
   border: 2px solid var(--logo-ring, var(--c-white));
 }
 
+.logoMarkInverse {
+  background: var(--c-white);
+  color: var(--c-violet);
+}
+
 .logoWord {
   font-size: 20px;
   font-weight: 800;

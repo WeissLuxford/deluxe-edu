@@ -21,8 +21,8 @@
 | `/level-test` (группа `(focus)`), `/level-test/[lesson]` → редирект | LevelTest | ✅ |
 | `/trial-lesson` | Lesson (пробный) | ⬜ |
 | `/free-mock-test`, `/free-mock-test/[lesson]` | — | ❓ |
-| `/l/[campaign]` | Landing | ⬜ |
-| `/r/[token]` | Report | ⬜ |
+| `/l/[campaign]` | Landing | ✅ |
+| `/r/[token]` | Report | ✅ |
 
 ## Учёба (AppShell: градиент, плавающая панель, сайдбар)
 

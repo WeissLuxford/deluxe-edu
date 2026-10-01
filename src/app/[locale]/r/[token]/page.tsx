@@ -6,6 +6,8 @@ import { RATE_LIMITS, clientIp, consumeRateLimit } from '@/lib/rateLimit'
 import { ReportView } from '@/features/reports/ReportView'
 import { PrintButton } from '@/features/reports/PrintButton'
 import type { ReportSnapshot } from '@/features/reports/collect'
+import { ThemeSync } from '@/design/layout/ThemeSync'
+import s from '@/features/reports/report.module.css'
 
 // Страница живёт вне (site)/(open)/(learn): у родителя нет аккаунта, и ему не
 // нужны ни навигация, ни шапка — нужен документ, который можно распечатать.
@@ -57,11 +59,9 @@ export default async function ParentReportPage({
   const data = report.data as unknown as ReportSnapshot
 
   return (
-    <div className="doc-page">
-      <ReportView data={data} comment={report.comment} publishedAt={report.publishedAt} />
-      <div className="doc-actions">
-        <PrintButton label="Распечатать или сохранить в PDF" />
-      </div>
-    </div>
+    <main className={s.page}>
+      <ThemeSync area="site" />
+      <ReportView data={data} comment={report.comment} publishedAt={report.publishedAt} actions={<PrintButton label="Распечатать или сохранить PDF" />} />
+    </main>
   )
 }

@@ -465,5 +465,12 @@
         "text": "Nozikliklar qoldi: IELTS, akademik yozuv, uslub."
       }
     }
+  },
+  "landingPage": {
+    "formTitle": "Raqamingni qoldir — <it>qo‘ng‘iroq qilamiz</it>",
+    "submit": "Sinab ko‘rmoqchiman",
+    "privacy": "Raqam faqat qo‘ng‘iroq qilish uchun kerak. Hech qanday tarqatma yo‘q.",
+    "afterTitle": "Qo‘ng‘iroqdan keyin nima bo‘ladi",
+    "afterText": "Ingliz tili nimaga kerakligini va qancha vaqting borligini so‘raymiz. Daraja va bepul sinov darsini taklif qilamiz. Qaror — sening qo‘lingda."
   }
 }
