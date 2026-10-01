@@ -773,5 +773,38 @@
     "back": "Barcha yangiliklar",
     "openPost": "Postni Instagram’da ochish",
     "more": "Boshqa yangiliklar"
+  },
+  "reportPage": {
+    "meta": "O‘qish bo‘yicha hisobot — Highgate",
+    "period": "Hisobot: {period}",
+    "title": "{name}: <it>oy yakunlari</it>",
+    "lead": "Assalomu alaykum! Bu «{group}» guruhi o‘qituvchisining qisqa hisoboti. Unda o‘tgan oy haqida bilishingiz kerak bo‘lgan barcha muhim ma’lumotlar bor.",
+    "partialLeft": "Hisobot oyning bir qismini qamraydi: guruhdagi mashg‘ulotlar {date} kuni tugagan.",
+    "partialJoined": "Hisobot oyning bir qismini qamraydi: guruhdagi mashg‘ulotlar {date} kuni boshlangan.",
+    "attended": "ta mashg‘ulotda qatnashdi",
+    "noClasses": "jadval bo‘yicha mashg‘ulotlar bo‘lmadi",
+    "lessons": "ta dars tugallandi",
+    "avgGrade": "testlar bo‘yicha o‘rtacha ball",
+    "noGraded": "tekshirilgan ishlar hozircha yo‘q",
+    "rank": "tugallangan darslar bo‘yicha guruhdagi o‘rni",
+    "teacherWord": "O‘qituvchi fikri",
+    "noComment": "O‘qituvchi bu oy uchun izoh qoldirmagan.",
+    "exams": "Nazorat ishlari",
+    "noExams": "Bu oyda nazorat ishlari bo‘lmadi.",
+    "examStatus": {
+      "APPROVED": "qabul qilindi",
+      "PENDING": "tekshirilmoqda",
+      "REJECTED": "qabul qilinmadi"
+    },
+    "attendance": "Davomat",
+    "noAttendance": "Bu oyda jadval bo‘yicha mashg‘ulotlar bo‘lmadi.",
+    "present": "Qatnashdi",
+    "late": "Kechikib keldi",
+    "absent": "Qatnashmadi",
+    "excused": "Sababli qatnashmadi",
+    "footer": "Hisobot {generated} kuni tuzilgan{sent}. Raqamlar hisobot tuzilgan paytdagi holatda qayd etilgan. Havola shaxsiy — u faqat shu hisobotni ochadi.",
+    "sent": ", {date} kuni yuborilgan",
+    "print": "Chop etish yoki PDF sifatida saqlash",
+    "language": "Hisobot tili"
   }
 }

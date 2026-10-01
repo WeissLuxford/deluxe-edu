@@ -773,5 +773,38 @@
     "back": "All news",
     "openPost": "Open the post on Instagram",
     "more": "More news"
+  },
+  "reportPage": {
+    "meta": "Progress report — Highgate",
+    "period": "Report for {period}",
+    "title": "{name}: <it>the month in review</it>",
+    "lead": "Hello! This is a short report from the teacher of the “{group}” group — everything worth knowing about the past month.",
+    "partialLeft": "This report covers part of the month: classes in the group ended on {date}.",
+    "partialJoined": "This report covers part of the month: classes in the group started on {date}.",
+    "attended": "classes attended",
+    "noClasses": "no scheduled classes",
+    "lessons": "{count, plural, one {lesson completed} other {lessons completed}}",
+    "avgGrade": "average test score",
+    "noGraded": "no graded work yet",
+    "rank": "place in the group by lessons completed",
+    "teacherWord": "A word from the teacher",
+    "noComment": "The teacher didn’t leave a comment for this month.",
+    "exams": "Module tests",
+    "noExams": "No module tests this month.",
+    "examStatus": {
+      "APPROVED": "passed",
+      "PENDING": "being checked",
+      "REJECTED": "not passed"
+    },
+    "attendance": "Attendance",
+    "noAttendance": "No scheduled classes this month.",
+    "present": "Attended",
+    "late": "Late",
+    "absent": "Missed",
+    "excused": "Excused absence",
+    "footer": "Report prepared on {generated}{sent}. The figures are fixed as of that date. This link is personal — it opens only this report.",
+    "sent": ", sent on {date}",
+    "print": "Print or save as PDF",
+    "language": "Report language"
   }
 }

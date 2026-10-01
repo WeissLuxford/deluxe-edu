@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { headers } from 'next/headers'
+import { getTranslations } from 'next-intl/server'
 import { prisma } from '@/lib/db'
 import { isPublicToken, PRIVATE_LINK_METADATA } from '@/lib/publicToken'
 import { RATE_LIMITS, clientIp, consumeRateLimit } from '@/lib/rateLimit'
@@ -13,9 +14,10 @@ import s from '@/features/reports/report.module.css'
 // нужны ни навигация, ни шапка — нужен документ, который можно распечатать.
 export const dynamic = 'force-dynamic'
 
-export const metadata = {
-  title: 'Отчёт об учёбе — Highgate',
-  ...PRIVATE_LINK_METADATA
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'reportPage' })
+  return { title: t('meta'), ...PRIVATE_LINK_METADATA }
 }
 
 export default async function ParentReportPage({
@@ -23,7 +25,7 @@ export default async function ParentReportPage({
 }: {
   params: Promise<{ locale: string; token: string }>
 }) {
-  const { token } = await params
+  const { locale, token } = await params
 
   // Проверка формы до базы: перебор мусора не стоит нам запроса.
   if (!isPublicToken(token)) notFound()
@@ -57,11 +59,19 @@ export default async function ParentReportPage({
     .catch(() => undefined)
 
   const data = report.data as unknown as ReportSnapshot
+  const t = await getTranslations({ locale, namespace: 'reportPage' })
 
   return (
     <main className={s.page}>
       <ThemeSync area="site" />
-      <ReportView data={data} comment={report.comment} publishedAt={report.publishedAt} actions={<PrintButton label="Распечатать или сохранить PDF" />} />
+      <ReportView
+        data={data}
+        comment={report.comment}
+        publishedAt={report.publishedAt}
+        locale={locale}
+        token={token}
+        actions={<PrintButton label={t('print')} />}
+      />
     </main>
   )
 }
