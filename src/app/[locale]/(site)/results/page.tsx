@@ -76,7 +76,7 @@ export default async function ResultsPage({ params }: Props) {
             <Reveal className={`${s.story} ${s.counter}`}>
               <span className={s.counterNum}>{certificates}</span>
               <span className={s.storyWho}>
-                {t('certificates')}
+                {t('certificates', { count: certificates })}
                 <br />
                 {t('certificatesHint')}
               </span>
