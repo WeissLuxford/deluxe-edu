@@ -121,7 +121,8 @@ export async function loadJournal(groupId: string) {
       submittedAt: p.submittedAt
     })),
     reports,
-    currentEventId: live?.id ?? upcoming[0]?.id ?? null
+    currentEventId: live?.id ?? upcoming[0]?.id ?? null,
+    currentIsLive: Boolean(live)
   }
 }
 

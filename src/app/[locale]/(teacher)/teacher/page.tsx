@@ -91,10 +91,12 @@ export default async function TeacherSchedule({ params }: { params: Promise<{ lo
             <h2 className={s.dayTitle}>{day.label}</h2>
             <div className={s.list}>
               {day.items.map(e => {
-                const live = +e.startsAt <= +now && +now < +e.startsAt + e.durationMin * 60_000
+                const ends = +e.startsAt + e.durationMin * 60_000
+                const live = +e.startsAt <= +now && +now < ends
+                const done = ends <= +now
                 const look = TYPE_LOOKS[e.type] ?? 'b1'
                 return (
-                  <Link key={e.id} href={`${base}/groups/${e.group.id}/schedule/${e.id}`} className={s.row} data-live={live || undefined}>
+                  <Link key={e.id} href={`${base}/groups/${e.group.id}/schedule/${e.id}`} className={s.row} data-live={live || undefined} data-done={done || undefined}>
                     <span className={s.time}>{timeFmt.format(e.startsAt)}</span>
                     <span className={s.text}>
                       <span className={s.rowTitle}>{e.title || TYPE_LABELS[e.type]}</span>
@@ -106,6 +108,7 @@ export default async function TeacherSchedule({ params }: { params: Promise<{ lo
                       {TYPE_LABELS[e.type]}
                     </span>
                     {live && <span className={s.start}>Идёт сейчас</span>}
+                    {done && <span className={s.doneMark}>прошло</span>}
                   </Link>
                 )
               })}

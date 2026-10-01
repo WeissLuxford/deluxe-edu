@@ -62,7 +62,7 @@ export function ReportGenerateForm({
 
       {state && (
         <div
-          className={state.ok ? 'alert' : 'alert alert-error'}
+          className={state.ok ? 'alert alert-success' : 'alert alert-error'}
           style={{ width: '100%', marginTop: '0.5rem' }}
         >
           {state.ok ? state.error ?? 'Готово' : state.error}

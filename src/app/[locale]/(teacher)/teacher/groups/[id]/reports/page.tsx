@@ -66,7 +66,7 @@ export default async function GroupReportsPage({
 
       <section className="admin-card">
         <h3 className="admin-card__title">Собрать отчёты за месяц</h3>
-        <p className="admin-empty" style={{ marginBottom: '0.75rem' }}>
+        <p className="hint" style={{ margin: '0.5rem 0 1rem' }}>
           Числа снимаются один раз и дальше не меняются. Уже опубликованные отчёты пересборка не
           трогает.
         </p>

@@ -218,7 +218,7 @@ export default async function TeacherGroupDetail({
               href={journal.currentEventId ? `${groupBase}/schedule/${journal.currentEventId}` : `${groupBase}/schedule/new`}
               className="btn btn-primary"
             >
-              {journal.currentEventId ? 'Начать занятие' : 'Запланировать занятие'}
+              {journal.currentIsLive ? 'Начать занятие' : journal.currentEventId ? 'Ближайшее занятие' : 'Запланировать занятие'}
               <span style={{ width: 8, height: 8, borderRadius: 4, background: 'var(--c-lime)' }} aria-hidden="true" />
             </Link>
           </>

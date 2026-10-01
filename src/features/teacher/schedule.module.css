@@ -143,6 +143,17 @@
   white-space: nowrap;
 }
 
+.row[data-done] .time,
+.row[data-done] .rowTitle {
+  color: var(--c-faint);
+}
+
+.doneMark {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-faint);
+}
+
 /* ---------- empty ---------- */
 
 .empty {
@@ -173,7 +184,8 @@
   }
 
   .tag,
-  .start {
+  .start,
+  .doneMark {
     grid-column: 2;
     justify-self: start;
   }

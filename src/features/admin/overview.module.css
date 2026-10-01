@@ -363,12 +363,12 @@
 
 @media (max-width: 1200px) {
   .cols {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .side {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
   }
 }
@@ -384,6 +384,7 @@
 
   .side {
     display: flex;
+    align-items: stretch;
   }
 
   .lead {
