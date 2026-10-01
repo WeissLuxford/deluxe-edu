@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Trophy } from 'lucide-react'
 import { prisma } from '@/lib/db'
 import { requireTeacher } from '@/features/teacher/requireTeacher'
 import { setGroupArchived, deleteGroup, removeMember } from '@/features/teacher/groupActions'
-import { getGroupLeaderboard } from '@/features/learn/schedule'
+import { loadJournal } from '@/features/teacher/journal'
+import { GroupJournal } from '@/features/teacher/components/GroupJournal'
 import { GroupNameEditor } from '@/features/teacher/components/GroupNameEditor'
 import { AddMemberForm } from '@/features/teacher/components/AddMemberForm'
 import { ActionButton } from '@/features/teacher/components/ActionButton'
@@ -58,7 +58,7 @@ export default async function TeacherGroupDetail({
 
   const memberIds = memberships.map(m => m.user.id)
 
-  const [enrollments, lessonProgress, attendanceRows, events, availableStudents, leaderboard] = await Promise.all([
+  const [enrollments, lessonProgress, attendanceRows, events, availableStudents, journal] = await Promise.all([
     memberIds.length
       ? prisma.enrollment.findMany({
           where: { userId: { in: memberIds }, status: 'ACTIVE' },
@@ -105,7 +105,7 @@ export default async function TeacherGroupDetail({
       take: 50,
       select: { id: true, name: true, firstName: true, lastName: true, phone: true, email: true }
     }),
-    getGroupLeaderboard([id], teacher.id)
+    loadJournal(id)
   ])
 
   const AT_RISK_PROGRESS = 30
@@ -189,65 +189,52 @@ export default async function TeacherGroupDetail({
   const upcoming = events.filter(e => e.startsAt >= now).sort((a, b) => +a.startsAt - +b.startsAt)
   const past = events.filter(e => e.startsAt < now)
 
+  const base = `/${locale}/teacher`
+  const groupBase = `${base}/groups/${id}`
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <Link href={`/${locale}/teacher/groups`} className="text-sm" style={{ color: 'var(--muted)' }}>
-          ← К списку групп
-        </Link>
-        <div className="flex items-center gap-2">
-          <Link href={`/${locale}/teacher/groups/${id}/reports`} className="btn btn-ghost">
-            Отчёты родителям
-          </Link>
-          {group.archived ? (
-            <ActionButton action={setGroupArchived.bind(null, id, false)} className="btn btn-ghost">
-              Вернуть из архива
-            </ActionButton>
-          ) : (
-            <ActionButton action={setGroupArchived.bind(null, id, true)} className="btn btn-ghost">
-              Архивировать
-            </ActionButton>
-          )}
-          <DeleteButton
-            action={deleteGroup.bind(null, id)}
-            confirmText={`Удалить группу «${group.name}»? Это необратимо.`}
-          />
-        </div>
-      </div>
+      <Link href={`${base}/groups`} className="admin-page-head__back">
+        ← Все группы
+      </Link>
 
-      <header className="admin-page-head">
-        <div className="admin-page-head__text">
-          <h1
-            className="admin-page-head__title"
-            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-          >
-            {group.name}
-            <GroupNameEditor groupId={id} name={group.name} />
-          </h1>
-          <p className="admin-page-head__sub">
-            {memberships.length} студентов
-            {atRiskCount > 0 ? ` · ${atRiskCount} требуют внимания` : ''}
-            {group.archived ? ' · в архиве' : ''}
-          </p>
-        </div>
-      </header>
+      <GroupJournal
+        name={group.name}
+        journal={journal}
+        meta={[atRiskCount > 0 ? `${atRiskCount} требуют внимания` : '', group.archived ? 'в архиве' : ''].filter(Boolean).join(' · ')}
+        nameEditor={<GroupNameEditor groupId={id} name={group.name} />}
+        links={{
+          event: eventId => `${groupBase}/schedule/${eventId}`,
+          review: attemptId => `${base}/exams/${attemptId}`,
+          reviews: `${base}/exams`,
+          reports: `${groupBase}/reports`
+        }}
+        actions={
+          <>
+            <Link href={`${groupBase}/reports`} className="btn btn-secondary">
+              Отчёты родителям
+            </Link>
+            <Link
+              href={journal.currentEventId ? `${groupBase}/schedule/${journal.currentEventId}` : `${groupBase}/schedule/new`}
+              className="btn btn-primary"
+            >
+              {journal.currentEventId ? 'Начать занятие' : 'Запланировать занятие'}
+              <span style={{ width: 8, height: 8, borderRadius: 4, background: 'var(--c-lime)' }} aria-hidden="true" />
+            </Link>
+          </>
+        }
+      />
 
       <section className="admin-card">
-        <h3 className="admin-card__title">Студенты</h3>
+        <h3 className="admin-card__title">Состав группы</h3>
 
-        <form method="get" className="flex items-center gap-2" style={{ marginBottom: '1rem' }}>
-          <input
-            name="q"
-            defaultValue={query}
-            className="input"
-            placeholder="Найти студента для добавления"
-            style={{ minWidth: '14rem' }}
-          />
+        <form method="get" className="flex items-center gap-2" style={{ margin: '1rem 0' }}>
+          <input name="q" defaultValue={query} className="input" placeholder="Найти ученика, чтобы добавить" style={{ maxWidth: '22rem' }} />
           <button type="submit" className="btn btn-secondary">
             Найти
           </button>
           {query && (
-            <Link href={`/${locale}/teacher/groups/${id}`} className="btn btn-ghost">
+            <Link href={groupBase} className="btn btn-ghost">
               Сброс
             </Link>
           )}
@@ -263,14 +250,14 @@ export default async function TeacherGroupDetail({
 
         {memberships.length === 0 ? (
           <p className="admin-empty" style={{ marginTop: '1rem' }}>
-            В группе пока нет студентов.
+            В группе пока нет учеников.
           </p>
         ) : (
-          <div className="admin-table-wrap" style={{ marginTop: '1rem' }}>
+          <div className="admin-table-wrap" style={{ marginTop: '1rem', padding: 0 }}>
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th>Студент</th>
+                  <th>Ученик</th>
                   <th>Курс</th>
                   <th>Прогресс</th>
                   <th>Посещаемость</th>
@@ -289,10 +276,8 @@ export default async function TeacherGroupDetail({
                   return (
                     <tr key={m.id} className={risk ? 'row-risk' : undefined}>
                       <td>
-                        <span style={{ color: 'var(--fg)' }}>
-                          {[m.user.firstName, m.user.lastName].filter(Boolean).join(' ') ||
-                            m.user.name ||
-                            'без имени'}
+                        <span style={{ fontWeight: 600 }}>
+                          {[m.user.firstName, m.user.lastName].filter(Boolean).join(' ') || m.user.name || 'без имени'}
                         </span>
                         {risk && (
                           <span className="badge badge-error" style={{ marginLeft: '0.5rem' }}>
@@ -309,15 +294,17 @@ export default async function TeacherGroupDetail({
                           '—'
                         ) : (
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: '6rem' }}>
-                            <div className="progress" style={{ flex: 1 }}>
-                              <div
-                                className="progress-bar"
+                            <span style={{ flex: 1, height: 8, borderRadius: 4, background: 'var(--c-line-2)', overflow: 'hidden' }}>
+                              <span
                                 style={{
+                                  display: 'block',
+                                  height: 8,
+                                  borderRadius: 4,
                                   width: `${progress}%`,
-                                  ...(progress < AT_RISK_PROGRESS ? { background: 'var(--danger)' } : {})
+                                  background: progress < AT_RISK_PROGRESS ? 'var(--c-err)' : 'var(--c-violet)'
                                 }}
                               />
-                            </div>
+                            </span>
                             <span className="text-xs">{progress}%</span>
                           </div>
                         )}
@@ -328,7 +315,7 @@ export default async function TeacherGroupDetail({
                       <td className="right">
                         <DeleteButton
                           action={removeMember.bind(null, id, m.user.id)}
-                          confirmText={`Убрать «${m.user.name || 'студента'}» из группы?`}
+                          confirmText={`Убрать «${m.user.name || 'ученика'}» из группы?`}
                           label="Убрать"
                         />
                       </td>
@@ -341,34 +328,12 @@ export default async function TeacherGroupDetail({
         )}
       </section>
 
-      {leaderboard.length > 0 && (
-        <section className="admin-card">
-          <h3 className="admin-card__title" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <Trophy size={16} />
-            Рейтинг группы
-          </h3>
-          <ol style={{ listStyle: 'none', padding: 0, margin: 0 }} className="space-y-2">
-            {leaderboard.slice(0, 10).map((entry, index) => (
-              <li key={entry.userId} className="flex items-center justify-between">
-                <span style={{ color: 'var(--fg)' }}>
-                  {index + 1}. {entry.name}
-                </span>
-                <span className="text-xs" style={{ color: 'var(--muted)' }}>
-                  {entry.lessonsPassed} урок(ов)
-                  {entry.streak > 0 ? ` · 🔥${entry.streak}` : ''}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </section>
-      )}
-
       <section className="admin-card">
         <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
           <h3 className="admin-card__title" style={{ marginBottom: 0 }}>
             Расписание
           </h3>
-          <Link href={`/${locale}/teacher/groups/${id}/schedule/new`} className="btn btn-primary btn-sm">
+          <Link href={`${groupBase}/schedule/new`} className="btn btn-primary btn-sm">
             Новое занятие
           </Link>
         </div>
@@ -382,7 +347,7 @@ export default async function TeacherGroupDetail({
           <ul className="admin-feed">
             {upcoming.map(e => (
               <li key={e.id}>
-                <Link href={`/${locale}/teacher/groups/${id}/schedule/${e.id}`}>
+                <Link href={`${groupBase}/schedule/${e.id}`}>
                   <strong>{e.title || TYPE_LABELS[e.type]}</strong>
                   <span>{TYPE_LABELS[e.type]}</span>
                 </Link>
@@ -400,7 +365,7 @@ export default async function TeacherGroupDetail({
             <ul className="admin-feed">
               {past.slice(0, 10).map(e => (
                 <li key={e.id}>
-                  <Link href={`/${locale}/teacher/groups/${id}/schedule/${e.id}`}>
+                  <Link href={`${groupBase}/schedule/${e.id}`}>
                     <strong>{e.title || TYPE_LABELS[e.type]}</strong>
                     <span>{TYPE_LABELS[e.type]}</span>
                   </Link>
@@ -410,6 +375,22 @@ export default async function TeacherGroupDetail({
             </ul>
           </>
         )}
+      </section>
+
+      <section className="admin-card">
+        <h3 className="admin-card__title">Группа</h3>
+        <div className="flex items-center gap-2 flex-wrap" style={{ marginTop: '0.75rem' }}>
+          {group.archived ? (
+            <ActionButton action={setGroupArchived.bind(null, id, false)} className="btn btn-secondary">
+              Вернуть из архива
+            </ActionButton>
+          ) : (
+            <ActionButton action={setGroupArchived.bind(null, id, true)} className="btn btn-secondary">
+              Архивировать
+            </ActionButton>
+          )}
+          <DeleteButton action={deleteGroup.bind(null, id)} confirmText={`Удалить группу «${group.name}»? Это необратимо.`} />
+        </div>
       </section>
     </div>
   )
