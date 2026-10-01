@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
+import { SITE_URL } from '@/lib/siteUrl'
 
 export const dynamic = 'force-dynamic'
 
 function back(locale: string, query: string) {
-  const base = process.env.NEXTAUTH_URL || ''
+  const base = SITE_URL
   return NextResponse.redirect(`${base}/${locale}/signin?${query}`)
 }
 

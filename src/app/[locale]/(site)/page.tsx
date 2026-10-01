@@ -12,9 +12,9 @@ import { CallbackForm } from '@/features/leads/CallbackForm'
 import { formatSum, startingPrices, type PlanKey } from '@/features/pricing/planPrices'
 import { organizationJsonLd } from '@/features/seo/jsonLd'
 import s from '@/features/home/home.module.css'
+import { SITE_URL } from '@/lib/siteUrl'
 
 const LOCALES = ['ru', 'uz', 'en'] as const
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 const rich = {
   it: (c: ReactNode) => <span className="it">{c}</span>,

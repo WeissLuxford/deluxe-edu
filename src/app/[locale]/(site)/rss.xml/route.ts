@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db'
 import { localized } from '@/lib/localized'
+import { SITE_URL } from '@/lib/siteUrl'
 
 const SUPPORTED = ['ru', 'uz', 'en']
 
@@ -25,7 +26,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ locale:
     return new Response('Not found', { status: 404 })
   }
 
-  const site = (process.env.NEXTAUTH_URL || 'https://highgate.uz').replace(/\/$/, '')
+  const site = SITE_URL
 
   const items = await prisma.news.findMany({
     where: { published: true, publishedAt: { lte: new Date() } },

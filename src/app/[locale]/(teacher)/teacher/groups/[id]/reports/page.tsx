@@ -14,8 +14,8 @@ import { ReportGenerateForm } from '@/features/teacher/components/ReportGenerate
 import { ReportCard, type ReportCardData } from '@/features/teacher/components/ReportCard'
 import { periodLabel } from '@/features/reports/collect'
 import type { ReportSnapshot } from '@/features/reports/collect'
+import { SITE_URL } from '@/lib/siteUrl'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 export default async function GroupReportsPage({
   params

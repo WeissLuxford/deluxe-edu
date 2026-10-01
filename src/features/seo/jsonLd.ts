@@ -1,11 +1,11 @@
 import type { Teacher } from '@/features/teachers/registry'
 import { pickText } from '@/features/teachers/registry'
+import { SITE_URL } from '@/lib/siteUrl'
 
 // Разметка schema.org в одном месте. До этого JSON-LD жил только на главной, и
 // каждая новая страница рисовала бы свой объект руками — отсюда расхождения в
 // названии организации и в адресе сайта.
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 const ORG_NAME = 'Highgate'
 
 export function organizationJsonLd(locale: string) {

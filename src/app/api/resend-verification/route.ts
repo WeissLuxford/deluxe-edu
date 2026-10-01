@@ -5,6 +5,7 @@ import { normalizeEmail } from '@/features/auth/identity'
 import { sendVerificationEmail, mailerConfigured } from '@/lib/mailer'
 import { verifyTurnstile } from '@/lib/turnstile'
 import { RATE_LIMITS, clientIp, consumeRateLimit, rateLimitResponse } from '@/lib/rateLimit'
+import { SITE_URL } from '@/lib/siteUrl'
 
 export const dynamic = 'force-dynamic'
 
@@ -44,7 +45,7 @@ export async function POST(req: NextRequest) {
     }
   })
 
-  const base = process.env.NEXTAUTH_URL || ''
+  const base = SITE_URL
   await sendVerificationEmail(user.email, `${base}/api/verify?token=${encodeURIComponent(token)}`, user.locale)
 
   return NextResponse.json({ ok: true, delivered: true })

@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db'
 import { teacherSlugs } from '@/features/teachers/registry'
+import { SITE_URL } from '@/lib/siteUrl'
 
 // Карта сайта — список того, что мы хотим видеть в поиске. Это whitelist, а не
 // обход файлов, поэтому /r/[token] (личные отчёты родителям) и /l/[campaign]
@@ -7,7 +8,7 @@ import { teacherSlugs } from '@/features/teachers/registry'
 // в robots.ts и метатегом noindex — три независимых слоя, потому что утечка
 // отчёта в индекс необратима.
 export default async function sitemap() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const base = SITE_URL
   const locales = ['ru', 'uz', 'en']
   const urls = []
 

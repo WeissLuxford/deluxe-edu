@@ -8,6 +8,7 @@ import { consumeTicket } from '@/features/auth/phoneCode'
 import { verifyTurnstile } from '@/lib/turnstile'
 import { RATE_LIMITS, clientIp, consumeRateLimit, rateLimitResponse } from '@/lib/rateLimit'
 import { sendVerificationEmail, mailerConfigured } from '@/lib/mailer'
+import { SITE_URL } from '@/lib/siteUrl'
 
 export const dynamic = 'force-dynamic'
 
@@ -106,7 +107,7 @@ export async function POST(request: NextRequest) {
           expiresAt: new Date(Date.now() + 30 * 60 * 1000)
         }
       })
-      const base = process.env.NEXTAUTH_URL || ''
+      const base = SITE_URL
       const result = await sendVerificationEmail(
         email,
         `${base}/api/verify?token=${encodeURIComponent(token)}`,
