@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { prisma } from '@/lib/db'
 import { requireAdmin } from './requireAdmin'
 import type { ActionResult } from './actions'
+import { syncInstagram } from '@/features/news/instagram'
 
 const localized = z.object({
   ru: z.string().trim().min(1, 'Русский текст обязателен'),
@@ -39,8 +40,9 @@ const newsSchema = z.object({
     .min(2)
     .regex(/^[a-z0-9-]+$/, 'Только латиница в нижнем регистре, цифры и дефис'),
   title: localized,
-  lead: localized.extend({ ru: z.string().trim().min(10, 'Анонс обязателен') }),
-  body: localized.extend({ ru: z.string().trim().min(20, 'Текст обязателен') }),
+  // Instagram posts are often a single line, so neither is mandatory.
+  lead: optionalLocalized,
+  body: optionalLocalized,
   metaTitle: optionalLocalized,
   metaDescription: optionalLocalized,
   coverUrl: z.string().trim().nullable(),
@@ -142,4 +144,13 @@ export async function toggleNewsPublished(id: string): Promise<ActionResult> {
   await prisma.news.update({ where: { id }, data: { published: !item.published } })
   revalidatePath('/ru/admin/news')
   return { ok: true }
+}
+
+export async function syncInstagramNow(): Promise<ActionResult> {
+  await requireAdmin()
+  const result = await syncInstagram({ force: true })
+  revalidatePath('/ru/admin/news')
+  if (!('reason' in result)) return { ok: true }
+  if (result.reason === 'not_configured') return { ok: false, error: 'Instagram ещё не подключён — нужен ключ доступа (INSTAGRAM_ACCESS_TOKEN).' }
+  return { ok: false, error: result.error ?? 'Instagram не ответил' }
 }

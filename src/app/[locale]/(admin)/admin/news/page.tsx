@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { Eye } from 'lucide-react'
 import { prisma } from '@/lib/db'
-import { deleteNews, toggleNewsPublished } from '@/features/admin/newsActions'
+import { deleteNews, syncInstagramNow, toggleNewsPublished } from '@/features/admin/newsActions'
+import { instagramStatus } from '@/features/news/instagram'
+import { ago, plural } from '@/features/staff/format'
 import { DeleteButton } from '@/features/admin/components/DeleteButton'
 import { ActionButton } from '@/features/admin/components/ActionButton'
 import { AdminPageHead } from '@/features/admin/components/AdminPageHead'
@@ -11,19 +13,61 @@ import { requireAdmin } from '@/features/admin/requireAdmin'
 export default async function AdminNews({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await requireAdmin(locale)
-  const items = await prisma.news.findMany({ orderBy: { publishedAt: 'desc' } })
+  const [items, ig] = await Promise.all([prisma.news.findMany({ orderBy: { publishedAt: 'desc' } }), instagramStatus()])
 
   return (
     <div className="space-y-4">
       <AdminPageHead
         title="Новости"
-        subtitle={`${items.length} записей`}
+        subtitle={`${items.length} ${plural(items.length, 'новость', 'новости', 'новостей')}`}
         action={
           <Link href={`/${locale}/admin/news/new`} className="btn btn-primary">
             Новая новость
           </Link>
         }
       />
+
+      <section className="admin-card" style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+        <span
+          aria-hidden="true"
+          style={{
+            width: 48,
+            height: 48,
+            borderRadius: 16,
+            background: 'var(--lv-c1-bg)',
+            color: 'var(--lv-c1-fg)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontWeight: 900
+          }}
+        >
+          IG
+        </span>
+        <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <strong style={{ fontSize: 17 }}>
+            {ig.configured ? `Instagram${ig.username ? ` · @${ig.username}` : ''}` : 'Instagram не подключён'}
+          </strong>
+          <span className="hint">
+            {!ig.configured
+              ? 'Посты из Instagram будут сами появляться здесь как новости — нужен ключ доступа INSTAGRAM_ACCESS_TOKEN.'
+              : ig.lastSyncAt
+                ? `Проверено ${ago(ig.lastSyncAt)}${ig.lastImported ? ` · перенесено постов: ${ig.lastImported}` : ''}. Новые посты подтягиваются сами, раз в 30 минут.`
+                : 'Ещё ни разу не проверяли — нажми «Синхронизировать».'}
+            {ig.configured && !ig.storesPhotos && ' Хранилище Bunny не настроено — посты придут без фото.'}
+          </span>
+          {ig.lastError && (
+            <span className="hint" style={{ color: 'var(--c-err-ink)' }}>
+              Последняя ошибка: {ig.lastError}
+            </span>
+          )}
+        </div>
+        {ig.configured && (
+          <ActionButton action={syncInstagramNow} className="btn btn-secondary">
+            Синхронизировать сейчас
+          </ActionButton>
+        )}
+      </section>
 
       {items.length === 0 ? (
         <div className="admin-empty">Новостей пока нет.</div>
@@ -43,9 +87,15 @@ export default async function AdminNews({ params }: { params: Promise<{ locale: 
               {items.map(n => (
                 <tr key={n.id}>
                   <td>
-                    <Link href={`/${locale}/admin/news/${n.id}`} style={{ color: 'var(--ui-accent-text)' }}>
-                      {localized(n.title, 'ru')}
-                    </Link>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span
+                        className="badge"
+                        style={n.instagramId ? { background: 'var(--lv-c1-bg)', color: 'var(--lv-c1-fg)' } : undefined}
+                      >
+                        {n.instagramId ? 'Instagram' : 'Сайт'}
+                      </span>
+                      <Link href={`/${locale}/admin/news/${n.id}`}>{localized(n.title, 'ru')}</Link>
+                    </span>
                   </td>
                   <td style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--muted)' }}>
                     {n.slug}

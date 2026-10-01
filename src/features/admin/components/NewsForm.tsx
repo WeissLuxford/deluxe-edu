@@ -73,8 +73,8 @@ export function NewsForm({
         <Section title="Содержание">
           <LocalizedField name="title" label="Заголовок" value={news.title} required onRuChange={setTitleRu} />
           <SlugField value={news.slug} source={titleRu} hint="Общий для всех языков: /ru/news/адрес, /uz/news/адрес, /en/news/адрес" />
-          <LocalizedField name="lead" label="Анонс" value={news.lead} textarea rows={3} required hint="Коротко — для ленты и соцсетей" maxLength={300} />
-          <LocalizedRichField name="body" label="Текст" value={news.body} required hint="Заголовки, списки, выноски, цвет, ссылки и кнопки — через панель редактора" />
+          <LocalizedField name="lead" label="Анонс" value={news.lead} textarea rows={3} hint="Коротко — для ленты и соцсетей" maxLength={300} />
+          <LocalizedRichField name="body" label="Текст" value={news.body} hint="Заголовки, списки, выноски, цвет, ссылки и кнопки — через панель редактора" />
           <Field label="Обложка" htmlFor="coverUrl">
             <Input id="coverUrl" name="coverUrl" defaultValue={news.coverUrl} placeholder="ссылка на картинку, необязательно" />
           </Field>

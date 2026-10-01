@@ -403,6 +403,11 @@ model News {
   metaDescription Json?
   coverUrl        String?
 
+  // Set when the item was imported from Instagram: the post id (to import it
+  // once) and its link (to send people to the video or the full carousel).
+  instagramId  String? @unique
+  instagramUrl String?
+
   published   Boolean   @default(false)
   publishedAt DateTime?
 
@@ -410,6 +415,14 @@ model News {
   updatedAt DateTime @updatedAt
 
   @@index([published, publishedAt])
+}
+
+// Small key-value store for integration state that must survive deploys:
+// the auto-refreshed Instagram token, the time of the last sync and its error.
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
 }
 
 model ContactRequest {
