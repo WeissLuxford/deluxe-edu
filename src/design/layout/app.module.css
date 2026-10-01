@@ -30,7 +30,21 @@ html[data-theme='dark'] .tray {
   color: var(--t-fg);
   overflow: hidden;
   min-width: 0;
+  /* A column, so the page (and its right rail) can stretch to the panel's full height. */
+  display: flex;
+  flex-direction: column;
   transition: background-color var(--dur) var(--ease-out);
+  /* Answer cards sit on the white panel, so they take the paper tone (as on the canvas). */
+  --opt-bg: var(--t-surface-2);
+  --opt-key: var(--t-surface);
+  --opt-fg: var(--t-fg);
+  --opt-line: var(--t-line);
+}
+
+.panel > * {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ---------- sidebar ---------- */
@@ -217,11 +231,11 @@ html[data-theme='dark'] .navIcon {
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
-  min-height: 100%;
+  flex: 1 0 auto;
 }
 
 .single {
-  min-height: 100%;
+  flex: 1 0 auto;
 }
 
 .main {
@@ -289,6 +303,9 @@ html[data-theme='dark'] .rail {
     border-radius: 0;
     background: transparent;
     overflow: visible;
+    /* No white panel on phones: cards sit on the page tone again. */
+    --opt-bg: var(--t-surface);
+    --opt-key: var(--t-surface-2);
   }
 
   .main {
