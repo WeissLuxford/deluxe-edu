@@ -23,7 +23,7 @@
 
 .sub {
   font-size: 15px;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .title {
@@ -36,7 +36,7 @@
   line-height: 1;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: var(--c-ink);
+  color: var(--t-fg);
 }
 
 .title :global(.it) {
@@ -68,7 +68,7 @@
 /* ---------- attendance ---------- */
 
 .card {
-  background: var(--c-white);
+  background: var(--t-surface);
   border-radius: 30px;
   padding: 24px;
   display: flex;
@@ -98,7 +98,7 @@
   gap: 14px;
   flex-wrap: wrap;
   font-size: 13px;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .legendItem {
@@ -117,7 +117,7 @@
   margin: 0;
   padding: 28px 4px;
   font-size: 15px;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .scroll {
@@ -148,7 +148,7 @@
 }
 
 .row:not(.rowHead):hover {
-  background: var(--c-panel-alt);
+  background: var(--t-panel-alt);
 }
 
 .row[data-risk]:hover {
@@ -159,18 +159,18 @@
   min-height: 32px;
   font-size: 13px;
   font-weight: 700;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .date {
   text-align: center;
-  color: var(--c-muted);
+  color: var(--t-muted);
   text-decoration: none;
   font-variant-numeric: tabular-nums;
 }
 
 a.date:hover {
-  color: var(--c-violet-ink);
+  color: var(--t-link);
 }
 
 .total {
@@ -246,7 +246,7 @@ a.mark:hover {
 }
 
 .none {
-  background: var(--c-line-2);
+  background: var(--t-line-2);
 }
 
 /* ---------- waiting for review ---------- */
@@ -285,10 +285,10 @@ a.mark:hover {
 }
 
 .review {
-  background: var(--c-white);
+  background: var(--t-surface);
   border-radius: 18px;
   padding: 12px 14px;
-  color: var(--c-ink);
+  color: var(--t-fg);
   text-decoration: none;
   display: flex;
   justify-content: space-between;
@@ -298,7 +298,7 @@ a.mark:hover {
 }
 
 a.review:hover {
-  color: var(--c-ink);
+  color: var(--t-fg);
   transform: translateY(-2px);
 }
 
@@ -316,7 +316,7 @@ a.review:hover {
 
 .reviewWhat {
   font-size: 13px;
-  color: var(--c-muted);
+  color: var(--t-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -332,14 +332,14 @@ a.review:hover {
   align-self: flex-start;
   font-size: 14px;
   font-weight: 700;
-  color: var(--c-ink);
+  color: var(--t-fg);
   text-decoration: none;
 }
 
 /* ---------- reports ---------- */
 
 .reports {
-  background: var(--c-white);
+  background: var(--t-surface);
   border-radius: 30px;
   padding: 22px;
   display: flex;
@@ -364,7 +364,7 @@ a.review:hover {
   flex-grow: 1;
   height: 10px;
   border-radius: 5px;
-  background: var(--c-line-2);
+  background: var(--t-line-2);
   overflow: hidden;
 }
 
@@ -385,19 +385,19 @@ a.review:hover {
 .reportsText {
   font-size: 14px;
   line-height: 1.45;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .reportsLink {
   align-self: flex-start;
   font-size: 15px;
   font-weight: 700;
-  color: var(--c-violet-ink);
+  color: var(--t-link);
   text-decoration: none;
 }
 
 .reportsLink:hover {
-  color: var(--c-ink);
+  color: var(--t-fg);
 }
 
 /* ---------- narrow screens ---------- */

@@ -32,7 +32,7 @@ export function RoleSelect({
     return (
       <div>
         <span className="badge badge-primary">{LABELS[role]}</span>
-        <div className="text-xs" style={{ color: 'var(--c-muted)', marginTop: 4 }}>это ты</div>
+        <div className="text-xs" style={{ color: 'var(--t-muted)', marginTop: 4 }}>это ты</div>
       </div>
     )
   }

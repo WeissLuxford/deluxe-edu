@@ -8,7 +8,7 @@
 }
 
 .question {
-  background: var(--c-white);
+  background: var(--t-surface);
   border-radius: 26px;
   overflow: hidden;
   box-shadow: inset 0 0 0 2px transparent;
@@ -16,7 +16,7 @@
 }
 
 .question[data-open] {
-  box-shadow: inset 0 0 0 2px var(--c-lavender-2);
+  box-shadow: inset 0 0 0 2px var(--t-soft-2);
 }
 
 .head {
@@ -37,14 +37,14 @@
   border-radius: 18px;
   background: transparent;
   font: inherit;
-  color: var(--c-ink);
+  color: var(--t-fg);
   text-align: left;
   cursor: pointer;
   transition: background-color var(--dur-fast) var(--ease-out);
 }
 
 .toggle:hover {
-  background: var(--c-panel-alt);
+  background: var(--t-panel-alt);
 }
 
 .num {
@@ -52,8 +52,8 @@
   height: 34px;
   flex-shrink: 0;
   border-radius: 12px;
-  background: var(--c-lavender);
-  color: var(--c-violet-ink);
+  background: var(--t-soft);
+  color: var(--t-link);
   font-size: 15px;
   font-weight: 900;
   display: flex;
@@ -71,7 +71,7 @@
 .type {
   font-size: 12px;
   font-weight: 700;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .text {
@@ -93,8 +93,8 @@
   height: 36px;
   border: 0;
   border-radius: 12px;
-  background: var(--c-paper);
-  color: var(--c-muted);
+  background: var(--t-surface-2);
+  color: var(--t-muted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,8 +106,8 @@
 }
 
 .tool:hover:not(:disabled) {
-  background: var(--c-lavender);
-  color: var(--c-violet-ink);
+  background: var(--t-soft);
+  color: var(--t-link);
 }
 
 .danger:hover:not(:disabled) {
@@ -155,8 +155,8 @@
   flex-shrink: 0;
   border: 0;
   border-radius: 18px;
-  background: var(--c-paper);
-  box-shadow: inset 0 0 0 2px var(--c-line);
+  background: var(--t-surface-2);
+  box-shadow: inset 0 0 0 2px var(--t-line);
   color: var(--c-white);
   display: flex;
   align-items: center;
@@ -182,10 +182,10 @@
 
 .add {
   height: 56px;
-  border: 2px dashed var(--c-lavender-3);
+  border: 2px dashed var(--t-soft-line);
   border-radius: 26px;
   background: transparent;
-  color: var(--c-violet-ink);
+  color: var(--t-link);
   font: inherit;
   font-size: 15px;
   font-weight: 700;
@@ -200,7 +200,7 @@
 }
 
 .add:hover {
-  background: var(--c-white);
+  background: var(--t-surface);
   border-color: var(--c-violet);
 }
 

@@ -36,7 +36,7 @@
 /* ---------- sections ---------- */
 
 .section {
-  background: var(--c-white);
+  background: var(--t-surface);
   border-radius: 30px;
   padding: 24px;
   display: flex;
@@ -70,7 +70,7 @@
   margin: -8px 0 0;
   font-size: 14px;
   line-height: 1.45;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .sectionInk .sectionHint {
@@ -114,7 +114,7 @@
 .hint {
   font-size: 13px;
   line-height: 1.45;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .row {
@@ -130,9 +130,9 @@
   padding: 12px 16px;
   border: 0;
   border-radius: 14px;
-  background-color: var(--c-paper);
+  background-color: var(--t-surface-2);
   box-shadow: inset 0 0 0 1.5px transparent;
-  color: var(--c-ink);
+  color: var(--t-fg);
   font: inherit;
   font-size: 15px;
   transition:
@@ -141,21 +141,21 @@
 }
 
 .control::placeholder {
-  color: var(--c-faint);
+  color: var(--t-faint);
 }
 
 .control:hover:not(:disabled):not(:focus) {
-  box-shadow: inset 0 0 0 1.5px var(--c-lavender-3);
+  box-shadow: inset 0 0 0 1.5px var(--t-soft-line);
 }
 
 .control:focus {
   outline: none;
-  background-color: var(--c-white);
+  background-color: var(--t-surface);
   box-shadow: inset 0 0 0 2px var(--c-violet), 0 0 0 4px rgba(106, 76, 255, 0.12);
 }
 
 .control:disabled {
-  color: var(--c-faint);
+  color: var(--t-faint);
   cursor: not-allowed;
 }
 
@@ -193,7 +193,7 @@
 }
 
 .toggle:hover {
-  background: var(--c-panel-alt);
+  background: var(--t-panel-alt);
 }
 
 .toggleText {
@@ -211,7 +211,7 @@
 .toggleHint {
   font-size: 13px;
   line-height: 1.4;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .switchInput {
@@ -225,7 +225,7 @@
   width: 46px;
   height: 28px;
   border-radius: 14px;
-  background: var(--c-line);
+  background: var(--t-line);
   position: relative;
   transition: background-color var(--dur) var(--ease-out);
 }
@@ -278,8 +278,8 @@
   height: 40px;
   padding: 0 16px;
   border-radius: 20px;
-  background: var(--c-paper);
-  color: var(--c-ink);
+  background: var(--t-surface-2);
+  color: var(--t-fg);
   font-size: 14px;
   font-weight: 700;
   display: inline-flex;
@@ -290,7 +290,7 @@
 }
 
 .chip:hover .chipFace {
-  background: var(--c-lavender);
+  background: var(--t-soft);
 }
 
 .chipInput:checked + .chipFace {
@@ -320,8 +320,8 @@
   min-width: 96px;
   padding: 10px 14px;
   border-radius: 18px;
-  background: var(--c-paper);
-  color: var(--c-muted);
+  background: var(--t-surface-2);
+  color: var(--t-muted);
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -359,7 +359,7 @@
 /* ---------- save ---------- */
 
 .save {
-  background: var(--c-white);
+  background: var(--t-surface);
   border-radius: 30px;
   padding: 18px;
   display: flex;
@@ -391,8 +391,8 @@
 }
 
 .submit:disabled {
-  background: var(--c-line);
-  color: var(--c-faint);
+  background: var(--t-line);
+  color: var(--t-faint);
   cursor: wait;
 }
 
@@ -400,7 +400,7 @@
   margin: 0;
   font-size: 13px;
   line-height: 1.45;
-  color: var(--c-muted);
+  color: var(--t-muted);
   text-align: center;
 }
 
@@ -444,7 +444,7 @@
   gap: 2px;
   padding: 3px;
   border-radius: 14px;
-  background: var(--c-paper);
+  background: var(--t-surface-2);
 }
 
 .tab {
@@ -454,7 +454,7 @@
   border: 0;
   border-radius: 11px;
   background: transparent;
-  color: var(--c-muted);
+  color: var(--t-muted);
   font: inherit;
   font-size: 12px;
   font-weight: 800;
@@ -466,12 +466,12 @@
 }
 
 .tab:hover {
-  color: var(--c-ink);
+  color: var(--t-fg);
 }
 
 .tab[data-on] {
-  background: var(--c-white);
-  color: var(--c-ink);
+  background: var(--t-surface);
+  color: var(--t-fg);
   box-shadow: 0 1px 3px rgba(23, 19, 31, 0.08);
 }
 
@@ -498,16 +498,16 @@
   margin: 0 0 14px auto;
   padding: 5px 5px 5px 16px;
   border-radius: 20px;
-  background: var(--c-white);
+  background: var(--t-surface);
   box-shadow: var(--shadow-card);
   font-size: 13px;
   font-weight: 600;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .counter {
   font-size: 12px;
-  color: var(--c-faint);
+  color: var(--t-faint);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
@@ -536,8 +536,8 @@
   padding: 0 16px;
   border: 0;
   border-radius: 14px;
-  background: var(--c-lavender);
-  color: var(--c-violet-ink);
+  background: var(--t-soft);
+  color: var(--t-link);
   font: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -550,12 +550,12 @@
 }
 
 .sideBtn:hover:not(:disabled) {
-  background: var(--c-lavender-2);
+  background: var(--t-soft-2);
 }
 
 .sideBtn:disabled {
-  background: var(--c-paper);
-  color: var(--c-faint);
+  background: var(--t-surface-2);
+  color: var(--t-faint);
   cursor: not-allowed;
 }
 
@@ -582,7 +582,7 @@
   gap: 4px;
   padding: 6px;
   border-radius: 999px;
-  background: var(--c-white);
+  background: var(--t-surface);
 }
 
 .stepTab {
@@ -591,7 +591,7 @@
   border: 0;
   border-radius: 20px;
   background: transparent;
-  color: var(--c-muted);
+  color: var(--t-muted);
   font: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -605,7 +605,7 @@
 }
 
 .stepTab:hover {
-  color: var(--c-ink);
+  color: var(--t-fg);
 }
 
 .stepTab[data-on] {
@@ -643,8 +643,8 @@
 }
 
 .inlineSubmit:disabled {
-  background: var(--c-line);
-  color: var(--c-faint);
+  background: var(--t-line);
+  color: var(--t-faint);
   cursor: wait;
 }
 
@@ -663,4 +663,25 @@
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
+}
+
+/* ---------- dark theme ---------- */
+
+/* Ink controls would vanish on dark sections: they turn light with ink text. */
+html[data-theme='dark'] .submit,
+html[data-theme='dark'] .inlineSubmit,
+html[data-theme='dark'] .stepTab[data-on],
+html[data-theme='dark'] .chipInput:checked + .chipFace {
+  background: var(--c-paper);
+  color: var(--c-ink);
+}
+
+html[data-theme='dark'] .submit:hover:not(:disabled),
+html[data-theme='dark'] .inlineSubmit:hover:not(:disabled) {
+  background: var(--c-white);
+}
+
+/* The ink section stays ink, outlined so it still reads as a card. */
+html[data-theme='dark'] .sectionInk {
+  box-shadow: inset 0 0 0 1px var(--t-line);
 }

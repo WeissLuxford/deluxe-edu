@@ -19,7 +19,7 @@
 }
 
 .row:hover {
-  background: var(--c-panel-alt);
+  background: var(--t-panel-alt);
 }
 
 .who {
@@ -55,7 +55,7 @@
 
 .contact {
   font-size: 13px;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .marks {
@@ -69,8 +69,8 @@
   padding: 0 14px;
   border: 0;
   border-radius: 18px;
-  background: var(--c-paper);
-  color: var(--c-muted);
+  background: var(--t-surface-2);
+  color: var(--t-muted);
   font: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -81,8 +81,8 @@
 }
 
 .mark:hover:not(:disabled) {
-  color: var(--c-ink);
-  background: var(--c-lavender);
+  color: var(--t-fg);
+  background: var(--t-soft);
 }
 
 .mark:disabled {

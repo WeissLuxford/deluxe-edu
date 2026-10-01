@@ -294,7 +294,7 @@ export default async function TeacherGroupDetail({
                           '—'
                         ) : (
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: '6rem' }}>
-                            <span style={{ flex: 1, height: 8, borderRadius: 4, background: 'var(--c-line-2)', overflow: 'hidden' }}>
+                            <span style={{ flex: 1, height: 8, borderRadius: 4, background: 'var(--t-line-2)', overflow: 'hidden' }}>
                               <span
                                 style={{
                                   display: 'block',

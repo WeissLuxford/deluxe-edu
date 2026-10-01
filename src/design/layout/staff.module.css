@@ -4,8 +4,9 @@
   min-height: 100vh;
   display: grid;
   grid-template-columns: 96px minmax(0, 1fr);
-  background: var(--c-paper);
-  color: var(--c-ink);
+  background: var(--t-bg);
+  color: var(--t-fg);
+  transition: background-color var(--dur) var(--ease-out);
 }
 
 .main {
@@ -146,6 +147,19 @@
 .shell[data-tone='teacher'] .item[data-active] .badge {
   background: var(--c-ink);
   color: var(--c-lime);
+}
+
+html[data-theme='dark'] .rail {
+  background: #1d1828;
+  box-shadow: inset 0 0 0 1px var(--t-line);
+}
+
+html[data-theme='dark'] .item:not([data-active]):not(:hover) {
+  background: #2a2438;
+}
+
+html[data-theme='dark'] .foot .item:not(:hover) {
+  background: transparent;
 }
 
 /* Name of the section, shown beside the icon on hover and keyboard focus. */

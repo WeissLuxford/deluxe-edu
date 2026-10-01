@@ -72,7 +72,7 @@ export function ContactRow({
         {email && <div className="text-xs" style={{ color: 'var(--muted)' }}>{email}</div>}
       </td>
       <td style={{ whiteSpace: 'nowrap' }}>
-        <a href={`tel:+${phone}`} style={{ color: 'var(--c-violet-ink)', fontWeight: 600, textDecoration: 'none' }}>
+        <a href={`tel:+${phone}`} style={{ color: 'var(--t-link)', fontWeight: 600, textDecoration: 'none' }}>
           {formatPhone(phone)}
         </a>
         <div className="text-xs" style={{ color: 'var(--muted)' }}>{LOCALES[locale] || locale.toUpperCase()}</div>

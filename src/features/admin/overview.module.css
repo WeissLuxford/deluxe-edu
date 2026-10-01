@@ -34,8 +34,8 @@
   box-sizing: border-box;
   padding: 0 18px;
   border-radius: 24px;
-  background: var(--c-white);
-  color: var(--c-muted);
+  background: var(--t-surface);
+  color: var(--t-muted);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -54,11 +54,11 @@
   background: transparent;
   font: inherit;
   font-size: 15px;
-  color: var(--c-ink);
+  color: var(--t-fg);
 }
 
 .search input::placeholder {
-  color: var(--c-faint);
+  color: var(--t-faint);
 }
 
 /* ---------- KPI tiles ---------- */
@@ -93,8 +93,8 @@
 
 .kpiWhite,
 .kpiWhite:hover {
-  background: var(--c-white);
-  color: var(--c-ink);
+  background: var(--t-surface);
+  color: var(--t-fg);
 }
 
 .kpiLavender,
@@ -137,7 +137,7 @@
 }
 
 .leads {
-  background: var(--c-white);
+  background: var(--t-surface);
   border-radius: 30px;
   padding: 24px;
   display: flex;
@@ -163,19 +163,19 @@
 .more {
   font-size: 15px;
   font-weight: 700;
-  color: var(--c-violet-ink);
+  color: var(--t-link);
   text-decoration: none;
 }
 
 .more:hover {
-  color: var(--c-ink);
+  color: var(--t-fg);
 }
 
 .empty {
   margin: 0;
   padding: 28px 12px;
   font-size: 15px;
-  color: var(--c-muted);
+  color: var(--t-muted);
 }
 
 .lead {
@@ -191,11 +191,11 @@
 }
 
 .lead[data-fresh] {
-  background: var(--c-panel-alt);
+  background: var(--t-panel-alt);
 }
 
 .lead:hover {
-  background: var(--c-paper);
+  background: var(--t-surface-2);
 }
 
 .leadName {
@@ -208,7 +208,7 @@
 
 .leadPhone,
 .leadWhen {
-  color: var(--c-muted);
+  color: var(--t-muted);
   white-space: nowrap;
 }
 
@@ -252,12 +252,12 @@
 
 .done,
 .done:hover {
-  background: var(--c-paper);
-  color: var(--c-muted);
+  background: var(--t-surface-2);
+  color: var(--t-muted);
 }
 
 .done:hover {
-  color: var(--c-ink);
+  color: var(--t-fg);
 }
 
 /* ---------- right column ---------- */
@@ -332,7 +332,7 @@
 }
 
 .quick {
-  background: var(--c-white);
+  background: var(--t-surface);
   border-radius: 30px;
   padding: 22px;
   display: flex;
@@ -344,8 +344,8 @@
   height: 48px;
   padding: 0 16px;
   border-radius: 16px;
-  background: var(--c-paper);
-  color: var(--c-ink);
+  background: var(--t-surface-2);
+  color: var(--t-fg);
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;
@@ -355,8 +355,8 @@
 }
 
 .quickLink:hover {
-  background: var(--c-lavender);
-  color: var(--c-ink);
+  background: var(--t-soft);
+  color: var(--t-fg);
 }
 
 /* ---------- narrow screens ---------- */
@@ -420,4 +420,20 @@
     grid-area: action;
     padding: 0 16px;
   }
+}
+
+/* ---------- dark theme ---------- */
+
+html[data-theme='dark'] .call,
+html[data-theme='dark'] .call:hover {
+  background: var(--c-paper);
+  color: var(--c-ink);
+}
+
+html[data-theme='dark'] .call:hover {
+  background: var(--c-white);
+}
+
+html[data-theme='dark'] .air {
+  box-shadow: inset 0 0 0 1px var(--t-line);
 }

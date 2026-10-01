@@ -178,7 +178,7 @@ export function LevelPicker({ name, defaultValue, levels }: { name: string; defa
       {levels.map(l => {
         // "Other" has no CEFR code — it gets a neutral sticker.
         const code = l === 'Other' ? null : levelCode(l)
-        const look = code ? levelVars(code) : { bg: 'var(--c-paper)', fg: 'var(--c-muted)' }
+        const look = code ? levelVars(code) : { bg: 'var(--t-surface-2)', fg: 'var(--t-muted)' }
         return (
           <label key={l} className={s.level} style={{ ['--lv-bg' as string]: look.bg, ['--lv-fg' as string]: look.fg }}>
             <input type="radio" name={name} value={l} defaultChecked={defaultValue === l} className={s.chipInput} />
