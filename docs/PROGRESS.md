@@ -90,6 +90,9 @@
 - «После курса ты сможешь» и «Ведёт курс» — заполнить `src/content/courseExtras.json` (пусто → блоки скрыты)
 - Контакты в `src/content/contacts.ts` — заглушки, заменить настоящими
 - Узбекские тексты переписаны Claude 02.10 на «siz» — всё равно показать носителю языка
-- Отдельная dev-база (Neon branch) — локальный `.env` смотрит в прод
+- Dev-база есть: владелец сам переключает `DATABASE_URL` в локальном `.env` (прод — хост
+  `ep-spring-pine…`, дев — `ep-weathered-bread…`). 02.10 локально включён дев, на него
+  накатаны все 33 миграции. Перед работой с данными — проверить, какой хост активен
 - Оплата Payme/Click: нет колбэков провайдеров (`AUDIT.md`, этап 5)
-- Прод: `ESKIZ_TEST_MODE=false`, `TURNSTILE_SECRET_KEY`, `NEXTAUTH_URL=https://highgate.uz`
+- Прод: `ESKIZ_TEST_MODE=false`, `TURNSTILE_SECRET_KEY`, `NEXTAUTH_URL=https://highgate.uz` — 02.10 в Vercel
+  стоит `http://highgate.uz` (без s): из-за этого вход через Google на проде, скорее всего, не работает
