@@ -19,7 +19,7 @@
 | `/signup` | SignUp | ✅ |
 | `/signin`, `/forgot-password`, `/reset-password`, `/resend-verification` | в стиле SignUp | ✅ |
 | `/level-test` (группа `(focus)`), `/level-test/[lesson]` → редирект | LevelTest | ✅ |
-| `/trial-lesson` | Lesson (пробный) | ⬜ |
+| `/trial-lesson` (группа `(focus)`) | Lesson (пробный) | ✅ |
 | ~~`/free-mock-test`~~ | — | 🗑 удалено |
 | `/l/[campaign]` | Landing | ✅ |
 | `/r/[token]` | Report | ✅ |
@@ -28,10 +28,10 @@
 
 | Адрес | Артборд | Статус |
 |---|---|---|
-| `/learn` | Learn, LearnMobile, LearnMobileDark | ⬜ |
-| `/learn/[slug]` | Program | ⬜ |
-| `/learn/[slug]/about` | Course (вкладка «О курсе») | ⬜ |
-| `/learn/[slug]/[lesson]` | Lesson, LessonMobile, Quiz | ⬜ |
+| `/learn` | Learn, LearnMobile, LearnMobileDark | ✅ |
+| `/learn/[slug]` | Program | ✅ |
+| `/learn/[slug]/about` | Course (вкладка «О курсе») | ✅ |
+| `/learn/[slug]/[lesson]` | Lesson, LessonMobile, Quiz | ✅ |
 | `/learn/[slug]/exam/[moduleId]` | Quiz | ⬜ |
 | `/streams`, `/streams/[id]` | Live | ⬜ |
 | `/account`, `/learn/account`, `/account/phone` | Account | ⬜ |
