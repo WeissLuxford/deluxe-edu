@@ -458,6 +458,17 @@ a.task:hover {
     font-size: 32px;
   }
 
+  /* Three cards in a row leave ~80px for «сертификатов» on a phone. */
+  .stat {
+    padding: 18px 12px;
+  }
+
+  .stat span {
+    font-size: 12px;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+
   .settingValue {
     max-width: 50%;
     overflow: hidden;
